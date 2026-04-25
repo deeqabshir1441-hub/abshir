@@ -1,0 +1,973 @@
+/* --- RESET & VARIABLES --- */
+:root {
+    --primary-green: #008f55;
+    --secondary-green: #007545;
+    --accent-blue: #0d6efd;
+    --bg-light: #f0f2f5;
+    --bg-white: #ffffff;
+    --text-main: #1c1e21;
+    --text-muted: #606770;
+    --header-dark: #141414;
+    --shadow: 0 4px 12px rgba(0,0,0,0.08);
+    --radius: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-main);
+}
+
+/* --- NAVIGATION --- */
+.main-header {
+    background: rgba(20, 20, 20, 0.98);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 2000;
+    padding: 12px 0;
+    border-bottom: 3px solid var(--primary-green);
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo img {
+    height: 50px;
+    width: auto;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 25px;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.nav-menu a:hover, .nav-menu a.active {
+    color: var(--primary-green);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.social-icons a {
+    color: white;
+    margin-left: 15px;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.social-icons a:hover {
+    color: var(--primary-green);
+}
+
+.theme-toggle {
+    color: blanchedalmond;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+/* --- HERO BANNER --- */
+.hero-section {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.banner {
+    width: 100%;
+    height: 250px;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("banner/banner.jpg") center/cover;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    box-shadow: var(--shadow);
+}
+
+.banner-overlay h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.banner-overlay p {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #ddd;
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 12px 30px;
+    background: var(--primary-green);
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 50px;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background: var(--secondary-green);
+    transform: scale(1.05);
+}
+
+/* --- LEAGUE SCROLLER --- */
+.league-scroller {
+    max-width: 1200px;
+    margin: 10px auto 20px;
+    overflow-x: auto;
+    padding: 10px 20px;
+    white-space: nowrap;
+    scrollbar-width: none;
+}
+
+.league-scroller::-webkit-scrollbar { display: none; }
+
+.scroller-wrapper {
+    display: flex;
+    gap: 12px;
+}
+
+.league-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-white);
+    padding: 10px 20px;
+    border-radius: 50px;
+    text-decoration: none;
+    color: var(--text-main);
+    font-weight: 700;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.league-chip img { width: 22px; height: 22px; object-fit: contain; }
+
+.league-chip:hover {
+    background: var(--primary-green);
+    color: white;
+}
+
+/* --- MAIN LAYOUT GRID --- */
+.main-layout-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 25px;
+    padding: 0 20px 50px;
+}
+
+.section-block {
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    border-left: 5px solid var(--primary-green);
+    padding-left: 15px;
+}
+
+/* --- MATCH CARDS --- */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    padding: 8px 18px;
+    border: none;
+    background: var(--bg-white);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.tab-btn.active {
+    background: var(--accent-blue);
+    color: white;
+}
+
+.match-card {
+    background: var(--bg-white);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: var(--shadow);
+}
+
+.card-league-tag {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--accent-blue);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.card-league-tag img { width: 18px; }
+/* Container for the hover effect */
+.match-video-wrapper {
+    position: relative;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+    overflow: hidden; /* Keeps the shadow inside the corners */
+}
+
+/* The dark shadow / blur layer */
+.play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* The dark shadow */
+    backdrop-filter: blur(2px);     /* Modern blur effect */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    opacity: 0;                     /* Hidden by default */
+    transition: opacity 0.3s ease;
+    z-index: 10;
+}
+
+/* Video Icon Style */
+.play-overlay i {
+    font-size: 48px;
+    color: #008f55; /* Your primary green */
+    margin-bottom: 8px;
+    text-shadow: 0 0 15px rgba(0, 143, 85, 0.5);
+}
+
+.play-overlay span {
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+/* HOVER STATES */
+.match-video-wrapper:hover .play-overlay {
+    opacity: 1; /* Shadow appears */
+}
+
+.match-video-wrapper:hover .match-row {
+    transform: scale(0.98); /* Slight push-back effect */
+    filter: grayscale(0.4); /* Dims the team colors slightly */
+}
+
+/* Base style for all match statuses */
+.score-center .match-status {
+    font-size: 13px;
+    font-weight: 800;
+    margin-top: 5px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* 2. Use the !important flag as a final 'override' */
+
+/* GREEN: Live */
+.score-center .status-live {
+    color: #28a745 !important; 
+    animation: blink-live 1.2s infinite;
+}
+
+/* YELLOW: Upcoming */
+.score-center .status-upcoming {
+    color: #ffc107 !important; 
+}
+
+/* RED: Finished */
+.score-center .status-finished {
+    color: #dc3545 !important; 
+}
+/* The Animation logic for the blinking effect */
+@keyframes blink-live {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+/* Remove default link styling */
+.match-link-wrapper {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+/* HD Badge on the top right of the card */
+.hd-badge {
+    margin-left: auto;
+    background: #000;
+    color: #ffd700; /* Gold color */
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid #ffd700;
+    font-weight: 900;
+}
+
+/* Quality Options inside the hover shadow */
+.quality-options {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: 0.4s;
+}
+
+.quality-options span {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.match-video-wrapper:hover .quality-options {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.watch-text {
+    margin-top: 10px;
+    font-size: 12px;
+    background: var(--primary-green);
+    padding: 5px 15px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 143, 85, 0.4);
+}
+/* Animation for the Live Green Dot */
+@keyframes blink-live {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+/* Pulse Animation for the play button */
+@keyframes pulse-video {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.match-video-wrapper:hover .play-overlay i {
+    animation: pulse-video 1.5s infinite ease-in-out;
+}
+.match-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.team {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.team img { width: 60px; height: 60px; object-fit: contain; }
+.team-name { font-weight: 700; font-size: 15px; text-align: center; }
+
+.score-center {
+    flex: 1;
+    text-align: center;
+}
+
+.current-score { font-size: 36px; font-weight: 800; }
+.match-time { font-size: 13px; color: var(--text-muted); }
+.match-status { font-size: 12px; font-weight: 800; color: #dc3545; margin-top: 5px; }
+
+/* --- NEWS SECTION --- */
+.news-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.news-card {
+    background: var(--bg-white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: 0.3s;
+}
+
+.news-card:hover { transform: translateY(-5px); }
+
+.news-thumb {
+    position: relative;
+    height: 180px;
+}
+
+.news-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.news-tag {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: var(--primary-green);
+    color: white;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 800;
+    border-radius: 4px;
+}
+
+.news-info { padding: 20px; }
+.news-info h3 { font-size: 17px; line-height: 1.4; margin-bottom: 10px; height: 48px; overflow: hidden; }
+.news-info p { font-size: 14px; color: var(--text-muted); margin-bottom: 15px; line-height: 1.5; }
+
+.btn-read {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent-blue);
+}
+
+/* --- ABOUT SECTION --- */
+.about-card {
+    background: var(--header-dark);
+    color: white;
+    padding: 50px 40px;
+    border-radius: var(--radius);
+    text-align: center;
+}
+
+.about-content h2 { color: var(--primary-green); margin-bottom: 15px; }
+.about-content hr { width: 60px; margin: 15px auto; border: 2px solid var(--primary-green); }
+.about-content p { color: #ccc; line-height: 1.8; max-width: 800px; margin: 0 auto; }
+
+/* --- SIDEBAR --- */
+.content-sidebar {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+.sidebar-widget {
+    background: var(--bg-white);
+    padding: 25px;
+    border-radius: var(--radius);
+    margin-bottom: 25px;
+    box-shadow: var(--shadow);
+}
+
+.sidebar-widget h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--bg-light);
+    padding-bottom: 10px;
+}
+
+.league-list { list-style: none; }
+.league-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    margin-bottom: 8px;
+    background: var(--bg-light);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.league-list li:hover {
+    background: var(--primary-green);
+    color: white;
+}
+
+.league-list li img { width: 25px; height: 25px; object-fit: contain; }
+
+.social-promo {
+    text-align: center;
+    background: linear-gradient(to bottom, #fff, #f9f9f9);
+}
+
+.btn-social-tiktok {
+    display: block;
+    margin-top: 15px;
+    padding: 12px;
+    background: #000;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 700;
+}
+
+/* --- FOOTER --- */
+.main-footer {
+    background: #0f0f0f;
+    color: white;
+    padding: 60px 20px 20px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 50px;
+}
+
+.footer-logo { height: 60px; margin-bottom: 20px; }
+.footer-col h4 { margin-bottom: 20px; color: var(--primary-green); }
+
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 12px; }
+.footer-col ul li a { color: #aaa; text-decoration: none; font-size: 14px; transition: 0.3s; }
+.footer-col ul li a:hover { color: white; padding-left: 5px; }
+
+.footer-social-links { display: flex; gap: 15px; margin-bottom: 15px; }
+.footer-social-links a {
+    width: 40px; height: 40px; background: #222; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: white; text-decoration: none; transition: 0.3s;
+}
+
+.footer-social-links a:hover { background: var(--primary-green); }
+.email-text { font-size: 14px; color: #888; }
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid #222;
+    font-size: 13px;
+    color: #555;
+}
+/* --- APP DOWNLOAD BUTTONS --- */
+.app-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.app-btn {
+    display: flex;
+    align-items: center;
+    background: #000; /* Dark background like real store buttons */
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 1px solid #333;
+    transition: 0.3s;
+    width: 180px;
+}
+
+.app-btn:hover {
+    background: #222;
+    border-color: var(--primary-green);
+    transform: translateY(-2px);
+}
+
+.app-btn i {
+    font-size: 28px;
+    margin-right: 12px;
+}
+
+.app-btn-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.app-btn-text span {
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.app-btn-text strong {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* --- FOOTER LOGO FIX --- */
+.footer-logo {
+    height: auto;          /* Let the height adjust naturally */
+    max-height: 70px;      /* Prevents it from being too big */
+    width: auto;           /* Maintains original aspect ratio */
+    max-width: 200px;      /* Keeps it within the column bounds */
+    object-fit: contain;   /* Ensures the whole logo is visible without cropping */
+    display: block;        /* Removes bottom whitespace */
+    margin-bottom: 20px;   /* Space between logo and text */
+}
+
+/* Adjusting the column alignment to keep things tidy */
+.about-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Aligns logo and text to the left */
+}
+
+.about-col p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #aaa;
+    max-width: 300px;      /* Prevents text from stretching too wide */
+}
+
+/* Mobile Fix: Center the logo on small screens */
+@media (max-width: 992px) {
+    .about-col {
+        align-items: center;
+        text-align: center;
+    }
+    .footer-logo {
+        margin: 0 auto 20px auto;
+    }
+}
+/* --- VIDEO PLAYER STYLES --- */
+
+/* --- 1. Global Variables & Reset --- */
+:root {
+    --primary-green: #28a745;
+    --primary-red: #ff4b5c;
+    --dark-bg: #111111;
+    --glass: rgba(0, 0, 0, 0.6);
+    --shadow: 0 15px 35px rgba(0,0,0,0.1);
+    --text-main: #333;
+    --text-muted: #777;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    background-color: #f4f7f6;
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+/* --- 2. Main Layout Wrapper --- */
+.main-content-wrapper {
+    display: flex;
+    gap: 30px;
+    max-width: 1300px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.video-section {
+    flex: 3; /* Video takes up 75% */
+}
+
+.content-sidebar {
+    flex: 1; /* Ad takes up 25% */
+    min-width: 300px;
+}
+
+/* --- 3. Professional Video Player --- */
+.video-player-container {
+    width: 100%;
+    background: #000;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    aspect-ratio: 16 / 9;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#live-video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+/* Overlay Labels */
+.player-controls-hint {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+}
+
+.live-label {
+    background: var(--primary-red);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(255, 75, 92, 0.4);
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.9); opacity: 1; }
+    70% { transform: scale(1.6); opacity: 0; }
+    100% { transform: scale(0.9); opacity: 0; }
+}
+
+.quality-label {
+    background: var(--glass);
+    backdrop-filter: blur(8px);
+    color: #ffd700;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+/* --- 4. Match Info & Server Buttons --- */
+.match-info-card {
+    background: #fff;
+    margin-top: 25px;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #eee;
+}
+
+.match-title-area h1 {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.match-title-area .vs {
+    color: var(--primary-green);
+    font-style: italic;
+}
+
+.league-tag {
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.server-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #999;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+}
+
+.server-btn {
+    padding: 12px 20px;
+    border: 2px solid #f0f0f0;
+    background: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.server-btn:hover {
+    border-color: var(--primary-green);
+    color: var(--primary-green);
+}
+
+.server-btn.active {
+    background: var(--dark-bg);
+    color: #fff;
+    border-color: var(--dark-bg);
+}
+
+/* --- 5. Professional Sticky Ad Space --- */
+.ad-container {
+    position: sticky;
+    top: 20px;
+}
+
+.ad-tag {
+    font-size: 10px;
+    font-weight: 700;
+    color: #bbb;
+    letter-spacing: 1px;
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.ad-space {
+    height: 550px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #d0d7de;
+    color: #8a94a0;
+    transition: 0.3s;
+}
+
+.ad-space:hover {
+    border-color: var(--primary-green);
+    background: #fff;
+}
+
+/* --- 6. Footer --- */
+.main-footer {
+    background: var(--dark-bg);
+    color: #fff;
+    padding: 60px 20px 30px;
+    margin-top: 80px;
+    border-top: 4px solid var(--primary-green);
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.footer-logo {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 15px;
+}
+
+.footer-logo span {
+    color: var(--primary-green);
+}
+
+.footer-links {
+    margin-bottom: 40px;
+}
+
+.footer-links a {
+    color: #999;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.footer-links a:hover {
+    color: var(--primary-green);
+}
+
+.footer-bottom {
+    border-top: 1px solid #222;
+    padding-top: 30px;
+    font-size: 13px;
+    color: #555;
+}
+
+/* --- 7. Responsive Design --- */
+@media (max-width: 992px) {
+    .main-content-wrapper {
+        flex-direction: column;
+    }
+    .content-sidebar {
+        width: 100%;
+    }
+    .ad-space {
+        height: 250px;
+    }
+    .match-info-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+}
+
+/* The base button style */
+.server-btn {
+    padding: 10px 20px;
+    border: 2px solid #eee;
+    background: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.2s ease; /* Makes the transition smooth */
+    outline: none;
+}
+
+/* What happens when the button is clicked/active */
+.server-btn.active {
+    background: #1a1a1a !important; /* Dark professional background */
+    color: #ffffff !important;
+    border-color: #28a745 !important; /* Green border for the active server */
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2);
+    transform: translateY(-1px); /* Slight lift */
+}
+
+/* The "Push Down" effect when you physically click it */
+.server-btn:active {
+    transform: scale(0.96);
+}

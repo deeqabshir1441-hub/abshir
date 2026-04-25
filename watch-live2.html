@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daawo Toos ah | Live Stream HD</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="navbar-container">
+            <div class="logo">
+                <img src="logo/Logo.png" alt="Logo">
+            </div>
+            <nav class="nav-menu">
+                <a href="index.html">HOME</a>
+                <a href="#">LATEST NEWS</a>
+                <a href="#" class="active">LIVE STREAM</a>
+            </nav>
+            <div class="header-right">
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-content-wrapper">
+        
+        <main class="video-section">
+            <div class="video-player-container">
+                <video id="live-video" controls autoplay poster="banner/poster .png"></video>
+                <div class="player-controls-hint">
+                    <span class="live-label"><span class="pulse-dot"></span> TOOS</span>
+                    <span class="quality-label">1080p HD</span>
+                </div>
+            </div>
+
+            <div class="match-info-card">
+                <div class="match-title-area">
+                    <h1>Atlético Madrid <span class="vs">vs</span> Barcelona</h1>
+                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> UEFA Champions League — Quarter Final</p>
+                </div>
+                <div class="server-selection">
+                    <span class="server-label">Select Source:</span>
+                    <div class="btn-group">
+                        <button class="server-btn active" id="btn-hd">HD Server 1</button>
+                        <button class="server-btn" id="btn-sd">Standard Server 2</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <aside class="content-sidebar">
+            <div class="ad-container">
+                <span class="ad-tag">SPONSORED</span>
+                <div class="ad-space">
+                    <i class="fa-solid fa-rectangle-ad" style="font-size: 40px; opacity: 0.2; margin-bottom: 10px;"></i>
+                    <p>Xayeysiis (Ads)</p>
+                    <small>Place your banner here</small>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Daawo Hadda. HD Sports Streaming.</p>
+        </div>
+    </footer>
+
+    <script>
+        // SCRIPT TO PLAY THE VIDEO
+        var video = document.getElementById('live-video');
+        // REPLACE THIS URL with your test .m3u8 link
+        var videoSrc = 'https://pub-988290a10bbf42009d966bd9ef7153c8.r2.dev/1.m3u8'; 
+
+        if (Hls.isSupported()) {
+            var hls = new Hls();
+            hls.loadSource(videoSrc);
+            hls.attachMedia(video);
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = videoSrc;
+        }
+    </script>
+
+</body>
+</html>
