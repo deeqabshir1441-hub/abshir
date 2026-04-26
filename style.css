@@ -971,3 +971,41 @@ body {
 .server-btn:active {
     transform: scale(0.96);
 }
+
+/* 1. Default Desktop Layout (Flexbox) */
+.main-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* The video section stays wide on desktop */
+.video-section {
+    flex: 3; 
+}
+
+/* The sidebar/list section */
+.sidebar-section {
+    flex: 1;
+}
+
+/* 2. The "Problem Solver" - Media Query for Mobile */
+@media screen and (max-width: 900px) {
+    .main-wrapper {
+        flex-direction: column; /* This stacks the sidebar under the video */
+        padding: 10px;
+    }
+
+    .video-section, .sidebar-section {
+        width: 100%; /* Forces elements to take full width of the phone */
+    }
+
+    /* Adjust font sizes for smaller screens */
+    h1 {
+        font-size: 1.5rem;
+    }
+}
+
+
+
