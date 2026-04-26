@@ -11,6 +11,19 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9924964891667864"
      crossorigin="anonymous"></script>
     <script defer src="https://cloud.umami.is/script.js" data-website-id="a6ac7188-1fe8-4da8-af56-9b4751a0dfba"></script>
+
+    <script>
+    function toggleMobileMenu() {
+        var menu = document.getElementById("nav-menu");
+        if (menu.classList.contains("active")) {
+            menu.classList.remove("active");
+            console.log("Menu Closed");
+        } else {
+            menu.classList.add("active");
+            console.log("Menu Opened");
+        }
+    }
+    </script>
 </head>
 <body>
 
@@ -18,6 +31,10 @@
         <div class="navbar-container">
             <div class="logo">
                 <img src="logo/Logo.png" alt="Daawo Hadda Logo">
+            </div>
+
+            <div class="menu-icon" id="menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fas fa-outdent"></i>
             </div>
 
             <nav class="nav-menu">
@@ -265,6 +282,7 @@
             <p>&copy; 2026 Daawo Hadda. Dhammaan xuquuqdu waa dhowran tahay.</p>
         </div>
     </footer>
+    
 
 </body>
 </html>

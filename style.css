@@ -658,16 +658,6 @@ body {
     max-width: 300px;      /* Prevents text from stretching too wide */
 }
 
-/* Mobile Fix: Center the logo on small screens */
-@media (max-width: 992px) {
-    .about-col {
-        align-items: center;
-        text-align: center;
-    }
-    .footer-logo {
-        margin: 0 auto 20px auto;
-    }
-}
 /* --- VIDEO PLAYER STYLES --- */
 
 /* --- 1. Global Variables & Reset --- */
@@ -928,23 +918,6 @@ body {
     color: #555;
 }
 
-/* --- 7. Responsive Design --- */
-@media (max-width: 992px) {
-    .main-content-wrapper {
-        flex-direction: column;
-    }
-    .content-sidebar {
-        width: 100%;
-    }
-    .ad-space {
-        height: 250px;
-    }
-    .match-info-card {
-        flex-direction: column;
-        text-align: center;
-        gap: 20px;
-    }
-}
 
 /* The base button style */
 .server-btn {
@@ -972,40 +945,156 @@ body {
     transform: scale(0.96);
 }
 
-/* 1. Default Desktop Layout (Flexbox) */
-.main-wrapper {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 20px;
-    padding: 20px;
+/* 1. Hide the button on Desktop */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
-/* The video section stays wide on desktop */
-.video-section {
-    flex: 3; 
+.menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--primary-green);
+    border-radius: 3px;
 }
 
-/* The sidebar/list section */
-.sidebar-section {
-    flex: 1;
+/* Hide icon on desktop */
+.menu-icon {
+    display: none;
+    color: var(--primary-green);
+    font-size: 24px;
+    cursor: pointer;
 }
 
-/* 2. The "Problem Solver" - Media Query for Mobile */
-@media screen and (max-width: 900px) {
-    .main-wrapper {
-        flex-direction: column; /* This stacks the sidebar under the video */
+@media (max-width: 799px) {
+    .menu-icon {
+        display: block !important;
+        position: relative;
+        z-index: 3000; /* Higher than header */
+        cursor: pointer;
         padding: 10px;
+        color: var(--primary-green);
+        font-size: 28px;
     }
 
-    .video-section, .sidebar-section {
-        width: 100%; /* Forces elements to take full width of the phone */
+    .nav-menu {
+        display: none; /* Keep it hidden */
+        position: fixed; /* Change from absolute to fixed */
+        top: 0;
+        right: 0;
+        height: 100vh; /* Full height of screen */
+        width: 250px;
+        background: #111;
+        flex-direction: column;
+        padding-top: 80px; /* Space for the header */
+        z-index: 2500;
+        border-left: 3px solid var(--primary-green);
     }
 
-    /* Adjust font sizes for smaller screens */
-    h1 {
-        font-size: 1.5rem;
+    /* The 'open' state */
+    .nav-menu.active {
+        display: flex !important;
+    }
+    
+    .nav-menu a {
+        padding: 20px;
+        border-bottom: 1px solid #222;
+        width: 100%;
+    }
+}
+/* --- MOBILE RESPONSIVE ADAPTATIONS --- */
+
+@media (max-width: 992px) {
+    /* Stack the Main Layout Grid */
+    .main-layout-container {
+        grid-template-columns: 1fr; /* Sidebar moves below main content */
+        padding: 0 15px 30px;
+    }
+
+    .content-sidebar {
+        position: static; /* Remove sticky on mobile */
+    }
+
+    /* News Grid: 1 column instead of 2 */
+    .news-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Footer: Stack columns */
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+    }
+
+    .about-col, .footer-social-links {
+        align-items: center;
+        justify-content: center;
+    }
+
+    .footer-logo {
+        margin: 0 auto 20px;
     }
 }
 
+@media (max-width: 600px) {
+    /* Hero Banner: Reduce height and font size */
+    .banner {
+        height: 200px;
+    }
+
+    .banner-overlay h1 {
+        font-size: 24px;
+    }
+
+    .banner-overlay p {
+        font-size: 14px;
+    }
+
+    /* Match Cards: Adjust for narrow screens */
+    .match-row {
+        gap: 10px;
+    }
+
+    .team img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .team-name {
+        font-size: 13px;
+    }
+
+    .current-score {
+        font-size: 28px;
+    }
+
+    /* Horizontal Scroller: Ensure it's smooth on touch */
+    .league-scroller {
+        padding: 10px 15px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Tabs: Make them scrollable if they don't fit */
+    .tabs {
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 5px;
+        scrollbar-width: none;
+    }
+    
+    .tabs::-webkit-scrollbar { display: none; }
+
+    /* Buttons: Full width for app downloads in sidebar */
+    .app-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
 
 
