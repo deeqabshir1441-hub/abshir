@@ -2,12 +2,15 @@
 :root {
     --primary-green: #008f55;
     --secondary-green: #007545;
+    --primary-red: #ff4b5c;
     --accent-blue: #0d6efd;
     --bg-light: #f0f2f5;
     --bg-white: #ffffff;
     --text-main: #1c1e21;
     --text-muted: #606770;
     --header-dark: #141414;
+    --dark-bg: #111111;
+    --glass: rgba(0, 0, 0, 0.6);
     --shadow: 0 4px 12px rgba(0,0,0,0.08);
     --radius: 12px;
 }
@@ -99,8 +102,8 @@ body {
 
 .banner {
     width: 100%;
-    height: 250px;
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("banner/banner.jpg") center/cover;
+    min-height: 380px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 143, 85, 0.2) 100%), url("banner/banner.jpg") center/cover no-repeat;
     border-radius: var(--radius);
     display: flex;
     align-items: center;
@@ -108,6 +111,7 @@ body {
     text-align: center;
     color: white;
     box-shadow: var(--shadow);
+    padding: 40px;
 }
 
 .banner-overlay h1 {
@@ -145,6 +149,9 @@ body {
     padding: 10px 20px;
     white-space: nowrap;
     scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
 }
 
 .league-scroller::-webkit-scrollbar { display: none; }
@@ -152,9 +159,12 @@ body {
 .scroller-wrapper {
     display: flex;
     gap: 12px;
+    padding-bottom: 4px; /* Prevents shadow clipping */
 }
 
 .league-chip {
+    scroll-snap-align: start;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -166,7 +176,8 @@ body {
     font-weight: 700;
     font-size: 14px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    transition: 0.3s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
 }
 
 .league-chip img { width: 22px; height: 22px; object-fit: contain; }
@@ -326,12 +337,6 @@ body {
 .score-center .status-finished {
     color: #dc3545 !important; 
 }
-/* The Animation logic for the blinking effect */
-@keyframes blink-live {
-    0% { opacity: 1; }
-    50% { opacity: 0.4; }
-    100% { opacity: 1; }
-}
 /* Remove default link styling */
 .match-link-wrapper {
     text-decoration: none;
@@ -382,12 +387,6 @@ body {
     padding: 5px 15px;
     border-radius: 50px;
     box-shadow: 0 4px 15px rgba(0, 143, 85, 0.4);
-}
-/* Animation for the Live Green Dot */
-@keyframes blink-live {
-    0% { opacity: 1; }
-    50% { opacity: 0.4; }
-    100% { opacity: 1; }
 }
 /* Pulse Animation for the play button */
 @keyframes pulse-video {
@@ -462,7 +461,10 @@ body {
 }
 
 .news-info { padding: 20px; }
-.news-info h3 { font-size: 17px; line-height: 1.4; margin-bottom: 10px; height: 48px; overflow: hidden; }
+.news-info h3 { 
+    font-size: 17px; line-height: 1.4; margin-bottom: 10px; height: 48px; overflow: hidden; 
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; 
+}
 .news-info p { font-size: 14px; color: var(--text-muted); margin-bottom: 15px; line-height: 1.5; }
 
 .btn-read {
@@ -547,17 +549,19 @@ body {
 
 /* --- FOOTER --- */
 .main-footer {
-    background: #0f0f0f;
+    background: var(--dark-bg);
     color: white;
-    padding: 60px 20px 20px;
+    padding: 80px 20px 20px;
+    margin-top: 60px;
+    border-top: 4px solid var(--primary-green);
 }
 
 .footer-container {
     max-width: 1200px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 50px;
+    grid-template-columns: 2fr 1fr 1.2fr;
+    gap: 40px;
 }
 
 .footer-logo { height: 60px; margin-bottom: 20px; }
@@ -656,32 +660,6 @@ body {
     line-height: 1.6;
     color: #aaa;
     max-width: 300px;      /* Prevents text from stretching too wide */
-}
-
-/* --- VIDEO PLAYER STYLES --- */
-
-/* --- 1. Global Variables & Reset --- */
-:root {
-    --primary-green: #28a745;
-    --primary-red: #ff4b5c;
-    --dark-bg: #111111;
-    --glass: rgba(0, 0, 0, 0.6);
-    --shadow: 0 15px 35px rgba(0,0,0,0.1);
-    --text-main: #333;
-    --text-muted: #777;
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-body {
-    background-color: #f4f7f6;
-    color: var(--text-main);
-    line-height: 1.6;
 }
 
 /* --- 2. Main Layout Wrapper --- */
@@ -940,125 +918,94 @@ body {
     transform: translateY(-1px); /* Slight lift */
 }
 
-/* The "Push Down" effect when you physically click it */
-.server-btn:active {
-    transform: scale(0.96);
-}
-
-/* 1. Hide the button on Desktop */
-.menu-toggle {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.menu-toggle span {
-    display: block;
-    width: 25px;
-    height: 3px;
-    background-color: var(--primary-green);
-    border-radius: 3px;
-}
-
 /* Hide icon on desktop */
-.menu-icon {
-    display: none;
+.main-header .menu-icon {
+    display: none !important;
     color: var(--primary-green);
     font-size: 24px;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-@media (max-width: 799px) {
-    .menu-icon {
-        display: block !important;
-        position: relative;
-        z-index: 3000; /* Higher than header */
-        cursor: pointer;
-        padding: 10px;
-        color: var(--primary-green);
-        font-size: 28px;
+.menu-icon:hover {
+    color: #ffffff;
+    transform: translateX(-3px);
+}
+
+/* Show the menu icon on mobile and tablet devices */
+@media screen and (max-width: 992px) {
+    .navbar-container {
+        padding: 0 15px;
+    }
+
+    .logo img {
+        height: 40px;
     }
 
     .nav-menu {
-        display: none; /* Keep it hidden */
-        position: fixed; /* Change from absolute to fixed */
+        position: fixed;
         top: 0;
-        right: 0;
-        height: 100vh; /* Full height of screen */
-        width: 250px;
-        background: #111;
+        right: -100%; /* Hidden off-screen by default */
+        width: 280px;
+        height: 100vh;
+        background: rgba(20, 20, 20, 0.98);
+        backdrop-filter: blur(15px);
         flex-direction: column;
-        padding-top: 80px; /* Space for the header */
-        z-index: 2500;
-        border-left: 3px solid var(--primary-green);
-    }
-
-    /* The 'open' state */
-    .nav-menu.active {
-        display: flex !important;
-    }
-    
-    .nav-menu a {
-        padding: 20px;
-        border-bottom: 1px solid #222;
-        width: 100%;
-    }
-}
-/* --- MOBILE RESPONSIVE ADAPTATIONS --- */
-
-@media (max-width: 992px) {
-    /* Stack the Main Layout Grid */
-    .main-layout-container {
-        grid-template-columns: 1fr; /* Sidebar moves below main content */
-        padding: 0 15px 30px;
-    }
-
-    .content-sidebar {
-        position: static; /* Remove sticky on mobile */
-    }
-
-    /* News Grid: 1 column instead of 2 */
-    .news-grid {
-        grid-template-columns: 1fr;
-    }
-
-    /* Footer: Stack columns */
-    .footer-container {
-        grid-template-columns: 1fr;
+        padding: 100px 40px;
+        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+        z-index: 2001;
         gap: 30px;
-        text-align: center;
     }
 
-    .about-col, .footer-social-links {
-        align-items: center;
-        justify-content: center;
+    .nav-menu.active {
+        right: 0; /* Slides into view when active */
     }
 
-    .footer-logo {
-        margin: 0 auto 20px;
+    .header-right .social-icons {
+        display: none; /* Hide social icons in header to save space on mobile */
     }
-}
 
-@media (max-width: 600px) {
-    /* Hero Banner: Reduce height and font size */
+    .main-header .menu-icon {
+        display: block !important;
+        z-index: 2002; /* Ensure toggle is always above the drawer */
+    }
+
+    /* Mobile Hero Section Optimization */
+    .hero-section {
+        margin: 10px auto;
+        padding: 0 15px;
+    }
+
     .banner {
-        height: 200px;
+        min-height: 280px;
+        padding: 25px;
     }
 
     .banner-overlay h1 {
-        font-size: 24px;
+        font-size: 26px;
+        line-height: 1.2;
     }
 
     .banner-overlay p {
-        font-size: 14px;
+        font-size: 15px;
+        margin-bottom: 25px;
     }
 
-    /* Match Cards: Adjust for narrow screens */
-    .match-row {
-        gap: 10px;
+    /* Match Grid & Sidebar Responsiveness */
+    .main-layout-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 15px 40px;
+    }
+
+    .content-sidebar {
+        position: static;
+    }
+
+    /* Match Card Mobile Polish */
+    .match-card {
+        padding: 15px;
     }
 
     .team img {
@@ -1066,35 +1013,63 @@ body {
         height: 45px;
     }
 
-    .team-name {
-        font-size: 13px;
-    }
-
     .current-score {
         font-size: 28px;
     }
 
-    /* Horizontal Scroller: Ensure it's smooth on touch */
-    .league-scroller {
-        padding: 10px 15px;
-        -webkit-overflow-scrolling: touch;
+    .team-name {
+        font-size: 13px;
     }
 
-    /* Tabs: Make them scrollable if they don't fit */
-    .tabs {
-        overflow-x: auto;
-        white-space: nowrap;
-        padding-bottom: 5px;
-        scrollbar-width: none;
+    /* Watch Live Page Responsiveness */
+    .main-content-wrapper {
+        flex-direction: column;
+        margin: 20px auto;
+        gap: 20px;
     }
-    
-    .tabs::-webkit-scrollbar { display: none; }
 
-    /* Buttons: Full width for app downloads in sidebar */
-    .app-btn {
+    .video-section, .content-sidebar {
+        flex: none;
         width: 100%;
+    }
+
+    .match-info-card {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .btn-group {
+        justify-content: center;
+    }
+
+        .news-grid {
+            grid-template-columns: 1fr; /* Stack news cards on mobile */
+        }
+
+    /* Footer Mobile Polish */
+    .footer-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 40px;
+    }
+
+    .main-footer {
+        padding: 40px 20px 20px;
+        margin-top: 40px;
+    }
+
+    .about-col {
+        align-items: center;
+    }
+
+    .about-col p {
+        max-width: 100%;
+    }
+
+    .footer-social-links, .app-buttons {
+        align-items: center;
         justify-content: center;
     }
 }
-
-
