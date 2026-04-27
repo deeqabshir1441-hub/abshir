@@ -40,10 +40,10 @@
         
         <main class="video-section">
             <div class="video-player-container">
-                <video id="live-video" controls autoplay poster="banner/poster .png"></video>
+                <video id="live-video" controls autoplay muted poster="banner/poster .png"></video>
                 <div class="player-controls-hint">
                     <span class="live-label"><span class="pulse-dot"></span> TOOS</span>
-                    <span class="quality-label">1080p HD</span>
+                    <span class="quality-label" id="quality-indicator">1080p HD</span>
                 </div>
             </div>
 
@@ -96,6 +96,7 @@
         const video = document.getElementById('live-video');
         const btn1 = document.getElementById('btn-hd');
         const btn2 = document.getElementById('btn-sd');
+        const qualityIndicator = document.getElementById('quality-indicator');
 
         // Replace the second URL with your actual Server 2 link
         const source1 = 'https://7syrialive.s3.us-east-2.amazonaws.com/bein1/bein1_360p/index.m3u8'; 
@@ -130,9 +131,10 @@
                 loadStream(source1);
                 btn1.classList.add('active');
                 btn2.classList.remove('active');
+                if (qualityIndicator) qualityIndicator.innerText = "1080p HD";
                 console.log("Server 1 Activated");
             };
-        } else { console.error("Could not find button with id 'server1'"); }
+        } else { console.error("Could not find button with id 'btn-hd'"); }
 
         // Server 2 Click Logic
         if (btn2) {
@@ -140,9 +142,10 @@
                 loadStream(source2);
                 btn2.classList.add('active');
                 btn1.classList.remove('active');
+                if (qualityIndicator) qualityIndicator.innerText = "720p SD";
                 console.log("Server 2 Activated");
             };
-        } else { console.error("Could not find button with id 'server2'"); }
+        } else { console.error("Could not find button with id 'btn-sd'"); }
 
         // Initial Load
         loadStream(source1);
