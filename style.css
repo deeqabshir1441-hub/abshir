@@ -958,6 +958,15 @@ body {
         gap: 30px;
     }
 
+    /* Added overlay backdrop when menu is open */
+    body.menu-open::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 2000;
+    }
+
     .nav-menu.active {
         right: 0; /* Slides into view when active */
     }
