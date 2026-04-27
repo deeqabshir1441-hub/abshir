@@ -7,6 +7,7 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="/favicon.ico">
     
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9924964891667864"
      crossorigin="anonymous"></script>
@@ -235,11 +236,30 @@
         // Mobile Menu Toggle Logic
         const menuIcon = document.querySelector('.menu-icon');
         const navMenu = document.querySelector('.nav-menu');
-        
+        const body = document.body; // Reference to the body element
+
         if (menuIcon && navMenu) {
-            menuIcon.addEventListener('click', () => {
+            // 1. Toggle menu on icon click
+            menuIcon.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevent this click from immediately closing the menu via the document listener
                 navMenu.classList.toggle('active');
-                document.body.classList.toggle('menu-open');
+                body.classList.toggle('menu-open');
+            });
+
+            // 2. Close menu when clicking outside of it (e.g., on the overlay)
+            document.addEventListener('click', (event) => {
+                // If the menu is open AND the click was not on the menu icon AND the click was not inside the nav menu itself
+                if (body.classList.contains('menu-open') &&
+                    !menuIcon.contains(event.target) &&
+                    !navMenu.contains(event.target)) {
+                    navMenu.classList.remove('active');
+                    body.classList.remove('menu-open');
+                }
+            });
+
+            // 3. Prevent clicks INSIDE the nav menu from bubbling up and closing it
+            navMenu.addEventListener('click', (event) => {
+                event.stopPropagation();
             });
         }
     </script>
