@@ -1105,7 +1105,17 @@ body {
     }
 
     .match-info-card {
-        padding: 15px;
+        padding: 20px; /* Slightly more padding for better spacing */
+        flex-direction: column; /* Stack items vertically */
+        align-items: center; /* Center items horizontally */
+        gap: 20px; /* Add space between the title area and server selection */
+    }
+    .match-info-card .server-selection {
+        order: -1; /* Move source selection above the title on mobile */
+        text-align: center;
+    }
+    .match-info-card .match-title-area {
+        text-align: center; /* Center the match title and league tag */
     }
 
     .btn-group {
