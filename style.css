@@ -424,6 +424,19 @@ body {
 .match-time { font-size: 13px; color: var(--text-muted); }
 .match-status { font-size: 12px; font-weight: 800; color: #dc3545; margin-top: 5px; }
 
+/* Score Flash Animation */
+.goal-flash {
+    animation: score-pulse 2s ease-in-out;
+    display: inline-block;
+}
+
+@keyframes score-pulse {
+    0% { transform: scale(1); color: inherit; }
+    25% { transform: scale(1.4); color: var(--primary-red); }
+    50% { transform: scale(1.1); color: var(--primary-red); }
+    100% { transform: scale(1); color: inherit; }
+}
+
 /* --- NEWS SECTION --- */
 .news-grid {
     display: grid;

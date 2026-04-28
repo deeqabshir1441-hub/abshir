@@ -106,7 +106,9 @@
                                 </div>
                                 
                                 <div class="score-center">
-                                    <div class="current-score" id="score-display">2 - 1</div>
+                                    <div class="current-score">
+                                        <span id="home-score">2</span> - <span id="away-score">1</span>
+                                    </div>
                                     <div class="match-time">10:00 PM</div>
                                     <div class="match-status status-live">● Toos</div>
                                     <div id="last-update" style="font-size: 10px; color: #aaa; margin-top: 5px; font-weight: 500;">Hubinta: Hadda</div>
@@ -308,52 +310,58 @@
 
     <script>
         /**
-         * Updates the live match score from the API.
-         * Improved with error handling, DOM existence check, and immediate initial execution.
+         * Fetches and updates the live match score.
+         * Targets individual home and away score elements for precision.
          */
-        async function updateLiveScore() {
+        async function fetchLiveScore() {
             try {
-                const response = await fetch('/api/live-score');
+                // Cache-busting timestamp ensures we get the freshest data
+                const timestamp = new Date().getTime();
+                const response = await fetch(`/api/score-data.json?t=${timestamp}`);
                 
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error('Network response was not ok');
                 }
                 
                 const data = await response.json();
-                const scoreDisplay = document.getElementById('score-display');
+                const homeScoreElem = document.getElementById('home-score');
+                const awayScoreElem = document.getElementById('away-score');
+                const lastUpdateEl = document.getElementById('last-update');
 
-                if (scoreDisplay && data.score) {
-                    // Only update if the score has changed to minimize DOM manipulations
-                    if (scoreDisplay.textContent !== data.score) {
-                        scoreDisplay.textContent = data.score;
-                        console.log('Score updated to:', data.score);
-                    } else {
-                        console.log('No update yet (Score unchanged).');
-                    }
+                // Check and update home score
+                if (homeScoreElem && String(data.homeScore) !== homeScoreElem.innerText) {
+                    homeScoreElem.innerText = data.homeScore;
+                    homeScoreElem.classList.add('goal-flash');
+                    // Remove class after animation finishes so it can re-trigger later
+                    setTimeout(() => homeScoreElem.classList.remove('goal-flash'), 2500);
+                    console.log('Home score updated:', data.homeScore);
+                }
+
+                // Check and update away score
+                if (awayScoreElem && String(data.awayScore) !== awayScoreElem.innerText) {
+                    awayScoreElem.innerText = data.awayScore;
+                    awayScoreElem.classList.add('goal-flash');
+                    setTimeout(() => awayScoreElem.classList.remove('goal-flash'), 2500);
+                    console.log('Away score updated:', data.awayScore);
                 }
 
                 // Update the "Last Checked" timestamp for visual feedback
-                const lastUpdateEl = document.getElementById('last-update');
                 if (lastUpdateEl) {
                     const now = new Date();
                     const timeString = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
                     lastUpdateEl.textContent = `Hubinta u dambeysay: ${timeString}`;
                 }
-
-                if (data.last_event === 'goal' && typeof showGoalAnimation === 'function') {
-                    showGoalAnimation();
-                }
             } catch (error) {
-                console.error('Failed to update live score:', error);
+                console.error('Score update failed:', error);
                 const lastUpdateEl = document.getElementById('last-update');
                 if (lastUpdateEl) lastUpdateEl.textContent = 'Cusbooneysiin waa fashilantay';
             }
         }
 
         // Initial check on load
-        updateLiveScore();
+        fetchLiveScore();
         // Schedule updates every 30 seconds
-        setInterval(updateLiveScore, 30000);
+        setInterval(fetchLiveScore, 30000);
     </script>
     
     <script>
