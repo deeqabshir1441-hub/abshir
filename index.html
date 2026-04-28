@@ -106,7 +106,7 @@
                                 </div>
                                 
                                 <div class="score-center">
-                                    <div class="current-score">2 - 1</div>
+                                    <div class="current-score" id="score-display">2 - 1</div>
                                     <div class="match-time">10:00 PM</div>
                                     <div class="match-status status-live">● Toos</div>
                                 </div>
@@ -303,6 +303,43 @@
 
             navMenu.addEventListener('click', (e) => e.stopPropagation());
         }
+    </script>
+
+    <script>
+        /**
+         * Updates the live match score from the API.
+         * Improved with error handling, DOM existence check, and immediate initial execution.
+         */
+        async function updateLiveScore() {
+            try {
+                const response = await fetch('/api/live-score');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                const scoreDisplay = document.getElementById('score-display');
+
+                if (scoreDisplay && data.score) {
+                    // Only update if the score has changed to minimize DOM manipulations
+                    if (scoreDisplay.textContent !== data.score) {
+                        scoreDisplay.textContent = data.score;
+                    }
+                }
+
+                if (data.last_event === 'goal' && typeof showGoalAnimation === 'function') {
+                    showGoalAnimation();
+                }
+            } catch (error) {
+                console.error('Failed to update live score:', error);
+            }
+        }
+
+        // Initial check on load
+        updateLiveScore();
+        // Schedule updates every 30 seconds
+        setInterval(updateLiveScore, 30000);
     </script>
     
     <script>
