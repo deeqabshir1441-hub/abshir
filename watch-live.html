@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daawo Toos ah | Live Stream HD</title>
     <meta property="og:title" content="Daawo Hadda">
-    <meta property="og:description" content="Watch Atlético Madrid vs Arsenal live in HD. Stay updated with live scores on Daawo Hadda.">
+    <meta property="og:description" content="Watch Atlético Madrid vs Arsenal live in HD. Stay updated with live scores and stream on Daawo Hadda.">
     <meta name="description" content="Watch HD sports streaming and live football matches. Real-time updates and high-quality server options.">
-    <meta name="keywords" content="Atlético vs Arsenal live, live football streaming, sports hd, champions league live">
+    <meta name="keywords" content="Atlético Madrid vs Arsenal live, live football streaming, sports hd, champions league live">
     <meta name="mobile-web-app-capable" content="yes">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -17,9 +17,6 @@
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-</head>
-<body>
 
     <header class="main-header">
         <div class="navbar-container">
@@ -30,9 +27,9 @@
             <i class="fas fa-outdent menu-icon"></i>
 
             <nav class="nav-menu">
-                <a href="index.html">HOME</a>
-                <a href="#">LATEST NEWS</a>
-                <a href="#" class="active">LIVE STREAM</a>
+                <a href="index.html">Home</a>
+                <a href="#">Latest News</a>
+                <a href="#" class="active">Live Stream</a>
             </nav>
             <div class="header-right">
                 <div class="social-icons">
@@ -49,7 +46,7 @@
             <div class="video-player-container">
                 <video id="live-video" controls autoplay muted poster="banner/poster .png"></video>
                 <div class="player-controls-hint">
-                    <span class="live-label"><span class="pulse-dot"></span> TOOS</span>
+                    <span class="live-label"><span class="pulse-dot"></span> Toos</span>
                     <span class="quality-label" id="quality-indicator">1080p HD</span>
                 </div>
             </div>
@@ -95,43 +92,19 @@
         </div>
     </footer>
 
-
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
     <script>
-    // Mobile Menu Toggle Logic - Fixed & Stable
     document.addEventListener("DOMContentLoaded", function() {
+        // Mobile Menu Logic
         const menuIcon = document.querySelector('.menu-icon');
         const navMenu = document.querySelector('.nav-menu');
         const body = document.body;
 
-        let startX, startY;
-        const moveThreshold = 10; 
-
         if (menuIcon && navMenu) {
-            const onStart = (e) => {
-                startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-                startY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
-            };
-
-            const onEnd = (e) => {
-                const endX = e.type.includes('touch') ? e.changedTouches[0].clientX : e.clientX;
-                const endY = e.type.includes('touch') ? e.changedTouches[0].clientY : e.clientY;
-                const distance = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
-                if (distance < moveThreshold) toggleMenu(e);
-            };
-
-            const toggleMenu = (e) => {
-                e.preventDefault();
-                e.stopPropagation();
+            menuIcon.addEventListener('click', (e) => {
                 navMenu.classList.toggle('active');
                 body.classList.toggle('menu-open');
-            };
-
-            menuIcon.addEventListener('touchstart', onStart, { passive: true });
-            menuIcon.addEventListener('touchend', onEnd);
-            menuIcon.addEventListener('mousedown', onStart);
-            menuIcon.addEventListener('mouseup', onEnd);
+            });
 
             document.addEventListener('click', (e) => {
                 if (body.classList.contains('menu-open') && !navMenu.contains(e.target) && !menuIcon.contains(e.target)) {
@@ -139,11 +112,8 @@
                     body.classList.remove('menu-open');
                 }
             });
-            navMenu.addEventListener('click', (e) => e.stopPropagation());
         }
-    });
 
-    document.addEventListener("DOMContentLoaded", function() {
         const video = document.getElementById('live-video');
         const btn1 = document.getElementById('btn-hd');
         const btn2 = document.getElementById('btn-sd');
@@ -179,10 +149,10 @@
          */
         async function isLinkWorking(url) {
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+            const timeoutId = setTimeout(() => controller.abort(), 3000);
 
             try {
-                const response = await fetch(url, { method: 'HEAD', signal: controller.signal });
+                const response = await fetch(url, { method: 'GET', signal: controller.signal, headers: { 'Range': 'bytes=0-0' } });
                 clearTimeout(timeoutId);
                 return response.ok;
             } catch (err) {
