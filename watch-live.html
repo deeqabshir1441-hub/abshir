@@ -143,64 +143,87 @@
         }
     });
 
-    // Video Player Logic
     document.addEventListener("DOMContentLoaded", function() {
         const video = document.getElementById('live-video');
         const btn1 = document.getElementById('btn-hd');
         const btn2 = document.getElementById('btn-sd');
         const qualityIndicator = document.getElementById('quality-indicator');
 
-        // Replace the second URL with your actual Server 2 link
-        const source1 = 'https://streaming.cdnx-sportnobar.xyz/live/hd-en-6MwdL933tCehrVDC5K.m3u8'; 
-        const source2 = 'https://dlhd.vynx.workers.dev/play/91?key=vynx&playlist.m3u8'; 
+        const serverLinks = [
+            { name: "HD Server 1", url: 'https://streaming.cdnx-sportnobar.xyz/live/hd-en-6MwdL933tCehrVDC5K.m3u8', quality: "1080p HD", btn: btn1 },
+            { name: "Standard Server 2", url: 'https://dlhd.vynx.workers.dev/play/91?key=vynx&playlist.m3u8', quality: "720p SD", btn: btn2 }
+        ];
 
         let hls = new Hls();
 
-        function loadStream(url) {
-            if (!url || url.includes("REPLACE_WITH")) {
-                console.error("Server 2 link is missing!");
-                return;
-            }
-
+        /**
+         * Sets up the HLS player with the provided link.
+         */
+        function setupPlayer(url, quality) {
             if (Hls.isSupported()) {
                 hls.destroy();
                 hls = new Hls();
                 hls.loadSource(url);
                 hls.attachMedia(video);
                 hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                    video.muted = true; // Most browsers require mute to start
-                    video.play();
+                    video.play().catch(() => console.log("Autoplay blocked, waiting for interaction."));
                 });
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                 video.src = url;
-                video.play();
+            }
+            if (qualityIndicator) qualityIndicator.innerText = quality;
+        }
+
+        /**
+         * Checks if a link is active with a 5-second timeout.
+         */
+        async function isLinkWorking(url) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
+            try {
+                const response = await fetch(url, { method: 'HEAD', signal: controller.signal });
+                clearTimeout(timeoutId);
+                return response.ok;
+            } catch (err) {
+                return false;
             }
         }
 
-        // Server 1 Click Logic
-        if (btn1) {
-            btn1.onclick = function() {
-                loadStream(source1);
-                btn1.classList.add('active');
-                btn2.classList.remove('active');
-                if (qualityIndicator) qualityIndicator.innerText = "1080p HD";
-                console.log("Server 1 Activated");
-            };
-        } else { console.error("Could not find button with id 'btn-hd'"); }
+        /**
+         * Automatically finds the first working server.
+         */
+        async function checkAndPlay() {
+            console.log("Checking for active servers...");
+            let activeServer = null;
 
-        // Server 2 Click Logic
-        if (btn2) {
-            btn2.onclick = function() {
-                loadStream(source2);
-                btn2.classList.add('active');
-                btn1.classList.remove('active');
-                if (qualityIndicator) qualityIndicator.innerText = "720p SD";
-                console.log("Server 2 Activated");
-            };
-        } else { console.error("Could not find button with id 'btn-sd'"); }
+            for (let server of serverLinks) {
+                const working = await isLinkWorking(server.url);
+                if (working) {
+                    activeServer = server;
+                    break;
+                }
+                console.warn(`${server.name} is down.`);
+            }
 
-        // Initial Load
-        loadStream(source1);
+            if (activeServer) {
+                console.log(`Success: Using ${activeServer.name}`);
+                setupPlayer(activeServer.url, activeServer.quality);
+                // Update UI Buttons
+                serverLinks.forEach(s => s.btn?.classList.remove('active'));
+                activeServer.btn?.classList.add('active');
+            } else {
+                console.error("All servers are offline.");
+                if (qualityIndicator) qualityIndicator.innerText = "Server error";
+            }
+        }
+
+        // Manual button overrides
+        btn1.onclick = () => { setupPlayer(serverLinks[0].url, serverLinks[0].quality); btn1.classList.add('active'); btn2.classList.remove('active'); };
+        btn2.onclick = () => { setupPlayer(serverLinks[1].url, serverLinks[1].quality); btn2.classList.add('active'); btn1.classList.remove('active'); };
+
+        // Start the auto-check on load
+        checkAndPlay();
     });
     </script>
 </body>
