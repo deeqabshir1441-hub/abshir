@@ -930,7 +930,7 @@ body {
 
 .menu-icon:hover {
     color: #ffffff;
-    transform: translateX(-3px);
+    transform: translateX(3px);
 }
 
 /* Show the menu icon on mobile and tablet devices */
@@ -954,7 +954,7 @@ body {
     .nav-menu {
         position: fixed;
         top: 0;
-        right: -100%; /* Hidden off-screen by default */
+        left: -280px; /* Hidden off-screen by default on the left */
         width: 280px;
         height: 100vh;
         background: rgba(20, 20, 20, 0.98);
@@ -962,7 +962,7 @@ body {
         flex-direction: column;
         padding: 100px 40px;
         transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
         z-index: 2001;
         gap: 30px;
     }
@@ -977,7 +977,7 @@ body {
     }
 
     .nav-menu.active {
-        right: 0; /* Slides into view when active */
+        left: 0; /* Slides into view from the left */
     }
 
     .header-right .social-icons {

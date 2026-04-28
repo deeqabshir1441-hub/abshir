@@ -99,6 +99,58 @@
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
     <script>
+    // Mobile Menu Toggle Logic
+    document.addEventListener("DOMContentLoaded", function() {
+        const menuIcon = document.querySelector('.menu-icon');
+        const navMenu = document.querySelector('.nav-menu');
+        const body = document.body;
+
+        let startX, startY;
+        const moveThreshold = 10;
+
+        if (menuIcon && navMenu) {
+            const getPoint = (e) => {
+                const isTouch = e.type.startsWith('touch');
+                return {
+                    x: isTouch ? (e.touches[0] || e.changedTouches[0]).pageX : e.pageX,
+                    y: isTouch ? (e.touches[0] || e.changedTouches[0]).pageY : e.pageY
+                };
+            };
+
+            const handleStart = (e) => {
+                const point = getPoint(e);
+                startX = point.x;
+                startY = point.y;
+            };
+
+            const handleEnd = (e) => {
+                const point = getPoint(e);
+                const diffX = Math.abs(point.x - startX);
+                const diffY = Math.abs(point.y - startY);
+
+                if (startX !== undefined && diffX < moveThreshold && diffY < moveThreshold) {
+                    e.stopPropagation();
+                    navMenu.classList.toggle('active');
+                    body.classList.toggle('menu-open');
+                }
+            };
+
+            menuIcon.addEventListener('mousedown', handleStart);
+            menuIcon.addEventListener('mouseup', handleEnd);
+            menuIcon.addEventListener('touchstart', handleStart, { passive: true });
+            menuIcon.addEventListener('touchend', handleEnd);
+            menuIcon.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); });
+
+            document.addEventListener('click', (event) => {
+                if (body.classList.contains('menu-open') && !menuIcon.contains(event.target) && !navMenu.contains(event.target)) {
+                    navMenu.classList.remove('active');
+                    body.classList.remove('menu-open');
+                }
+            });
+        }
+    });
+
+    // Video Player Logic
     document.addEventListener("DOMContentLoaded", function() {
         const video = document.getElementById('live-video');
         const btn1 = document.getElementById('btn-hd');
