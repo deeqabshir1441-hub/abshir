@@ -462,8 +462,8 @@ body {
 
 .news-info { padding: 20px; }
 .news-info h3 { 
-    font-size: 17px; line-height: 1.4; margin-bottom: 10px; height: 48px; overflow: hidden; 
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; 
+    font-size: 17px; line-height: 1.4; margin-bottom: 10px; overflow: hidden; 
+    display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; 
 }
 .news-info p { font-size: 14px; color: var(--text-muted); margin-bottom: 15px; line-height: 1.5; }
 
