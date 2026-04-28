@@ -4,15 +4,15 @@
   "description": "Live HD sports streaming and match updates.",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "logo.png",
       "type": "image/png",
-      "sizes": "192x192",
+      "sizes": "512x512",
       "purpose": "any maskable"
     },
     {
-      "src": "icon-512.png",
+      "src": "favicon.png",
       "type": "image/png",
-      "sizes": "512x512",
+      "sizes": "64x64",
       "purpose": "any maskable"
     }
   ],
