@@ -937,6 +937,14 @@ body {
 @media screen and (max-width: 992px) {
     .navbar-container {
         padding: 0 15px;
+        position: relative; /* Required to center the absolute logo */
+    }
+
+    .logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
     }
 
     .logo img {
