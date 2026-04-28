@@ -109,6 +109,7 @@
                                     <div class="current-score" id="score-display">2 - 1</div>
                                     <div class="match-time">10:00 PM</div>
                                     <div class="match-status status-live">● Toos</div>
+                                    <div id="last-update" style="font-size: 10px; color: #aaa; margin-top: 5px; font-weight: 500;">Hubinta: Hadda</div>
                                 </div>
 
                                 <div class="team">
@@ -325,7 +326,18 @@
                     // Only update if the score has changed to minimize DOM manipulations
                     if (scoreDisplay.textContent !== data.score) {
                         scoreDisplay.textContent = data.score;
+                        console.log('Score updated to:', data.score);
+                    } else {
+                        console.log('No update yet (Score unchanged).');
                     }
+                }
+
+                // Update the "Last Checked" timestamp for visual feedback
+                const lastUpdateEl = document.getElementById('last-update');
+                if (lastUpdateEl) {
+                    const now = new Date();
+                    const timeString = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+                    lastUpdateEl.textContent = `Hubinta u dambeysay: ${timeString}`;
                 }
 
                 if (data.last_event === 'goal' && typeof showGoalAnimation === 'function') {
@@ -333,6 +345,8 @@
                 }
             } catch (error) {
                 console.error('Failed to update live score:', error);
+                const lastUpdateEl = document.getElementById('last-update');
+                if (lastUpdateEl) lastUpdateEl.textContent = 'Cusbooneysiin waa fashilantay';
             }
         }
 
