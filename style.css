@@ -1113,8 +1113,9 @@ body {
         padding: 15px 10px; /* Internal padding for the row content */
     }
 
-    .play-overlay {
-        opacity: 1; /* Force visibility on mobile since hover is not available */
+    /* Shows the overlay only when the user taps/presses the card on mobile */
+    .match-card:active .play-overlay {
+        opacity: 1;
     }
 
     .team img {

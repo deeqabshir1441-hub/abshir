@@ -100,7 +100,7 @@
                             <div class="match-row">
                                 <div class="teams">
                                     <div class="team">
-                                        <img src="teams/atletico_madrid.png" alt="Atlético">
+                                        <img src="teams/Atletico_Madrid.png" alt="Atlético">
                                         <span class="team-name">Atlético</span>
                                         <span class="score" id="home-score">0</span>
                                     </div>
@@ -390,13 +390,13 @@
                 homeScore.innerText = '0';
                 awayScore.innerText = '0';
                 if (homeTeamName) homeTeamName.innerText = 'Atlético'; // Atlético Madrid
-                if (homeTeamLogo) homeTeamLogo.src = 'teams/atletico_madrid.png';
+                if (homeTeamLogo) homeTeamLogo.src = 'teams/Atletico_Madrid.png';
                 if (awayTeamName) awayTeamName.innerText = 'Arsenal'; // Arsenal
                 if (awayTeamLogo) awayTeamLogo.src = 'teams/Arsenal_FC.png';
                 document.querySelector('.league-logo').src = 'icon football/uefa-champions.png';
                 document.querySelector('.league-name').innerText = 'Champions league';
-                statusEl.className = 'status match-status status-upcoming';
-                statusEl.innerText = 'Soo Socda';
+                statusEl.className = 'status match-status status-live';
+                statusEl.innerText = 'Toos';
                 
                 // Set initial local time for today's match
                 const todayMatchTime = new Date();
