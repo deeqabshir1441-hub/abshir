@@ -22,20 +22,41 @@
     scroll-behavior: smooth;
 }
 
+html, body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+    -webkit-text-size-adjust: 100%; /* Prevents mobile browsers from auto-scaling text sizes */
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 body {
     background-color: var(--bg-light);
     color: var(--text-main);
 }
 
-/* --- NAVIGATION --- */
+/* --- PILL-SHAPED NAVIGATION BAR --- */
 .main-header {
-    background: rgba(20, 20, 20, 0.98);
+    background: rgba(20, 20, 20, 0.95);
     backdrop-filter: blur(10px);
     position: sticky;
-    top: 0;
+    top: 15px;
     z-index: 2000;
-    padding: 12px 0;
-    border-bottom: 3px solid var(--primary-green);
+    padding: 10px 0;
+    margin: 0 auto;
+    width: calc(100% - 40px); /* Ensures margin is handled within the width calculation */
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
 }
 
 .navbar-container {
@@ -67,23 +88,9 @@ body {
     letter-spacing: 0.3px;
 }
 
-.nav-menu a::after {
-    content: '';
-    position: absolute;
-    bottom: -6px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--primary-green);
-    transition: width 0.3s ease;
-}
-
-.nav-menu a:hover::after, .nav-menu a.active::after {
-    width: 100%;
-}
-
 .nav-menu a:hover, .nav-menu a.active {
     color: #ffffff;
+    font-weight: 600;
 }
 
 .header-right {
@@ -131,8 +138,10 @@ body {
 }
 
 .banner-overlay h1 {
-    font-size: 36px;
-    margin-bottom: 10px;
+    font-size: 42px;
+    margin-bottom: 15px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
 }
 
 .banner-overlay p {
@@ -146,7 +155,6 @@ body {
     padding: 12px 30px;
     background: var(--primary-green);
     color: white;
-    text-decoration: none;
     font-weight: 700;
     border-radius: 50px;
     transition: 0.3s;
@@ -188,7 +196,6 @@ body {
     background: var(--bg-white);
     padding: 10px 20px;
     border-radius: 50px;
-    text-decoration: none;
     color: var(--text-main);
     font-weight: 700;
     font-size: 14px;
@@ -212,7 +219,11 @@ body {
     display: grid;
     grid-template-columns: 1fr 320px;
     gap: 25px;
-    padding: 0 20px 50px;
+    padding: 30px 20px 50px;
+    background-color: #f8fafc;
+    background-image: radial-gradient(#e2e8f0 1.2px, transparent 1.2px);
+    background-size: 24px 24px;
+    border-radius: 24px;
 }
 
 .section-block {
@@ -220,133 +231,235 @@ body {
     background: transparent;
     border: none;
     border-left: 5px solid var(--primary-green);
-    padding-left: 15px;
+    padding-left: 12px;
 }
 
-/* --- MATCH CARDS --- */
-.section-header {
+/* --- PROFESSIONAL FIXTURES UI --- */
+.fixtures-container {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+    width: 100%;
+    margin: 0 auto;
+}
+
+.fixtures-header {
+    text-align: center;
+    font-weight: 800;
+    font-size: 24px; /* Matched with .section-title */
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 15px;
+    margin-bottom: 25px; /* Matched with .section-title */
+    border: 1px solid #eee;
+    color: var(--text-main);
+}
+
+.section-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 25px;
+}
+
+.nav-tabs {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
+    background: #f0f2f5;
+    padding: 6px;
+    border-radius: 14px;
+    gap: 4px;
+    margin-bottom: 30px;
 }
 
-.tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 20px;
-}
-
-.tab-btn {
-    padding: 8px 18px;
+.nav-item {
+    flex: 1;
+    padding: 12px 5px;
     border: none;
-    background: var(--bg-white);
-    border-radius: 8px;
+    background: transparent;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
     cursor: pointer;
-    font-weight: 600;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    color: var(--text-muted);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.tab-btn.active {
-    background: var(--accent-blue);
-    color: white;
+.nav-item.active {
+    background: #fff;
+    color: var(--text-main);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .match-card {
-    background: var(--bg-white);
-    border-radius: var(--radius);
-    padding: 24px;
-    margin-bottom: 16px;
-    border: 1px solid rgba(0,0,0,0.06);
-    box-shadow: var(--shadow);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid #eee;
+    border-radius: 18px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.match-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-}
-
-.card-league-tag {
+.league-header {
+    background: #f8f9fa;
+    padding: 8px 15px;
+    border-bottom: 1px solid #f0f0f0;
     display: flex;
     align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 10px;
+    color: #888;
+    letter-spacing: 0.5px;
+}
+
+.league-logo {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+}
+
+.match-row {
+    display: flex;
+    padding: 20px 18px;
+    align-items: center;
+    position: relative; /* Anchor for the absolute overlay */
+}
+
+.teams {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     gap: 8px;
-    font-size: 13px;
+}
+
+.team {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-main);
+    min-width: 0; /* Allows children to shrink for ellipsis */
+}
+
+.team-name {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.team img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.score {
+    margin-left: auto;
+    font-weight: 800;
+    font-size: 1rem;
+    padding-right: 15px;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+}
+
+.status-box {
+    width: 110px;
+    border-left: 1px solid #f1f3f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding-left: 12px;
+}
+
+.status {
+    font-size: 10px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-transform: auto;
+    letter-spacing: 0.5px;
+}
+
+.status::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: currentColor;
+    border-radius: 50%;
+}
+
+/* MUTED GOLD INDICATOR */
+.status-upcoming {
+    color: #b19424 !important;
+    opacity: 0.9;
+}
+
+.update-text {
+    font-size: 9px;
+    color: #bbb;
     font-weight: 600;
-    color: var(--accent-blue);
-    margin-bottom: 20px;
 }
 
-.card-league-tag img { width: 18px; }
-/* Container for the hover effect */
-.match-video-wrapper {
-    position: relative;
-    cursor: pointer;
-    border-radius: 12px;
-    transition: transform 0.3s ease;
-    overflow: hidden; /* Keeps the shadow inside the corners */
+.time {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: #1e293b;
 }
 
-/* The dark shadow / blur layer */
 .play-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* The dark shadow */
-    backdrop-filter: blur(2px);     /* Modern blur effect */
+    inset: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Softer, neutral dark overlay */
+    backdrop-filter: blur(4px); /* Glass effect to make it look professional */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     color: #fff;
-    opacity: 0;                     /* Hidden by default */
-    transition: opacity 0.3s ease;
+    font-family: inherit;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     z-index: 10;
 }
 
-/* Video Icon Style */
+.match-card:hover .play-overlay {
+    opacity: 1;
+}
+
 .play-overlay i {
-    font-size: 48px;
-    color: #008f55; /* Your primary green */
-    margin-bottom: 8px;
-    text-shadow: 0 0 15px rgba(0, 143, 85, 0.5);
+    font-size: 42px;
+    color: var(--primary-green);
+    margin-bottom: 16px;
+    filter: drop-shadow(0 0 10px rgba(0, 143, 85, 0.3)); /* Softer icon glow */
 }
 
-.play-overlay span {
-    font-weight: 800;
-    font-size: 14px;
-    letter-spacing: 1px;
+.match-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
 }
-
-/* HOVER STATES */
-.match-video-wrapper:hover .play-overlay {
-    opacity: 1; /* Shadow appears */
-}
-
-.match-video-wrapper:hover .match-row {
-    transform: scale(0.98); /* Slight push-back effect */
-    filter: grayscale(0.4); /* Dims the team colors slightly */
-}
-
-/* Base style for all match statuses */
-.score-center .match-status {
-    font-size: 13px;
-    font-weight: 800;
-    margin-top: 5px;
-    padding: 2px 8px;
-    border-radius: 4px;
-    display: inline-block;
-}
-
-/* 2. Use the !important flag as a final 'override' */
 
 /* GREEN: Live */
-.score-center .status-live {
-    color: #28a745 !important; 
-    animation: blink-live 1.2s infinite;
+.status-live {
+    color: #023b28 !important; 
+}
+
+/* Blinking dot only for Live status */
+.status-live::before {
+    animation: blink-live 1s infinite;
+}
+
+/* RED: Finished */
+.status-finished {
+    color: #dc3545 !important;
 }
 
 @keyframes blink-live {
@@ -355,101 +468,17 @@ body {
     100% { opacity: 1; }
 }
 
-/* YELLOW: Upcoming */
-.score-center .status-upcoming {
-    color: #ffc107 !important; 
-}
-
-/* RED: Finished */
-.score-center .status-finished {
-    color: #dc3545 !important; 
-}
-/* Remove default link styling */
-.match-link-wrapper {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
-
-/* HD Badge on the top right of the card */
-.hd-badge {
-    margin-left: auto;
-    background: #000;
-    color: #ffd700; /* Gold color */
-    font-size: 10px;
-    padding: 2px 6px;
-    border-radius: 4px;
-    border: 1px solid #ffd700;
-    font-weight: 900;
-}
-
-/* Quality Options inside the hover shadow */
-.quality-options {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: 0.4s;
-}
-
-.quality-options span {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-size: 11px;
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.match-video-wrapper:hover .quality-options {
-    opacity: 1;
-    transform: translateY(0);
-}
-
 .watch-text {
-    margin-top: 10px;
-    font-size: 12px;
-    background: var(--primary-green);
-    padding: 5px 15px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: inherit;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 6px 18px;
     border-radius: 50px;
-    box-shadow: 0 4px 15px rgba(0, 143, 85, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
-/* Pulse Animation for the play button */
-@keyframes pulse-video {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-}
-
-.match-video-wrapper:hover .play-overlay i {
-    animation: pulse-video 1.5s infinite ease-in-out;
-}
-.match-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.team {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-.team img { width: 60px; height: 60px; object-fit: contain; }
-.team-name { font-weight: 700; font-size: 15px; text-align: center; }
-
-.score-center {
-    flex: 1;
-    text-align: center;
-}
-
-.current-score { font-size: 36px; font-weight: 800; }
-.match-time { font-size: 13px; color: var(--text-muted); }
-.match-status { font-size: 12px; font-weight: 800; color: #dc3545; margin-top: 5px; }
 
 /* Score Flash Animation */
 .goal-flash {
@@ -562,7 +591,6 @@ body {
 
 .btn-read {
     margin-top: auto;
-    text-decoration: none;
     font-size: 13px;
     font-weight: 800;
     color: var(--text-main);
@@ -657,7 +685,6 @@ body {
     padding: 12px;
     background: #000;
     color: #fff;
-    text-decoration: none;
     border-radius: 8px;
     font-weight: 700;
 }
@@ -684,7 +711,7 @@ body {
 
 .footer-col ul { list-style: none; }
 .footer-col ul li { margin-bottom: 12px; }
-.footer-col ul li a { color: #aaa; text-decoration: none; font-size: 14px; transition: 0.3s; }
+.footer-col ul li a { color: #aaa; font-size: 14px; transition: 0.3s; }
 .footer-col ul li a:hover { color: white; padding-left: 5px; }
 
 .footer-social-links { display: flex; gap: 15px; margin-bottom: 15px; }
@@ -719,7 +746,6 @@ body {
     color: white;
     padding: 8px 16px;
     border-radius: 8px;
-    text-decoration: none;
     border: 1px solid #333;
     transition: 0.3s;
     width: 180px;
@@ -834,6 +860,7 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
+    text-transform: lowercase;
     box-shadow: 0 4px 15px rgba(255, 75, 92, 0.4);
 }
 
@@ -842,7 +869,7 @@ body {
     height: 8px;
     background-color: white;
     border-radius: 50%;
-    animation: pulse 1.5s infinite;
+    animation: blink-live 1s infinite;
 }
 
 @keyframes pulse {
@@ -992,7 +1019,6 @@ body {
 
 .footer-links a {
     color: #999;
-    text-decoration: none;
     margin: 0 15px;
     font-size: 14px;
     transition: 0.3s;
@@ -1062,9 +1088,33 @@ body {
     .logo img {
         height: 40px;
     }
+    
+    .main-header {
+        margin: 10px 15px;
+        width: calc(100% - 30px); /* Fixed pixel offset for reliability */
+        top: 10px;
+    }
+
+    .section-block {
+        border-left: 5px solid var(--primary-green); /* Restores the border-left on mobile */
+        padding-left: 12px;
+        margin-bottom: 25px;
+    }
+
+    .fixtures-container {
+        padding: 12px;
+    }
 
     .match-card {
-        padding: 16px;
+        padding: 0; /* Removed to prevent double-padding and overflow */
+    }
+
+    .match-row {
+        padding: 15px 10px; /* Internal padding for the row content */
+    }
+
+    .play-overlay {
+        opacity: 1; /* Force visibility on mobile since hover is not available */
     }
 
     .team img {
@@ -1072,21 +1122,39 @@ body {
         height: 45px;
     }
 
-    .current-score {
-        font-size: 28px;
+    .team-name {
+        font-size: 14px !important; /* Forces same size regardless of name length */
+        flex: 1;
+        min-width: 0;
+        max-width: 110px; /* Tightened max-width to keep content on screen */
+    }
+
+    .score {
+        font-size: 18px; /* Adjusted size for better mobile fit */
+        padding-right: 8px;
+        margin-left: auto;
+    }
+
+    .status-box {
+        width: 90px;
+        padding-left: 8px;
+        border-left: 1px solid #eee;
     }
 
     .nav-menu {
         position: fixed;
         top: 0;
-        left: -280px; /* Hidden off-screen by default on the left */
+        left: 0;
         width: 280px;
         height: 100vh;
         background: rgba(20, 20, 20, 0.98);
         backdrop-filter: blur(15px);
         flex-direction: column;
         padding: 100px 40px;
-        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translateX(-100%);
+        visibility: hidden;
+        pointer-events: none; /* Prevents interaction when hidden */
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.4s;
         box-shadow: none;
         z-index: 2001;
         gap: 30px;
@@ -1102,7 +1170,9 @@ body {
     }
 
     .nav-menu.active {
-        left: 0; /* Slides into view from the left */
+        transform: translateX(0);
+        visibility: visible;
+        pointer-events: auto;
     }
 
     .header-right .social-icons {
@@ -1139,7 +1209,9 @@ body {
     .main-layout-container {
         grid-template-columns: 1fr;
         gap: 20px;
-        padding: 0 15px 40px;
+        padding: 0 10px 40px;
+        border-radius: 0; /* Removes gaps at the edges on mobile */
+        background: var(--bg-light); /* Sync background to body to avoid dark gaps */
     }
 
     .content-sidebar {

@@ -81,53 +81,48 @@
         <main class="content-left">
             
             <section class="section-block" id="matches">
-                <div class="section-header">
-                    <h2 class="section-title" id="match-section-title">⚽ Kulamada Maanta</h2>
-                    <div class="tabs">
-                        <button class="tab-btn">Shalay</button>
-                        <button class="tab-btn active">Maanta</button>
-                        <button class="tab-btn">Berri</button>
-                    </div>
-                </div>
+                <div class="fixtures-container">
+                    <div class="fixtures-header" id="match-section-title">Kulamada Maanta</div>
 
-                <article class="match-card">
-                    <div class="card-league-tag">
-                        <img src="icon football/uefa-champions.png" alt="Champions League Logo">
-                        <span>Champions league</span>
+                    <div class="nav-tabs">
+                        <button class="nav-item tab-btn">Shalay</button>
+                        <button class="nav-item tab-btn active">Maanta</button>
+                        <button class="nav-item tab-btn">Berri</button>
                     </div>
 
                     <a href="watch-live.html" target="_blank" rel="noopener noreferrer" class="match-link-wrapper">
-                        <div class="match-video-wrapper">
-                            <div class="match-row">
-                                <div class="team">
-                                    <img src="teams/Atletico_Madrid.png" alt="Atlético logo">
-                                    <span class="team-name">Atlético</span>
-                                </div>
-                                
-                                <div class="score-center">
-                                    <div class="current-score">
-                                        <span id="home-score">0</span> - <span id="away-score">0</span>
-                                    </div>
-                                    <div class="match-time" data-utc="2026-04-29T19:00:00Z">10:00 PM</div>
-                                    <div class="match-status status-upcoming">● Soo Socda</div>
-                                    <div id="last-update" style="font-size: 10px; color: #aaa; margin-top: 5px; font-weight: 500;">Hubinta: Hadda</div>
-                                </div>
-
-                                <div class="team">
-                                    <img src="teams/Arsenal_FC.png" alt="Arsenal logo">
-                                    <span class="team-name">Arsenal</span>
-                                </div>
+                        <div class="match-card">
+                            <div class="league-header">
+                                <img src="icon football/uefa-champions.png" alt="League" class="league-logo">
+                                <span class="league-name">UEFA Champions League</span>
                             </div>
 
-                            <div class="play-overlay">
-                                <div class="quality-options">
+                            <div class="match-row">
+                                <div class="teams">
+                                    <div class="team">
+                                        <img src="teams/atletico_madrid.png" alt="Atlético">
+                                        <span class="team-name">Atlético</span>
+                                        <span class="score" id="home-score">0</span>
+                                    </div>
+                                    <div class="team">
+                                        <img src="teams/Arsenal_FC.png" alt="Arsenal">
+                                        <span class="team-name">Arsenal</span>
+                                        <span class="score" id="away-score">0</span>
+                                    </div>
                                 </div>
-                                <i class="fa-solid fa-circle-play"></i>
+                                <div class="status-box">
+                                    <div class="time match-time">10:00 PM</div>
+                                    <div class="status match-status status-live">Toos</div>
+                                </div>
+
+                                <!-- Play overlay strictly covers the match details -->
+                                <div class="play-overlay">
+                                    <i class="fa-solid fa-circle-play"></i>
+                                </div>
                             </div>
                         </div>
                     </a>
-                </article>
-
+                </div>
             </section>
 
             <section class="section-block" id="news">
@@ -335,11 +330,13 @@
                 tabBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 
-                const day = btn.innerText.toLowerCase();
+                // Extract text and clean up (removing arrows for logic)
+                const day = btn.innerText.replace(/[←→\s]/g, '').toLowerCase();
                 currentTab = day;
                 
                 // Update Section Header text
-                if (sectionTitle) sectionTitle.innerText = `⚽ Kulamada ${btn.innerText}`;
+                const cleanText = btn.innerText.replace(/[←→]/g, '').trim();
+                if (sectionTitle) sectionTitle.innerText = `Kulamada ${cleanText}`;
                 
                 updateMatchDisplay(day);
             });
@@ -350,10 +347,10 @@
             const awayScore = document.getElementById('away-score');
             const statusEl = document.querySelector('.match-status');
             const timeEl = document.querySelector('.match-time');
-            const homeTeamName = document.querySelector('.team:first-child .team-name');
-            const homeTeamLogo = document.querySelector('.team:first-child img');
-            const awayTeamName = document.querySelector('.team:last-child .team-name');
-            const awayTeamLogo = document.querySelector('.team:last-child img');
+            const homeTeamName = document.querySelector('.teams .team:nth-child(1) .team-name');
+            const homeTeamLogo = document.querySelector('.teams .team:nth-child(1) img');
+            const awayTeamName = document.querySelector('.teams .team:nth-child(2) .team-name');
+            const awayTeamLogo = document.querySelector('.teams .team:nth-child(2) img');
 
             if (day === 'shalay') {
                 homeScore.innerText = '5'; 
@@ -362,11 +359,16 @@
                 if (homeTeamLogo) homeTeamLogo.src = 'teams/Paris_Saint-Germain.png';
                 if (awayTeamName) awayTeamName.innerText = 'Bayern';
                 if (awayTeamLogo) awayTeamLogo.src = 'teams/Bayern_München.png';
-                document.querySelector('.card-league-tag img').src = 'icon football/uefa-champions.png';
-                document.querySelector('.card-league-tag span').innerText = 'Champions league';
-                statusEl.className = 'match-status status-finished';
-                statusEl.innerHTML = '● Dhamaad';
-                timeEl.innerText = 'Dhamaad';
+                document.querySelector('.league-logo').src = 'icon football/uefa-champions.png';
+                document.querySelector('.league-name').innerText = 'Champions league';
+                statusEl.className = 'status match-status status-finished';
+                statusEl.innerText = 'Dhamaad';
+                
+                // Set the time for yesterday's match
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                yesterday.setUTCHours(19, 0, 0, 0);
+                timeEl.innerText = formatToLocalTime(yesterday.toISOString());
             } else if (day === 'berri') {
                 homeScore.innerText = '0';
                 awayScore.innerText = '0';
@@ -374,10 +376,10 @@
                 if (homeTeamLogo) homeTeamLogo.src = 'teams/Nottingham Forest.png'; // Nottingham Forest logo
                 if (awayTeamName) awayTeamName.innerText = 'Aston Villa'; // Aston Villa
                 if (awayTeamLogo) awayTeamLogo.src = 'teams/Aston_Villa.png';
-                document.querySelector('.card-league-tag img').src = 'icon football/europa-league.png';
-                document.querySelector('.card-league-tag span').innerText = 'Europa league';
-                statusEl.className = 'match-status status-upcoming';
-                statusEl.innerHTML = '● Soo Socda';
+                document.querySelector('.league-logo').src = 'icon football/europa-league.png';
+                document.querySelector('.league-name').innerText = 'Europa league';
+                statusEl.className = 'status match-status status-upcoming';
+                statusEl.innerText = 'Soo Socda';
                 // For tomorrow, we calculate a target UTC time (e.g., 19:00 UTC tomorrow)
                 const tomorrow = new Date();
                 tomorrow.setDate(tomorrow.getDate() + 1);
@@ -390,11 +392,11 @@
                 if (homeTeamName) homeTeamName.innerText = 'Atlético'; // Atlético Madrid
                 if (homeTeamLogo) homeTeamLogo.src = 'teams/atletico_madrid.png';
                 if (awayTeamName) awayTeamName.innerText = 'Arsenal'; // Arsenal
-                if (awayTeamLogo) awayTeamLogo.src = 'teams/arsenal.png';
-                document.querySelector('.card-league-tag img').src = 'icon football/uefa-champions.png';
-                document.querySelector('.card-league-tag span').innerText = 'Champions league';
-                statusEl.className = 'match-status status-upcoming';
-                statusEl.innerHTML = '● Soo Socda';
+                if (awayTeamLogo) awayTeamLogo.src = 'teams/Arsenal_FC.png';
+                document.querySelector('.league-logo').src = 'icon football/uefa-champions.png';
+                document.querySelector('.league-name').innerText = 'Champions league';
+                statusEl.className = 'status match-status status-upcoming';
+                statusEl.innerText = 'Soo Socda';
                 
                 // Set initial local time for today's match
                 const todayMatchTime = new Date();
@@ -453,15 +455,14 @@
                 if (statusEl && match.fixture && match.fixture.status) {
                     const statusShort = match.fixture.status.short;
                     if (['1H', '2H', 'HT', 'ET', 'P'].includes(statusShort)) {
-                        statusEl.className = 'match-status status-live';
-                        statusEl.innerHTML = '● Toos';
+                        statusEl.className = 'status match-status status-live';
+                        statusEl.innerText = 'Toos';
                     } else if (['FT', 'AET', 'PEN'].includes(statusShort)) {
-                        statusEl.className = 'match-status status-finished';
-                        statusEl.innerHTML = '● Dhamaad';
-                        if (timeEl) timeEl.innerText = 'Dhamaad';
+                        statusEl.className = 'status match-status status-finished';
+                        statusEl.innerText = 'Dhamaad';
                     } else {
-                        statusEl.className = 'match-status status-upcoming';
-                        statusEl.innerHTML = '● Soo Socda';
+                        statusEl.className = 'status match-status status-upcoming';
+                        statusEl.innerText = 'Soo Socda';
                     }
                 }
 
