@@ -93,26 +93,26 @@
                     <a href="watch-live.html" target="_blank" rel="noopener noreferrer" class="match-link-wrapper">
                         <div class="match-card">
                             <div class="league-header">
-                                <img src="icon football/uefa-champions.png" alt="League" class="league-logo">
-                                <span class="league-name">UEFA Champions League</span>
+                                <img src="icon football/europa-league.png" alt="League" class="league-logo">
+                                <span class="league-name">Europa League</span>
                             </div>
 
                             <div class="match-row">
                                 <div class="teams">
                                     <div class="team">
-                                        <img src="teams/Atletico_Madrid.png" alt="Atlético">
-                                        <span class="team-name">Atlético</span>
+                                        <img src="teams/Nottingham Forest.png" alt="Nottingham">
+                                        <span class="team-name">Nott'm Forest</span>
                                         <span class="score" id="home-score">0</span>
                                     </div>
                                     <div class="team">
-                                        <img src="teams/Arsenal_FC.png" alt="Arsenal">
-                                        <span class="team-name">Arsenal</span>
+                                        <img src="teams/Aston_Villa.png" alt="Aston Villa">
+                                        <span class="team-name">Aston Villa</span>
                                         <span class="score" id="away-score">0</span>
                                     </div>
                                 </div>
                                 <div class="status-box">
                                     <div class="time match-time">10:00 PM</div>
-                                    <div class="status match-status status-live">Toos</div>
+                                    <div class="status match-status status-upcoming">Soo socda</div>
                                 </div>
 
                                 <!-- Play overlay strictly covers the match details -->
@@ -353,14 +353,14 @@
             const awayTeamLogo = document.querySelector('.teams .team:nth-child(2) img');
 
             if (day === 'shalay') {
-                homeScore.innerText = '5'; 
-                awayScore.innerText = '4';
-                if (homeTeamName) homeTeamName.innerText = 'PSG';
-                if (homeTeamLogo) homeTeamLogo.src = 'teams/Paris_Saint-Germain.png';
-                if (awayTeamName) awayTeamName.innerText = 'Bayern';
-                if (awayTeamLogo) awayTeamLogo.src = 'teams/Bayern_München.png';
+                homeScore.innerText = '1'; 
+                awayScore.innerText = '1';
+                if (homeTeamName) homeTeamName.innerText = 'Atlético';
+                if (homeTeamLogo) homeTeamLogo.src = 'teams/atletico_madrid.png';
+                if (awayTeamName) awayTeamName.innerText = 'Arsenal';
+                if (awayTeamLogo) awayTeamLogo.src = 'teams/Arsenal_FC.png';
                 document.querySelector('.league-logo').src = 'icon football/uefa-champions.png';
-                document.querySelector('.league-name').innerText = 'Champions league';
+                document.querySelector('.league-name').innerText = 'Champions League';
                 statusEl.className = 'status match-status status-finished';
                 statusEl.innerText = 'Dhamaad';
                 
@@ -372,12 +372,12 @@
             } else if (day === 'berri') {
                 homeScore.innerText = '0';
                 awayScore.innerText = '0';
-                if (homeTeamName) homeTeamName.innerText = "Nott'm Forest"; // Nottingham Forest
-                if (homeTeamLogo) homeTeamLogo.src = 'teams/Nottingham Forest.png'; // Nottingham Forest logo
-                if (awayTeamName) awayTeamName.innerText = 'Aston Villa'; // Aston Villa
-                if (awayTeamLogo) awayTeamLogo.src = 'teams/Aston_Villa.png';
-                document.querySelector('.league-logo').src = 'icon football/europa-league.png';
-                document.querySelector('.league-name').innerText = 'Europa league';
+                if (homeTeamName) homeTeamName.innerText = "Leeds"; 
+                if (homeTeamLogo) homeTeamLogo.src = 'teams/Leeds_United.png'; 
+                if (awayTeamName) awayTeamName.innerText = 'Burnley'; 
+                if (awayTeamLogo) awayTeamLogo.src = 'teams/Burnley_FC.png';
+                document.querySelector('.league-logo').src = 'icon football/premier league.png';
+                document.querySelector('.league-name').innerText = 'Premier League';
                 statusEl.className = 'status match-status status-upcoming';
                 statusEl.innerText = 'Soo Socda';
                 // For tomorrow, we calculate a target UTC time (e.g., 19:00 UTC tomorrow)
@@ -389,14 +389,14 @@
                 // Reset to default and let fetchLiveScore handle updates
                 homeScore.innerText = '0';
                 awayScore.innerText = '0';
-                if (homeTeamName) homeTeamName.innerText = 'Atlético'; // Atlético Madrid
-                if (homeTeamLogo) homeTeamLogo.src = 'teams/Atletico_Madrid.png';
-                if (awayTeamName) awayTeamName.innerText = 'Arsenal'; // Arsenal
-                if (awayTeamLogo) awayTeamLogo.src = 'teams/Arsenal_FC.png';
-                document.querySelector('.league-logo').src = 'icon football/uefa-champions.png';
-                document.querySelector('.league-name').innerText = 'Champions league';
-                statusEl.className = 'status match-status status-live';
-                statusEl.innerText = 'Toos';
+                if (homeTeamName) homeTeamName.innerText = "Nott'm Forest";
+                if (homeTeamLogo) homeTeamLogo.src = 'teams/Nottingham Forest.png';
+                if (awayTeamName) awayTeamName.innerText = 'Aston Villa';
+                if (awayTeamLogo) awayTeamLogo.src = 'teams/Aston_Villa.png';
+                document.querySelector('.league-logo').src = 'icon football/europa-league.png';
+                document.querySelector('.league-name').innerText = 'Europa League';
+                statusEl.className = 'status match-status status-upcoming';
+                statusEl.innerText = 'Soo socda';
                 
                 // Set initial local time for today's match
                 const todayMatchTime = new Date();
