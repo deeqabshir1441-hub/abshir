@@ -12,6 +12,7 @@
             --text-secondary: rgba(241, 245, 249, 0.7);
             --border-light: rgba(255, 255, 255, 0.1);
             --accent-green: #34d399;
+            --primary-red: #ef4444;
         }
 
         body {
@@ -2549,4 +2550,37 @@
 
 .goal-flash {
     animation: scorePulse 2s ease-out;
+}
+
+/* Streaming Page Responsive Mobile Fit */
+@media (max-width: 992px) {
+    .main-content-wrapper {
+        flex-direction: column;
+        padding: 0 15px;
+        gap: 20px;
+        margin: 20px auto;
+    }
+
+    .content-sidebar {
+        min-width: 100%;
+    }
+
+    .video-player-container {
+        border-radius: 12px;
+    }
+
+    .match-info-card {
+        flex-direction: column;
+        gap: 25px;
+        padding: 25px 20px;
+        text-align: center;
+    }
+
+    .btn-group {
+        justify-content: center;
+    }
+
+    .ad-space {
+        height: 250px;
+    }
 }
