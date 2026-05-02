@@ -53,9 +53,7 @@
 
             <div class="match-info-card">
                 <div class="match-title-area">
-                    <h1>Atlético Madrid <span class="vs">vs</span> Barcelona</h1>
-                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> UEFA Champions League — Quarter Final</p>
-                </div>
+                    <h1>Wolves <span id="home-score" class="score-display">0</span> <span class="vs">vs</span> <span id="away-score" class="score-display">
                 <div class="server-selection">
                     <span class="server-label">Select Source:</span>
                     <div class="btn-group">
@@ -85,6 +83,7 @@
     </footer>
 
     <script>
+    document.addEventListener("DOMContentLoaded", function() {
         // SCRIPT TO PLAY THE VIDEO
         var video = document.getElementById('live-video');
         // REPLACE THIS URL with your test .m3u8 link
@@ -97,6 +96,57 @@
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
             video.src = videoSrc;
         }
+
+        // Real-time Score Updates
+        const API_KEY = "YOUR_API_KEY";
+        const MATCH_ID = "YOUR_MATCH_ID"; 
+        let lastHome = -1;
+        let lastAway = -1;
+
+        function flash(element) {
+            if (!element) return;
+            element.classList.add("goal-flash");
+            setTimeout(() => element.classList.remove("goal-flash"), 2000);
+        }
+
+        async function updateScore() {
+            try {
+                const res = await fetch(`https://v3.football.api-sports.io/fixtures?id=${MATCH_ID}`, {
+                    headers: { "x-rapidapi-key": API_KEY }
+                });
+                const data = await res.json();
+                if (!data.response || data.response.length === 0) return;
+                
+                const match = data.response[0];
+                const home = match.goals.home ?? 0;
+                const away = match.goals.away ?? 0;
+                const homeScoreEl = document.getElementById("home-score");
+                const awayScoreEl = document.getElementById("away-score");
+
+                if (lastHome !== -1 && home > lastHome) flash(homeScoreEl);
+                if (lastAway !== -1 && away > lastAway) flash(awayScoreEl);
+
+                homeScoreEl.innerText = home;
+                awayScoreEl.innerText = away;
+                lastHome = home;
+                lastAway = away;
+
+                const status = match.fixture.status.short;
+                const statusEl = document.querySelector(".match-status");
+                if (["1H", "2H", "HT"].includes(status)) {
+                    statusEl.innerText = "LIVE 🔴";
+                } else if (["FT", "AET", "PEN"].includes(status)) {
+                    statusEl.innerText = "Dhamaad";
+                } else {
+                    statusEl.innerText = "Soo socda";
+                }
+            } catch (err) {
+                console.log("Error updating score:", err);
+            }
+        }
+        updateScore();
+        setInterval(updateScore, 15000);
+    });
     </script>
 
 </body>
