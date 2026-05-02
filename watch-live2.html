@@ -44,7 +44,7 @@
         
         <main class="video-section">
             <div class="video-player-container">
-                <video id="live-video" controls autoplay poster="banner/poster .png"></video>
+                <video id="live-video" controls playsinline autoplay poster="banner/poster .png"></video>
                 <div class="player-controls-hint">
                     <span class="live-label"><span class="pulse-dot"></span> TOOS</span>
                     <span class="quality-label">1080p HD</span>
@@ -53,7 +53,9 @@
 
             <div class="match-info-card">
                 <div class="match-title-area">
-                    <h1>Wolves <span id="home-score" class="score-display">0</span> <span class="vs">vs</span> <span id="away-score" class="score-display">
+                    <h1>Wolves <span id="home-score" class="score-display">0</span> <span class="vs">vs</span> <span id="away-score" class="score-display">1</span> Sunderland</h1>
+                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> Championship • <span class="match-status status-finished">Dhamaad</span></p>
+                </div>
                 <div class="server-selection">
                     <span class="server-label">Select Source:</span>
                     <div class="btn-group">
@@ -84,18 +86,59 @@
 
     <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // SCRIPT TO PLAY THE VIDEO
-        var video = document.getElementById('live-video');
-        // REPLACE THIS URL with your test .m3u8 link
-        var videoSrc = 'https://pub-988290a10bbf42009d966bd9ef7153c8.r2.dev/1.m3u8'; 
+        const video = document.getElementById('live-video');
+        const btn1 = document.getElementById('server1');
+        const btn2 = document.getElementById('server2');
 
-        if (Hls.isSupported()) {
-            var hls = new Hls();
-            hls.loadSource(videoSrc);
-            hls.attachMedia(video);
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = videoSrc;
+        // Server URLs
+        const source1 = 'https://pub-988290a10bbf42009d966bd9ef7153c8.r2.dev/1.m3u8'; 
+        const source2 = 'https://pub-988290a10bbf42009d966bd9ef7153c8.r2.dev/1.m3u8'; 
+
+        let hls = new Hls();
+
+        function loadStream(url) {
+            if (Hls.isSupported()) {
+                hls.destroy();
+                hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                    video.play().catch(e => console.log("Playback failed:", e));
+                });
+                hls.on(Hls.Events.ERROR, (event, data) => {
+                    if (data.fatal) {
+                        console.log("Stream failed. Fatal error encountered.");
+                        // Failover logic could go here
+                    }
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = url;
+                video.addEventListener('loadedmetadata', function() {
+                    video.play();
+                });
+            }
         }
+
+        // HD Server 1 click handler
+        if (btn1) {
+            btn1.onclick = function() {
+                loadStream(source1);
+                btn1.classList.add('active');
+                btn2.classList.remove('active');
+            };
+        }
+
+        // Standard Server 2 click handler
+        if (btn2) {
+            btn2.onclick = function() {
+                loadStream(source2);
+                btn2.classList.add('active');
+                btn1.classList.remove('active');
+            };
+        }
+
+        // Initial load
+        loadStream(source1);
 
         // Real-time Score Updates
         const API_KEY = "YOUR_API_KEY";

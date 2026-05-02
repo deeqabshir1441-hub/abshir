@@ -44,7 +44,7 @@
         
         <main class="video-section">
             <div class="video-player-container">
-                <video id="live-video" controls autoplay poster="banner/poster .png"></video>
+                <video id="live-video" controls playsinline autoplay poster="banner/poster .png"></video>
                 <div class="player-controls-hint">
                     <span class="live-label"><span class="pulse-dot"></span> TOOS</span>
                     <span class="quality-label">1080p HD</span>
@@ -113,9 +113,17 @@
                     video.muted = true; // Most browsers require mute to start
                     video.play();
                 });
+                hls.on(Hls.Events.ERROR, (event, data) => {
+                    if (data.fatal) {
+                        console.log("Stream failed. Fatal error encountered.");
+                        // Failover logic could go here if multiple sources were defined
+                    }
+                });
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                 video.src = url;
-                video.play();
+                video.addEventListener('loadedmetadata', function() {
+                    video.play();
+                });
             }
         }
 

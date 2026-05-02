@@ -46,7 +46,7 @@
         
         <main class="video-section">
             <div class="video-player-container">
-                <video id="live-video" controls autoplay muted poster="banner/poster .png"></video>
+                <video id="live-video" controls playsinline autoplay muted poster="banner/poster .png"></video>
                 <div class="player-controls-hint">
                     <span class="live-label"><span class="pulse-dot"></span> Toos</span>
                     <span class="quality-label" id="quality-indicator">1080p HD</span>
@@ -55,8 +55,8 @@
 
             <div class="match-info-card">
                 <div class="match-title-area">
-                    <h1>Brentford <span id="home-score" class="score-display">1</span> <span class="vs">vs</span> <span id="away-score" class="score-display">0</span> West Ham United</h1>
-                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> Premier League • <span class="match-status status-finished">Dhamaad</span></p>
+                    <h1>Arsenal <span id="home-score" class="score-display">0</span> <span class="vs">vs</span> <span id="away-score" class="score-display">0</span> Fulham</h1>
+                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> Premier League • <span class="match-status status-upcoming">Soo socda</span></p>
                 </div>
                 <div class="server-selection">
                     <span class="server-label">Select Source:</span>
@@ -122,7 +122,7 @@
         const qualityIndicator = document.getElementById('quality-indicator');
 
         const serverLinks = [
-            { name: "HD Server 1", url: 'https://11syrialive.s3.us-east-2.amazonaws.com/bein1/bein1_480p/index.m3u8', quality: "1080p HD", btn: btn1 },
+            { name: "HD Server 1", url: 'https://storage.googleapis.com/onihunterover1/mux_video_ts1/index-1.m3u8', quality: "1080p HD", btn: btn1 },
             { name: "Standard Server 2", url: 'https://dlhd.vynx.workers.dev/play/91?key=vynx&playlist.m3u8', quality: "720p SD", btn: btn2 }
         ];
 
@@ -140,8 +140,18 @@
                 hls.on(Hls.Events.MANIFEST_PARSED, () => {
                     video.play().catch(() => console.log("Autoplay blocked, waiting for interaction."));
                 });
+                hls.on(Hls.Events.ERROR, (event, data) => {
+                    if (data.fatal) {
+                        console.log("Stream failed. Switching to backup...");
+                        // Automatic failover logic
+                        checkAndPlay();
+                    }
+                });
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                 video.src = url;
+                video.addEventListener('loadedmetadata', function() {
+                    video.play();
+                });
             }
             if (qualityIndicator) qualityIndicator.innerText = quality;
         }
