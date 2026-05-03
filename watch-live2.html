@@ -55,8 +55,8 @@
 
             <div class="match-info-card">
                 <div class="match-title-area">
-                    <h1><i class="fas fa-play-circle"></i> Daawo Hadda Live</h1>
-                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> Premier League • <span class="match-status status-live">Toos (Live) 🔴</span></p>
+                    <h1>Real Betis <span id="home-score" class="score-display">0</span> <span class="vs">vs</span> <span id="away-score" class="score-display">0</span> Real Oviedo</h1>
+                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> La Liga • <span class="match-status status-live">Toos (Live) 🔴</span></p>
                 </div>
                 <div class="server-selection">
                     <span class="server-label">Select Source:</span>
@@ -206,6 +206,62 @@
 
             // Start the auto-check on load
             checkAndPlay();
+
+            // Real-time Score Updates
+            const API_KEY = "d175585257msh2656f83736302e4p109f24jsn8367cbbb89e0";
+            const MATCH_ID = "4837441"; 
+            let lastHome = -1;
+            let lastAway = -1;
+
+            function flash(element) {
+                if (!element) return;
+                element.classList.add("goal-flash");
+                setTimeout(() => element.classList.remove("goal-flash"), 2000);
+            }
+
+            async function updateScore() {
+                try {
+                    const res = await fetch(`https://api-football-v1.p.rapidapi.com/v3/fixtures?id=${MATCH_ID}`, {
+                        headers: { 
+                            "x-rapidapi-key": API_KEY,
+                            "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
+                        }
+                    });
+                    const data = await res.json();
+                    if (!data.response || data.response.length === 0) return;
+                    
+                    const match = data.response[0];
+                    const home = match.goals.home ?? 0;
+                    const away = match.goals.away ?? 0;
+                    const homeScoreEl = document.getElementById("home-score");
+                    const awayScoreEl = document.getElementById("away-score");
+
+                    if (lastHome !== -1 && home > lastHome) flash(homeScoreEl);
+                    if (lastAway !== -1 && away > lastAway) flash(awayScoreEl);
+
+                    homeScoreEl.innerText = home;
+                    awayScoreEl.innerText = away;
+                    lastHome = home;
+                    lastAway = away;
+
+                    const status = match.fixture.status.short;
+                    const statusEl = document.querySelector(".match-status");
+                    if (["1H", "2H", "HT"].includes(status)) {
+                        statusEl.innerText = "Toos (Live) 🔴";
+                        statusEl.className = "match-status status-live";
+                    } else if (["FT", "AET", "PEN"].includes(status)) {
+                        statusEl.innerText = "Dhamaad";
+                        statusEl.className = "match-status status-finished";
+                    } else {
+                        statusEl.innerText = "Soo socda";
+                        statusEl.className = "match-status status-upcoming";
+                    }
+                } catch (err) {
+                    console.log("Error updating score:", err);
+                }
+            }
+            updateScore();
+            setInterval(updateScore, 60000);
         });
     </script>
 
