@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="so">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daawo Toos ah | Live Stream HD</title>
+    <title>Daawo Hadda | Live Stream</title>
     <meta property="og:title" content="Daawo Hadda">
-    <meta property="og:description" content="Watch live sports now">
+    <meta property="og:description" content="Daawo toos ah ciyaaraha caalamka tayada sare ee HD.">
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#000000">
@@ -53,8 +53,8 @@
 
             <div class="match-info-card">
                 <div class="match-title-area">
-                    <h1>Arsenal <span id="home-score" class="score-display">1</span> <span class="vs">vs</span> <span id="away-score" class="score-display">0</span> Fulham</h1>
-                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> Premier League • <span class="match-status status-live">LIVE 🔴</span></p>
+                    <h1><i class="fas fa-play-circle"></i> Daawo Hadda Live</h1>
+                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> Premier League • <span class="match-status status-live">Toos (Live) 🔴</span></p>
                 </div>
                 <div class="server-selection">
                     <span class="server-label">Select Source:</span>
@@ -120,7 +120,7 @@
             const qualityIndicator = document.getElementById('quality-indicator');
 
             const serverLinks = [
-                { name: "HD Server 1", url: 'https://storage.googleapis.com/onihunterover1/mux_video_ts1/index-1.m3u8', quality: "1080p HD", btn: btn1 },
+                { name: "HD Server 1", url: 'https://hls.zb252398829.com/sport/202_4911793_2/playlist.m3u8?wsSecret=d8c3777da13693a16e7c73b855ad56dd&wsABSTime=6a1ee743', quality: "1080p HD", btn: btn1 },
                 { name: "Standard Server 2", url: 'https://dlhd.vynx.workers.dev/play/91?key=vynx&playlist.m3u8', quality: "720p SD", btn: btn2 }
             ];
 
@@ -204,59 +204,6 @@
 
             // Start the auto-check on load
             checkAndPlay();
-
-            // Real-time Score Updates
-            const API_KEY = "YOUR_API_KEY";
-            const MATCH_ID = "YOUR_MATCH_ID"; // Replace with actual API match ID
-            let lastHome = -1;
-            let lastAway = -1;
-
-            function flash(element) {
-                if (!element) return;
-                element.classList.add("goal-flash");
-                setTimeout(() => element.classList.remove("goal-flash"), 2000);
-            }
-
-            async function updateScore() {
-                try {
-                    const res = await fetch(`https://v3.football.api-sports.io/fixtures?id=${MATCH_ID}`, {
-                        headers: { "x-rapidapi-key": API_KEY }
-                    });
-                    const data = await res.json();
-                    if (!data.response || data.response.length === 0) return;
-                    
-                    const match = data.response[0];
-                    const home = match.goals.home ?? 0;
-                    const away = match.goals.away ?? 0;
-                    const homeScoreEl = document.getElementById("home-score");
-                    const awayScoreEl = document.getElementById("away-score");
-
-                    if (lastHome !== -1 && home > lastHome) flash(homeScoreEl);
-                    if (lastAway !== -1 && away > lastAway) flash(awayScoreEl);
-
-                    homeScoreEl.innerText = home;
-                    awayScoreEl.innerText = away;
-                    lastHome = home;
-                    lastAway = away;
-
-                    const status = match.fixture.status.short;
-                    const statusEl = document.querySelector(".match-status");
-                    if (["1H", "2H", "HT"].includes(status)) {
-                        statusEl.innerText = "LIVE 🔴";
-                        statusEl.className = "match-status status-live";
-                    } else if (["FT", "AET", "PEN"].includes(status)) {
-                        statusEl.innerText = "Dhamaad";
-                        statusEl.className = "match-status status-finished";
-                    } else {
-                        statusEl.innerText = "Soo socda";
-                        statusEl.className = "match-status status-upcoming";
-                    }
-                } catch (err) {
-                    console.log("Error updating score:", err);
-                }
-            }
-            updateScore();
-            setInterval(updateScore, 15000);
         });
     </script>
 
