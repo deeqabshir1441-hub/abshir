@@ -56,7 +56,7 @@
             <div class="match-info-card">
                 <div class="match-title-area">
                     <h1>Real Betis <span id="home-score" class="score-display">0</span> <span class="vs">vs</span> <span id="away-score" class="score-display">0</span> Real Oviedo</h1>
-                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> La Liga • <span class="match-status status-live">Toos (Live) 🔴</span></p>
+                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> La Liga • <span id="match-status" class="match-status status-live">Toos (Live) 🔴</span></p>
                 </div>
                 <div class="server-selection">
                     <span class="server-label">Select Source:</span>
@@ -209,7 +209,7 @@
 
             // Real-time Score Updates
             const API_KEY = "d175585257msh2656f83736302e4p109f24jsn8367cbbb89e0";
-            const MATCH_ID = "4837441"; 
+            const MATCH_ID = "4837441"; // Real Betis vs Real Oviedo
             let lastHome = -1;
             let lastAway = -1;
 
@@ -219,9 +219,11 @@
                 setTimeout(() => element.classList.remove("goal-flash"), 2000);
             }
 
-            async function updateScore() {
+            async function updateLiveScore() {
                 try {
-                    const res = await fetch(`https://api-football-v1.p.rapidapi.com/v3/fixtures?id=${MATCH_ID}`, {
+                    // Ku darista timestamp si looga fogaado caching-ka
+                    const timestamp = new Date().getTime();
+                    const res = await fetch(`https://api-football-v1.p.rapidapi.com/v3/fixtures?id=${MATCH_ID}&t=${timestamp}`, {
                         headers: { 
                             "x-rapidapi-key": API_KEY,
                             "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
@@ -260,8 +262,8 @@
                     console.log("Error updating score:", err);
                 }
             }
-            updateScore();
-            setInterval(updateScore, 60000);
+            updateLiveScore();
+            setInterval(updateLiveScore, 60000);
         });
     </script>
 

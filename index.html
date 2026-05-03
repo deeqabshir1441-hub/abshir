@@ -294,8 +294,9 @@
 
         async function getMatches() {
             const today = new Date().toISOString().split("T")[0];
+            const timestamp = new Date().getTime();
             const res = await fetch(
-                `https://api-football-v1.p.rapidapi.com/v3/fixtures?date=${today}`,
+                `https://api-football-v1.p.rapidapi.com/v3/fixtures?date=${today}&t=${timestamp}`,
                 {
                     headers: {
                         "x-rapidapi-key": API_KEY,
@@ -325,8 +326,8 @@
         ],
         maanta: [
             { home: 'Bournemouth', away: 'Crystal Palace', homeScore: '3', awayScore: '0', league: 'Premier League', status: 'Dhamaad', statusClass: 'status-finished', overlayText: 'Replay', day: 0, url: 'watch-live1.html', utcDate: '2024-05-03T13:00:00Z' },
-            { home: 'Manchester United', away: 'Liverpool', homeScore: '3', awayScore: '2', league: 'Premier League', status: 'LIVE', statusClass: 'status-live', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', utcDate: '2024-05-03T14:30:00Z' },
-            { home: 'Real Betis', away: 'Real Oviedo', homeScore: '0', awayScore: '0', league: 'La Liga', status: 'LIVE', statusClass: 'status-live', overlayText: 'Watch Live', day: 0, url: 'watch-live2.html', utcDate: new Date().toISOString() },
+            { home: 'Manchester United', away: 'Liverpool', homeScore: '3', awayScore: '2', league: 'Premier League', status: 'Dhamaad', statusClass: 'status-finished', overlayText: 'Replay', day: 0, url: 'watch-live.html', utcDate: '2024-05-03T14:30:00Z' },
+            { home: 'Real Betis', away: 'Real Oviedo', homeScore: '0', awayScore: '0', league: 'La Liga', status: 'LIVE', statusClass: 'status-live', overlayText: 'Watch Live', day: 0, url: 'watch-live2.html', utcDate: '2024-05-03T20:00:00Z' },
             { home: 'Aston Villa', away: 'Tottenham', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, utcDate: '2024-05-03T18:00:00Z' },
             { home: 'Espanyol', away: 'Real Madrid', homeScore: '0', awayScore: '0', league: 'La Liga', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, utcDate: '2024-05-03T22:00:00Z' }
         ],
