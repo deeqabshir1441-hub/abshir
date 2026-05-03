@@ -28,7 +28,7 @@
                 <img src="logo/Logo.png" alt="Logo">
             </div>
 
-            <i class="fas fa-outdent menu-icon"></i>
+            <i class="fas fa-bars menu-icon"></i>
 
             <nav class="nav-menu">
                 <a href="index.html">Home</a>
@@ -210,8 +210,8 @@
             checkAndPlay();
 
             // Real-time Score Updates
-            const API_KEY = "YOUR_API_KEY";
-            const MATCH_ID = "YOUR_MATCH_ID"; // Replace with actual API match ID
+            const API_KEY = "d175585257msh2656f83736302e4p109f24jsn8367cbbb89e0"; // Gali API Key-gaaga halkan
+            const MATCH_ID = "9788"; // Gali Match ID-ga saxda ah
             let lastHome = -1;
             let lastAway = -1;
 
@@ -223,8 +223,11 @@
 
             async function updateScore() {
                 try {
-                    const res = await fetch(`https://v3.football.api-sports.io/fixtures?id=${MATCH_ID}`, {
-                        headers: { "x-rapidapi-key": API_KEY }
+                    const res = await fetch(`https://api-football-v1.p.rapidapi.com/v3/fixtures?id=${MATCH_ID}`, {
+                        headers: { 
+                            "x-rapidapi-key": API_KEY,
+                            "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
+                        }
                     });
                     const data = await res.json();
                     if (!data.response || data.response.length === 0) return;

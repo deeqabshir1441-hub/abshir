@@ -33,7 +33,7 @@
         <div class="navbar-container">
             <div class="logo">
             <img src="logo/Logo.png" alt="Daawo Hadda Logo">
-            </div><i data-lucide="menu" class="menu-icon" id="menuToggle"></i>
+            </div><i class="fas fa-bars menu-icon" id="menuToggle"></i>
             <nav class="nav-menu" id="navMenu">
             <a href="#home" class="nav-link active">Home</a> 
             <a href="#matches" class="nav-link">Matches</a> 
@@ -290,15 +290,16 @@
             });
         });
 
-        const API_KEY = "YOUR_API_KEY";
+        const API_KEY = "YOUR_API_KEY"; // Gali API Key-gaaga halkan
 
         async function getMatches() {
             const today = new Date().toISOString().split("T")[0];
             const res = await fetch(
-                `https://v3.football.api-sports.io/fixtures?date=${today}`,
+                `https://api-football-v1.p.rapidapi.com/v3/fixtures?date=${today}`,
                 {
                     headers: {
-                        "x-rapidapi-key": API_KEY
+                        "x-rapidapi-key": API_KEY,
+                        "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
                     }
                 }
             );
@@ -324,7 +325,7 @@
         ],
         maanta: [
             { home: 'Bournemouth', away: 'Crystal Palace', homeScore: '3', awayScore: '0', league: 'Premier League', status: 'Dhamaad', statusClass: 'status-finished', overlayText: 'Replay', day: 0, url: 'watch-live1.html', utcDate: '2024-05-03T13:00:00Z' },
-            { home: 'Manchester United', away: 'Liverpool', homeScore: '2', awayScore: '0', league: 'Premier League', status: 'LIVE', statusClass: 'status-live', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', utcDate: '2024-05-03T14:30:00Z' },
+            { home: 'Manchester United', away: 'Liverpool', homeScore: '3', awayScore: '2', league: 'Premier League', status: 'LIVE', statusClass: 'status-live', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', utcDate: '2024-05-03T14:30:00Z' },
             { home: 'Aston Villa', away: 'Tottenham', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, utcDate: '2024-05-03T18:00:00Z' },
             { home: 'Espanyol', away: 'Real Madrid', homeScore: '0', awayScore: '0', league: 'La Liga', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, utcDate: '2024-05-03T22:00:00Z' }
         ],
