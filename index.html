@@ -162,13 +162,19 @@
       </div>
      </div>
      <div class="sidebar-widget">
+      <h3><i data-lucide="list-ordered"></i> Kala Horreynta</h3>
+      <div id="league-table-container">
+          <p style="text-align: center; padding: 20px; font-size: 12px; color: var(--text-secondary);">Soo raraya...</p>
+      </div>
+     </div>
+     <div class="sidebar-widget">
       <h3>Tartamada</h3>
       <ul class="league-list">
        <li><img src="icon football/champion.png" alt="Champions League" loading="lazy"> Champions League</li>
        <li><img src="icon football/premier league.png" alt="Premier League" loading="lazy"> Premier League</li>
        <li><img src="icon football/laliga.png" alt="La Liga" loading="lazy"> La Liga</li>
        <li><img src="icon football/serie a.png" alt="Serie A" loading="lazy"> Serie A</li>
-       <li><img src="icon football/laliga.png" alt="Ligue 1" loading="lazy"> Ligue 1</li>
+       <li><img src="icon football/league 1.png" alt="Ligue 1" loading="lazy"> Ligue 1</li>
        <li><img src="icon football/bundisliga.png" alt="Bundesliga" loading="lazy"> Bundesliga</li>
        <li><img src="icon football/CAF.jpg" alt="African Cup" loading="lazy"> African Cup</li>
        <li><img src="icon football/europa_league.jpg" alt="Europa League" loading="lazy"> Europa League</li>
@@ -497,6 +503,58 @@
         return "other";
     }
 
+    async function updateLeagueTable() {
+        const container = document.getElementById("league-table-container");
+        if (!container) return;
+        
+        try {
+            const res = await fetch(`https://api-football-v1.p.rapidapi.com/v3/standings?league=39&season=2023`, {
+                headers: {
+                    "x-rapidapi-key": API_KEY,
+                    "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
+                }
+            });
+            const data = await res.json();
+            
+            if (!data.response || data.response.length === 0) return;
+            const standings = data.response[0].league.standings[0];
+
+            let tableHTML = `
+                <table class="standings-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Team</th>
+                            <th>P</th>
+                            <th>GD</th>
+                            <th>Pts</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+
+            standings.slice(0, 10).forEach(item => {
+                tableHTML += `
+                    <tr>
+                        <td>${item.rank}</td>
+                        <td class="team-cell">
+                            <img src="${item.team.logo}" alt="${item.team.name}" loading="lazy">
+                            <span>${item.team.name}</span>
+                        </td>
+                        <td>${item.all.played}</td>
+                        <td>${item.goalsDiff}</td>
+                        <td><strong>${item.points}</strong></td>
+                    </tr>`;
+            });
+
+            tableHTML += `</tbody></table>`;
+            container.innerHTML = tableHTML;
+            lucide.createIcons();
+        } catch (err) {
+            console.error("Error updating league table:", err);
+            container.innerHTML = `<p style="font-size: 12px; color: #ef4444; text-align: center;">Khalad ayaa dhacay xogta.</p>`;
+        }
+    }
+
     async function updateMatchesFromAPI() {
         try {
             const response = await getMatches();
@@ -556,6 +614,7 @@
         // Initial render
         renderMatches('maanta');
         updateMatchesFromAPI();
+        updateLeagueTable();
 
         // Auto update every 30 seconds
         setInterval(updateMatchesFromAPI, 30000);

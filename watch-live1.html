@@ -58,7 +58,7 @@
             <div class="match-info-card">
                 <div class="match-title-area">
                     <h1>Bournemouth <span id="home-score" class="score-display">3</span> <span class="vs">vs</span> <span id="away-score" class="score-display">0</span> Crystal Palace</h1>
-                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> Premier League • <span class="match-status status-finished">Dhamaad</span></p>
+                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> Premier League • <span id="match-status" class="match-status status-finished">Dhamaad</span></p>
                 </div>
                 <div class="server-selection">
                     <span class="server-label">Select Source:</span>
@@ -223,7 +223,9 @@
 
             async function updateScore() {
                 try {
-                    const res = await fetch(`https://api-football-v1.p.rapidapi.com/v3/fixtures?id=${MATCH_ID}`, {
+                    // Ku darista timestamp si looga fogaado caching-ka
+                    const timestamp = new Date().getTime();
+                    const res = await fetch(`https://api-football-v1.p.rapidapi.com/v3/fixtures?id=${MATCH_ID}&t=${timestamp}`, {
                         headers: { 
                             "x-rapidapi-key": API_KEY,
                             "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
@@ -247,7 +249,7 @@
                     lastAway = away;
 
                     const status = match.fixture.status.short;
-                    const statusEl = document.querySelector(".match-status");
+                    const statusEl = document.getElementById("match-status");
                     if (["1H", "2H", "HT"].includes(status)) {
                         statusEl.innerText = "LIVE 🔴";
                         statusEl.className = "match-status status-live";
