@@ -44,17 +44,17 @@
         
         <main class="video-section">
             <div class="video-player-container">
-                <video id="live-video" controls playsinline autoplay poster="banner/poster .png"></video>
+                <video id="live-video" controls playsinline autoplay muted poster="banner/poster .png"></video>
                 <div class="player-controls-hint">
-                    <span class="live-label"><span class="pulse-dot"></span> TOOS</span>
-                    <span class="quality-label">1080p HD</span>
+                    <span class="live-label"><span class="pulse-dot"></span> Toos</span>
+                    <span class="quality-label" id="quality-indicator">1080p HD</span>
                 </div>
             </div>
 
             <div class="match-info-card">
                 <div class="match-title-area">
-                    <h1>Newcastle United <span id="home-score" class="score-display">2</span> <span class="vs">vs</span> <span id="away-score" class="score-display">0</span> Brighton</h1>
-                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> Premier League • <span class="match-status status-finished">Dhamaad</span></p>
+                    <h1>Arsenal <span id="home-score" class="score-display">1</span> <span class="vs">vs</span> <span id="away-score" class="score-display">0</span> Fulham</h1>
+                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> Premier League • <span class="match-status status-live">LIVE 🔴</span></p>
                 </div>
                 <div class="server-selection">
                     <span class="server-label">Select Source:</span>
@@ -70,9 +70,17 @@
             <div class="ad-container">
                 <span class="ad-tag">SPONSORED</span>
                 <div class="ad-space">
-                    <i class="fa-solid fa-rectangle-ad" style="font-size: 40px; opacity: 0.2; margin-bottom: 10px;"></i>
-                    <p>Xayeysiis (Ads)</p>
-                    <small>Place your banner here</small>
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9924964891667864"
+                        crossorigin="anonymous"></script>
+                    <ins class="adsbygoogle"
+                        style="display:block"
+                        data-ad-client="ca-pub-9924964891667864"
+                        data-ad-slot="1234567890" 
+                        data-ad-format="auto"
+                        data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                 </div>
             </div>
         </aside>
@@ -85,121 +93,171 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const video = document.getElementById('live-video');
-        const btn1 = document.getElementById('btn-hd');
-        const btn2 = document.getElementById('btn-sd');
+        document.addEventListener("DOMContentLoaded", function() {
+            // Mobile Menu Logic
+            const menuIcon = document.querySelector('.menu-icon');
+            const navMenu = document.querySelector('.nav-menu');
+            const body = document.body;
 
-        // Replace the second URL with your actual Server 2 link
-        const source1 = 'https://pub-988290a10bbf42009d966bd9ef7153c8.r2.dev/1.m3u8'; 
-        const source2 = 'https://pub-988290a10bbf42009d966bd9ef7153c8.r2.dev/1.m3u8'; 
-
-        let hls = new Hls();
-
-        function loadStream(url) {
-            if (!url || url.includes("REPLACE_WITH")) {
-                console.error("Server 2 link is missing!");
-                return;
-            }
-
-            if (Hls.isSupported()) {
-                hls.destroy();
-                hls = new Hls();
-                hls.loadSource(url);
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                    video.muted = true; // Most browsers require mute to start
-                    video.play();
+            if (menuIcon && navMenu) {
+                menuIcon.addEventListener('click', (e) => {
+                    navMenu.classList.toggle('active');
+                    body.classList.toggle('menu-open');
                 });
-                hls.on(Hls.Events.ERROR, (event, data) => {
-                    if (data.fatal) {
-                        console.log("Stream failed. Fatal error encountered.");
-                        // Failover logic could go here if multiple sources were defined
+
+                document.addEventListener('click', (e) => {
+                    if (body.classList.contains('menu-open') && !navMenu.contains(e.target) && !menuIcon.contains(e.target)) {
+                        navMenu.classList.remove('active');
+                        body.classList.remove('menu-open');
                     }
                 });
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = url;
-                video.addEventListener('loadedmetadata', function() {
-                    video.play();
-                });
             }
-        }
 
-        // Server 1 Click Logic
-        if (btn1) {
-            btn1.onclick = function() {
-                loadStream(source1);
-                btn1.classList.add('active');
-                btn2.classList.remove('active');
-                console.log("Server 1 Activated");
-            };
-        } else { console.error("Could not find button with id 'server1'"); }
+            const video = document.getElementById('live-video');
+            const btn1 = document.getElementById('btn-hd');
+            const btn2 = document.getElementById('btn-sd');
+            const qualityIndicator = document.getElementById('quality-indicator');
 
-        // Server 2 Click Logic
-        if (btn2) {
-            btn2.onclick = function() {
-                loadStream(source2);
-                btn2.classList.add('active');
-                btn1.classList.remove('active');
-                console.log("Server 2 Activated");
-            };
-        } else { console.error("Could not find button with id 'server2'"); }
+            const serverLinks = [
+                { name: "HD Server 1", url: 'https://storage.googleapis.com/onihunterover1/mux_video_ts1/index-1.m3u8', quality: "1080p HD", btn: btn1 },
+                { name: "Standard Server 2", url: 'https://dlhd.vynx.workers.dev/play/91?key=vynx&playlist.m3u8', quality: "720p SD", btn: btn2 }
+            ];
 
-        // Initial Load
-        loadStream(source1);
+            let hls = new Hls();
 
-        // Real-time Score Updates
-        const API_KEY = "YOUR_API_KEY";
-        const MATCH_ID = "YOUR_MATCH_ID"; 
-        let lastHome = -1;
-        let lastAway = -1;
-
-        function flash(element) {
-            if (!element) return;
-            element.classList.add("goal-flash");
-            setTimeout(() => element.classList.remove("goal-flash"), 2000);
-        }
-
-        async function updateScore() {
-            try {
-                const res = await fetch(`https://v3.football.api-sports.io/fixtures?id=${MATCH_ID}`, {
-                    headers: { "x-rapidapi-key": API_KEY }
-                });
-                const data = await res.json();
-                if (!data.response || data.response.length === 0) return;
-                
-                const match = data.response[0];
-                const home = match.goals.home ?? 0;
-                const away = match.goals.away ?? 0;
-                const homeScoreEl = document.getElementById("home-score");
-                const awayScoreEl = document.getElementById("away-score");
-
-                if (lastHome !== -1 && home > lastHome) flash(homeScoreEl);
-                if (lastAway !== -1 && away > lastAway) flash(awayScoreEl);
-
-                homeScoreEl.innerText = home;
-                awayScoreEl.innerText = away;
-                lastHome = home;
-                lastAway = away;
-
-                const status = match.fixture.status.short;
-                const statusEl = document.querySelector(".match-status");
-                if (["1H", "2H", "HT"].includes(status)) {
-                    statusEl.innerText = "LIVE 🔴";
-                } else if (["FT", "AET", "PEN"].includes(status)) {
-                    statusEl.innerText = "Dhamaad";
-                } else {
-                    statusEl.innerText = "Soo socda";
+            /**
+             * Sets up the HLS player with the provided link.
+             */
+            function setupPlayer(url, quality) {
+                if (Hls.isSupported()) {
+                    hls.destroy();
+                    hls = new Hls();
+                    hls.loadSource(url);
+                    hls.attachMedia(video);
+                    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                        video.play().catch(() => console.log("Autoplay blocked, waiting for interaction."));
+                    });
+                    hls.on(Hls.Events.ERROR, (event, data) => {
+                        if (data.fatal) {
+                            console.log("Stream failed. Switching to backup...");
+                            // Automatic failover logic
+                            checkAndPlay();
+                        }
+                    });
+                } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                    video.src = url;
+                    video.addEventListener('loadedmetadata', function() {
+                        video.play();
+                    });
                 }
-            } catch (err) {
-                console.log("Error updating score:", err);
+                if (qualityIndicator) qualityIndicator.innerText = quality;
             }
-        }
-        updateScore();
-        setInterval(updateScore, 15000);
-    });
+
+            /**
+             * Checks if a link is active with a 5-second timeout.
+             */
+            async function isLinkWorking(url) {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+                try {
+                    const response = await fetch(url, { method: 'GET', signal: controller.signal, headers: { 'Range': 'bytes=0-0' } });
+                    clearTimeout(timeoutId);
+                    return response.ok;
+                } catch (err) {
+                    return false;
+                }
+            }
+
+            /**
+             * Automatically finds the first working server.
+             */
+            async function checkAndPlay() {
+                console.log("Checking for active servers...");
+                let activeServer = null;
+
+                for (let server of serverLinks) {
+                    const working = await isLinkWorking(server.url);
+                    if (working) {
+                        activeServer = server;
+                        break;
+                    }
+                    console.warn(`${server.name} is down.`);
+                }
+
+                if (activeServer) {
+                    console.log(`Success: Using ${activeServer.name}`);
+                    setupPlayer(activeServer.url, activeServer.quality);
+                    // Update UI Buttons
+                    serverLinks.forEach(s => s.btn?.classList.remove('active'));
+                    activeServer.btn?.classList.add('active');
+                } else {
+                    console.error("All servers are offline.");
+                    if (qualityIndicator) qualityIndicator.innerText = "Server error";
+                }
+            }
+
+            // Manual button overrides
+            btn1.onclick = () => { setupPlayer(serverLinks[0].url, serverLinks[0].quality); btn1.classList.add('active'); btn2.classList.remove('active'); };
+            btn2.onclick = () => { setupPlayer(serverLinks[1].url, serverLinks[1].quality); btn2.classList.add('active'); btn1.classList.remove('active'); };
+
+            // Start the auto-check on load
+            checkAndPlay();
+
+            // Real-time Score Updates
+            const API_KEY = "YOUR_API_KEY";
+            const MATCH_ID = "YOUR_MATCH_ID"; // Replace with actual API match ID
+            let lastHome = -1;
+            let lastAway = -1;
+
+            function flash(element) {
+                if (!element) return;
+                element.classList.add("goal-flash");
+                setTimeout(() => element.classList.remove("goal-flash"), 2000);
+            }
+
+            async function updateScore() {
+                try {
+                    const res = await fetch(`https://v3.football.api-sports.io/fixtures?id=${MATCH_ID}`, {
+                        headers: { "x-rapidapi-key": API_KEY }
+                    });
+                    const data = await res.json();
+                    if (!data.response || data.response.length === 0) return;
+                    
+                    const match = data.response[0];
+                    const home = match.goals.home ?? 0;
+                    const away = match.goals.away ?? 0;
+                    const homeScoreEl = document.getElementById("home-score");
+                    const awayScoreEl = document.getElementById("away-score");
+
+                    if (lastHome !== -1 && home > lastHome) flash(homeScoreEl);
+                    if (lastAway !== -1 && away > lastAway) flash(awayScoreEl);
+
+                    homeScoreEl.innerText = home;
+                    awayScoreEl.innerText = away;
+                    lastHome = home;
+                    lastAway = away;
+
+                    const status = match.fixture.status.short;
+                    const statusEl = document.querySelector(".match-status");
+                    if (["1H", "2H", "HT"].includes(status)) {
+                        statusEl.innerText = "LIVE 🔴";
+                        statusEl.className = "match-status status-live";
+                    } else if (["FT", "AET", "PEN"].includes(status)) {
+                        statusEl.innerText = "Dhamaad";
+                        statusEl.className = "match-status status-finished";
+                    } else {
+                        statusEl.innerText = "Soo socda";
+                        statusEl.className = "match-status status-upcoming";
+                    }
+                } catch (err) {
+                    console.log("Error updating score:", err);
+                }
+            }
+            updateScore();
+            setInterval(updateScore, 15000);
+        });
     </script>
 
 </body>
