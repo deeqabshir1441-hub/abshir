@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daawo Hadda | Live Stream</title>
+    <title>Daawo Hadda | Espanyol vs Real Madrid Live</title>
     <meta property="og:title" content="Daawo Hadda">
-    <meta property="og:description" content="Daawo toos ah ciyaaraha caalamka tayada sare ee HD.">
-    <meta property="og:url" content="https://www.daawohadda.club/watch-live2">
-    <link rel="canonical" href="https://www.daawohadda.club/watch-live2">
+    <meta property="og:description" content="Daawo toos ah Espanyol vs Real Madrid tayada sare ee HD.">
+    <meta property="og:url" content="https://www.daawohadda.club/watch-live3">
+    <link rel="canonical" href="https://www.daawohadda.club/watch-live3">
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#000000">
@@ -55,8 +55,8 @@
 
             <div class="match-info-card">
                 <div class="match-title-area">
-                    <h1>Real Betis <span id="home-score" class="score-display">3</span> <span class="vs">vs</span> <span id="away-score" class="score-display">0</span> Real Oviedo</h1>
-                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> La Liga • <span id="match-status" class="match-status status-finished">Dhamaad</span></p>
+                    <h1>Espanyol <span id="home-score" class="score-display">0</span> <span class="vs">vs</span> <span id="away-score" class="score-display">0</span> Real Madrid</h1>
+                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> La Liga • <span id="match-status" class="match-status status-live">Toos (Live) 🔴</span></p>
                 </div>
                 <div class="server-selection">
                     <span class="server-label">Select Source:</span>
@@ -94,7 +94,6 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Mobile Menu Logic
@@ -128,9 +127,6 @@
 
             let hls = new Hls();
 
-            /**
-             * Sets up the HLS player with the provided link.
-             */
             function setupPlayer(url, quality) {
                 if (Hls.isSupported()) {
                     hls.destroy();
@@ -138,31 +134,18 @@
                     hls.loadSource(url);
                     hls.attachMedia(video);
                     hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                        video.play().catch(() => console.log("Autoplay blocked, waiting for interaction."));
-                    });
-                    hls.on(Hls.Events.ERROR, (event, data) => {
-                        if (data.fatal) {
-                            console.log("Stream failed. Switching to backup...");
-                            // Automatic failover logic
-                            checkAndPlay();
-                        }
+                        video.play().catch(() => console.log("Autoplay blocked."));
                     });
                 } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                     video.src = url;
-                    video.addEventListener('loadedmetadata', function() {
-                        video.play();
-                    });
+                    video.addEventListener('loadedmetadata', () => video.play());
                 }
                 if (qualityIndicator) qualityIndicator.innerText = quality;
             }
 
-            /**
-             * Checks if a link is active with a 5-second timeout.
-             */
             async function isLinkWorking(url) {
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 3000);
-
                 try {
                     const response = await fetch(url, { method: 'GET', signal: controller.signal, headers: { 'Range': 'bytes=0-0' } });
                     clearTimeout(timeoutId);
@@ -172,62 +155,37 @@
                 }
             }
 
-            /**
-             * Automatically finds the first working server.
-             */
             async function checkAndPlay() {
-                console.log("Checking for active servers...");
                 let activeServer = null;
-
                 for (let server of serverLinks) {
-                    const working = await isLinkWorking(server.url);
-                    if (working) {
+                    if (await isLinkWorking(server.url)) {
                         activeServer = server;
                         break;
                     }
-                    console.warn(`${server.name} is down.`);
                 }
-
                 if (activeServer) {
-                    console.log(`Success: Using ${activeServer.name}`);
                     setupPlayer(activeServer.url, activeServer.quality);
-                    // Update UI Buttons
                     serverLinks.forEach(s => s.btn?.classList.remove('active'));
                     activeServer.btn?.classList.add('active');
-                } else {
-                    console.error("All servers are offline.");
-                    if (qualityIndicator) qualityIndicator.innerText = "Server error";
                 }
             }
 
-            // Manual button overrides
             btn1.onclick = () => { setupPlayer(serverLinks[0].url, serverLinks[0].quality); btn1.classList.add('active'); btn2.classList.remove('active'); };
             btn2.onclick = () => { setupPlayer(serverLinks[1].url, serverLinks[1].quality); btn2.classList.add('active'); btn1.classList.remove('active'); };
 
-            // Start the auto-check on load
             checkAndPlay();
 
             // Real-time Score Updates
             const API_KEY = "d175585257msh2656f83736302e4p109f24jsn8367cbbb89e0";
-            const MATCH_ID = "4837441"; // Real Betis vs Real Oviedo
+            const MATCH_ID = "1136951"; 
             let lastHome = -1;
             let lastAway = -1;
 
-            function flash(element) {
-                if (!element) return;
-                element.classList.add("goal-flash");
-                setTimeout(() => element.classList.remove("goal-flash"), 2000);
-            }
-
             async function updateLiveScore() {
                 try {
-                    // Ku darista timestamp si looga fogaado caching-ka
                     const timestamp = new Date().getTime();
                     const res = await fetch(`https://api-football-v1.p.rapidapi.com/v3/fixtures?id=${MATCH_ID}&t=${timestamp}`, {
-                        headers: { 
-                            "x-rapidapi-key": API_KEY,
-                            "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
-                        }
+                        headers: { "x-rapidapi-key": API_KEY, "x-rapidapi-host": "api-football-v1.p.rapidapi.com" }
                     });
                     const data = await res.json();
                     if (!data.response || data.response.length === 0) return;
@@ -235,16 +193,8 @@
                     const match = data.response[0];
                     const home = match.goals.home ?? 0;
                     const away = match.goals.away ?? 0;
-                    const homeScoreEl = document.getElementById("home-score");
-                    const awayScoreEl = document.getElementById("away-score");
-
-                    if (lastHome !== -1 && home > lastHome) flash(homeScoreEl);
-                    if (lastAway !== -1 && away > lastAway) flash(awayScoreEl);
-
-                    homeScoreEl.innerText = home;
-                    awayScoreEl.innerText = away;
-                    lastHome = home;
-                    lastAway = away;
+                    document.getElementById("home-score").innerText = home;
+                    document.getElementById("away-score").innerText = away;
 
                     const status = match.fixture.status.short;
                     const statusEl = document.querySelector(".match-status");
@@ -254,9 +204,6 @@
                     } else if (["FT", "AET", "PEN"].includes(status)) {
                         statusEl.innerText = "Dhamaad";
                         statusEl.className = "match-status status-finished";
-                    } else {
-                        statusEl.innerText = "Soo socda";
-                        statusEl.className = "match-status status-upcoming";
                     }
                 } catch (err) {
                     console.log("Error updating score:", err);
@@ -266,6 +213,5 @@
             setInterval(updateLiveScore, 15000);
         });
     </script>
-
 </body>
 </html>

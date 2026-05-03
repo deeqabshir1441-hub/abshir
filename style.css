@@ -635,7 +635,7 @@
         /* ===== MATCHES & LAYOUT STYLES ===== */
         .main-layout-container {
             max-width: 1400px;
-            margin: 40=px auto;
+            margin: 40px auto;
             display: grid;
             grid-template-columns: 1fr 320px;
             gap: 30px;
