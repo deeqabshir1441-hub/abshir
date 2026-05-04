@@ -298,7 +298,7 @@
 
         /* ===== DEMO CONTENT ===== */
         main {
-            padding: 60px 20px 30px;
+            padding: 10px 20px 30px;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -502,7 +502,7 @@
         /* ===== LEAGUE SCROLLER STYLES ===== */
         .league-scroller {
             max-width: 1200px;
-            margin: 30px auto;
+            margin: 20px auto 0;
             overflow-x: auto;
             padding: 15px 20px;
             white-space: nowrap;
@@ -635,7 +635,7 @@
         /* ===== MATCHES & LAYOUT STYLES ===== */
         .main-layout-container {
             max-width: 1400px;
-            margin: 40px auto;
+            margin: 10px auto 40px;
             display: grid;
             grid-template-columns: 1fr 320px;
             gap: 30px;
@@ -2630,4 +2630,3 @@
         height: 250px;
     }
 }
-
