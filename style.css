@@ -20,6 +20,7 @@
             background: var(--primary-dark);
             color: var(--text-primary);
             transition: background 0.3s ease;
+            overscroll-behavior-y: contain;
         }
 
         body.light-mode {

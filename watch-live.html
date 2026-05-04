@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chelsea vs Nottingham Forest | Live Stream HD</title>
-    <meta property="og:title" content="Daawo Hadda">
-    <meta property="og:description" content="Watch Chelsea vs Nottingham Forest live in HD. Stay updated with live scores and stream on Daawo Hadda.">
+    <meta property="og:title" content="Daawo Hadda - Live HD Sports">
+    <meta property="og:description" content="Watch live football and sports updates.">
+    <meta property="og:image" content="/icon-512.png">
+    <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.daawohadda.club/watch-live">
     <link rel="canonical" href="https://www.daawohadda.club/watch-live">
     <meta name="description" content="Watch HD sports streaming and live football matches. Real-time updates and high-quality server options.">
@@ -36,6 +38,7 @@
                 <a href="#" class="active">Live Stream</a>
             </nav>
             <div class="header-right">
+                <button id="installBtn" class="btn-primary" style="display:none; padding: 6px 15px; font-size: 12px; height: 34px; margin-right: 10px;">Install App</button>
                 <div class="social-icons">
                     <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
                     <a href="#"><i class="fa-brands fa-tiktok"></i></a>
@@ -57,7 +60,7 @@
 
             <div class="match-info-card">
                 <div class="match-title-area">
-                    <h1>Chelsea <span id="home-score" class="score-display">1</span> <span class="vs">vs</span> <span id="away-score" class="score-display">3</span> Nottingham Forest</h1>
+                    <h1>Everton <span id="home-score" class="score-display">1</span> <span class="vs">vs</span> <span id="away-score" class="score-display">3</span> Man city</h1>
                     <p class="league-tag"><i class="fa-solid fa-trophy"></i> Premier League • <span id="match-status" class="match-status status-live">LIVE 🔴</span></p>
                 </div>
                 <div class="server-selection">
@@ -97,6 +100,27 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'block'; // Show the button when ready
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    installBtn.style.display = 'none';
+                }
+                deferredPrompt = null;
+            }
+        });
+    </script>
     <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Mobile Menu Logic
@@ -267,6 +291,22 @@
         updateScore();
         setInterval(updateScore, 15000);
     });
+    </script>
+    <script>
+        if ('wakeLock' in navigator) {
+            let wakeLock = null;
+            const requestWakeLock = async () => {
+                try {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                    console.log('Wake Lock active!');
+                } catch (err) {
+                    console.error(`Wake Lock error: ${err.name}, ${err.message}`);
+                }
+            };
+
+            // Request wake lock when the page loads
+            requestWakeLock();
+        }
     </script>
 </body>
 </html>

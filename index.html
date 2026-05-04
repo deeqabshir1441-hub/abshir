@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daawo Hadda | Live Scores, Sports News & More</title>
-    <meta property="og:title" content="Daawo Hadda">
-    <meta property="og:description" content="Watch live sports streaming, get real-time scores and the latest football news in HD.">
+    <meta property="og:title" content="Daawo Hadda - Live HD Sports">
+    <meta property="og:description" content="Watch live football and sports updates.">
+    <meta property="og:image" content="/icon-512.png">
+    <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.daawohadda.club/">
     <link rel="canonical" href="https://www.daawohadda.club/">
     <meta name="description" content="Daawo Hadda is your premier destination for live football streaming, HD sports highlights, and real-time match updates for Somali fans worldwide.">
@@ -13,7 +15,7 @@
     <meta name="google-site-verification" content="googleae8e7d185b7c98c3">
     <meta name="robots" content="index, follow">
     <meta name="mobile-web-app-capable" content="yes">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#000000">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -42,6 +44,7 @@
             <a href="#privacy" class="nav-link">Privacy</a>
             </nav>
             <div class="header-right">
+            <button id="installBtn" class="btn-primary" style="display:none; padding: 6px 15px; font-size: 12px; height: 34px; margin-right: 10px;">Install App</button>
             <div class="social-icons">
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" title="Facebook"> <i data-lucide="facebook"></i> </a> 
             <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" title="TikTok"> <i data-lucide="music"></i> </a> 
@@ -318,7 +321,7 @@
         ],
         maanta: [
             { home: 'Chelsea', away: 'Nottingham Forest', homeScore: '1', awayScore: '3', league: 'Premier League', status: 'Dhamaad', statusClass: 'status-finished', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', utcDate: '2024-05-04T14:00:00Z' },
-            { home: 'Everton', away: 'Manchester City', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', utcDate: '2024-05-04T19:00:00Z' }
+            { home: 'Everton', away: 'Manchester City', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'LIVE', statusClass: 'status-live', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', utcDate: '2024-05-04T19:00:00Z' }
         ],
         berri: [
             { home: 'Arsenal', away: 'Atletico Madrid', homeScore: '0', awayScore: '0', league: 'UEFA Champions League', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', utcDate: '2024-05-05T22:00:00Z' }
@@ -621,6 +624,34 @@
 
         // Auto update every 30 seconds
         setInterval(updateMatchesFromAPI, 30000);
+    </script>
+    <script>
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'block'; // Show the button when ready
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    installBtn.style.display = 'none';
+                }
+                deferredPrompt = null;
+            }
+        });
+    </script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('Service Worker Registered', reg))
+          .catch(err => console.error('Service Worker Registration Failed:', err));
+      }
     </script>
     <script>
         (function () {
