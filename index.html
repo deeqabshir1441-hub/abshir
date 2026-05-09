@@ -316,10 +316,10 @@
             { home: 'Arsenal', away: 'Atletico Madrid', homeScore: '1', awayScore: '0', league: 'UEFA Champions League', status: 'Dhamaad', statusClass: 'status-finished', overlayText: 'Replay', day: -1, url: 'watch-live.html', displayTime: '10:00 PM' }
         ],
         maanta: [
-            { home: 'Liverpool', away: 'Chelsea', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'LIVE 🔴', statusClass: 'status-live', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '14:30' },
-            { home: 'Brighton', away: 'Wolves', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '17:00' },
-            { home: 'Fulham', away: 'Bournemouth', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '17:00' },
-            { home: 'Sunderland', away: 'Manchester United', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '17:00' },
+            { home: 'Liverpool', away: 'Chelsea', homeScore: '1', awayScore: '1', league: 'Premier League', status: 'Dhamaad', statusClass: 'status-finished', overlayText: 'Replay', day: 0, url: 'watch-live.html', displayTime: '14:30' },
+            { home: 'Brighton', away: 'Wolves', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'LIVE 🔴', statusClass: 'status-live', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '17:00' },
+            { home: 'Fulham', away: 'Bournemouth', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'LIVE 🔴', statusClass: 'status-live', overlayText: 'Watch Live', day: 0, url: 'watch-live1.html', displayTime: '17:00' },
+            { home: 'Sunderland', away: 'Manchester United', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'LIVE 🔴', statusClass: 'status-live', overlayText: 'Watch Live', day: 0, url: 'watch-live2.html', displayTime: '17:00' },
             { home: 'Lazio', away: 'Inter', homeScore: '0', awayScore: '0', league: 'Serie A', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '19:00' },
             { home: 'Manchester City', away: 'Brentford', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '19:30' }
         ],
@@ -411,7 +411,6 @@
             "Clermont": "https://media.api-sports.io/football/teams/111.png",
             "Espanyol": "https://media.api-sports.io/football/teams/540.png",
             "Le Havre": "https://media.api-sports.io/football/teams/1118.png",
-            "Sunderland": "https://media.api-sports.io/football/teams/77.png",
             "Bayern Munich": "https://media.api-sports.io/football/teams/157.png",
             "Borussia Dortmund": "https://media.api-sports.io/football/teams/165.png",
             "RB Leipzig": "https://media.api-sports.io/football/teams/173.png",
@@ -452,7 +451,7 @@
             "Sheffield United": "https://media.api-sports.io/football/teams/62.png",
             "Sheffield Wednesday": "https://media.api-sports.io/football/teams/74.png",
             "Stoke City": "https://media.api-sports.io/football/teams/70.png",
-            "Sunderland": "https://media.api-sports.io/football/teams/748.png",
+            "Sunderland": "https://media.api-sports.io/football/teams/746.png",
             "Swansea": "https://media.api-sports.io/football/teams/72.png",
             "Watford": "https://media.api-sports.io/football/teams/38.png",
             "West Brom": "https://media.api-sports.io/football/teams/60.png",
@@ -483,8 +482,10 @@
         const matches = matchesData[day] || [];
         container.innerHTML = matches.map(match => {
             const time = match.utcDate ? formatTime(match.utcDate) : (match.displayTime || '--:--');
+            const baseUrl = match.url || 'watch-live.html';
+            const matchUrl = `${baseUrl}?id=${match.id || ''}&home=${encodeURIComponent(match.home)}&away=${encodeURIComponent(match.away)}&league=${encodeURIComponent(match.league)}`;
             return `
-            <a href="${match.url || 'watch-live.html'}" class="match-link-wrapper">
+            <a href="${matchUrl}" class="match-link-wrapper">
                 <div class="match-card">
                 <div class="league-header">
                     <img src="${match.leagueLogo || leagueLogos[match.league] || 'https://via.placeholder.com/20x20?text=🏆'}" alt="${match.league}" class="team-logo" style="width: 18px; height: 18px; margin-right: 8px; border-radius: 2px;">
@@ -614,6 +615,9 @@
                 matchesData.shalay = [];
                 matchesData.berri = [];
 
+                let liveCounter = 0;
+                const watchPages = ['watch-live.html', 'watchlive1.html', 'watchlive2.html'];
+
                 response.forEach(item => {
                     const status = item.fixture.status.short;
                     const elapsed = item.fixture.status.elapsed;
@@ -621,8 +625,9 @@
                     
                     if (dayKey === "other") return;
 
+                    const isLive = ['1H', 'HT', '2H', 'ET', 'P', 'BT'].includes(status);
                     let statusText = status;
-                    if (["1H", "2H", "ET", "P"].includes(status)) {
+                    if (isLive && status !== 'HT') {
                         statusText = elapsed ? `${elapsed}'` : "LIVE";
                     } else if (status === "HT") {
                         statusText = "HT";
@@ -633,6 +638,7 @@
                     }
 
                     const matchObj = {
+                        id: item.fixture.id,
                         home: item.teams.home.name,
                         away: item.teams.away.name,
                         homeScore: item.goals.home ?? 0,
@@ -643,7 +649,7 @@
                         statusClass: ['1H', 'HT', '2H', 'ET', 'P', 'BT'].includes(status) ? 'status-live' : 
                                      (['FT', 'AET', 'PEN'].includes(status) ? 'status-finished' : 'status-upcoming'),
                         overlayText: 'Watch Live',
-                        url: 'watch-live.html',
+                        url: isLive ? watchPages[liveCounter++ % watchPages.length] : 'watch-live.html',
                         homeLogo: item.teams.home.logo,
                         awayLogo: item.teams.away.logo,
                         leagueLogo: item.league.logo

@@ -57,8 +57,8 @@
 
             <div class="match-info-card">
                 <div class="match-title-area">
-                    <h1>Bournemouth <span id="home-score" class="score-display">3</span> <span class="vs">vs</span> <span id="away-score" class="score-display">0</span> Crystal Palace</h1>
-                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> Premier League • <span id="match-status" class="match-status status-finished">Dhamaad</span></p>
+                    <h1>Bournemouth <span id="home-score" class="score-display">0</span> <span class="vs">vs</span> <span id="away-score" class="score-display">0</span> Crystal Palace</h1>
+                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> Premier League • <span id="match-status" class="match-status status-live">Loading...</span></p>
                 </div>
                 <div class="server-selection">
                     <span class="server-label">Select Source:</span>
@@ -209,9 +209,26 @@
             // Start the auto-check on load
             checkAndPlay();
 
+        // URL Parameter Logic to connect matches dynamically
+        const urlParams = new URLSearchParams(window.location.search);
+        const matchIdFromUrl = urlParams.get('id');
+        const homeParam = urlParams.get('home');
+        const awayParam = urlParams.get('away');
+        const leagueParam = urlParams.get('league');
+
+        if (homeParam && awayParam) {
+            const h1 = document.querySelector('.match-title-area h1');
+            h1.innerHTML = `${homeParam} <span id="home-score" class="score-display">0</span> <span class="vs">vs</span> <span id="away-score" class="score-display">0</span> ${awayParam}`;
+            document.title = `${homeParam} vs ${awayParam} | Live Stream HD`;
+        }
+        if (leagueParam) {
+            const leagueTag = document.querySelector('.league-tag');
+            leagueTag.innerHTML = `<i class="fa-solid fa-trophy"></i> ${leagueParam} • <span id="match-status" class="match-status">Loading...</span>`;
+        }
+
             // Real-time Score Updates
             const API_KEY = "d175585257msh2656f83736302e4p109f24jsn8367cbbb89e0"; // Gali API Key-gaaga halkan
-            const MATCH_ID = "1208143"; // ID-ga Bournemouth vs Crystal Palace
+        const MATCH_ID = matchIdFromUrl; 
             let lastHome = -1;
             let lastAway = -1;
 
@@ -222,6 +239,7 @@
             }
 
             async function updateScore() {
+            if (!MATCH_ID) return;
                 try {
                     // Ku darista timestamp si looga fogaado caching-ka
                     const timestamp = new Date().getTime();

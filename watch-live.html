@@ -148,8 +148,8 @@
         const qualityIndicator = document.getElementById('quality-indicator');
 
         const serverLinks = [
-            { name: "HD Server 1", url: 'https://live.sumadtv.co/FootballplusHD/tracks-v1a1/mono.ts.m3u8', quality: "1080p HD", btn: btn1 },
-            { name: "Standard Server 2", url: 'https://20syrialive.s3.us-east-2.amazonaws.com/bein1/bein1_480p/index.m3u8', quality: "720p SD", btn: btn2 }
+            { name: "HD Server 1", url: 'https://hls.livelivelive.space/live/4343243.m3u8', quality: "1080p HD", btn: btn1 },
+            { name: "Standard Server 2", url: 'https://17syrialive.s3.eu-central-1.amazonaws.com/bein1/bein1_360p/index.m3u8', quality: "720p SD", btn: btn2 }
         ];
 
         let hls = new Hls();
@@ -233,9 +233,26 @@
         // Start the auto-check on load
         checkAndPlay();
 
+        // URL Parameter Logic to connect matches dynamically
+        const urlParams = new URLSearchParams(window.location.search);
+        const matchIdFromUrl = urlParams.get('id');
+        const homeParam = urlParams.get('home');
+        const awayParam = urlParams.get('away');
+        const leagueParam = urlParams.get('league');
+
+        if (homeParam && awayParam) {
+            const h1 = document.querySelector('.match-title-area h1');
+            h1.innerHTML = `${homeParam} <span id="home-score" class="score-display">0</span> <span class="vs">vs</span> <span id="away-score" class="score-display">0</span> ${awayParam}`;
+            document.title = `${homeParam} vs ${awayParam} | Live Stream HD`;
+        }
+        if (leagueParam) {
+            const leagueTag = document.querySelector('.league-tag');
+            leagueTag.innerHTML = `<i class="fa-solid fa-trophy"></i> ${leagueParam} • <span id="match-status" class="match-status">Loading...</span>`;
+        }
+
         // Real-time Score Updates
         const API_KEY = "d175585257msh2656f83736302e4p109f24jsn8367cbbb89e0"; // Gali API Key-gaaga halkan
-        const MATCH_ID = "YOUR_LIVERPOOL_CHELSEA_MATCH_ID"; // **IMPORTANT: Replace with the actual API match ID for Liverpool vs Chelsea**
+        const MATCH_ID = matchIdFromUrl; 
         let lastHome = -1;
         let lastAway = -1;
 
@@ -246,6 +263,7 @@
         }
 
         async function updateScore() {
+            if (!MATCH_ID) return;
             try {
                 // Ku darista timestamp si looga fogaado caching-ka
                 const timestamp = new Date().getTime();
