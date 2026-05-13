@@ -313,17 +313,24 @@
 
         const matchesData = {
         shalay: [
-            { home: 'Arsenal', away: 'Atletico Madrid', homeScore: '1', awayScore: '0', league: 'UEFA Champions League', status: 'Dhamaad', statusClass: 'status-finished', overlayText: 'Replay', day: -1, url: 'watch-live.html', displayTime: '10:00 PM' }
+            { home: 'Arsenal', away: 'Atletico Madrid', homeScore: '1', awayScore: '0', league: 'UEFA Champions League', status: 'Dhamaad', statusClass: 'status-finished', overlayText: 'Replay', day: -1, url: 'watch-live.html', displayTime: '10:00 PM' },
+            { home: 'Liverpool', away: 'Chelsea', homeScore: '1', awayScore: '1', league: 'Premier League', status: 'Dhamaad', statusClass: 'status-finished', overlayText: 'Replay', day: -1, url: 'watch-live.html', displayTime: '14:30' },
+            { home: 'Brighton', away: 'Wolves', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'Dhamaad', statusClass: 'status-finished', overlayText: 'Replay', day: -1, url: 'watch-live.html', displayTime: '17:00' },
+            { home: 'Fulham', away: 'Bournemouth', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'Dhamaad', statusClass: 'status-finished', overlayText: 'Replay', day: -1, url: 'watch-live1.html', displayTime: '17:00' },
+            { home: 'Sunderland', away: 'Manchester United', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'Dhamaad', statusClass: 'status-finished', overlayText: 'Replay', day: -1, url: 'watch-live2.html', displayTime: '17:00' },
+            { home: 'Lazio', away: 'Inter', homeScore: '0', awayScore: '0', league: 'Serie A', status: 'Dhamaad', statusClass: 'status-finished', overlayText: 'Replay', day: -1, url: 'watch-live.html', displayTime: '19:00' },
+            { home: 'Manchester City', away: 'Brentford', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'Dhamaad', statusClass: 'status-finished', overlayText: 'Replay', day: -1, url: 'watch-live.html', displayTime: '19:30' },
+            { home: 'Alaves', away: 'Barcelona', homeScore: '0', awayScore: '0', league: 'La Liga', status: 'Dhamaad', statusClass: 'status-finished', overlayText: 'Replay', day: -1, url: 'watch-live.html', displayTime: '22:30' }
         ],
         maanta: [
-            { home: 'Liverpool', away: 'Chelsea', homeScore: '1', awayScore: '1', league: 'Premier League', status: 'Dhamaad', statusClass: 'status-finished', overlayText: 'Replay', day: 0, url: 'watch-live.html', displayTime: '14:30' },
-            { home: 'Brighton', away: 'Wolves', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'LIVE 🔴', statusClass: 'status-live', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '17:00' },
-            { home: 'Fulham', away: 'Bournemouth', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'LIVE 🔴', statusClass: 'status-live', overlayText: 'Watch Live', day: 0, url: 'watch-live1.html', displayTime: '17:00' },
-            { home: 'Sunderland', away: 'Manchester United', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'LIVE 🔴', statusClass: 'status-live', overlayText: 'Watch Live', day: 0, url: 'watch-live2.html', displayTime: '17:00' },
-            { home: 'Lazio', away: 'Inter', homeScore: '0', awayScore: '0', league: 'Serie A', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '19:00' },
-            { home: 'Manchester City', away: 'Brentford', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '19:30' }
+            { home: 'Manchester City', away: 'Crystal Palace', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '22:00' },
+            { home: 'Lazio', away: 'Inter', homeScore: '0', awayScore: '0', league: 'Coppa Italia', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, url: 'watch-live1.html', displayTime: '22:00' },
+            { home: 'Lens', away: 'Paris Saint-Germain', homeScore: '0', awayScore: '0', league: 'Ligue 1', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, url: 'watch-live2.html', displayTime: '22:00' },
+            { home: 'Alaves', away: 'Barcelona', homeScore: '0', awayScore: '0', league: 'La Liga', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '22:30' }
         ],
-        berri: []
+        berri: [
+            { home: 'Real Madrid', away: 'Real Oviedo', homeScore: '0', awayScore: '0', league: 'La Liga', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '22:30' }
+        ]
         };
 
         function formatToLocalTime(isoString) {
@@ -347,7 +354,10 @@
             "FIFA World Cup": "https://media.api-sports.io/football/leagues/1.png",
             "Saudi Pro League": "https://media.api-sports.io/football/leagues/307.png",
             "MLS": "https://media.api-sports.io/football/leagues/253.png",
-            "Championship": "https://media.api-sports.io/football/leagues/40.png"
+            "Championship": "https://media.api-sports.io/football/leagues/40.png",
+            "Coppa Italia": "https://media.api-sports.io/football/leagues/137.png",
+            "FA Cup": "https://media.api-sports.io/football/leagues/45.png",
+            "Carabao Cup": "https://media.api-sports.io/football/leagues/48.png"
         };
 
         const teamLogos = {
