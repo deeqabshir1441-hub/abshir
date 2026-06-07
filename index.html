@@ -56,25 +56,16 @@
             </div>
         </div>
     </header>
-  <section class="hero-section" id="home">
-   <div class="banner">
-    <div class="banner-overlay">
-     <h1>Watch Thrilling Matches &amp; Latest Sports News</h1>
-     <p>Real-time scores and in-depth analysis of global football.</p>
-     <div class="banner-buttons"><button class="btn-primary" onclick="document.getElementById('matches').scrollIntoView({behavior:'smooth'})"> <i data-lucide="play"></i> Watch Now </button> <button class="btn-secondary" onclick="document.getElementById('news').scrollIntoView({behavior:'smooth'})"> <i data-lucide="newspaper"></i> Latest News </button>
-     </div>
-    </div>
-   </div>
-  </section>
+  
   <section class="league-scroller">
    <div class="scroller-wrapper">
-    <a href="#" class="league-chip" title="Premier League"><img src="icon football/premier league.png" alt="Premier League"> Premier League</a> 
-    <a href="#" class="league-chip" title="La Liga"><img src="icon football/laliga.png" alt="La Liga"> La Liga</a> 
-    <a href="#" class="league-chip" title="Serie A"><img src="icon football/serie a.png" alt="Serie A"> Serie A</a> 
-    <a href="#" class="league-chip" title="Ligue 1"><img src="icon football/league 1.png" alt="Ligue 1"> Ligue 1</a> 
-    <a href="#" class="league-chip" title="Bundesliga"><img src="icon football/bundisliga.png" alt="Bundesliga"> Bundesliga</a> 
-    <a href="#" class="league-chip" title="UEFA Champions League"><img src="icon football/champion.png" alt="UEFA CL"> UEFA CL</a> 
-    <a href="#" class="league-chip" title="Europa League"><img src="icon football/europa_league.jpg" alt="Europa League"> Europa League</a>
+    <a href="#" class="league-chip" title="Premier League"><img src="https://media.api-sports.io/football/leagues/39.png" alt="Premier League"> Premier League</a> 
+    <a href="#" class="league-chip" title="La Liga"><img src="https://media.api-sports.io/football/leagues/140.png" alt="La Liga"> La Liga</a> 
+    <a href="#" class="league-chip" title="Serie A"><img src="https://media.api-sports.io/football/leagues/135.png" alt="Serie A"> Serie A</a> 
+    <a href="#" class="league-chip" title="Ligue 1"><img src="https://media.api-sports.io/football/leagues/61.png" alt="Ligue 1"> Ligue 1</a> 
+    <a href="#" class="league-chip" title="Bundesliga"><img src="https://media.api-sports.io/football/leagues/78.png" alt="Bundesliga"> Bundesliga</a> 
+    <a href="#" class="league-chip" title="UEFA Champions League"><img src="https://media.api-sports.io/football/leagues/2.png" alt="UEFA CL"> UEFA CL</a> 
+    <a href="#" class="league-chip" title="Europa League"><img src="https://media.api-sports.io/football/leagues/3.png" alt="Europa League"> Europa League</a>
    </div>
   </section>
   <main>
@@ -95,67 +86,11 @@
      <section class="section-block" id="news">
       <div style="padding: 0;">
        <h2 class="section-title">📰 Wararka</h2>
-       <div class="news-grid">
-        <article class="news-card">
-         <div class="news-thumb">
-          <img src="news image/GettyImages-2166876546-2-scaled.jpg" alt="Real Madrid News" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='#e5e7eb'; this.alt='Image unavailable';"> <span class="news-tag">Suuqa</span>
-         </div>
-         <div class="news-info">
-          <div class="news-meta">
-           <span><i data-lucide="calendar"></i> Mar 12, 2026</span> <span><i data-lucide="clock"></i> 5 min akhri</span>
-          </div>
-          <h3>Xiddiga Real Madrid oo qarka u saaran bixitaanka xagaaga.</h3>
-          <p>Wararka naga soo gaaraya dalka Spain ayaa sheegaya in xiddiga khadka dhexe uu dalab ka helay...</p><a href="#" class="btn-read">Akhri Wax Badan <i data-lucide="arrow-right"></i></a>
-         </div>
-        </article>
-        <article class="news-card">
-         <div class="news-thumb">
-          <img src="news image/GettyImages-2262861156.jpg.webp" alt="Pep Guardiola News" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='#e5e7eb'; this.alt='Image unavailable';"> <span class="news-tag">Tababaraha</span>
-         </div>
-         <div class="news-info">
-          <div class="news-meta">
-           <span><i data-lucide="calendar"></i> Mar 11, 2026</span> <span><i data-lucide="clock"></i> 3 min akhri</span>
-          </div>
-          <h3>Tababare Pep Guardiola oo ka hadlay mustaqbalkiisa Man City.</h3>
-          <p>Guardiola ayaa sheegay inuu aad ugu faraxsan yahay kooxda hase yeeshee uu go'aan gaari doono...</p><a href="#" class="btn-read">Akhri Wax Badan <i data-lucide="arrow-right"></i></a>
-         </div>
-        </article>
-        <article class="news-card">
-         <div class="news-thumb">
-          <img src="news image/fergusan.jpg" alt="Sir Alex Ferguson News" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='#e5e7eb'; this.alt='Image unavailable';"> <span class="news-tag">War Degdeg ah</span>
-         </div>
-         <div class="news-info">
-          <div class="news-meta">
-           <span><i data-lucide="calendar"></i> May 3, 2026</span> <span><i data-lucide="clock"></i> 4 min akhri</span>
-          </div>
-          <h3>Sir Alex Ferguson Taken to Hospital Before Man Utd’s Win Over Liverpool</h3>
-          <p>Halyeyga Manchester United Sir Alex Ferguson ayaa la sheegay in loola cararay isbitaal maanta, saacado uun ka hor inta aysan kooxdu guul weyn ka gaarin Liverpool...</p><a href="#" class="btn-read">Akhri Wax Badan <i data-lucide="arrow-right"></i></a>
-         </div>
-        </article>
-       </div>
+       <div class="news-grid" id="news-container"></div>
       </div>
      </section>
     </div>
     <aside class="sidebar">
-     <div class="sidebar-widget">
-      <h3>Highlights ka Ugu Dambeeyay</h3>
-      
-      <div class="news-item">
-       <div class="news-date">2 sac</div>
-       <div class="news-video" style="margin: 8px 0; border-radius: 12px; overflow: hidden; aspect-ratio: 16/9; background: #000; border: 1px solid var(--border-light);">
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/kLmJzMC4tuw?si=lsSDFnAU1xD_G7fc" title="Official Highlights" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-       </div>
-       <div class="news-title">Aston Villa v Tottenham Hotspur - Official Highlights</div>
-      </div>
-
-      <div class="news-item">
-       <div class="news-date">4 sac</div>
-       <div class="news-video" style="margin: 8px 0; border-radius: 12px; overflow: hidden; aspect-ratio: 16/9; background: #000; border: 1px solid var(--border-light);">
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/FwIHh57PJvU?si=9KsXE9e0adVkVeLI" title="Official Highlights" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-       </div>
-       <div class="news-title">Manchester United v Liverpool - Official Highlights</div>
-      </div>
-     </div>
      <div class="sidebar-widget">
       <h3>Tartamada</h3>
       <ul class="league-list">
@@ -286,6 +221,7 @@
         });
 
         const API_KEY = "d175585257msh2656f83736302e4p109f24jsn8367cbbb89e0"; // Gali API Key-gaaga halkan
+        const NEWS_API_KEY = "YOUR_NEWS_API_KEY"; // Gali NewsAPI Key-gaaga halkan
 
         async function getMatches() {
             const today = new Date().toISOString().split("T")[0];
@@ -314,9 +250,9 @@
         const matchesData = {
         shalay: [],
         maanta: [
-            { home: 'Manchester City', away: 'Crystal Palace', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '22:00' },
-            { home: 'Lazio', away: 'Inter', homeScore: '0', awayScore: '0', league: 'Coppa Italia', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, url: 'watch-live1.html', displayTime: '22:00' },
-            { home: 'Lens', away: 'Paris Saint-Germain', homeScore: '0', awayScore: '0', league: 'Ligue 1', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, url: 'watch-live2.html', displayTime: '22:00' },
+            { home: 'Manchester City', away: 'Crystal Palace', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'LIVE 🔴', statusClass: 'status-live', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '22:00' },
+            { home: 'Lazio', away: 'Inter', homeScore: '0', awayScore: '0', league: 'Coppa Italia', status: 'LIVE 🔴', statusClass: 'status-live', overlayText: 'Watch Live', day: 0, url: 'watch-live1.html', displayTime: '22:00' },
+            { home: 'Lens', away: 'Paris Saint-Germain', homeScore: '0', awayScore: '0', league: 'Ligue 1', status: 'LIVE 🔴', statusClass: 'status-live', overlayText: 'Watch Live', day: 0, url: 'watch-live2.html', displayTime: '22:00' },
             { home: 'Alaves', away: 'Barcelona', homeScore: '0', awayScore: '0', league: 'La Liga', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '22:30' }
         ],
         berri: [
@@ -565,7 +501,7 @@
             <a href="${matchUrl}" class="match-link-wrapper">
                 <div class="match-card">
                 <div class="league-header">
-                    <img src="${match.leagueLogo || leagueLogos[match.league] || 'https://via.placeholder.com/20x20?text=🏆'}" alt="${match.league}" class="team-logo" style="width: 18px; height: 18px; margin-right: 8px; border-radius: 2px;">
+                    <img src="${match.leagueLogo || leagueLogos[match.league] || 'https://via.placeholder.com/20x20?text=🏆'}" alt="${match.league}" class="team-logo" style="width: 18px; height: 18px; margin-right: 8px; border-radius: 2px; background: white; padding: 1px;">
                     <span class="league-name">${match.league}</span>
                 </div>
                 <div class="match-row">
@@ -744,13 +680,52 @@
         }
     }
 
+    async function updateNewsFromAPI() {
+        const container = document.getElementById('news-container');
+        if (!container) return;
+
+        try {
+            // Fetching football news from NewsAPI (Search query: football OR soccer)
+            const res = await fetch(`https://newsapi.org/v2/everything?q=football+soccer&sortBy=publishedAt&pageSize=6&language=en&apiKey=${NEWS_API_KEY}`);
+            const data = await res.json();
+            
+            if (data.status === 'ok' && data.articles.length > 0) {
+                container.innerHTML = data.articles.map(article => `
+                    <article class="news-card">
+                        <div class="news-thumb">
+                            <img src="${article.urlToImage || 'https://via.placeholder.com/400x240?text=News'}" alt="${article.title}" loading="lazy">
+                            <span class="news-tag">Wararka</span>
+                        </div>
+                        <div class="news-info">
+                            <div class="news-meta">
+                                <span><i data-lucide="calendar"></i> ${new Date(article.publishedAt).toLocaleDateString()}</span>
+                                <span><i data-lucide="clock"></i> 3 min akhri</span>
+                            </div>
+                            <h3>${article.title}</h3>
+                            <p>${article.description || 'Akhri faahfaahinta warkaan adigoo gujinaya badanka hoose.'}</p>
+                            <a href="${article.url}" target="_blank" rel="noopener noreferrer" class="btn-read">Akhri Wax Badan <i data-lucide="arrow-right"></i></a>
+                        </div>
+                    </article>
+                `).join('');
+                lucide.createIcons();
+            }
+        } catch (err) {
+            console.error("Error fetching news:", err);
+        }
+    }
+
         // Initial render
         renderMatches('maanta');
         updateMatchesFromAPI();
         updateLeagueTable();
+        updateNewsFromAPI();
 
-        // Auto update every 30 seconds
-        setInterval(updateMatchesFromAPI, 30000);
+        // Auto update every 15 minutes (900,000 ms)
+        setInterval(() => {
+            updateMatchesFromAPI();
+            updateLeagueTable();
+            updateNewsFromAPI();
+        }, 900000);
     </script>
     <script>
         let deferredPrompt;
