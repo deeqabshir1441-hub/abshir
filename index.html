@@ -64,7 +64,7 @@
     <a href="#" class="league-chip" title="Serie A"><img src="https://media.api-sports.io/football/leagues/135.png" alt="Serie A"> Serie A</a> 
     <a href="#" class="league-chip" title="Ligue 1"><img src="https://media.api-sports.io/football/leagues/61.png" alt="Ligue 1"> Ligue 1</a> 
     <a href="#" class="league-chip" title="Bundesliga"><img src="https://media.api-sports.io/football/leagues/78.png" alt="Bundesliga"> Bundesliga</a> 
-    <a href="#" class="league-chip" title="UEFA Champions League"><img src="https://media.api-sports.io/football/leagues/2.png" alt="UEFA CL"> UEFA CL</a> 
+    <a href="#" class="league-chip" title="UEFA Champions League"><img src="https://media.api-sports.io/football/leagues/2.png" alt="UEFA CL"> UEFA Champions League</a> 
     <a href="#" class="league-chip" title="Europa League"><img src="https://media.api-sports.io/football/leagues/3.png" alt="Europa League"> Europa League</a>
    </div>
   </section>
@@ -250,14 +250,10 @@
         const matchesData = {
         shalay: [],
         maanta: [
-            { home: 'Manchester City', away: 'Crystal Palace', homeScore: '0', awayScore: '0', league: 'Premier League', status: 'LIVE 🔴', statusClass: 'status-live', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '22:00' },
-            { home: 'Lazio', away: 'Inter', homeScore: '0', awayScore: '0', league: 'Coppa Italia', status: 'LIVE 🔴', statusClass: 'status-live', overlayText: 'Watch Live', day: 0, url: 'watch-live1.html', displayTime: '22:00' },
-            { home: 'Lens', away: 'Paris Saint-Germain', homeScore: '0', awayScore: '0', league: 'Ligue 1', status: 'LIVE 🔴', statusClass: 'status-live', overlayText: 'Watch Live', day: 0, url: 'watch-live2.html', displayTime: '22:00' },
-            { home: 'Alaves', away: 'Barcelona', homeScore: '0', awayScore: '0', league: 'La Liga', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '22:30' }
+            { home: 'Mexico', away: 'South Africa', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '22:00' }
         ],
         berri: [
-            { home: 'Real Madrid', away: 'Real Oviedo', homeScore: '0', awayScore: '0', league: 'La Liga', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '22:30' }
-        ]
+        ],
         };
 
         function formatToLocalTime(isoString) {
@@ -278,13 +274,17 @@
             "UEFA Europa League": "https://media.api-sports.io/football/leagues/3.png",
             "UEFA Conference League": "https://media.api-sports.io/football/leagues/848.png",
             "CAF Champions League": "https://media.api-sports.io/football/leagues/12.png",
+            "FIFA World Cup 2026": "https://football-logos.cc/tournaments/fifa-world-cup-2026/logo.png",
             "FIFA World Cup": "https://media.api-sports.io/football/leagues/1.png",
+            "FIFA World Cup 2026": "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/69f4a666ff876f5a52a1b7ab_fifa-world-cup-2026-official-logo-footylogos.png",
             "Saudi Pro League": "https://media.api-sports.io/football/leagues/307.png",
             "MLS": "https://media.api-sports.io/football/leagues/253.png",
             "Championship": "https://media.api-sports.io/football/leagues/40.png",
             "Coppa Italia": "https://media.api-sports.io/football/leagues/137.png",
             "FA Cup": "https://media.api-sports.io/football/leagues/45.png",
-            "Carabao Cup": "https://media.api-sports.io/football/leagues/48.png"
+            "Carabao Cup": "https://media.api-sports.io/football/leagues/48.png",
+            "Friendlies": "https://media.api-sports.io/football/leagues/10.png",
+            "International Friendlies": "https://media.api-sports.io/football/leagues/10.png"
         };
 
         
@@ -424,70 +424,72 @@
             "Venezia": "https://media.api-sports.io/football/teams/517.png",
             "Verona": "https://media.api-sports.io/football/teams/504.png",
 
-            // ===== NATIONAL TEAMS =====
-            // Europe
-            "England": "https://media.api-sports.io/football/teams/10.png",
-            "France": "https://media.api-sports.io/football/teams/2.png",
-            "Germany": "https://media.api-sports.io/football/teams/25.png",
-            "Spain": "https://media.api-sports.io/football/teams/9.png",
-            "Italy": "https://media.api-sports.io/football/teams/768.png",
-            "Portugal": "https://media.api-sports.io/football/teams/27.png",
-            "Netherlands": "https://media.api-sports.io/football/teams/1118.png",
-            "Belgium": "https://media.api-sports.io/football/teams/1.png",
-            "Croatia": "https://media.api-sports.io/football/teams/3.png",
-            "Denmark": "https://media.api-sports.io/football/teams/21.png",
-            "Switzerland": "https://media.api-sports.io/football/teams/15.png",
-            "Austria": "https://media.api-sports.io/football/teams/775.png",
-            "Poland": "https://media.api-sports.io/football/teams/24.png",
-            "Serbia": "https://media.api-sports.io/football/teams/14.png",
-            "Ukraine": "https://media.api-sports.io/football/teams/772.png",
-            "Turkey": "https://media.api-sports.io/football/teams/777.png",
-            "Scotland": "https://media.api-sports.io/football/teams/1108.png",
-            "Wales": "https://media.api-sports.io/football/teams/771.png",
-            "Czech Republic": "https://media.api-sports.io/football/teams/770.png",
-            "Hungary": "https://media.api-sports.io/football/teams/769.png",
-            "Slovakia": "https://media.api-sports.io/football/teams/773.png",
-            "Romania": "https://media.api-sports.io/football/teams/774.png",
-            "Greece": "https://media.api-sports.io/football/teams/8.png",
-            "Sweden": "https://media.api-sports.io/football/teams/13.png",
-            "Norway": "https://media.api-sports.io/football/teams/23.png",
+       
+            // ── UEFA (Europe) ─────────────────────────────────────────
+            "England":        "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b39f4f81c2d9713bb1958_68fa004f9bad274585f92fd4_england-national-team-footballlogos-org.png",
+            "France":         "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b39fa921e692c7885a3a5_68fa00af9b52a99bf3ce88b8_france-national-team-footballlogos-org.png",
+            "Germany":        "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a134ff2b16d2ff2c420_68fa00ee54de0cacbdff9b16_germany-national-team-footballlogos-org.png",
+            "Spain":          "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a1aa6db0dbe288b67f3_68fa08931b5e1697f8930e74_spain-national-team-footballlogos-org.png",
+            "Portugal":       "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a0095b66650d7655aba_68fa6b30ffde0dbd282357ab_portugal-national-team-footballlogos-org.png",
+            "Netherlands":    "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a15786b121c0b7b60cc_68f9ff890403a59958f26579_netherlands-dutch-national-team-footballlogos-org.png",
+            "Belgium":        "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a0fe2c051dd81874aac_68f9fc44d95277458c187c4f_belgium-national-team-footballlogos-org.png",
+            "Croatia":        "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/68f9fe732030ba1891c2c1e7_croatia-national-team-footballlogos-org.svg",
+            "Switzerland":    "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a0d052b7e092df739cf_68fa0904f28db91037150be9_swiss-national-team-footballlogos-org.png",
+            "Austria":        "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/68f9fc172630205d3271b9f1_austria-national-team-footballlogos-org.svg",
+            "Sweden":         "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b39f2940ca8a6d33ef41f_68fa08ce61f58c56e735629c_sweden-national-team-footballlogos-org.png",
+            "Scotland":       "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a0e29b605309fb7f47b_68fa07134a7663c774887b1a_scotland-national-team-footballlogos-org.png",
+            "Norway":         "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/68fa03b401a24ac6badeaa5c_norway-national-team-footballlogos-org.svg",
+            "Czechia":        "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a124f9b12d3899cdf35_68f9fefa92aa92766cfafa43_czechia-national-team-footballlogos-org.png",
+            "Turkey":         "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a199844733813bb5b41_68fa09923df7f921ed9a86ef_turkey-national-team-footballlogos-org.png",
+            "Bosnia and Herzegovina": "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/68fd1a0bb96a229b28eff9ca_bosnia-and-herzegovina-footballlogos-org.svg",
 
-            // South America
-            "Brazil": "https://media.api-sports.io/football/teams/6.png",
-            "Argentina": "https://media.api-sports.io/football/teams/26.png",
-            "Uruguay": "https://media.api-sports.io/football/teams/31.png",
-            "Colombia": "https://media.api-sports.io/football/teams/33.png",
-            "Chile": "https://media.api-sports.io/football/teams/34.png",
-            "Ecuador": "https://media.api-sports.io/football/teams/36.png",
-            "Peru": "https://media.api-sports.io/football/teams/37.png",
-            "Paraguay": "https://media.api-sports.io/football/teams/38.png",
-            "Venezuela": "https://media.api-sports.io/football/teams/39.png",
-            "Bolivia": "https://media.api-sports.io/football/teams/40.png",
+            // ── CONMEBOL (South America) ───────────────────────────────
+            "Argentina":      "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a1048bb2071e9deee459c12_6a104445459be40714bd9774_argentina-national-team-footylogos.png",
+            "Brazil":         "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a07dd70012891100817_68f9fc74eac3dc471d42c1f1_brazil-national-team-footballlogos-org.png",
+            "Uruguay":        "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a06d17821a2db9019ea_68fa0a1577c6612bb1154a07_uruguay-national-team-footballlogos-org.png",
+            "Colombia":       "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/68f9fd84ab47946a360b482d_colombia-national-team-footballlogos-org.svg",
+            "Ecuador":        "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a03e8cfc8f978c35242_68f9ffb9e5f5a02e2ddd6c89_ecuador-national-team-footballlogos-org.png",
+            "Paraguay":       "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a15c8ff2f7f7f02602c_68fa042c2750779cccf807b4_paraguay-national-team-footballlogos-org.png",
 
-            // Africa
-            "Morocco": "https://media.api-sports.io/football/teams/32.png",
-            "Senegal": "https://media.api-sports.io/football/teams/29.png",
-            "Nigeria": "https://media.api-sports.io/football/teams/30.png",
-            "Egypt": "https://media.api-sports.io/football/teams/28.png",
-            "Ghana": "https://media.api-sports.io/football/teams/22.png",
-            "Cameroon": "https://media.api-sports.io/football/teams/35.png",
-            "Ivory Coast": "https://media.api-sports.io/football/teams/19.png",
-            "Mali": "https://media.api-sports.io/football/teams/41.png",
-            "Algeria": "https://media.api-sports.io/football/teams/20.png",
-            "Tunisia": "https://media.api-sports.io/football/teams/202.png",
-            "South Africa": "https://media.api-sports.io/football/teams/18.png",
+            // ── CONCACAF (North/Central America & Caribbean) ──────────
+            "USA":            "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b39f54269adc0c7a000c3_68fa0a65e8dbfe6ba33cb5e6_usa-national-team-footballlogos-org.png",
+            "Mexico":         "https://flagcdn.com/w80/mx.png",
+            "Canada":         "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a0c450ecf35a44ec35a_690b58788c8ba2fc3741ad27_canada-national-team-footballlogos-org.png",
+            "Panama":         "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/68fa03e45d0722bd9f321589_panama-national-team-footballlogos-org.svg",
+            "Haiti":          "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0f4c6c910c48d9bace182a_692869cd3f30b984d69b7f75_haiti-national-team-footylogos.png",
 
-            // Asia & Others
-            "Japan": "https://media.api-sports.io/football/teams/17.png",
-            "South Korea": "https://media.api-sports.io/football/teams/16.png",
-            "Australia": "https://media.api-sports.io/football/teams/11.png",
-            "Iran": "https://media.api-sports.io/football/teams/44.png",
-            "Saudi Arabia": "https://media.api-sports.io/football/teams/45.png",
-            "Qatar": "https://media.api-sports.io/football/teams/46.png",
-            "USA": "https://media.api-sports.io/football/teams/4.png",
-            "Mexico": "https://media.api-sports.io/football/teams/5.png",
-            "Canada": "https://media.api-sports.io/football/teams/7.png",
-        };
+            // ── CAF (Africa) ──────────────────────────────────────────
+            "Morocco":        "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/68f9fe732030ba1891c2c1e7_morocco-national-team-footballlogos-org.png",
+            "South Africa":   "https://flagcdn.com/w80/za.png",
+            "Egypt":          "https://flagcdn.com/w80/eg.png",  // fallback flag
+            "Senegal":        "https://flagcdn.com/w80/sn.png",
+            "Nigeria":        "https://flagcdn.com/w80/ng.png",
+            "Cameroon":       "https://flagcdn.com/w80/cm.png",
+            "Ghana":          "https://flagcdn.com/w80/gh.png",
+            "Ivory Coast":    "https://flagcdn.com/w80/ci.png",
+            "Tunisia":        "https://flagcdn.com/w80/tn.png",
+
+            // ── AFC (Asia) ────────────────────────────────────────────
+            "Japan":          "https://flagcdn.com/w80/jp.png",
+            "South Korea":    "https://flagcdn.com/w80/kr.png",
+            "Australia":      "https://flagcdn.com/w80/au.png",
+            "New Zealand":    "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b39ff967f6d274aeb4e8b_68fa67ce6d8bf137ee675702_new-zealand-national-team-footballlogos-org.png",
+            "Iran":           "https://flagcdn.com/w80/ir.png",
+            "Saudi Arabia":   "https://flagcdn.com/w80/sa.png",
+            "Qatar":          "https://flagcdn.com/w80/qa.png",
+            "Uzbekistan":     "https://flagcdn.com/w80/uz.png",
+            "China":          "https://flagcdn.com/w80/cn.png",
+
+            // ── OFC ───────────────────────────────────────────────────
+            // (New Zealand already listed above under AFC playoff)
+
+            };
+
+// ── Helper: get logo URL by team name ─────────────────────
+function getTeamLogo(teamName) {
+  return teamLogos[teamName] ?? `https://flagcdn.com/w80/xx.png`; // fallback
+
+            };
 
 
         function renderMatches(day) {
@@ -684,16 +686,46 @@
         const container = document.getElementById('news-container');
         if (!container) return;
 
+        // Fallback news data if API fails or key is placeholder
+        const fallbackArticles = [
+            {
+                title: "Xiddiga Real Madrid oo qarka u saaran bixitaanka xagaaga.",
+                description: "Wararka naga soo gaaraya dalka Spain ayaa sheegaya in xiddiga khadka dhexe uu dalab ka helay...",
+                urlToImage: "news image/GettyImages-2166876546-2-scaled.jpg",
+                publishedAt: new Date().toISOString(),
+                url: "#"
+            },
+            {
+                title: "Tababare Pep Guardiola oo ka hadlay mustaqbalkiisa Man City.",
+                description: "Guardiola ayaa sheegay inuu aad ugu faraxsan yahay kooxda hase yeeshee uu go'aan gaari doono...",
+                urlToImage: "news image/GettyImages-2262861156.jpg.webp",
+                publishedAt: new Date().toISOString(),
+                url: "#"
+            },
+            {
+                title: "Sir Alex Ferguson Taken to Hospital Before Man Utd’s Win Over Liverpool",
+                description: "Halyeyga Manchester United Sir Alex Ferguson ayaa la sheegay in loola cararay isbitaal maanta...",
+                urlToImage: "news image/fergusan.jpg",
+                publishedAt: new Date().toISOString(),
+                url: "#"
+            }
+        ];
+
         try {
+            if (!NEWS_API_KEY || NEWS_API_KEY === "YOUR_NEWS_API_KEY") {
+                throw new Error("Missing API Key");
+            }
+
             // Fetching football news from NewsAPI (Search query: football OR soccer)
             const res = await fetch(`https://newsapi.org/v2/everything?q=football+soccer&sortBy=publishedAt&pageSize=6&language=en&apiKey=${NEWS_API_KEY}`);
             const data = await res.json();
             
-            if (data.status === 'ok' && data.articles.length > 0) {
-                container.innerHTML = data.articles.map(article => `
+            const articles = (data.status === 'ok' && data.articles.length > 0) ? data.articles : fallbackArticles;
+            
+            container.innerHTML = articles.map(article => `
                     <article class="news-card">
                         <div class="news-thumb">
-                            <img src="${article.urlToImage || 'https://via.placeholder.com/400x240?text=News'}" alt="${article.title}" loading="lazy">
+                            <img src="${article.urlToImage || 'https://via.placeholder.com/400x240?text=News'}" alt="${article.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x240?text=News'">
                             <span class="news-tag">Wararka</span>
                         </div>
                         <div class="news-info">
@@ -708,9 +740,28 @@
                     </article>
                 `).join('');
                 lucide.createIcons();
-            }
+
         } catch (err) {
-            console.error("Error fetching news:", err);
+            console.warn("NewsAPI error (likely CORS or Key). Showing fallback news:", err);
+            // Render fallbacks immediately on error
+            container.innerHTML = fallbackArticles.map(article => `
+                <article class="news-card">
+                    <div class="news-thumb">
+                        <img src="${article.urlToImage}" alt="${article.title}" loading="lazy">
+                        <span class="news-tag">Wararka</span>
+                    </div>
+                    <div class="news-info">
+                        <div class="news-meta">
+                            <span><i data-lucide="calendar"></i> ${new Date(article.publishedAt).toLocaleDateString()}</span>
+                            <span><i data-lucide="clock"></i> 3 min akhri</span>
+                        </div>
+                        <h3>${article.title}</h3>
+                        <p>${article.description}</p>
+                        <a href="${article.url}" class="btn-read">Akhri Wax Badan <i data-lucide="arrow-right"></i></a>
+                    </div>
+                </article>
+            `).join('');
+            lucide.createIcons();
         }
     }
 
