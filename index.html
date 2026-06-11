@@ -74,9 +74,9 @@
      <section class="section-block" id="matches">
       <div class="fixtures-container">
        <div class="fixtures-header">
-        Kulamada Maanta
+        Today's Matches
        </div>
-       <div class="nav-tabs"><button class="nav-item tab-btn" data-day="shalay">Shalay</button> <button class="nav-item tab-btn active" data-day="maanta">Maanta</button> <button class="nav-item tab-btn" data-day="berri">Berri</button>
+       <div class="nav-tabs"><button class="nav-item tab-btn" data-day="shalay">Yesterday</button> <button class="nav-item tab-btn active" data-day="maanta">Today</button> <button class="nav-item tab-btn" data-day="berri">Tomorrow</button>
        </div>
        <div id="matches-container"></div>
       </div>
@@ -85,14 +85,14 @@
     <div class="content-middle">
      <section class="section-block" id="news">
       <div style="padding: 0;">
-       <h2 class="section-title">📰 Wararka</h2>
+       <h2 class="section-title">📰 Latest News</h2>
        <div class="news-grid" id="news-container"></div>
       </div>
      </section>
     </div>
     <aside class="sidebar">
      <div class="sidebar-widget">
-      <h3>Tartamada</h3>
+      <h3>Leagues</h3>
       <ul class="league-list">
        <li><img src="icon football/champion.png" alt="Champions League" loading="lazy"> Champions League</li>
        <li><img src="icon football/premier league.png" alt="Premier League" loading="lazy"> Premier League</li>
@@ -107,8 +107,8 @@
       </ul>
      </div>
      <div class="sidebar-widget social-promo">
-      <h3>Nagu Soo Biir</h3>
-      <p>Nagu soo biir TikTok si aad u hesho muuqaallada ugu dambeeya!</p><a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="btn-social-tiktok"><i data-lucide="music"></i> Follow Us</a>
+      <h3>Join Us</h3>
+      <p>Join us on TikTok for the latest highlights and videos!</p><a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="btn-social-tiktok"><i data-lucide="music"></i> Follow Us</a>
      </div>
     </aside>
    </div>
@@ -124,14 +124,14 @@
   <footer class="main-footer">
    <div class="footer-container">
     <div class="footer-col about-col"><img src="logo/Logo.png" alt="Daawo Hadda Logo" class="footer-logo">
-     <p>Isha ugu kalsoonida badan ee wararka ciyaaraha iyo natiijooyinka tooska ah ee Soomaalida meel kasta oo ay joogaan.</p>
+     <p>The most trusted source for sports news and live results for Somali fans worldwide.</p>
     </div>
     <div class="footer-col links-col">
-     <h4>Xiriirrada Degdeg ah</h4>
+     <h4>Quick Links</h4>
      <ul>
       <li><a href="#home">Home</a></li>
-      <li><a href="#matches">Kulamada</a></li>
-      <li><a href="#news">Wararka</a></li>
+      <li><a href="#matches">Matches</a></li>
+      <li><a href="#news">News</a></li>
       <li><a href="#">Privacy Policy</a></li>
      </ul>
     </div>
@@ -146,7 +146,7 @@
         <span>Get it on</span> <strong>Google Play</strong>
        </div></a>
      </div>
-     <h4 style="margin-top: 25px;">Nala Xiriir</h4>
+     <h4 style="margin-top: 25px;">Contact Us</h4>
      <div class="footer-social-links">
       <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><i data-lucide="facebook"></i></a> 
       <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer"><i data-lucide="music"></i></a> 
@@ -156,7 +156,7 @@
     </div>
    </div>
    <div class="footer-bottom">
-    <p>© 2026 <a href="https://www.daawohadda.club" class="hover:text-emerald-500 transition-colors">www.daawohadda.club</a> - Dhammaan xuquuqdu waa dhowran tahay.</p>
+    <p>© 2026 <a href="https://www.daawohadda.club" class="hover:text-emerald-500 transition-colors">www.daawohadda.club</a> - All rights reserved.</p>
    </div>
   </footer>
 
@@ -250,9 +250,10 @@
         const matchesData = {
         shalay: [],
         maanta: [
-            { home: 'Mexico', away: 'South Africa', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Soo socda', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '22:00' }
+            { home: 'Mexico', away: 'South Africa', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '22:00' }
         ],
         berri: [
+            { home: 'South Korea', away: 'Czechia', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '05:00' }
         ],
         };
 
@@ -439,7 +440,7 @@
             "Sweden":         "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b39f2940ca8a6d33ef41f_68fa08ce61f58c56e735629c_sweden-national-team-footballlogos-org.png",
             "Scotland":       "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a0e29b605309fb7f47b_68fa07134a7663c774887b1a_scotland-national-team-footballlogos-org.png",
             "Norway":         "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/68fa03b401a24ac6badeaa5c_norway-national-team-footballlogos-org.svg",
-            "Czechia":        "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a124f9b12d3899cdf35_68f9fefa92aa92766cfafa43_czechia-national-team-footballlogos-org.png",
+            "Czechia": "https://flagcdn.com/w80/cz.png",
             "Turkey":         "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a199844733813bb5b41_68fa09923df7f921ed9a86ef_turkey-national-team-footballlogos-org.png",
             "Bosnia and Herzegovina": "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/68fd1a0bb96a229b28eff9ca_bosnia-and-herzegovina-footballlogos-org.svg",
 
@@ -647,9 +648,9 @@ function getTeamLogo(teamName) {
                     } else if (status === "HT") {
                         statusText = "HT";
                     } else if (["FT", "AET", "PEN"].includes(status)) {
-                        statusText = "Dhamaad";
+                        statusText = "Finished";
                     } else if (status === "NS") {
-                        statusText = "Soo socda";
+                        statusText = "Upcoming";
                     }
 
                     const matchObj = {
@@ -689,22 +690,29 @@ function getTeamLogo(teamName) {
         // Fallback news data if API fails or key is placeholder
         const fallbackArticles = [
             {
-                title: "Xiddiga Real Madrid oo qarka u saaran bixitaanka xagaaga.",
-                description: "Wararka naga soo gaaraya dalka Spain ayaa sheegaya in xiddiga khadka dhexe uu dalab ka helay...",
+                title: "Top African referee Omar Artan to officiate 2026 UEFA Super Cup after being unable to participate in FIFA World Cup 2026",
+                description: "Somali referee Omar Artan has been appointed to officiate the upcoming UEFA Super Cup, marking a major milestone for African officiating after missing out on the World Cup.",
+                urlToImage: "news image/images.jpg",
+                publishedAt: new Date().toISOString(),
+                url: "#"
+            },
+            {
+                title: "Real Madrid star on the verge of summer exit.",
+                description: "Reports from Spain indicate that the midfielder has received an offer from a top club...",
                 urlToImage: "news image/GettyImages-2166876546-2-scaled.jpg",
                 publishedAt: new Date().toISOString(),
                 url: "#"
             },
             {
-                title: "Tababare Pep Guardiola oo ka hadlay mustaqbalkiisa Man City.",
-                description: "Guardiola ayaa sheegay inuu aad ugu faraxsan yahay kooxda hase yeeshee uu go'aan gaari doono...",
+                title: "Coach Pep Guardiola speaks on his Manchester City future.",
+                description: "Guardiola stated he is very happy with the team but will make a final decision soon...",
                 urlToImage: "news image/GettyImages-2262861156.jpg.webp",
                 publishedAt: new Date().toISOString(),
                 url: "#"
             },
             {
                 title: "Sir Alex Ferguson Taken to Hospital Before Man Utd’s Win Over Liverpool",
-                description: "Halyeyga Manchester United Sir Alex Ferguson ayaa la sheegay in loola cararay isbitaal maanta...",
+                description: "Manchester United legend Sir Alex Ferguson was reportedly rushed to the hospital today...",
                 urlToImage: "news image/fergusan.jpg",
                 publishedAt: new Date().toISOString(),
                 url: "#"
@@ -726,16 +734,16 @@ function getTeamLogo(teamName) {
                     <article class="news-card">
                         <div class="news-thumb">
                             <img src="${article.urlToImage || 'https://via.placeholder.com/400x240?text=News'}" alt="${article.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x240?text=News'">
-                            <span class="news-tag">Wararka</span>
+                            <span class="news-tag">News</span>
                         </div>
                         <div class="news-info">
                             <div class="news-meta">
                                 <span><i data-lucide="calendar"></i> ${new Date(article.publishedAt).toLocaleDateString()}</span>
-                                <span><i data-lucide="clock"></i> 3 min akhri</span>
+                                <span><i data-lucide="clock"></i> 3 min read</span>
                             </div>
                             <h3>${article.title}</h3>
-                            <p>${article.description || 'Akhri faahfaahinta warkaan adigoo gujinaya badanka hoose.'}</p>
-                            <a href="${article.url}" target="_blank" rel="noopener noreferrer" class="btn-read">Akhri Wax Badan <i data-lucide="arrow-right"></i></a>
+                            <p>${article.description || 'Read the full story for more details.'}</p>
+                            <a href="${article.url}" target="_blank" rel="noopener noreferrer" class="btn-read">Read More <i data-lucide="arrow-right"></i></a>
                         </div>
                     </article>
                 `).join('');
@@ -748,16 +756,16 @@ function getTeamLogo(teamName) {
                 <article class="news-card">
                     <div class="news-thumb">
                         <img src="${article.urlToImage}" alt="${article.title}" loading="lazy">
-                        <span class="news-tag">Wararka</span>
+                        <span class="news-tag">News</span>
                     </div>
                     <div class="news-info">
                         <div class="news-meta">
                             <span><i data-lucide="calendar"></i> ${new Date(article.publishedAt).toLocaleDateString()}</span>
-                            <span><i data-lucide="clock"></i> 3 min akhri</span>
+                            <span><i data-lucide="clock"></i> 3 min read</span>
                         </div>
                         <h3>${article.title}</h3>
                         <p>${article.description}</p>
-                        <a href="${article.url}" class="btn-read">Akhri Wax Badan <i data-lucide="arrow-right"></i></a>
+                        <a href="${article.url}" target="_blank" rel="noopener noreferrer" class="btn-read">Read More <i data-lucide="arrow-right"></i></a>
                     </div>
                 </article>
             `).join('');
