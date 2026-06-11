@@ -47,7 +47,7 @@
             <button id="installBtn" class="btn-primary" style="display:none; padding: 6px 15px; font-size: 12px; height: 34px; margin-right: 10px;">Install App</button>
             <div class="social-icons">
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" title="Facebook"> <i data-lucide="facebook"></i> </a> 
-            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" title="TikTok"> <i data-lucide="music"></i> </a> 
+            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-tiktok"></i></a>
             <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" title="YouTube"> <i data-lucide="youtube"></i> </a>
             </div>
             <div class="theme-toggle" id="themeToggle" title="Switch Theme">
@@ -149,7 +149,7 @@
      <h4 style="margin-top: 25px;">Contact Us</h4>
      <div class="footer-social-links">
       <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><i data-lucide="facebook"></i></a> 
-      <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer"><i data-lucide="music"></i></a> 
+      <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-tiktok"></i></a>
       <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><i data-lucide="instagram"></i></a> 
       <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" title="WhatsApp"><i data-lucide="message-circle"></i></a>
      </div>
@@ -248,12 +248,16 @@
         }
 
         const matchesData = {
-        shalay: [],
+        shalay: [
+            { home: 'Mexico', away: 'South Africa', homeScore: '2', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: -1, url: 'watch-live.html', displayTime: '22:00' }
+        ],
         maanta: [
-            { home: 'Mexico', away: 'South Africa', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: ' LIVE 🔴', statusClass: 'status-live', overlayText: 'Watch Live', day: 0, url: 'watch-live.html', displayTime: '22:00' }
+            { home: 'South Korea', away: 'Czechia', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '05:00' },
+            { home: 'Canada', away: 'Bosnia and Herzegovina', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '22:00' }
         ],
         berri: [
-            { home: 'South Korea', away: 'Czechia', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '05:00' }
+          { home: 'USA', away: 'Paraguay', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '04:00' },
+          { home: 'Qatar', away: 'Switzerland', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '22:00' },
         ],
         };
 
@@ -442,20 +446,19 @@
             "Norway":         "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/68fa03b401a24ac6badeaa5c_norway-national-team-footballlogos-org.svg",
             "Czechia": "https://flagcdn.com/w80/cz.png",
             "Turkey":         "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a199844733813bb5b41_68fa09923df7f921ed9a86ef_turkey-national-team-footballlogos-org.png",
-            "Bosnia and Herzegovina": "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/68fd1a0bb96a229b28eff9ca_bosnia-and-herzegovina-footballlogos-org.svg",
-
+            "Bosnia and Herzegovina": "https://flagcdn.com/w80/ba.png",
             // ── CONMEBOL (South America) ───────────────────────────────
             "Argentina":      "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a1048bb2071e9deee459c12_6a104445459be40714bd9774_argentina-national-team-footylogos.png",
             "Brazil":         "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a07dd70012891100817_68f9fc74eac3dc471d42c1f1_brazil-national-team-footballlogos-org.png",
             "Uruguay":        "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a06d17821a2db9019ea_68fa0a1577c6612bb1154a07_uruguay-national-team-footballlogos-org.png",
             "Colombia":       "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/68f9fd84ab47946a360b482d_colombia-national-team-footballlogos-org.svg",
             "Ecuador":        "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a03e8cfc8f978c35242_68f9ffb9e5f5a02e2ddd6c89_ecuador-national-team-footballlogos-org.png",
-            "Paraguay":       "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a15c8ff2f7f7f02602c_68fa042c2750779cccf807b4_paraguay-national-team-footballlogos-org.png",
+            "Paraguay": "https://flagcdn.com/w80/py.png",
 
             // ── CONCACAF (North/Central America & Caribbean) ──────────
-            "USA":            "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b39f54269adc0c7a000c3_68fa0a65e8dbfe6ba33cb5e6_usa-national-team-footballlogos-org.png",
+            "USA": "https://flagcdn.com/w80/us.png",
             "Mexico":         "https://flagcdn.com/w80/mx.png",
-            "Canada":         "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0b3a0c450ecf35a44ec35a_690b58788c8ba2fc3741ad27_canada-national-team-footballlogos-org.png",
+            "Canada": "https://flagcdn.com/w80/ca.png",
             "Panama":         "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/68fa03e45d0722bd9f321589_panama-national-team-footballlogos-org.svg",
             "Haiti":          "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/6a0f4c6c910c48d9bace182a_692869cd3f30b984d69b7f75_haiti-national-team-footylogos.png",
 
@@ -486,9 +489,9 @@
 
             };
 
-// ── Helper: get logo URL by team name ─────────────────────
-function getTeamLogo(teamName) {
-  return teamLogos[teamName] ?? `https://flagcdn.com/w80/xx.png`; // fallback
+        // ── Helper: get logo URL by team name ─────────────────────
+        function getTeamLogo(teamName) {
+        return teamLogos[teamName] ?? `https://flagcdn.com/w80/xx.png`; // fallback
 
             };
 
@@ -861,6 +864,9 @@ function getTeamLogo(teamName) {
             }
         }
         })();
+    </script>
+</body>
+</html>
     </script>
 </body>
 </html>
