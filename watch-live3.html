@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TV96 Live | Espanyol vs Real Madrid Live</title>
     <meta property="og:title" content="TV96 Live">
-    <meta property="og:description" content="Daawo toos ah Espanyol vs Real Madrid tayada sare ee HD.">
+    <meta property="og:description" content="Watch Espanyol vs Real Madrid live in high-quality HD.">
     <meta property="og:url" content="https://www.tv96live.org/watch-live3">
     <link rel="canonical" href="https://www.tv96live.org/watch-live3">
     <meta name="mobile-web-app-capable" content="yes">
@@ -48,7 +48,7 @@
             <div class="video-player-container">
                 <video id="live-video" controls playsinline autoplay muted poster="banner/poster .png"></video>
                 <div class="player-controls-hint">
-                    <span class="live-label"><span class="pulse-dot"></span> Toos</span>
+                    <span class="live-label"><span class="pulse-dot"></span> Live</span>
                     <span class="quality-label" id="quality-indicator">1080p HD</span>
                 </div>
             </div>
@@ -199,10 +199,10 @@
                     const status = match.fixture.status.short;
                     const statusEl = document.querySelector(".match-status");
                     if (["1H", "2H", "HT"].includes(status)) {
-                        statusEl.innerText = "Toos (Live) 🔴";
+                        statusEl.innerText = "Live 🔴";
                         statusEl.className = "match-status status-live";
                     } else if (["FT", "AET", "PEN"].includes(status)) {
-                        statusEl.innerText = "Dhamaad";
+                        statusEl.innerText = "Finished";
                         statusEl.className = "match-status status-finished";
                     }
                 } catch (err) {

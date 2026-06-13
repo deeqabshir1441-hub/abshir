@@ -53,7 +53,7 @@
             <div class="video-player-container">
                 <video id="live-video" controls playsinline autoplay muted poster="banner/poster .png"></video>
                 <div class="player-controls-hint">
-                    <span class="live-label"><span class="pulse-dot"></span> Toos</span>
+                    <span class="live-label"><span class="pulse-dot"></span> Live</span>
                     <span class="quality-label" id="quality-indicator">1080p HD</span>
                 </div>
             </div>
@@ -296,10 +296,10 @@
                     statusEl.innerText = "LIVE 🔴";
                     statusEl.className = "match-status status-live";
                 } else if (["FT", "AET", "PEN"].includes(status)) {
-                    statusEl.innerText = "Dhamaad";
+                    statusEl.innerText = "Finished";
                     statusEl.className = "match-status status-finished";
                 } else {
-                    statusEl.innerText = "Soo socda";
+                    statusEl.innerText = "Upcoming";
                     statusEl.className = "match-status status-upcoming";
                 }
             } catch (err) {
