@@ -224,11 +224,10 @@
         const API_KEY = "d175585257msh2656f83736302e4p109f24jsn8367cbbb89e0"; // Gali API Key-gaaga halkan
         const NEWS_API_KEY = "YOUR_NEWS_API_KEY"; // Gali NewsAPI Key-gaaga halkan
 
-        async function getMatches() {
-            const today = new Date().toISOString().split("T")[0];
-            const timestamp = new Date().getTime();
+        async function getMatchesForDate(dateStr) {
+            const timestamp = Date.now();
             const res = await fetch(
-                `https://api-football-v1.p.rapidapi.com/v3/fixtures?date=${today}&t=${timestamp}`,
+                `https://api-football-v1.p.rapidapi.com/v3/fixtures?date=${dateStr}&t=${timestamp}`,
                 {
                     headers: {
                         "x-rapidapi-key": API_KEY,
@@ -639,22 +638,32 @@
 
     async function updateMatchesFromAPI() {
         try {
-            const response = await getMatches();
-            if (response && response.length > 0) {
-                // Clear dynamic lists to avoid duplicates on refresh
-                matchesData.maanta = [];
-                matchesData.shalay = [];
-                matchesData.berri = [];
+            const todayDate = new Date();
+            const yesterdayDate = new Date(todayDate); yesterdayDate.setDate(todayDate.getDate() - 1);
+            const tomorrowDate = new Date(todayDate); tomorrowDate.setDate(todayDate.getDate() + 1);
+
+            const dates = {
+                shalay: yesterdayDate.toISOString().split('T')[0],
+                maanta: todayDate.toISOString().split('T')[0],
+                berri: tomorrowDate.toISOString().split('T')[0]
+            };
+
+            // Clear dynamic lists to avoid duplicates on refresh
+            matchesData.maanta = [];
+            matchesData.shalay = [];
+            matchesData.berri = [];
+
+            // Fetch data for all three days simultaneously
+            const fetchPromises = Object.entries(dates).map(async ([dayKey, dateStr]) => {
+                const response = await getMatchesForDate(dateStr);
+                if (!response) return;
 
                 let liveCounter = 0;
-                const watchPages = ['watch-live.html', 'watchlive1.html', 'watchlive2.html'];
+                const watchPages = ['watch-live.html', 'watch-live1.html', 'watch-live2.html', 'watch-live3.html'];
 
                 response.forEach(item => {
                     const status = item.fixture.status.short;
                     const elapsed = item.fixture.status.elapsed;
-                    const dayKey = getMatchDay(item.fixture.date);
-                    
-                    if (dayKey === "other") return;
 
                     const isLive = ['1H', 'HT', '2H', 'ET', 'P', 'BT'].includes(status);
                     let statusText = status;
@@ -688,11 +697,13 @@
 
                     matchesData[dayKey].push(matchObj);
                 });
-                
-                const activeTab = document.querySelector('.nav-item.tab-btn.active');
-                const currentDay = activeTab ? activeTab.getAttribute('data-day') : 'maanta';
-                renderMatches(currentDay);
-            }
+            });
+
+            await Promise.all(fetchPromises);
+
+            const activeTab = document.querySelector('.nav-item.tab-btn.active');
+            const currentDay = activeTab ? activeTab.getAttribute('data-day') : 'maanta';
+            renderMatches(currentDay);
         } catch (error) {
             console.error("Error updating live matches:", error);
         }
