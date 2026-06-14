@@ -223,7 +223,6 @@
 
         const API_KEY = "d175585257msh2656f83736302e4p109f24jsn8367cbbb89e0"; // Gali API Key-gaaga halkan
         const NEWS_API_KEY = "YOUR_NEWS_API_KEY"; // Gali NewsAPI Key-gaaga halkan
-
         async function getMatchesForDate(dateStr) {
             const timestamp = Date.now();
             const res = await fetch(
@@ -256,14 +255,15 @@
             { home: 'Netherlands', away: 'Japan', homeScore: '2', awayScore: '2', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '23:00' }
         ],
         maanta: [
-            { home: 'Ivory Coast', away: 'Ecuador', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '02:00' },
-            { home: 'Sweden', away: 'Tunisia', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '05:00' },
-            { home: 'Spain', away: 'Cape Verde', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '19:00' },
-            { home: 'Belgium', away: 'Egypt', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '22:00' }
+            { home: 'Ivory Coast', away: 'Ecuador', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '02:00', id: '2026005' },
+            { home: 'Sweden', away: 'Tunisia', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live1.html', displayTime: '05:00', id: '2026006' },
+            { home: 'Spain', away: 'Cape Verde', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live2.html', displayTime: '19:00', id: '2026007' },
+            { home: 'Belgium', away: 'Egypt', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live3.html', displayTime: '22:00', id: '2026008' }
         ],
         berri: [
-         
-
+            { home: 'Saudi Arabia', away: 'Uruguay', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '01:00', id: '2026009' },
+            { home: 'Iran', away: 'New Zealand', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live1.html', displayTime: '04:00', id: '2026010' },
+            { home: 'France', away: 'Senegal', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live2.html', displayTime: '22:00', id: '2026011' }
         ],
         };
 
@@ -285,7 +285,6 @@
             "UEFA Europa League": "https://media.api-sports.io/football/leagues/3.png",
             "UEFA Conference League": "https://media.api-sports.io/football/leagues/848.png",
             "CAF Champions League": "https://media.api-sports.io/football/leagues/12.png",
-            "FIFA World Cup 2026": "https://football-logos.cc/tournaments/fifa-world-cup-2026/logo.png",
             "FIFA World Cup": "https://media.api-sports.io/football/leagues/1.png",
             "FIFA World Cup 2026": "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/69f4a666ff876f5a52a1b7ab_fifa-world-cup-2026-official-logo-footylogos.png",
             "Saudi Pro League": "https://media.api-sports.io/football/leagues/307.png",
@@ -648,15 +647,13 @@
                 berri: tomorrowDate.toISOString().split('T')[0]
             };
 
-            // Clear dynamic lists to avoid duplicates on refresh
-            matchesData.maanta = [];
-            matchesData.shalay = [];
-            matchesData.berri = [];
-
             // Fetch data for all three days simultaneously
             const fetchPromises = Object.entries(dates).map(async ([dayKey, dateStr]) => {
                 const response = await getMatchesForDate(dateStr);
-                if (!response) return;
+                if (!response || response.length === 0) return;
+
+                // Only clear if we actually have new data for this day
+                matchesData[dayKey] = [];
 
                 let liveCounter = 0;
                 const watchPages = ['watch-live.html', 'watch-live1.html', 'watch-live2.html', 'watch-live3.html'];
@@ -664,6 +661,9 @@
                 response.forEach(item => {
                     const status = item.fixture.status.short;
                     const elapsed = item.fixture.status.elapsed;
+                    const dayKey = getMatchDay(item.fixture.date);
+                    
+                    if (dayKey === "other") return;
 
                     const isLive = ['1H', 'HT', '2H', 'ET', 'P', 'BT'].includes(status);
                     let statusText = status;
