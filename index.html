@@ -238,6 +238,28 @@
             return data.response;
         }
 
+        /**
+         * Fetches current live matches using the Free Live Football Data API.
+         * This is a modernized version of the XMLHttpRequest snippet provided.
+         */
+        async function getCurrentLiveMatches() {
+            const url = 'https://free-api-live-football-data.p.rapidapi.com/football-current-live';
+            try {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'x-rapidapi-key': API_KEY,
+                        'x-rapidapi-host': 'free-api-live-football-data.p.rapidapi.com'
+                    }
+                });
+                const data = await response.json();
+                console.log("Live API Response:", data);
+                return data;
+            } catch (error) {
+                console.error("Error fetching live matches:", error);
+            }
+        }
+
         function formatTime(utcDate) {
             const date = new Date(utcDate);
             return date.toLocaleTimeString([], {
@@ -509,10 +531,25 @@
         function renderMatches(day) {
         const container = document.getElementById('matches-container');
         const matches = matchesData[day] || [];
+
+        // Get current local time for auto-live check
+        const now = new Date();
+        const currentHHMM = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
         container.innerHTML = matches.map(match => {
             const time = match.utcDate ? formatTime(match.utcDate) : (match.displayTime || '--:--');
             const baseUrl = match.url || 'watch-live.html';
             const matchUrl = `${baseUrl}?id=${match.id || ''}&home=${encodeURIComponent(match.home)}&away=${encodeURIComponent(match.away)}&league=${encodeURIComponent(match.league)}`;
+            
+            let displayStatus = match.status;
+            let displayClass = match.statusClass;
+
+            // Automatic "Live" check: If it's past the start time and still says "Upcoming"
+            if (day === 'maanta' && displayStatus === 'Upcoming' && match.displayTime && match.displayTime <= currentHHMM) {
+                displayStatus = 'LIVE 🔴';
+                displayClass = 'status-live';
+            }
+
             return `
             <a href="${matchUrl}" class="match-link-wrapper">
                 <div class="match-card">
@@ -535,7 +572,7 @@
                     </div>
                     <div class="status-box">
                     <div class="time">${time}</div>
-                    <div class="status ${match.statusClass}">${match.status}</div>
+                    <div class="status ${displayClass}">${displayStatus}</div>
                     </div>
                     <div class="play-overlay">
                     <i data-lucide="play-circle"></i>
@@ -652,18 +689,16 @@
                 const response = await getMatchesForDate(dateStr);
                 if (!response || response.length === 0) return;
 
-                // Only clear if we actually have new data for this day
-                matchesData[dayKey] = [];
-
                 let liveCounter = 0;
                 const watchPages = ['watch-live.html', 'watch-live1.html', 'watch-live2.html', 'watch-live3.html'];
+
+                if (response && response.length > 0) {
+                    matchesData[dayKey] = []; // Clear fallback matches only if API has real data
+                }
 
                 response.forEach(item => {
                     const status = item.fixture.status.short;
                     const elapsed = item.fixture.status.elapsed;
-                    const dayKey = getMatchDay(item.fixture.date);
-                    
-                    if (dayKey === "other") return;
 
                     const isLive = ['1H', 'HT', '2H', 'ET', 'P', 'BT'].includes(status);
                     let statusText = status;
