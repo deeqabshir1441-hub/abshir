@@ -239,32 +239,6 @@
             return data.response;
         }
 
-        /**
-         * Fetches current live matches using the Free Live Football Data API.
-         * This is a modernized version of the XMLHttpRequest snippet provided.
-         */
-        async function getCurrentLiveMatches() {
-            const url = 'https://free-api-live-football-data.p.rapidapi.com/football-current-live';
-            try {
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'x-rapidapi-key': API_KEY,
-                        'x-rapidapi-host': 'free-api-live-football-data.p.rapidapi.com',
-                        'Content-Type': 'application/json'
-                    }
-                });
-                if (!response.ok) throw new Error('API request failed');
-                const data = await response.json();
-                
-                // The free API often returns data in a 'response' or 'data' field
-                return data.response || data.data || [];
-            } catch (error) {
-                console.error("Live API Error:", error);
-                return null;
-            }
-        }
-
         function formatTime(utcDate) {
             const date = new Date(utcDate);
             return date.toLocaleTimeString([], {
@@ -606,10 +580,10 @@
             const matchUrl = `${baseUrl}?id=${match.id || ''}&home=${encodeURIComponent(match.home)}&away=${encodeURIComponent(match.away)}&league=${encodeURIComponent(match.league)}`;
 
             return `
-            <a href="${matchUrl}" class="match-link-wrapper">
+            <a href="${matchUrl}" class="match-link-wrapper" data-match-id="${match.id}">
                 <div class="match-card">
                 <div class="league-header">
-                    <img src="${match.leagueLogo || leagueLogos[match.league] || 'https://via.placeholder.com/20x20?text=🏆'}" alt="${match.league}" class="team-logo" style="width: 18px; height: 18px; margin-right: 8px; border-radius: 2px; background: white; padding: 1px;">
+                    <img src="${match.leagueLogo || leagueLogos[match.league] || 'https://via.placeholder.com/20x20?text=🏆'}" alt="${match.league}" class="league-logo-img" style="width: 18px; height: 18px; margin-right: 8px; border-radius: 2px; background: white; padding: 1px;">
                     <span class="league-name">${match.league}</span>
                 </div>
                 <div class="match-row">
@@ -617,12 +591,12 @@
                     <div class="team">
                         <img src="${match.homeLogo || teamLogos[match.home] || 'https://via.placeholder.com/32x32?text=?'}" alt="${match.home}" class="team-logo" loading="lazy">
                         <span class="team-name">${match.home}</span>
-                        <span class="score">${match.homeScore}</span>
+                        <span class="score home-score">${match.homeScore}</span>
                     </div>
                     <div class="team">
                         <img src="${match.awayLogo || teamLogos[match.away] || 'https://via.placeholder.com/32x32?text=?'}" alt="${match.away}" class="team-logo" loading="lazy">
                         <span class="team-name">${match.away}</span>
-                        <span class="score">${match.awayScore}</span>
+                        <span class="score away-score">${match.awayScore}</span>
                     </div>
                     </div>
                     <div class="status-box">
@@ -680,7 +654,7 @@
         if (!container) return;
         
         try {
-            const res = await fetch(`https://api-football-v1.p.rapidapi.com/v3/standings?league=39&season=2023`, {
+            const res = await fetch(`https://api-football-v1.p.rapidapi.com/v3/standings?league=39&season=2024`, {
                 headers: {
                     "x-rapidapi-key": API_KEY,
                     "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
@@ -745,26 +719,37 @@
      * Surgically updates scores and status in the DOM without re-rendering the list.
      */
     function updateLiveScoresInDOM(liveMatches) {
+        if (!liveMatches) return;
         liveMatches.forEach(match => {
-            const matchCard = document.querySelector(`.match-link-wrapper[data-match-id="${match.fixture?.id || match.id}"]`);
+            const matchId = match.fixture.id;
+            const matchCard = document.querySelector(`.match-link-wrapper[data-match-id="${matchId}"]`);
+            
             if (matchCard) {
                 const homeScoreEl = matchCard.querySelector('.home-score');
                 const awayScoreEl = matchCard.querySelector('.away-score');
                 const statusEl = matchCard.querySelector('.status');
                 
-                const newHomeScore = match.goals?.home ?? match.home?.score ?? 0;
-                const newAwayScore = match.goals?.away ?? match.away?.score ?? 0;
+                const newHomeScore = match.goals.home ?? 0;
+                const newAwayScore = match.goals.away ?? 0;
                 
                 // Flash effect if score changed
-                if (homeScoreEl && homeScoreEl.innerText != newHomeScore) {
+                if (homeScoreEl && parseInt(homeScoreEl.innerText) !== newHomeScore) {
                     homeScoreEl.innerText = newHomeScore;
                     homeScoreEl.classList.add('animate-bounce', 'text-emerald-400');
                     setTimeout(() => homeScoreEl.classList.remove('animate-bounce', 'text-emerald-400'), 2000);
                 }
-                if (awayScoreEl && awayScoreEl.innerText != newAwayScore) {
+                if (awayScoreEl && parseInt(awayScoreEl.innerText) !== newAwayScore) {
                     awayScoreEl.innerText = newAwayScore;
                     awayScoreEl.classList.add('animate-bounce', 'text-emerald-400');
                     setTimeout(() => awayScoreEl.classList.remove('animate-bounce', 'text-emerald-400'), 2000);
+                }
+
+                // Update elapsed time
+                if (statusEl && match.fixture.status.elapsed) {
+                    const isLive = ['1H', 'HT', '2H', 'ET', 'P', 'BT'].includes(match.fixture.status.short);
+                    if (isLive) {
+                        statusEl.innerText = match.fixture.status.short === 'HT' ? 'HT' : match.fixture.status.elapsed + "'";
+                    }
                 }
             }
         });
@@ -796,11 +781,10 @@
             const yesterdayDate = new Date(now); yesterdayDate.setDate(now.getDate() - 1);
             const tomorrowDate = new Date(now); tomorrowDate.setDate(now.getDate() + 1);
 
-            const [yesterdayFixturesRaw, todayFixturesRaw, tomorrowFixturesRaw, liveScores] = await Promise.all([
+            const [yesterdayFixturesRaw, todayFixturesRaw, tomorrowFixturesRaw] = await Promise.all([
                 getMatchesForDate(yesterdayDate.toLocaleDateString('en-CA')),
                 getMatchesForDate(todayStr), // This is for 'maanta'
-                getMatchesForDate(tomorrowDate.toLocaleDateString('en-CA')),
-                getCurrentLiveMatches()
+                getMatchesForDate(tomorrowDate.toLocaleDateString('en-CA'))
             ]);
 
             // Helper to process API response into match objects
@@ -835,19 +819,24 @@
             matchesData.maanta = processApiFixtures(todayFixturesRaw).length > 0 ? processApiFixtures(todayFixturesRaw) : matchesData.maanta;
             matchesData.berri = processApiFixtures(tomorrowFixturesRaw).length > 0 ? processApiFixtures(tomorrowFixturesRaw) : matchesData.berri;
 
-            // Render the currently active tab
-            if (matchesData[currentDay].length > 0) { // Only render if there's data to show
+            // Always update memory
+            const prevMaantaLength = matchesData.maanta.length;
+            matchesData.shalay = processApiFixtures(yesterdayFixturesRaw).length > 0 ? processApiFixtures(yesterdayFixturesRaw) : matchesData.shalay;
+            matchesData.maanta = processApiFixtures(todayFixturesRaw).length > 0 ? processApiFixtures(todayFixturesRaw) : matchesData.maanta;
+            matchesData.berri = processApiFixtures(tomorrowFixturesRaw).length > 0 ? processApiFixtures(tomorrowFixturesRaw) : matchesData.berri;
+
+            // Render or Update surgically
+            const container = document.getElementById('matches-container');
+            if (container.innerHTML === "" || container.querySelector('.animate-pulse') || prevMaantaLength === 0) {
                 renderMatches(currentDay);
-                
-                // 2. If there are live scores from the second API, update them surgically
-                if (liveScores && liveScores.length > 0) {
-                    updateLiveScoresInDOM(liveScores);
-                }
+            } else if (currentDay === 'maanta' && todayFixturesRaw) {
+                updateLiveScoresInDOM(todayFixturesRaw);
             }
         } catch (error) {
             console.error("Error updating live matches:", error);
-            if (matchesData[currentDayTab].length === 0) {
-                document.getElementById('matches-container').innerHTML = '<p class="text-center p-4 text-red-500">Service temporarily unavailable. Retrying...</p>';
+            const container = document.getElementById('matches-container');
+            if (container && container.innerHTML.includes('animate-pulse')) {
+                container.innerHTML = '<p class="text-center p-4 text-red-500">Service temporarily unavailable. Retrying...</p>';
             }
         }
     }
@@ -952,14 +941,6 @@
         setInterval(() => {
             updateMatchesFromAPI();
         }, 30000);
-
-        // Scheduler to check for date change every minute specifically (Requirement 5)
-        setInterval(() => {
-            const checkNow = new Date().toLocaleDateString('en-CA');
-            if (checkNow !== lastKnownDate) {
-                updateMatchesFromAPI();
-            }
-        }, 60000);
 
     </script>
     <script>

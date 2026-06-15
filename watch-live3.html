@@ -224,24 +224,6 @@
                         }
                     }
 
-                    // 2. Fallback: Search in the Live API by name if ID lookup failed or was skipped
-                    if (status === "") {
-                        const res = await fetch('https://free-api-live-football-data.p.rapidapi.com/football-current-live', {
-                            headers: { "x-rapidapi-key": API_KEY, "x-rapidapi-host": "free-api-live-football-data.p.rapidapi.com" }
-                        });
-                        const data = await res.json();
-                        const liveMatches = data.response || data.data || [];
-                        const matchData = liveMatches.find(m => 
-                            (m.home?.name || m.teams?.home?.name || "").toLowerCase().includes(homeParam?.toLowerCase()) ||
-                            (m.away?.name || m.teams?.away?.name || "").toLowerCase().includes(awayParam?.toLowerCase())
-                        );
-                        if (matchData) {
-                            home = matchData.goals?.home ?? matchData.home?.score ?? 0;
-                            away = matchData.goals?.away ?? matchData.away?.score ?? 0;
-                            status = matchData.fixture?.status?.short || matchData.status || "LIVE";
-                        }
-                    }
-
                     if (status === "") return;
 
                     const homeScoreEl = document.getElementById("home-score");
