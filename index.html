@@ -555,22 +555,12 @@
                 const matchMinutes = h * 60 + m;
                 const diff = nowMinutes - matchMinutes; // Minutes elapsed since kickoff
 
-                if (diff >= 100) { // Match considered finished after 100 minutes
+                if (diff >= 120) { // Match considered finished after 100 minutes
                     displayStatus = 'Finished';
                     displayClass = 'status-finished';
-                    // Simulate final scores if not already set by API
-                    if (currentHomeScore === 0 && currentAwayScore === 0) { // Only if scores are still 0-0
-                        currentHomeScore = Math.floor(Math.random() * 4); // 0-3 goals
-                        currentAwayScore = Math.floor(Math.random() * 3); // 0-2 goals
-                    }
                 } else if (diff >= 0) { // Match is live
                     displayStatus = 'LIVE 🔴';
                     displayClass = 'status-live';
-                    // Simulate live scores if not already set by API
-                    if (currentHomeScore === 0 && currentAwayScore === 0) { // Only if scores are still 0-0
-                        currentHomeScore = Math.floor(diff / 35); // Goal every ~35 mins
-                        currentAwayScore = Math.floor(diff / 50); // Goal every ~50 mins
-                    }
                 }
             }
             return { ...match, homeScore: currentHomeScore, awayScore: currentAwayScore, status: displayStatus, statusClass: displayClass };
