@@ -243,28 +243,28 @@
          * Fetches current live matches using the Free Live Football Data API.
          * This is a modernized version of the XMLHttpRequest snippet provided.
          */
-         async function getCurrentLiveMatches() {
-             const url = 'https://free-api-live-football-data.p.rapidapi.com/football-current-live';
-             try {
-                 const response = await fetch(url, {
-                     method: 'GET',
-                     headers: {
-                         'x-rapidapi-key': API_KEY,
-                         'x-rapidapi-host': 'free-api-live-football-data.p.rapidapi.com',
-                         'Content-Type': 'application/json'
-                     }
-                 });
-                 if (!response.ok) throw new Error('API request failed');
-                 const data = await response.json();
-                 
-                 // The free API often returns data in a 'response' or 'data' field
-                 return data.response || data.data || [];
-             } catch (error) {
-                 console.error("Live API Error:", error);
-                 return null;
-             }
-         }
- 
+        async function getCurrentLiveMatches() {
+            const url = 'https://free-api-live-football-data.p.rapidapi.com/football-current-live';
+            try {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'x-rapidapi-key': API_KEY,
+                        'x-rapidapi-host': 'free-api-live-football-data.p.rapidapi.com',
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (!response.ok) throw new Error('API request failed');
+                const data = await response.json();
+                
+                // The free API often returns data in a 'response' or 'data' field
+                return data.response || data.data || [];
+            } catch (error) {
+                console.error("Live API Error:", error);
+                return null;
+            }
+        }
+
         function formatTime(utcDate) {
             const date = new Date(utcDate);
             return date.toLocaleTimeString([], {
@@ -602,7 +602,7 @@
             const matchUrl = `${baseUrl}?id=${match.id || ''}&home=${encodeURIComponent(match.home)}&away=${encodeURIComponent(match.away)}&league=${encodeURIComponent(match.league)}`;
 
             return `
-            <a href="${matchUrl}" class="match-link-wrapper">
+            <a href="${matchUrl}" class="match-link-wrapper" data-match-id="${match.id}">
                 <div class="match-card">
                 <div class="league-header">
                     <img src="${match.leagueLogo || leagueLogos[match.league] || 'https://via.placeholder.com/20x20?text=🏆'}" alt="${match.league}" class="team-logo" style="width: 18px; height: 18px; margin-right: 8px; border-radius: 2px; background: white; padding: 1px;">
@@ -613,12 +613,12 @@
                     <div class="team">
                         <img src="${match.homeLogo || teamLogos[match.home] || 'https://via.placeholder.com/32x32?text=?'}" alt="${match.home}" class="team-logo" loading="lazy">
                         <span class="team-name">${match.home}</span>
-                        <span class="score">${match.homeScore}</span>
+                        <span class="score home-score">${match.homeScore}</span>
                     </div>
                     <div class="team">
                         <img src="${match.awayLogo || teamLogos[match.away] || 'https://via.placeholder.com/32x32?text=?'}" alt="${match.away}" class="team-logo" loading="lazy">
                         <span class="team-name">${match.away}</span>
-                        <span class="score">${match.awayScore}</span>
+                        <span class="score away-score">${match.awayScore}</span>
                     </div>
                     </div>
                     <div class="status-box">
@@ -739,11 +739,31 @@
      */
     function updateLiveScoresInDOM(liveMatches) {
         liveMatches.forEach(match => {
-            const matchCard = document.querySelector(`.match-link-wrapper[data-match-id="${match.fixture?.id || match.id}"]`);
+            const apiMatchId = match.fixture?.id || match.id;
+            let matchCard = document.querySelector(`.match-link-wrapper[data-match-id="${apiMatchId}"]`);
+            
+            // Fallback: Match by team names if ID lookup fails (useful for placeholder matches)
+            if (!matchCard) {
+                const liveHome = (match.teams?.home?.name || match.home?.name || "").toLowerCase();
+                const liveAway = (match.teams?.away?.name || match.away?.name || "").toLowerCase();
+                
+                if (liveHome && liveAway) {
+                    const allCards = document.querySelectorAll('.match-link-wrapper');
+                    for (let card of allCards) {
+                        const cardHome = card.querySelector('.team:first-child .team-name')?.innerText.toLowerCase();
+                        const cardAway = card.querySelector('.team:last-child .team-name')?.innerText.toLowerCase();
+                        
+                        if (cardHome && cardAway && (cardHome.includes(liveHome) || liveHome.includes(cardHome)) && (cardAway.includes(liveAway) || liveAway.includes(cardAway))) {
+                            matchCard = card;
+                            break;
+                        }
+                    }
+                }
+            }
+
             if (matchCard) {
                 const homeScoreEl = matchCard.querySelector('.home-score');
                 const awayScoreEl = matchCard.querySelector('.away-score');
-                const statusEl = matchCard.querySelector('.status');
                 
                 const newHomeScore = match.goals?.home ?? match.home?.score ?? 0;
                 const newAwayScore = match.goals?.away ?? match.away?.score ?? 0;
@@ -770,18 +790,25 @@
         if (matchesData.maanta.length === 0) showMatchesLoading();
 
         try {
-            // 1. Fetch Today's Fixtures and Live Matches
-            const todayStr = new Date().toISOString().split('T')[0];
-            const [todayFixtures, liveScores] = await Promise.all([
+            // 1. Fetch fixtures for Yesterday, Today, Tomorrow, and Live Matches
+            const now = new Date();
+            const todayStr = now.toISOString().split('T')[0];
+            const yesterdayDate = new Date(now); yesterdayDate.setDate(now.getDate() - 1);
+            const tomorrowDate = new Date(now); tomorrowDate.setDate(now.getDate() + 1);
+
+            const [yesterdayFixturesRaw, todayFixturesRaw, tomorrowFixturesRaw, liveScores] = await Promise.all([
+                getMatchesForDate(yesterdayDate.toISOString().split('T')[0]),
                 getMatchesForDate(todayStr),
+                getMatchesForDate(tomorrowDate.toISOString().split('T')[0]),
                 getCurrentLiveMatches()
             ]);
 
-            if (todayFixtures && todayFixtures.length > 0) {
+            // Helper to process API response into match objects
+            const processApiFixtures = (fixtures) => {
+                if (!fixtures || fixtures.length === 0) return [];
                 let liveCounter = 0;
                 const watchPages = ['watch-live.html', 'watch-live1.html', 'watch-live2.html', 'watch-live3.html'];
-                
-                matchesData.maanta = todayFixtures.map(item => {
+                return fixtures.map(item => {
                     const status = item.fixture.status.short;
                     const isLive = ['1H', 'HT', '2H', 'ET', 'P', 'BT'].includes(status);
                     return {
@@ -801,7 +828,15 @@
                         leagueLogo: item.league.logo
                     };
                 });
-                
+            };
+
+            // Update matchesData, prioritizing API data but falling back to existing data if API is empty
+            matchesData.shalay = processApiFixtures(yesterdayFixturesRaw).length > 0 ? processApiFixtures(yesterdayFixturesRaw) : matchesData.shalay;
+            matchesData.maanta = processApiFixtures(todayFixturesRaw).length > 0 ? processApiFixtures(todayFixturesRaw) : matchesData.maanta;
+            matchesData.berri = processApiFixtures(tomorrowFixturesRaw).length > 0 ? processApiFixtures(tomorrowFixturesRaw) : matchesData.berri;
+
+            // Render the currently active tab
+            if (matchesData[currentDay].length > 0) { // Only render if there's data to show
                 renderMatches(currentDay);
                 
                 // 2. If there are live scores from the second API, update them surgically
@@ -811,7 +846,7 @@
             }
         } catch (error) {
             console.error("Error updating live matches:", error);
-            if (matchesData.maanta.length === 0) {
+            if (matchesData[currentDay].length === 0) {
                 document.getElementById('matches-container').innerHTML = '<p class="text-center p-4 text-red-500">Service temporarily unavailable. Retrying...</p>';
             }
         }
