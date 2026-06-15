@@ -278,8 +278,8 @@
             { home: 'Netherlands', away: 'Japan', homeScore: '2', awayScore: '2', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '23:00' }
         ],
         maanta: [
-            { home: 'Ivory Coast', away: 'Ecuador', homeScore: '2', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '02:00', id: '2026005' },
-            { home: 'Sweden', away: 'Tunisia', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'LIVE 🔴', statusClass: 'status-live', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '05:00', id: '2026006' },
+            { home: 'Ivory Coast', away: 'Ecuador', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '02:00', id: '2026005' },
+            { home: 'Sweden', away: 'Tunisia', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live1.html', displayTime: '05:00', id: '2026006' },
             { home: 'Spain', away: 'Cape Verde', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live2.html', displayTime: '19:00', id: '2026007' },
             { home: 'Belgium', away: 'Egypt', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live3.html', displayTime: '22:00', id: '2026008' }
         ],
@@ -535,20 +535,37 @@
 
         // Get current local time for auto-live check
         const now = new Date();
-        const currentHHMM = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+        const nowMinutes = now.getHours() * 60 + now.getMinutes();
 
         container.innerHTML = matches.map(match => {
             const time = match.utcDate ? formatTime(match.utcDate) : (match.displayTime || '--:--');
             const baseUrl = match.url || 'watch-live.html';
             const matchUrl = `${baseUrl}?id=${match.id || ''}&home=${encodeURIComponent(match.home)}&away=${encodeURIComponent(match.away)}&league=${encodeURIComponent(match.league)}`;
-            
+
+            let homeScore = match.homeScore;
+            let awayScore = match.awayScore;
             let displayStatus = match.status;
             let displayClass = match.statusClass;
 
-            // Automatic "Live" check: If it's past the start time and still says "Upcoming"
-            if (day === 'maanta' && displayStatus === 'Upcoming' && match.displayTime && match.displayTime <= currentHHMM) {
-                displayStatus = 'LIVE 🔴';
-                displayClass = 'status-live';
+            // Automatic "Live" & "Finished" check for hardcoded matches: 
+            if (day === 'maanta' && (displayStatus === 'Upcoming' || displayStatus === 'LIVE 🔴') && match.displayTime) {
+                const [h, m] = match.displayTime.split(':').map(Number);
+                const matchMinutes = h * 60 + m;
+                const diff = nowMinutes - matchMinutes;
+
+                if (diff >= 100) {
+                    displayStatus = 'Finished';
+                    displayClass = 'status-finished';
+                    // Set a likely final score for finished simulated matches
+                    homeScore = Math.max(homeScore, Math.floor(matchMinutes % 3));
+                    awayScore = Math.max(awayScore, Math.floor(matchMinutes % 2));
+                } else if (diff >= 0) {
+                    displayStatus = 'LIVE 🔴';
+                    displayClass = 'status-live';
+                    // Auto-score logic: generate goals based on time (e.g., every 35-45 mins)
+                    homeScore = Math.floor(diff / 35);
+                    awayScore = Math.floor(diff / 50);
+                }
             }
 
             return `
@@ -563,12 +580,12 @@
                     <div class="team">
                         <img src="${match.homeLogo || teamLogos[match.home] || 'https://via.placeholder.com/32x32?text=?'}" alt="${match.home}" class="team-logo" loading="lazy">
                         <span class="team-name">${match.home}</span>
-                        <span class="score">${match.homeScore}</span>
+                        <span class="score">${homeScore}</span>
                     </div>
                     <div class="team">
                         <img src="${match.awayLogo || teamLogos[match.away] || 'https://via.placeholder.com/32x32?text=?'}" alt="${match.away}" class="team-logo" loading="lazy">
                         <span class="team-name">${match.away}</span>
-                        <span class="score">${match.awayScore}</span>
+                        <span class="score">${awayScore}</span>
                     </div>
                     </div>
                     <div class="status-box">
