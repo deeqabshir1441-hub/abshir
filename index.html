@@ -243,24 +243,28 @@
          * Fetches current live matches using the Free Live Football Data API.
          * This is a modernized version of the XMLHttpRequest snippet provided.
          */
-        async function getCurrentLiveMatches() {
-            const url = 'https://free-api-live-football-data.p.rapidapi.com/football-current-live';
-            try {
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'x-rapidapi-key': API_KEY,
-                        'x-rapidapi-host': 'free-api-live-football-data.p.rapidapi.com'
-                    }
-                });
-                const data = await response.json();
-                console.log("Live API Response:", data);
-                return data;
-            } catch (error) {
-                console.error("Error fetching live matches:", error);
-            }
-        }
-
+         async function getCurrentLiveMatches() {
+             const url = 'https://free-api-live-football-data.p.rapidapi.com/football-current-live';
+             try {
+                 const response = await fetch(url, {
+                     method: 'GET',
+                     headers: {
+                         'x-rapidapi-key': API_KEY,
+                         'x-rapidapi-host': 'free-api-live-football-data.p.rapidapi.com',
+                         'Content-Type': 'application/json'
+                     }
+                 });
+                 if (!response.ok) throw new Error('API request failed');
+                 const data = await response.json();
+                 
+                 // The free API often returns data in a 'response' or 'data' field
+                 return data.response || data.data || [];
+             } catch (error) {
+                 console.error("Live API Error:", error);
+                 return null;
+             }
+         }
+ 
         function formatTime(utcDate) {
             const date = new Date(utcDate);
             return date.toLocaleTimeString([], {
@@ -278,8 +282,8 @@
             { home: 'Netherlands', away: 'Japan', homeScore: '2', awayScore: '2', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '23:00' }
         ],
         maanta: [
-            { home: 'Ivory Coast', away: 'Ecuador', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '02:00', id: '2026005' },
-            { home: 'Sweden', away: 'Tunisia', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live1.html', displayTime: '05:00', id: '2026006' },
+            { home: 'Ivory Coast', away: 'Ecuador', homeScore: '1', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '02:00', id: '2026005' },
+            { home: 'Sweden', away: 'Tunisia', homeScore: '5', awayScore: '1', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live1.html', displayTime: '05:00', id: '2026006' },
             { home: 'Spain', away: 'Cape Verde', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live2.html', displayTime: '19:00', id: '2026007' },
             { home: 'Belgium', away: 'Egypt', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live3.html', displayTime: '22:00', id: '2026008' }
         ],
@@ -537,36 +541,75 @@
         const now = new Date();
         const nowMinutes = now.getHours() * 60 + now.getMinutes();
 
-        container.innerHTML = matches.map(match => {
-            const time = match.utcDate ? formatTime(match.utcDate) : (match.displayTime || '--:--');
-            const baseUrl = match.url || 'watch-live.html';
-            const matchUrl = `${baseUrl}?id=${match.id || ''}&home=${encodeURIComponent(match.home)}&away=${encodeURIComponent(match.away)}&league=${encodeURIComponent(match.league)}`;
-
-            let homeScore = match.homeScore;
-            let awayScore = match.awayScore;
+        // Process matches to apply auto-status and auto-score logic
+        const processedMatches = matches.map(match => {
+            let currentHomeScore = Number(match.homeScore); // Convert to number
+            let currentAwayScore = Number(match.awayScore); // Convert to number
             let displayStatus = match.status;
             let displayClass = match.statusClass;
 
-            // Automatic "Live" & "Finished" check for hardcoded matches: 
-            if (day === 'maanta' && (displayStatus === 'Upcoming' || displayStatus === 'LIVE 🔴') && match.displayTime) {
+            // Only apply auto-status/score for 'maanta' (Today) and if it's a hardcoded match (no API update yet)
+            // The API updateMatchesFromAPI will overwrite these if it finds real data.
+            if (day === 'maanta' && (displayStatus === 'Upcoming' || displayStatus.includes('LIVE')) && match.displayTime) {
                 const [h, m] = match.displayTime.split(':').map(Number);
                 const matchMinutes = h * 60 + m;
-                const diff = nowMinutes - matchMinutes;
+                const diff = nowMinutes - matchMinutes; // Minutes elapsed since kickoff
 
-                if (diff >= 120) {
+                if (diff >= 100) { // Match considered finished after 100 minutes
                     displayStatus = 'Finished';
                     displayClass = 'status-finished';
-                    // Set a likely final score for finished simulated matches
-                    homeScore = Math.max(homeScore, Math.floor(matchMinutes % 3));
-                    awayScore = Math.max(awayScore, Math.floor(matchMinutes % 2));
-                } else if (diff >= 0) {
+                    // Simulate final scores if not already set by API
+                    if (currentHomeScore === 0 && currentAwayScore === 0) { // Only if scores are still 0-0
+                        currentHomeScore = Math.floor(Math.random() * 4); // 0-3 goals
+                        currentAwayScore = Math.floor(Math.random() * 3); // 0-2 goals
+                    }
+                } else if (diff >= 0) { // Match is live
                     displayStatus = 'LIVE 🔴';
                     displayClass = 'status-live';
-                    // Auto-score logic: generate goals based on time (e.g., every 35-45 mins)
-                    homeScore = Math.floor(diff / 35);
-                    awayScore = Math.floor(diff / 50);
+                    // Simulate live scores if not already set by API
+                    if (currentHomeScore === 0 && currentAwayScore === 0) { // Only if scores are still 0-0
+                        currentHomeScore = Math.floor(diff / 35); // Goal every ~35 mins
+                        currentAwayScore = Math.floor(diff / 50); // Goal every ~50 mins
+                    }
                 }
             }
+            return { ...match, homeScore: currentHomeScore, awayScore: currentAwayScore, status: displayStatus, statusClass: displayClass };
+        });
+
+        // Now sort the processedMatches based on the criteria
+        processedMatches.sort((a, b) => {
+            const getStatusPriority = (status) => {
+                if (status.includes('LIVE')) return 1;
+                if (status === 'Upcoming') return 2;
+                if (status === 'Finished') return 3;
+                return 4; // Default for unknown statuses
+            };
+
+            const priorityA = getStatusPriority(a.status);
+            const priorityB = getStatusPriority(b.status);
+
+            if (priorityA !== priorityB) {
+                return priorityA - priorityB; // Sort by status priority (1, 2, 3)
+            }
+
+            // If priorities are the same, apply secondary sorting
+            const [hA, mA] = a.displayTime.split(':').map(Number);
+            const timeInMinutesA = hA * 60 + mA;
+            const [hB, mB] = b.displayTime.split(':').map(Number);
+            const timeInMinutesB = hB * 60 + mB;
+
+            if (priorityA === 1 || priorityA === 2) { // Live or Upcoming: earliest kickoff first
+                return timeInMinutesA - timeInMinutesB;
+            } else if (priorityA === 3) { // Finished: most recently finished first (descending kickoff time)
+                return timeInMinutesB - timeInMinutesA;
+            }
+            return 0; // No change in order
+        });
+
+        container.innerHTML = processedMatches.map(match => {
+            const time = match.utcDate ? formatTime(match.utcDate) : (match.displayTime || '--:--');
+            const baseUrl = match.url || 'watch-live.html';
+            const matchUrl = `${baseUrl}?id=${match.id || ''}&home=${encodeURIComponent(match.home)}&away=${encodeURIComponent(match.away)}&league=${encodeURIComponent(match.league)}`;
 
             return `
             <a href="${matchUrl}" class="match-link-wrapper">
@@ -580,17 +623,17 @@
                     <div class="team">
                         <img src="${match.homeLogo || teamLogos[match.home] || 'https://via.placeholder.com/32x32?text=?'}" alt="${match.home}" class="team-logo" loading="lazy">
                         <span class="team-name">${match.home}</span>
-                        <span class="score">${homeScore}</span>
+                        <span class="score">${match.homeScore}</span>
                     </div>
                     <div class="team">
                         <img src="${match.awayLogo || teamLogos[match.away] || 'https://via.placeholder.com/32x32?text=?'}" alt="${match.away}" class="team-logo" loading="lazy">
                         <span class="team-name">${match.away}</span>
-                        <span class="score">${awayScore}</span>
+                        <span class="score">${match.awayScore}</span>
                     </div>
                     </div>
                     <div class="status-box">
                     <div class="time">${time}</div>
-                    <div class="status ${displayClass}">${displayStatus}</div>
+                    <div class="status ${match.statusClass}">${match.status}</div>
                     </div>
                     <div class="play-overlay">
                     <i data-lucide="play-circle"></i>
@@ -690,75 +733,97 @@
         }
     }
 
+    function showMatchesLoading() {
+        const container = document.getElementById('matches-container');
+        container.innerHTML = `
+            <div class="flex flex-col gap-4 p-4">
+                <div class="h-24 bg-slate-800/50 animate-pulse rounded-xl"></div>
+                <div class="h-24 bg-slate-800/50 animate-pulse rounded-xl"></div>
+                <div class="h-24 bg-slate-800/50 animate-pulse rounded-xl"></div>
+            </div>
+        `;
+    }
+
+    /**
+     * Surgically updates scores and status in the DOM without re-rendering the list.
+     */
+    function updateLiveScoresInDOM(liveMatches) {
+        liveMatches.forEach(match => {
+            const matchCard = document.querySelector(`.match-link-wrapper[data-match-id="${match.fixture?.id || match.id}"]`);
+            if (matchCard) {
+                const homeScoreEl = matchCard.querySelector('.home-score');
+                const awayScoreEl = matchCard.querySelector('.away-score');
+                const statusEl = matchCard.querySelector('.status');
+                
+                const newHomeScore = match.goals?.home ?? match.home?.score ?? 0;
+                const newAwayScore = match.goals?.away ?? match.away?.score ?? 0;
+                
+                // Flash effect if score changed
+                if (homeScoreEl && homeScoreEl.innerText != newHomeScore) {
+                    homeScoreEl.innerText = newHomeScore;
+                    homeScoreEl.classList.add('animate-bounce', 'text-emerald-400');
+                    setTimeout(() => homeScoreEl.classList.remove('animate-bounce', 'text-emerald-400'), 2000);
+                }
+                if (awayScoreEl && awayScoreEl.innerText != newAwayScore) {
+                    awayScoreEl.innerText = newAwayScore;
+                    awayScoreEl.classList.add('animate-bounce', 'text-emerald-400');
+                    setTimeout(() => awayScoreEl.classList.remove('animate-bounce', 'text-emerald-400'), 2000);
+                }
+            }
+        });
+    }
+
     async function updateMatchesFromAPI() {
+        const activeTab = document.querySelector('.nav-item.tab-btn.active');
+        const currentDay = activeTab ? activeTab.getAttribute('data-day') : 'maanta';
+        
+        if (matchesData.maanta.length === 0) showMatchesLoading();
+
         try {
-            const todayDate = new Date();
-            const yesterdayDate = new Date(todayDate); yesterdayDate.setDate(todayDate.getDate() - 1);
-            const tomorrowDate = new Date(todayDate); tomorrowDate.setDate(todayDate.getDate() + 1);
+            // 1. Fetch Today's Fixtures and Live Matches
+            const todayStr = new Date().toISOString().split('T')[0];
+            const [todayFixtures, liveScores] = await Promise.all([
+                getMatchesForDate(todayStr),
+                getCurrentLiveMatches()
+            ]);
 
-            const dates = {
-                shalay: yesterdayDate.toISOString().split('T')[0],
-                maanta: todayDate.toISOString().split('T')[0],
-                berri: tomorrowDate.toISOString().split('T')[0]
-            };
-
-            // Fetch data for all three days simultaneously
-            const fetchPromises = Object.entries(dates).map(async ([dayKey, dateStr]) => {
-                const response = await getMatchesForDate(dateStr);
-                if (!response || response.length === 0) return;
-
+            if (todayFixtures && todayFixtures.length > 0) {
                 let liveCounter = 0;
                 const watchPages = ['watch-live.html', 'watch-live1.html', 'watch-live2.html', 'watch-live3.html'];
-
-                if (response && response.length > 0) {
-                    matchesData[dayKey] = []; // Clear fallback matches only if API has real data
-                }
-
-                response.forEach(item => {
+                
+                matchesData.maanta = todayFixtures.map(item => {
                     const status = item.fixture.status.short;
-                    const elapsed = item.fixture.status.elapsed;
-
                     const isLive = ['1H', 'HT', '2H', 'ET', 'P', 'BT'].includes(status);
-                    let statusText = status;
-                    if (isLive && status !== 'HT') {
-                        statusText = elapsed ? `${elapsed}'` : "LIVE";
-                    } else if (status === "HT") {
-                        statusText = "HT";
-                    } else if (["FT", "AET", "PEN"].includes(status)) {
-                        statusText = "Finished";
-                    } else if (status === "NS") {
-                        statusText = "Upcoming";
-                    }
-
-                    const matchObj = {
+                    return {
                         id: item.fixture.id,
                         home: item.teams.home.name,
                         away: item.teams.away.name,
                         homeScore: item.goals.home ?? 0,
                         awayScore: item.goals.away ?? 0,
                         league: item.league.name,
-                        utcDate: item.fixture.date,
-                        status: statusText,
-                        statusClass: ['1H', 'HT', '2H', 'ET', 'P', 'BT'].includes(status) ? 'status-live' : 
-                                     (['FT', 'AET', 'PEN'].includes(status) ? 'status-finished' : 'status-upcoming'),
+                        displayTime: formatToLocalTime(item.fixture.date),
+                        status: isLive ? (item.fixture.status.elapsed + "'") : (status === 'FT' ? 'Finished' : 'Upcoming'),
+                        statusClass: isLive ? 'status-live' : (status === 'FT' ? 'status-finished' : 'status-upcoming'),
                         overlayText: 'Watch Live',
                         url: isLive ? watchPages[liveCounter++ % watchPages.length] : 'watch-live.html',
                         homeLogo: item.teams.home.logo,
                         awayLogo: item.teams.away.logo,
                         leagueLogo: item.league.logo
                     };
-
-                    matchesData[dayKey].push(matchObj);
                 });
-            });
-
-            await Promise.all(fetchPromises);
-
-            const activeTab = document.querySelector('.nav-item.tab-btn.active');
-            const currentDay = activeTab ? activeTab.getAttribute('data-day') : 'maanta';
-            renderMatches(currentDay);
+                
+                renderMatches(currentDay);
+                
+                // 2. If there are live scores from the second API, update them surgically
+                if (liveScores && liveScores.length > 0) {
+                    updateLiveScoresInDOM(liveScores);
+                }
+            }
         } catch (error) {
             console.error("Error updating live matches:", error);
+            if (matchesData.maanta.length === 0) {
+                document.getElementById('matches-container').innerHTML = '<p class="text-center p-4 text-red-500">Service temporarily unavailable. Retrying...</p>';
+            }
         }
     }
 
@@ -858,12 +923,11 @@
         updateLeagueTable();
         updateNewsFromAPI();
 
-        // Auto update every 15 minutes (900,000 ms)
+        // Auto update every 30 seconds for live score changes
         setInterval(() => {
             updateMatchesFromAPI();
-            updateLeagueTable();
-            updateNewsFromAPI();
-        }, 900000);
+        }, 30000);
+
     </script>
     <script>
         let deferredPrompt;
