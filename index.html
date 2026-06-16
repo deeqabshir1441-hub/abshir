@@ -255,8 +255,8 @@
             { home: 'Belgium', away: 'Egypt', homeScore: '1', awayScore: '1', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live3.html', displayTime: '22:00', id: '2026008' }
         ],
         maanta: [
-            { home: 'Saudi Arabia', away: 'Uruguay', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '01:00', id: '2026009' },
-            { home: 'Iran', away: 'New Zealand', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live1.html', displayTime: '04:00', id: '2026010' },
+            { home: 'Saudi Arabia', away: 'Uruguay', homeScore: '1', awayScore: '1', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '01:00', id: '2026009' },
+            { home: 'Iran', away: 'New Zealand', homeScore: '2', awayScore: '2', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live1.html', displayTime: '04:00', id: '2026010' },
             { home: 'France', away: 'Senegal', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live2.html', displayTime: '22:00', id: '2026011' }
         ],
         berri: [
@@ -715,126 +715,84 @@
     // Store current local date to detect midnight rollover (Requirement 7)
     let lastKnownDate = new Date().toLocaleDateString('en-CA');
 
-    /**
-     * Surgically updates scores and status in the DOM without re-rendering the list.
-     */
-    function updateLiveScoresInDOM(liveMatches) {
-        if (!liveMatches) return;
-        liveMatches.forEach(match => {
-            const matchId = match.fixture.id;
-            const matchCard = document.querySelector(`.match-link-wrapper[data-match-id="${matchId}"]`);
+    function processApiFixtures(fixtures) {
+        if (!fixtures || fixtures.length === 0) return [];
+        let liveCounter = 0;
+        const watchPages = ['watch-live.html', 'watch-live1.html', 'watch-live2.html', 'watch-live3.html'];
+        return fixtures.map(item => {
+            const statusShort = item.fixture.status.short;
+            const isLive = ['1H', 'HT', '2H', 'ET', 'P', 'BT'].includes(statusShort);
+            let displayStatus = "";
             
-            if (matchCard) {
-                const homeScoreEl = matchCard.querySelector('.home-score');
-                const awayScoreEl = matchCard.querySelector('.away-score');
-                const statusEl = matchCard.querySelector('.status');
-                
-                const newHomeScore = match.goals.home ?? 0;
-                const newAwayScore = match.goals.away ?? 0;
-                
-                // Flash effect if score changed
-                if (homeScoreEl && parseInt(homeScoreEl.innerText) !== newHomeScore) {
-                    homeScoreEl.innerText = newHomeScore;
-                    homeScoreEl.classList.add('animate-bounce', 'text-emerald-400');
-                    setTimeout(() => homeScoreEl.classList.remove('animate-bounce', 'text-emerald-400'), 2000);
-                }
-                if (awayScoreEl && parseInt(awayScoreEl.innerText) !== newAwayScore) {
-                    awayScoreEl.innerText = newAwayScore;
-                    awayScoreEl.classList.add('animate-bounce', 'text-emerald-400');
-                    setTimeout(() => awayScoreEl.classList.remove('animate-bounce', 'text-emerald-400'), 2000);
-                }
-
-                // Update elapsed time
-                if (statusEl && match.fixture.status.elapsed) {
-                    const isLive = ['1H', 'HT', '2H', 'ET', 'P', 'BT'].includes(match.fixture.status.short);
-                    if (isLive) {
-                        statusEl.innerText = match.fixture.status.short === 'HT' ? 'HT' : match.fixture.status.elapsed + "'";
-                    }
-                }
+            if (statusShort === 'HT') {
+                displayStatus = 'HT';
+            } else if (isLive) {
+                displayStatus = (item.fixture.status.elapsed ?? 0) + "' 🔴";
+            } else if (['FT', 'AET', 'PEN'].includes(statusShort)) {
+                displayStatus = 'Finished';
+            } else {
+                displayStatus = 'Upcoming';
             }
+
+            return {
+                id: item.fixture.id,
+                home: item.teams.home.name,
+                away: item.teams.away.name,
+                homeScore: item.goals.home ?? 0,
+                awayScore: item.goals.away ?? 0,
+                league: item.league.name,
+                displayTime: formatToLocalTime(item.fixture.date),
+                status: displayStatus,
+                statusClass: isLive ? 'status-live' : (['FT', 'AET', 'PEN'].includes(statusShort) ? 'status-finished' : 'status-upcoming'),
+                overlayText: 'Watch Live',
+                url: isLive ? watchPages[liveCounter++ % watchPages.length] : 'watch-live.html',
+                homeLogo: item.teams.home.logo,
+                awayLogo: item.teams.away.logo,
+                leagueLogo: item.league.logo
+            };
         });
     }
 
     async function updateMatchesFromAPI() {
         const now = new Date();
-        const todayStr = now.toLocaleDateString('en-CA'); // YYYY-MM-DD in local time (Requirement 6)
+        const todayStr = now.toLocaleDateString('en-CA');
         const activeTab = document.querySelector('.nav-item.tab-btn.active');
         const currentDay = activeTab ? activeTab.getAttribute('data-day') : 'maanta';
 
-        // 1. Detect Midnight Rollover (Requirement 1, 4, & 8)
         if (todayStr !== lastKnownDate) {
-            console.log(`Midnight Rollover Detected: ${lastKnownDate} -> ${todayStr}`);
+            console.log(`Midnight Rollover: ${lastKnownDate} -> ${todayStr}`);
             lastKnownDate = todayStr;
-            
-            // Shift data objects: Today becomes Yesterday, Tomorrow becomes Today (Requirement 1)
             matchesData.shalay = [...matchesData.maanta];
             matchesData.maanta = [...matchesData.berri];
-            matchesData.berri = []; // Clear Tomorrow to prepare for fresh fetch
-            
-            // Refresh UI immediately (Requirement 3 & 4)
+            matchesData.berri = [];
             renderMatches(currentDay);
         }
 
+        const container = document.getElementById('matches-container');
         if (matchesData[currentDay].length === 0) showMatchesLoading();
 
         try {
             const yesterdayDate = new Date(now); yesterdayDate.setDate(now.getDate() - 1);
             const tomorrowDate = new Date(now); tomorrowDate.setDate(now.getDate() + 1);
 
-            const [yesterdayFixturesRaw, todayFixturesRaw, tomorrowFixturesRaw] = await Promise.all([
+            const [yRaw, tRaw, tomRaw] = await Promise.all([
                 getMatchesForDate(yesterdayDate.toLocaleDateString('en-CA')),
-                getMatchesForDate(todayStr), // This is for 'maanta'
+                getMatchesForDate(todayStr),
                 getMatchesForDate(tomorrowDate.toLocaleDateString('en-CA'))
             ]);
 
-            // Helper to process API response into match objects
-            const processApiFixtures = (fixtures) => {
-                if (!fixtures || fixtures.length === 0) return [];
-                let liveCounter = 0;
-                const watchPages = ['watch-live.html', 'watch-live1.html', 'watch-live2.html', 'watch-live3.html'];
-                return fixtures.map(item => {
-                    const status = item.fixture.status.short;
-                    const isLive = ['1H', 'HT', '2H', 'ET', 'P', 'BT'].includes(status);
-                    return {
-                        id: item.fixture.id,
-                        home: item.teams.home.name,
-                        away: item.teams.away.name,
-                        homeScore: item.goals.home ?? 0,
-                        awayScore: item.goals.away ?? 0,
-                        league: item.league.name,
-                        displayTime: formatToLocalTime(item.fixture.date),
-                        status: isLive ? (item.fixture.status.elapsed + "'") : (status === 'FT' ? 'Finished' : 'Upcoming'),
-                        statusClass: isLive ? 'status-live' : (status === 'FT' ? 'status-finished' : 'status-upcoming'),
-                        overlayText: 'Watch Live',
-                        url: isLive ? watchPages[liveCounter++ % watchPages.length] : 'watch-live.html',
-                        homeLogo: item.teams.home.logo,
-                        awayLogo: item.teams.away.logo,
-                        leagueLogo: item.league.logo
-                    };
-                });
-            };
+            if (yRaw) matchesData.shalay = processApiFixtures(yRaw);
+            if (tRaw) matchesData.maanta = processApiFixtures(tRaw);
+            if (tomRaw) matchesData.berri = processApiFixtures(tomRaw);
 
-            // Update matchesData, prioritizing API data but falling back to existing data if API is empty
-            matchesData.shalay = processApiFixtures(yesterdayFixturesRaw).length > 0 ? processApiFixtures(yesterdayFixturesRaw) : matchesData.shalay;
-            matchesData.maanta = processApiFixtures(todayFixturesRaw).length > 0 ? processApiFixtures(todayFixturesRaw) : matchesData.maanta;
-            matchesData.berri = processApiFixtures(tomorrowFixturesRaw).length > 0 ? processApiFixtures(tomorrowFixturesRaw) : matchesData.berri;
-
-            // Always update memory
-            const prevMaantaLength = matchesData.maanta.length;
-            matchesData.shalay = processApiFixtures(yesterdayFixturesRaw).length > 0 ? processApiFixtures(yesterdayFixturesRaw) : matchesData.shalay;
-            matchesData.maanta = processApiFixtures(todayFixturesRaw).length > 0 ? processApiFixtures(todayFixturesRaw) : matchesData.maanta;
-            matchesData.berri = processApiFixtures(tomorrowFixturesRaw).length > 0 ? processApiFixtures(tomorrowFixturesRaw) : matchesData.berri;
-
-            // Render or Update surgically
-            const container = document.getElementById('matches-container');
-            if (container.innerHTML === "" || container.querySelector('.animate-pulse') || prevMaantaLength === 0) {
-                renderMatches(currentDay);
-            } else if (currentDay === 'maanta' && todayFixturesRaw) {
-                updateLiveScoresInDOM(todayFixturesRaw);
+            if (!yRaw && !tRaw && !tomRaw && container.innerHTML.includes('animate-pulse')) {
+                container.innerHTML = '<p class="text-center p-4 text-red-500">Service unavailable. Please try again later.</p>';
+                return;
             }
+
+            renderMatches(currentDay);
         } catch (error) {
             console.error("Error updating live matches:", error);
-            const container = document.getElementById('matches-container');
             if (container && container.innerHTML.includes('animate-pulse')) {
                 container.innerHTML = '<p class="text-center p-4 text-red-500">Service temporarily unavailable. Retrying...</p>';
             }
@@ -937,10 +895,78 @@
         updateLeagueTable();
         updateNewsFromAPI();
 
-        // Auto update every 30 seconds for live score changes
-        setInterval(() => {
-            updateMatchesFromAPI();
-        }, 30000);
+        // ✅ MAIN LIVE SCORE UPDATER - Runs every 30 seconds
+        async function updateLiveScores() {
+            try {
+                const res = await fetch(
+                    `https://api-football-v1.p.rapidapi.com/v3/fixtures?live=all`,
+                    {
+                        headers: {
+                            "x-rapidapi-key": API_KEY,
+                            "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
+                            "Content-Type": "application/json"
+                        }
+                    }
+                );
+
+                if (!res.ok) return;
+
+                const data = await res.json();
+                if (!data.response || data.response.length === 0) return;
+
+                data.response.forEach(match => {
+                    const id = String(match.fixture.id);
+                    const newHome = match.goals.home ?? 0;
+                    const newAway = match.goals.away ?? 0;
+                    const elapsed = match.fixture.status.elapsed;
+                    const statusShort = match.fixture.status.short;
+
+                    // ✅ Find the card in the DOM using the data-match-id attribute
+                    const card = document.querySelector(`[data-match-id="${id}"]`);
+                    if (!card) return;
+
+                    const homeScoreEl = card.querySelector('.home-score');
+                    const awayScoreEl = card.querySelector('.away-score');
+                    const statusEl    = card.querySelector('.status');
+
+                    // ✅ Update home score with flash animation if goal scored
+                    if (homeScoreEl && parseInt(homeScoreEl.innerText) !== newHome) {
+                        homeScoreEl.innerText = newHome;
+                        homeScoreEl.classList.add("goal-flash");
+                        setTimeout(() => homeScoreEl.classList.remove("goal-flash"), 2000);
+                    }
+
+                    // ✅ Update away score with flash animation if goal scored
+                    if (awayScoreEl && parseInt(awayScoreEl.innerText) !== newAway) {
+                        awayScoreEl.innerText = newAway;
+                        awayScoreEl.classList.add("goal-flash");
+                        setTimeout(() => awayScoreEl.classList.remove("goal-flash"), 2000);
+                    }
+
+                    // ✅ Update match status (elapsed minutes or HT/FT)
+                    if (statusEl) {
+                        if (statusShort === 'HT') {
+                            statusEl.innerText = 'HT';
+                            statusEl.className = 'status status-live';
+                        } else if (['FT', 'AET', 'PEN'].includes(statusShort)) {
+                            statusEl.innerText = 'Finished';
+                            statusEl.className = 'status status-finished';
+                        } else if (['1H', '2H', 'ET'].includes(statusShort)) {
+                            statusEl.innerText = `${elapsed}' 🔴`;
+                            statusEl.className = 'status status-live';
+                        }
+                    }
+                });
+            } catch (err) {
+                console.error("Live score update failed:", err);
+            }
+        }
+
+        // ✅ Run every 30 seconds for high-frequency live updates
+        setInterval(updateLiveScores, 30000);
+
+        // ✅ Periodically refresh the full list (every 5 mins) to handle new matches or structural changes
+        setInterval(updateMatchesFromAPI, 300000);
 
     </script>
     <script>

@@ -266,14 +266,20 @@
         async function updateScore() {
             if (!MATCH_ID) return;
             try {
-                // Ku darista timestamp si looga fogaado caching-ka
-                const timestamp = new Date().getTime();
-                const res = await fetch(`https://api-football-v1.p.rapidapi.com/v3/fixtures?id=${MATCH_ID}&t=${timestamp}`, {
+                const res = await fetch(`https://api-football-v1.p.rapidapi.com/v3/fixtures?id=${MATCH_ID}`, {
                     headers: { 
                         "x-rapidapi-key": API_KEY,
                         "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
                     }
                 });
+
+                if (!res.ok) {
+                    console.error("API Error:", res.status, res.statusText);
+                    const statusEl = document.getElementById("match-status");
+                    if (statusEl) statusEl.innerText = "Error fetching score";
+                    return;
+                }
+
                 const data = await res.json();
                 if (!data.response || data.response.length === 0) return;
                 
@@ -293,8 +299,12 @@
 
                 const status = match.fixture.status.short;
                 const statusEl = document.getElementById("match-status");
-                if (["1H", "2H", "HT"].includes(status)) {
-                    statusEl.innerText = "LIVE 🔴";
+                if (status === 'HT') {
+                    statusEl.innerText = 'HT';
+                    statusEl.className = "match-status status-live";
+                } else if (["1H", "2H", "ET", "BT"].includes(status)) {
+                    const elapsed = match.fixture.status.elapsed;
+                    statusEl.innerText = `${elapsed ?? ""}' 🔴`;
                     statusEl.className = "match-status status-live";
                 } else if (["FT", "AET", "PEN"].includes(status)) {
                     statusEl.innerText = "Finished";
