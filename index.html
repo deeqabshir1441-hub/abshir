@@ -761,6 +761,15 @@
 
         if (todayStr !== lastKnownDate) {
             console.log(`Midnight Rollover: ${lastKnownDate} -> ${todayStr}`);
+            
+            // ✅ Midnight Rollover: Move Today's matches to Yesterday (except LIVE ones)
+            const liveMatches = matchesData.maanta.filter(m => m.status.includes('🔴') || m.status === 'HT');
+            const finishedOrUpcoming = matchesData.maanta.filter(m => !m.status.includes('🔴') && m.status !== 'HT');
+
+            matchesData.shalay = [...finishedOrUpcoming];
+            matchesData.maanta = [...matchesData.berri, ...liveMatches];
+            matchesData.berri = [];
+
             lastKnownDate = todayStr;
             matchesData.shalay = [...matchesData.maanta];
             matchesData.maanta = [...matchesData.berri];
@@ -784,6 +793,17 @@
             if (yRaw) matchesData.shalay = processApiFixtures(yRaw);
             if (tRaw) matchesData.maanta = processApiFixtures(tRaw);
             if (tomRaw) matchesData.berri = processApiFixtures(tomRaw);
+            const yesterdayProcessed = yRaw ? processApiFixtures(yRaw) : [];
+            const todayProcessed     = tRaw ? processApiFixtures(tRaw) : [];
+            const tomorrowProcessed  = tomRaw ? processApiFixtures(tomRaw) : [];
+
+            // ✅ "Accept the match live": If a match from yesterday is still live, keep it in "Today"
+            const liveFromYesterday = yesterdayProcessed.filter(m => m.status.includes('🔴') || m.status === 'HT');
+            const finishedYesterday = yesterdayProcessed.filter(m => !m.status.includes('🔴') && m.status !== 'HT');
+
+            if (yRaw) matchesData.shalay = finishedYesterday;
+            if (tRaw) matchesData.maanta = [...todayProcessed, ...liveFromYesterday];
+            if (tomRaw) matchesData.berri = tomorrowProcessed;
 
             if (!yRaw && !tRaw && !tomRaw && container.innerHTML.includes('animate-pulse')) {
                 container.innerHTML = '<p class="text-center p-4 text-red-500">Service unavailable. Please try again later.</p>';
