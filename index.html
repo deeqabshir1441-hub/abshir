@@ -258,7 +258,7 @@
             { home: 'Argentina', away: 'Algeria', homeScore: '3', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live1.html', displayTime: '04:00', id: '2026013' },
             { home: 'Austria', away: 'Jordan', homeScore: '3', awayScore: '1', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live2.html', displayTime: '07:00', id: '2026014' },
             { home: 'Portugal', away: 'DR Congo', homeScore: '1', awayScore: '1', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live3.html', displayTime: '20:00', id: '2026015' },
-            { home: 'England', away: 'Croatia', homeScore: '2', awayScore: '1', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '23:00', id: '2026016' }
+            { home: 'England', away: 'Croatia', homeScore: '3', awayScore: '2', league: 'FIFA World Cup 2026', status: 'LIVE 🔴', statusClass: 'status-live', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '23:00', id: '2026016' }
         ],
         berri: [
             { home: 'Ghana', away: 'Panama', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '02:00', id: '2026017' },
@@ -771,9 +771,6 @@
             matchesData.berri = [];
 
             lastKnownDate = todayStr;
-            matchesData.shalay = [...matchesData.maanta];
-            matchesData.maanta = [...matchesData.berri];
-            matchesData.berri = [];
             renderMatches(currentDay);
         }
 
@@ -790,9 +787,11 @@
                 getMatchesForDate(tomorrowDate.toLocaleDateString('en-CA'))
             ]);
 
-            if (yRaw) matchesData.shalay = processApiFixtures(yRaw);
-            if (tRaw) matchesData.maanta = processApiFixtures(tRaw);
-            if (tomRaw) matchesData.berri = processApiFixtures(tomRaw);
+            // ✅ Preserve hardcoded (placeholder) matches that have IDs starting with '2026'
+            const placeholdersShalay = matchesData.shalay.filter(m => String(m.id).startsWith('2026'));
+            const placeholdersMaanta = matchesData.maanta.filter(m => String(m.id).startsWith('2026'));
+            const placeholdersBerri  = matchesData.berri.filter(m => String(m.id).startsWith('2026'));
+
             const yesterdayProcessed = yRaw ? processApiFixtures(yRaw) : [];
             const todayProcessed     = tRaw ? processApiFixtures(tRaw) : [];
             const tomorrowProcessed  = tomRaw ? processApiFixtures(tomRaw) : [];
@@ -801,9 +800,10 @@
             const liveFromYesterday = yesterdayProcessed.filter(m => m.status.includes('🔴') || m.status === 'HT');
             const finishedYesterday = yesterdayProcessed.filter(m => !m.status.includes('🔴') && m.status !== 'HT');
 
-            if (yRaw) matchesData.shalay = finishedYesterday;
-            if (tRaw) matchesData.maanta = [...todayProcessed, ...liveFromYesterday];
-            if (tomRaw) matchesData.berri = tomorrowProcessed;
+            // ✅ Merge API data + Live matches carried over + Your manual placeholders
+            matchesData.shalay = [...finishedYesterday, ...placeholdersShalay];
+            matchesData.maanta = [...todayProcessed, ...liveFromYesterday, ...placeholdersMaanta];
+            matchesData.berri  = [...tomorrowProcessed, ...placeholdersBerri];
 
             if (!yRaw && !tRaw && !tomRaw && container.innerHTML.includes('animate-pulse')) {
                 container.innerHTML = '<p class="text-center p-4 text-red-500">Service unavailable. Please try again later.</p>';
