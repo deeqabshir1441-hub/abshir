@@ -249,22 +249,22 @@
 
         const matchesData = {
         shalay: [
-            { home: 'Saudi Arabia', away: 'Uruguay', homeScore: '1', awayScore: '1', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '01:00', id: '2026009' },
-            { home: 'Iran', away: 'New Zealand', homeScore: '2', awayScore: '2', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live1.html', displayTime: '04:00', id: '2026010' },
-            { home: 'France', away: 'Senegal', homeScore: '3', awayScore: '1', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live2.html', displayTime: '22:00', id: '2026011' }
-        ],
-        maanta: [
             { home: 'Iraq', away: 'Norway', homeScore: '1', awayScore: '4', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '01:00', id: '2026012' },
             { home: 'Argentina', away: 'Algeria', homeScore: '3', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live1.html', displayTime: '04:00', id: '2026013' },
             { home: 'Austria', away: 'Jordan', homeScore: '3', awayScore: '1', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live2.html', displayTime: '07:00', id: '2026014' },
             { home: 'Portugal', away: 'DR Congo', homeScore: '1', awayScore: '1', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live3.html', displayTime: '20:00', id: '2026015' },
-            { home: 'England', away: 'Croatia', homeScore: '3', awayScore: '2', league: 'FIFA World Cup 2026', status: 'LIVE 🔴', statusClass: 'status-live', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '23:00', id: '2026016' }
+            { home: 'England', away: 'Croatia', homeScore: '4', awayScore: '2', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '23:00', id: '2026016' }
         ],
-        berri: [
+        maanta: [
             { home: 'Ghana', away: 'Panama', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '02:00', id: '2026017' },
             { home: 'Uzbekistan', away: 'Colombia', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live1.html', displayTime: '05:00', id: '2026018' },
             { home: 'Czechia', away: 'South Africa', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live2.html', displayTime: '19:00', id: '2026019' },
             { home: 'Switzerland', away: 'Bosnia and Herzegovina', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live3.html', displayTime: '22:00', id: '2026020' }
+        ],
+        berri: [
+            { home: 'Canada', away: 'Qatar', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '01:00', id: '2026021' },
+            { home: 'Mexico', away: 'South Korea', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live1.html', displayTime: '04:00', id: '2026022' },
+            { home: 'USA', away: 'Australia', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live2.html', displayTime: '22:00', id: '2026023' }
         ],
         };
 
@@ -528,12 +528,12 @@
 
             // Only apply auto-status/score for 'maanta' (Today) and if it's a hardcoded match (no API update yet)
             // The API updateMatchesFromAPI will overwrite these if it finds real data.
-            if (day === 'maanta' && (displayStatus === 'Upcoming' || displayStatus.includes('LIVE')) && match.displayTime) {
+            if (day === 'maanta' && (displayStatus === 'Upcoming' || displayStatus.includes('LIVE') || displayStatus.includes('🔴')) && match.displayTime) {
                 const [h, m] = match.displayTime.split(':').map(Number);
                 const matchMinutes = h * 60 + m;
                 const diff = nowMinutes - matchMinutes; // Minutes elapsed since kickoff
 
-                if (diff >= 120) { // Match considered finished after 100 minutes
+                if (diff >= 120) { // Match considered finished after 120 minutes
                     displayStatus = 'Finished';
                     displayClass = 'status-finished';
                 } else if (diff >= 0) { // Match is live
