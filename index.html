@@ -206,13 +206,6 @@
     });
 
     // ============================================================
-    // CONFIG
-    // ============================================================
-    const API_KEY      = "d175585257msh2656f83736302e4p109f24jsn8367cbbb89e0";
-    const NEWS_API_KEY = "YOUR_NEWS_API_KEY";
-    const FREE_API     = "https://football-live-stream.online/api/matches";
-
-    // ============================================================
     // HARDCODED MATCH DATA
     // ============================================================
     const matchesData = {
@@ -225,7 +218,7 @@
         ],
         maanta: [
             { home: 'Ghana',       away: 'Panama',                 homeScore: 1, awayScore: 0, league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', url: 'watch-live.html',  displayTime: '02:00', id: '2026017' },
-            { home: 'Uzbekistan',  away: 'Colombia',               homeScore: 0, awayScore: 0, league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', url: 'watch-live1.html', displayTime: '05:00', id: '2026018' },
+            { home: 'Uzbekistan',  away: 'Colombia',               homeScore: 0, awayScore: 0, league: 'FIFA World Cup 2026', status: 'LIVE 🔴',   statusClass: 'status-live',     overlayText: 'Watch Live', url: 'watch-live1.html', displayTime: '05:00', id: '2026018' },
             { home: 'Czechia',     away: 'South Africa',           homeScore: 0, awayScore: 0, league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', url: 'watch-live2.html', displayTime: '19:00', id: '2026019' },
             { home: 'Switzerland', away: 'Bosnia and Herzegovina', homeScore: 0, awayScore: 0, league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', url: 'watch-live3.html', displayTime: '22:00', id: '2026020' }
         ],
@@ -340,8 +333,33 @@
     function renderMatches(day) {
         const container = document.getElementById('matches-container');
         const matches   = matchesData[day] || [];
+        const now       = new Date();
 
-        const sorted = [...matches].sort((a, b) => {
+        // Apply dynamic time-based status updates
+        const processedMatches = matches.map(match => {
+            let displayStatus = match.status;
+            let displayClass  = match.statusClass;
+
+            if (day === 'maanta') {
+                const [matchH, matchM] = match.displayTime.split(':').map(Number);
+                const startTime = new Date();
+                startTime.setHours(matchH, matchM, 0, 0);
+
+                const diffMs = now - startTime;
+                const diff   = Math.floor(diffMs / (1000 * 60));
+
+                if (diff >= 120) { // Match considered finished after 120 minutes
+                    displayStatus = 'Finished';
+                    displayClass  = 'status-finished';
+                } else if (diff >= 0) { // Match is live
+                    displayStatus = 'LIVE 🔴';
+                    displayClass  = 'status-live';
+                }
+            }
+            return { ...match, status: displayStatus, statusClass: displayClass };
+        });
+
+        const sorted = processedMatches.sort((a, b) => {
             const priority = s => (s.includes('🔴') || s === 'HT') ? 1 : s === 'Upcoming' ? 2 : 3;
             const pa = priority(a.status), pb = priority(b.status);
             if (pa !== pb) return pa - pb;
@@ -464,7 +482,7 @@
             awayScore:   as_ || 0,
             league:      item.league,
             displayTime: localTime,
-            status:      isLive ? (item.currentMinutes ? `${item.currentMinutes}' 🔴` : 'LIVE 🔴') : isFinished ? 'Finished' : 'Upcoming',
+            status:      isLive ? 'LIVE 🔴' : isFinished ? 'Finished' : 'Upcoming',
             statusClass: isLive ? 'status-live' : isFinished ? 'status-finished' : 'status-upcoming',
             overlayText: 'Watch Live',
             url:         'watch-live.html',
@@ -475,233 +493,50 @@
     }
 
     // ============================================================
-    // KEY FIX: UPDATE HARDCODED MATCHES WITH API DATA BY NAME
-    // ============================================================
-    function nameKey(name) {
-        return (name || '').toLowerCase().trim()
-            .replace('democratic republic of the congo', 'dr congo')
-            .replace('bosnia and herzegovina', 'bosnia')
-            .replace(/\s+/g, '')
-            .substring(0, 6);
-    }
-
-    function updateHardcodedWithAPI(hardcoded, apiList) {
-        return hardcoded.map(hMatch => {
-            // ✅ Find matching API match by team name
-            const apiMatch = apiList.find(a =>
-                nameKey(a.home_name) === nameKey(hMatch.home) &&
-                nameKey(a.away_name) === nameKey(hMatch.away)
-            );
-
-            if (apiMatch) {
-                const score      = apiMatch.score || "0 - 0";
-                const [hs, as_]  = score.split(" - ").map(Number);
-                const isLive     = apiMatch.status === "Live";
-                const isFinished = apiMatch.status === "Finished";
-
-                // ✅ Flash goal
-                flashGoal(String(hMatch.id), hs || 0, as_ || 0);
-
-                return {
-                    ...hMatch,                                    // ✅ Keep url, league name
-                    id:          apiMatch.id,                     // ✅ Update to real API id
-                    homeScore:   hs || 0,                         // ✅ Real score
-                    awayScore:   as_ || 0,                        // ✅ Real score
-                    homeLogo:    apiMatch.home_flag || teamLogos[hMatch.home],
-                    awayLogo:    apiMatch.away_flag || teamLogos[hMatch.away],
-                    status:      isLive
-                                    ? (apiMatch.currentMinutes ? `${apiMatch.currentMinutes}' 🔴` : 'LIVE 🔴')
-                                    : isFinished ? 'Finished' : 'Upcoming',
-                    statusClass: isLive ? 'status-live' : isFinished ? 'status-finished' : 'status-upcoming',
-                };
-            }
-
-            // ✅ Not found in API — keep original unchanged
-            return hMatch;
-        });
-    }
-
-    function addNewAPIMatches(hardcoded, apiList) {
-        const hardcodedKeys = new Set(
-            hardcoded.map(m => nameKey(m.home) + nameKey(m.away))
-        );
-        const newMatches = apiList.filter(a =>
-            !hardcodedKeys.has(nameKey(a.home_name) + nameKey(a.away_name))
-        );
-        return [...hardcoded, ...newMatches.map(convertMatch)];
-    }
-
-    // ============================================================
-    // MAIN LIVE SCORE UPDATER
-    // ============================================================
-    let lastKnownDate = new Date().toLocaleDateString('en-CA');
-
-    async function updateLiveScores() {
-        const now        = new Date();
-        const nowLocal   = now.toLocaleDateString('en-CA');
-
-        // ✅ Midnight rollover
-        if (nowLocal !== lastKnownDate) {
-            matchesData.shalay = matchesData.maanta.filter(m => !m.status.includes('🔴') && m.status !== 'HT');
-            matchesData.maanta = [
-                ...matchesData.berri,
-                ...matchesData.maanta.filter(m => m.status.includes('🔴') || m.status === 'HT')
-            ];
-            matchesData.berri  = [];
-            lastKnownDate      = nowLocal;
-        }
-
-        // ✅ Fetch free API
-        let apiMatches = null;
-        try {
-            const res = await fetch(FREE_API);
-            if (res.ok) {
-                const data = await res.json();
-                apiMatches = data.result || [];
-            }
-        } catch (err) {
-            console.error("API failed:", err);
-        }
-
-        // ✅ If API fails just render what we have
-        if (!apiMatches) {
-            renderMatches(getCurrentDay());
-            return;
-        }
-
-        // ✅ Sort API matches into today / yesterday / tomorrow using kickoff local time
-        const yesterday      = new Date(now); yesterday.setDate(now.getDate() - 1);
-        const tomorrow       = new Date(now); tomorrow.setDate(now.getDate() + 1);
-        const yesterdayLocal = yesterday.toLocaleDateString('en-CA');
-        const tomorrowLocal  = tomorrow.toLocaleDateString('en-CA');
-
-        const todayAPI = [], yesterdayAPI = [], tomorrowAPI = [];
-
-        apiMatches.forEach(match => {
-            const kickoffLocal = new Date(match.kickoff).toLocaleDateString('en-CA');
-            if      (kickoffLocal === nowLocal)       todayAPI.push(match);
-            else if (kickoffLocal === yesterdayLocal) yesterdayAPI.push(match);
-            else if (kickoffLocal === tomorrowLocal)  tomorrowAPI.push(match);
-        });
-
-        // ✅ Update hardcoded matches with real API data + add new matches
-        if (todayAPI.length > 0) {
-            matchesData.maanta = updateHardcodedWithAPI(matchesData.maanta, todayAPI);
-            matchesData.maanta = addNewAPIMatches(matchesData.maanta, todayAPI);
-        }
-        if (yesterdayAPI.length > 0) {
-            matchesData.shalay = updateHardcodedWithAPI(matchesData.shalay, yesterdayAPI);
-            matchesData.shalay = addNewAPIMatches(matchesData.shalay, yesterdayAPI);
-        }
-        if (tomorrowAPI.length > 0) {
-            matchesData.berri = updateHardcodedWithAPI(matchesData.berri, tomorrowAPI);
-            matchesData.berri = addNewAPIMatches(matchesData.berri, tomorrowAPI);
-        }
-
-        // ✅ Render current tab
-        renderMatches(getCurrentDay());
-
-        console.log(`✅ Updated → Today: ${todayAPI.length} | Yesterday: ${yesterdayAPI.length} | Tomorrow: ${tomorrowAPI.length} | Live: ${apiMatches.filter(m => m.status === 'Live').length}`);
-    }
-
-    // ============================================================
-    // LEAGUE TABLE
-    // ============================================================
-    async function updateLeagueTable() {
-        const container = document.getElementById("league-table-container");
-        if (!container) return;
-        try {
-            const res = await fetch(
-                `https://api-football-v1.p.rapidapi.com/v3/standings?league=39&season=2024`,
-                { headers: { "x-rapidapi-key": API_KEY, "x-rapidapi-host": "api-football-v1.p.rapidapi.com" } }
-            );
-            const data = await res.json();
-            if (!data.response || !data.response.length) return;
-            const standings = data.response[0].league.standings[0];
-            container.innerHTML = `
-                <table class="standings-table">
-                    <thead>
-                        <tr><th>#</th><th>Team</th><th>P</th><th>GD</th><th>Pts</th></tr>
-                    </thead>
-                    <tbody>
-                        ${standings.slice(0, 10).map(item => `
-                        <tr>
-                            <td>${item.rank}</td>
-                            <td class="team-cell">
-                                <img src="${item.team.logo}" loading="lazy">
-                                <span>${item.team.name}</span>
-                            </td>
-                            <td>${item.all.played}</td>
-                            <td>${item.goalsDiff}</td>
-                            <td><strong>${item.points}</strong></td>
-                        </tr>`).join('')}
-                    </tbody>
-                </table>`;
-            lucide.createIcons();
-        } catch (err) {
-            container.innerHTML = `<p style="color:#ef4444;text-align:center;font-size:12px">Table unavailable</p>`;
-        }
-    }
-
-    // ============================================================
     // NEWS
     // ============================================================
-    async function updateNewsFromAPI() {
+    function updateNews() {
         const container = document.getElementById('news-container');
         if (!container) return;
 
-        const fallbackArticles = [
+        const articles = [
             { title: "Top African referee Omar Artan to officiate 2026 UEFA Super Cup", description: "Somali referee Omar Artan has been appointed to officiate the upcoming UEFA Super Cup, marking a major milestone for African officiating.", urlToImage: "news image/images.jpg", publishedAt: new Date().toISOString(), url: "#" },
             { title: "Real Madrid star on the verge of summer exit.", description: "Reports from Spain indicate that the midfielder has received an offer from a top club...", urlToImage: "news image/GettyImages-2166876546-2-scaled.jpg", publishedAt: new Date().toISOString(), url: "#" },
             { title: "Coach Pep Guardiola speaks on his Manchester City future.", description: "Guardiola stated he is very happy with the team but will make a final decision soon...", urlToImage: "news image/GettyImages-2262861156.jpg.webp", publishedAt: new Date().toISOString(), url: "#" },
             { title: "Sir Alex Ferguson Taken to Hospital Before Man Utd's Win Over Liverpool", description: "Manchester United legend Sir Alex Ferguson was reportedly rushed to the hospital today...", urlToImage: "news image/fergusan.jpg", publishedAt: new Date().toISOString(), url: "#" }
         ];
 
-        const renderArticles = articles => {
-            container.innerHTML = articles.map(a => `
-                <article class="news-card">
-                    <div class="news-thumb">
-                        <img src="${a.urlToImage || 'https://via.placeholder.com/400x240?text=News'}"
-                             alt="${a.title}" loading="lazy"
-                             onerror="this.src='https://via.placeholder.com/400x240?text=News'">
-                        <span class="news-tag">News</span>
+        container.innerHTML = articles.map(a => `
+            <article class="news-card">
+                <div class="news-thumb">
+                    <img src="${a.urlToImage || 'https://via.placeholder.com/400x240?text=News'}"
+                         alt="${a.title}" loading="lazy"
+                         onerror="this.src='https://via.placeholder.com/400x240?text=News'">
+                    <span class="news-tag">News</span>
+                </div>
+                <div class="news-info">
+                    <div class="news-meta">
+                        <span><i data-lucide="calendar"></i> ${new Date(a.publishedAt).toLocaleDateString()}</span>
+                        <span><i data-lucide="clock"></i> 3 min read</span>
                     </div>
-                    <div class="news-info">
-                        <div class="news-meta">
-                            <span><i data-lucide="calendar"></i> ${new Date(a.publishedAt).toLocaleDateString()}</span>
-                            <span><i data-lucide="clock"></i> 3 min read</span>
-                        </div>
-                        <h3>${a.title}</h3>
-                        <p>${a.description || 'Read the full story.'}</p>
-                        <a href="${a.url}" target="_blank" rel="noopener noreferrer" class="btn-read">
-                            Read More <i data-lucide="arrow-right"></i>
-                        </a>
-                    </div>
-                </article>`).join('');
-            lucide.createIcons();
-        };
-
-        try {
-            if (!NEWS_API_KEY || NEWS_API_KEY === "YOUR_NEWS_API_KEY") throw new Error("No key");
-            const res  = await fetch(`https://newsapi.org/v2/everything?q=football+soccer&sortBy=publishedAt&pageSize=6&language=en&apiKey=${NEWS_API_KEY}`);
-            const data = await res.json();
-            renderArticles(data.status === 'ok' && data.articles.length ? data.articles : fallbackArticles);
-        } catch {
-            renderArticles(fallbackArticles);
-        }
+                    <h3>${a.title}</h3>
+                    <p>${a.description || 'Read the full story.'}</p>
+                    <a href="${a.url}" target="_blank" rel="noopener noreferrer" class="btn-read">
+                        Read More <i data-lucide="arrow-right"></i>
+                    </a>
+                </div>
+            </article>`).join('');
+        lucide.createIcons();
     }
 
     // ============================================================
     // START
     // ============================================================
     renderMatches('maanta');
-    updateLiveScores();
-    updateLeagueTable();
-    updateNewsFromAPI();
+    updateNews();
 
-    // ✅ Update every 30 seconds
-    setInterval(updateLiveScores, 30000);
-
+    // Refresh matches every minute to update live timers
+    setInterval(() => renderMatches(getCurrentDay()), 60000);
 </script>
 
 <script>
