@@ -162,908 +162,576 @@
    </div>
   </footer>
 
-    <script>
-        // Mobile Menu Toggle
-        const menuToggle = document.getElementById('menuToggle');
-        const navMenu = document.getElementById('navMenu');
-        menuToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-        });
+ <script>
+    // ============================================================
+    // MOBILE MENU
+    // ============================================================
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+    menuToggle.addEventListener('click', () => navMenu.classList.toggle('active'));
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => navMenu.classList.remove('active'));
+    });
 
-        // Close menu when link is clicked
-        document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-            navMenu.classList.remove('active');
-        });
-        });
-
-        // Theme Toggle
-        const themeToggle = document.getElementById('themeToggle');
-        const body = document.body;
-
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        if (savedTheme === 'light') {
-        body.classList.add('light-mode');
-        updateThemeIcon();
-        }
-
-        themeToggle.addEventListener('click', () => {
+    // ============================================================
+    // THEME TOGGLE
+    // ============================================================
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'light') { body.classList.add('light-mode'); updateThemeIcon(); }
+    themeToggle.addEventListener('click', () => {
         body.classList.toggle('light-mode');
-        const isLightMode = body.classList.contains('light-mode');
-        localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+        localStorage.setItem('theme', body.classList.contains('light-mode') ? 'light' : 'dark');
         updateThemeIcon();
-        });
-
-        function updateThemeIcon() {
-        const isLightMode = body.classList.contains('light-mode');
+    });
+    function updateThemeIcon() {
         const icon = themeToggle.querySelector('[data-lucide]');
-        icon.setAttribute('data-lucide', isLightMode ? 'sun' : 'moon');
+        icon.setAttribute('data-lucide', body.classList.contains('light-mode') ? 'sun' : 'moon');
         lucide.createIcons();
-        }
+    }
 
-        // Improved Active link on scroll (Scroll-Spy)
-        window.addEventListener('scroll', () => {
-            let current = '';
-            const sections = document.querySelectorAll('section[id], .section-block[id]');
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (pageYOffset >= (sectionTop - 150)) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').substring(1) === current) {
-                    link.classList.add('active');
-                }
-            });
+    // ============================================================
+    // SCROLL SPY
+    // ============================================================
+    window.addEventListener('scroll', () => {
+        let current = '';
+        document.querySelectorAll('section[id], .section-block[id]').forEach(section => {
+            if (pageYOffset >= section.offsetTop - 150) current = section.getAttribute('id');
         });
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').substring(1) === current) link.classList.add('active');
+        });
+    });
 
-        const API_KEY = "d175585257msh2656f83736302e4p109f24jsn8367cbbb89e0"; // Gali API Key-gaaga halkan
-        const NEWS_API_KEY = "YOUR_NEWS_API_KEY"; // Gali NewsAPI Key-gaaga halkan
-        async function getMatchesForDate(dateStr) {
-            const timestamp = Date.now();
-            const res = await fetch(
-                `https://api-football-v1.p.rapidapi.com/v3/fixtures?date=${dateStr}&t=${timestamp}`,
-                {
-                    headers: {
-                        "x-rapidapi-key": API_KEY,
-                        "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
-                    }
-                }
-            );
-            const data = await res.json();
-            return data.response;
-        }
+    // ============================================================
+    // CONFIG
+    // ============================================================
+    const API_KEY      = "d175585257msh2656f83736302e4p109f24jsn8367cbbb89e0";
+    const NEWS_API_KEY = "YOUR_NEWS_API_KEY";
+    const FREE_API     = "https://football-live-stream.online/api/matches";
 
-        function formatTime(utcDate) {
-            const date = new Date(utcDate);
-            return date.toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit"
-            });
-        }
-
-        const matchesData = {
+    // ============================================================
+    // HARDCODED MATCH DATA
+    // ============================================================
+    const matchesData = {
         shalay: [
-            { home: 'Iraq', away: 'Norway', homeScore: '1', awayScore: '4', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '01:00', id: '2026012' },
-            { home: 'Argentina', away: 'Algeria', homeScore: '3', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live1.html', displayTime: '04:00', id: '2026013' },
-            { home: 'Austria', away: 'Jordan', homeScore: '3', awayScore: '1', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live2.html', displayTime: '07:00', id: '2026014' },
-            { home: 'Portugal', away: 'DR Congo', homeScore: '1', awayScore: '1', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live3.html', displayTime: '20:00', id: '2026015' },
-            { home: 'England', away: 'Croatia', homeScore: '4', awayScore: '2', league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '23:00', id: '2026016' }
+            { home: 'Iraq',      away: 'Norway',   homeScore: 1, awayScore: 4, league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', url: 'watch-live.html',  displayTime: '01:00', id: '2026012' },
+            { home: 'Argentina', away: 'Algeria',  homeScore: 3, awayScore: 0, league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', url: 'watch-live1.html', displayTime: '04:00', id: '2026013' },
+            { home: 'Austria',   away: 'Jordan',   homeScore: 3, awayScore: 1, league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', url: 'watch-live2.html', displayTime: '07:00', id: '2026014' },
+            { home: 'Portugal',  away: 'DR Congo', homeScore: 1, awayScore: 1, league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', url: 'watch-live3.html', displayTime: '20:00', id: '2026015' },
+            { home: 'England',   away: 'Croatia',  homeScore: 4, awayScore: 2, league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', url: 'watch-live.html',  displayTime: '23:00', id: '2026016' }
         ],
         maanta: [
-            { home: 'Ghana', away: 'Panama', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '02:00', id: '2026017' },
-            { home: 'Uzbekistan', away: 'Colombia', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live1.html', displayTime: '05:00', id: '2026018' },
-            { home: 'Czechia', away: 'South Africa', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live2.html', displayTime: '19:00', id: '2026019' },
-            { home: 'Switzerland', away: 'Bosnia and Herzegovina', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live3.html', displayTime: '22:00', id: '2026020' }
+            { home: 'Ghana',       away: 'Panama',                 homeScore: 1, awayScore: 0, league: 'FIFA World Cup 2026', status: 'Finished', statusClass: 'status-finished', overlayText: 'Watch Live', url: 'watch-live.html',  displayTime: '02:00', id: '2026017' },
+            { home: 'Uzbekistan',  away: 'Colombia',               homeScore: 0, awayScore: 0, league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', url: 'watch-live1.html', displayTime: '05:00', id: '2026018' },
+            { home: 'Czechia',     away: 'South Africa',           homeScore: 0, awayScore: 0, league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', url: 'watch-live2.html', displayTime: '19:00', id: '2026019' },
+            { home: 'Switzerland', away: 'Bosnia and Herzegovina', homeScore: 0, awayScore: 0, league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', url: 'watch-live3.html', displayTime: '22:00', id: '2026020' }
         ],
         berri: [
-            { home: 'Canada', away: 'Qatar', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live.html', displayTime: '01:00', id: '2026021' },
-            { home: 'Mexico', away: 'South Korea', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live1.html', displayTime: '04:00', id: '2026022' },
-            { home: 'USA', away: 'Australia', homeScore: '0', awayScore: '0', league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', day: 1, url: 'watch-live2.html', displayTime: '22:00', id: '2026023' }
-        ],
-        };
+            { home: 'Canada', away: 'Qatar',       homeScore: 0, awayScore: 0, league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', url: 'watch-live.html',  displayTime: '01:00', id: '2026021' },
+            { home: 'Mexico', away: 'South Korea', homeScore: 0, awayScore: 0, league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', url: 'watch-live1.html', displayTime: '04:00', id: '2026022' },
+            { home: 'USA',    away: 'Australia',   homeScore: 0, awayScore: 0, league: 'FIFA World Cup 2026', status: 'Upcoming', statusClass: 'status-upcoming', overlayText: 'Watch Live', url: 'watch-live2.html', displayTime: '22:00', id: '2026023' }
+        ]
+    };
 
-        function formatToLocalTime(isoString) {
-        const date = new Date(isoString);
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        return `${hours}:${minutes}`;
-        }
+    // ============================================================
+    // LOGOS
+    // ============================================================
+    const leagueLogos = {
+        "Premier League":         "https://media.api-sports.io/football/leagues/39.png",
+        "La Liga":                "https://media.api-sports.io/football/leagues/140.png",
+        "Serie A":                "https://media.api-sports.io/football/leagues/135.png",
+        "Bundesliga":             "https://media.api-sports.io/football/leagues/78.png",
+        "Ligue 1":                "https://media.api-sports.io/football/leagues/61.png",
+        "UEFA Champions League":  "https://media.api-sports.io/football/leagues/2.png",
+        "Champions League":       "https://media.api-sports.io/football/leagues/2.png",
+        "UEFA Europa League":     "https://media.api-sports.io/football/leagues/3.png",
+        "UEFA Conference League": "https://media.api-sports.io/football/leagues/848.png",
+        "CAF Champions League":   "https://media.api-sports.io/football/leagues/12.png",
+        "FIFA World Cup":         "https://media.api-sports.io/football/leagues/1.png",
+        "FIFA World Cup 2026":    "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/69f4a666ff876f5a52a1b7ab_fifa-world-cup-2026-official-logo-footylogos.png",
+        "Saudi Pro League":       "https://media.api-sports.io/football/leagues/307.png",
+        "MLS":                    "https://media.api-sports.io/football/leagues/253.png",
+        "Championship":           "https://media.api-sports.io/football/leagues/40.png",
+        "FA Cup":                 "https://media.api-sports.io/football/leagues/45.png",
+        "Friendlies":             "https://media.api-sports.io/football/leagues/10.png",
+        "International Friendlies":"https://media.api-sports.io/football/leagues/10.png"
+    };
 
-        const leagueLogos = {
-            "Premier League": "https://media.api-sports.io/football/leagues/39.png",
-            "La Liga": "https://media.api-sports.io/football/leagues/140.png",
-            "Serie A": "https://media.api-sports.io/football/leagues/135.png",
-            "Bundesliga": "https://media.api-sports.io/football/leagues/78.png",
-            "Ligue 1": "https://media.api-sports.io/football/leagues/61.png",
-            "UEFA Champions League": "https://media.api-sports.io/football/leagues/2.png",
-            "Champions League": "https://media.api-sports.io/football/leagues/2.png",
-            "UEFA Europa League": "https://media.api-sports.io/football/leagues/3.png",
-            "UEFA Conference League": "https://media.api-sports.io/football/leagues/848.png",
-            "CAF Champions League": "https://media.api-sports.io/football/leagues/12.png",
-            "FIFA World Cup": "https://media.api-sports.io/football/leagues/1.png",
-            "FIFA World Cup 2026": "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/69f4a666ff876f5a52a1b7ab_fifa-world-cup-2026-official-logo-footylogos.png",
-            "Saudi Pro League": "https://media.api-sports.io/football/leagues/307.png",
-            "MLS": "https://media.api-sports.io/football/leagues/253.png",
-            "Championship": "https://media.api-sports.io/football/leagues/40.png",
-            "Coppa Italia": "https://media.api-sports.io/football/leagues/137.png",
-            "FA Cup": "https://media.api-sports.io/football/leagues/45.png",
-            "Carabao Cup": "https://media.api-sports.io/football/leagues/48.png",
-            "Friendlies": "https://media.api-sports.io/football/leagues/10.png",
-            "International Friendlies": "https://media.api-sports.io/football/leagues/10.png"
-        };
+    const teamLogos = {
+        // Club Teams
+        "Arsenal":              "https://media.api-sports.io/football/teams/42.png",
+        "Chelsea":              "https://media.api-sports.io/football/teams/49.png",
+        "Liverpool":            "https://media.api-sports.io/football/teams/40.png",
+        "Manchester City":      "https://media.api-sports.io/football/teams/50.png",
+        "Manchester United":    "https://media.api-sports.io/football/teams/33.png",
+        "Tottenham":            "https://media.api-sports.io/football/teams/47.png",
+        "Newcastle United":     "https://media.api-sports.io/football/teams/34.png",
+        "Aston Villa":          "https://media.api-sports.io/football/teams/66.png",
+        "West Ham United":      "https://media.api-sports.io/football/teams/48.png",
+        "Real Madrid":          "https://media.api-sports.io/football/teams/541.png",
+        "Barcelona":            "https://media.api-sports.io/football/teams/529.png",
+        "Atletico Madrid":      "https://media.api-sports.io/football/teams/530.png",
+        "Bayern Munich":        "https://media.api-sports.io/football/teams/157.png",
+        "Borussia Dortmund":    "https://media.api-sports.io/football/teams/165.png",
+        "Juventus":             "https://media.api-sports.io/football/teams/496.png",
+        "AC Milan":             "https://media.api-sports.io/football/teams/489.png",
+        "Inter":                "https://media.api-sports.io/football/teams/505.png",
+        "Napoli":               "https://media.api-sports.io/football/teams/492.png",
+        "Paris Saint-Germain":  "https://media.api-sports.io/football/teams/85.png",
+        // National Teams
+        "England":          "https://flagcdn.com/w80/gb-eng.png",
+        "France":           "https://flagcdn.com/w80/fr.png",
+        "Germany":          "https://flagcdn.com/w80/de.png",
+        "Spain":            "https://flagcdn.com/w80/es.png",
+        "Portugal":         "https://flagcdn.com/w80/pt.png",
+        "Netherlands":      "https://flagcdn.com/w80/nl.png",
+        "Belgium":          "https://flagcdn.com/w80/be.png",
+        "Croatia":          "https://flagcdn.com/w80/hr.png",
+        "Switzerland":      "https://flagcdn.com/w80/ch.png",
+        "Austria":          "https://flagcdn.com/w80/at.png",
+        "Sweden":           "https://flagcdn.com/w80/se.png",
+        "Norway":           "https://flagcdn.com/w80/no.png",
+        "Czechia":          "https://flagcdn.com/w80/cz.png",
+        "Turkey":           "https://flagcdn.com/w80/tr.png",
+        "Bosnia and Herzegovina": "https://flagcdn.com/w80/ba.png",
+        "Argentina":        "https://flagcdn.com/w80/ar.png",
+        "Brazil":           "https://flagcdn.com/w80/br.png",
+        "Uruguay":          "https://flagcdn.com/w80/uy.png",
+        "Colombia":         "https://flagcdn.com/w80/co.png",
+        "Ecuador":          "https://flagcdn.com/w80/ec.png",
+        "Paraguay":         "https://flagcdn.com/w80/py.png",
+        "USA":              "https://flagcdn.com/w80/us.png",
+        "Mexico":           "https://flagcdn.com/w80/mx.png",
+        "Canada":           "https://flagcdn.com/w80/ca.png",
+        "Panama":           "https://flagcdn.com/w80/pa.png",
+        "Iraq":             "https://flagcdn.com/w80/iq.png",
+        "Haiti":            "https://flagcdn.com/w80/ht.png",
+        "Cape Verde":       "https://flagcdn.com/w80/cv.png",
+        "Morocco":          "https://flagcdn.com/w80/ma.png",
+        "South Africa":     "https://flagcdn.com/w80/za.png",
+        "Egypt":            "https://flagcdn.com/w80/eg.png",
+        "Senegal":          "https://flagcdn.com/w80/sn.png",
+        "Nigeria":          "https://flagcdn.com/w80/ng.png",
+        "Algeria":          "https://flagcdn.com/w80/dz.png",
+        "Cameroon":         "https://flagcdn.com/w80/cm.png",
+        "Ghana":            "https://flagcdn.com/w80/gh.png",
+        "Ivory Coast":      "https://flagcdn.com/w80/ci.png",
+        "Tunisia":          "https://flagcdn.com/w80/tn.png",
+        "DR Congo":         "https://flagcdn.com/w80/cd.png",
+        "Democratic Republic of the Congo": "https://flagcdn.com/w80/cd.png",
+        "Japan":            "https://flagcdn.com/w80/jp.png",
+        "South Korea":      "https://flagcdn.com/w80/kr.png",
+        "Australia":        "https://flagcdn.com/w80/au.png",
+        "New Zealand":      "https://flagcdn.com/w80/nz.png",
+        "Jordan":           "https://flagcdn.com/w80/jo.png",
+        "Iran":             "https://flagcdn.com/w80/ir.png",
+        "Saudi Arabia":     "https://flagcdn.com/w80/sa.png",
+        "Qatar":            "https://flagcdn.com/w80/qa.png",
+        "Uzbekistan":       "https://flagcdn.com/w80/uz.png",
+        "China":            "https://flagcdn.com/w80/cn.png"
+    };
 
-        
-
-        const teamLogos = {
-            // ===== PREMIER LEAGUE =====
-            "Arsenal": "https://media.api-sports.io/football/teams/42.png",
-            "Aston Villa": "https://media.api-sports.io/football/teams/66.png",
-            "Bournemouth": "https://media.api-sports.io/football/teams/35.png",
-            "Brentford": "https://media.api-sports.io/football/teams/55.png",
-            "Brighton": "https://media.api-sports.io/football/teams/51.png",
-            "Burnley": "https://media.api-sports.io/football/teams/44.png",
-            "Chelsea": "https://media.api-sports.io/football/teams/49.png",
-            "Crystal Palace": "https://media.api-sports.io/football/teams/52.png",
-            "Everton": "https://media.api-sports.io/football/teams/45.png",
-            "Fulham": "https://media.api-sports.io/football/teams/36.png",
-            "Liverpool": "https://media.api-sports.io/football/teams/40.png",
-            "Luton Town": "https://media.api-sports.io/football/teams/1359.png",
-            "Manchester City": "https://media.api-sports.io/football/teams/50.png",
-            "Manchester United": "https://media.api-sports.io/football/teams/33.png",
-            "Newcastle United": "https://media.api-sports.io/football/teams/34.png",
-            "Nottingham Forest": "https://media.api-sports.io/football/teams/65.png",
-            "Sheffield United": "https://media.api-sports.io/football/teams/62.png",
-            "Tottenham": "https://media.api-sports.io/football/teams/47.png",
-            "West Ham United": "https://media.api-sports.io/football/teams/48.png",
-            "Wolves": "https://media.api-sports.io/football/teams/39.png",
-            "Leeds United": "https://media.api-sports.io/football/teams/75.png",
-
-            // ===== LA LIGA =====
-            "Real Madrid": "https://media.api-sports.io/football/teams/541.png",
-            "Barcelona": "https://media.api-sports.io/football/teams/529.png",
-            "Atletico Madrid": "https://media.api-sports.io/football/teams/530.png",
-            "Sevilla": "https://media.api-sports.io/football/teams/536.png",
-            "Real Sociedad": "https://media.api-sports.io/football/teams/548.png",
-            "Villarreal": "https://media.api-sports.io/football/teams/533.png",
-            "Real Betis": "https://media.api-sports.io/football/teams/543.png",
-            "Valencia": "https://media.api-sports.io/football/teams/532.png",
-            "Athletic Club": "https://media.api-sports.io/football/teams/531.png",
-            "Getafe": "https://media.api-sports.io/football/teams/546.png",
-            "Osasuna": "https://media.api-sports.io/football/teams/727.png",
-            "Celta Vigo": "https://media.api-sports.io/football/teams/538.png",
-            "Mallorca": "https://media.api-sports.io/football/teams/798.png",
-            "Real Oviedo": "https://media.api-sports.io/football/teams/550.png",
-            "Rayo Vallecano": "https://media.api-sports.io/football/teams/728.png",
-            "Alaves": "https://media.api-sports.io/football/teams/542.png",
-            "Granada": "https://media.api-sports.io/football/teams/715.png",
-            "Cadiz": "https://media.api-sports.io/football/teams/724.png",
-            "Las Palmas": "https://media.api-sports.io/football/teams/534.png",
-            "Girona": "https://media.api-sports.io/football/teams/547.png",
-            "Almeria": "https://media.api-sports.io/football/teams/723.png",
-            "Espanyol": "https://media.api-sports.io/football/teams/540.png",
-
-            // ===== LIGUE 1 =====
-            "Paris Saint-Germain": "https://media.api-sports.io/football/teams/85.png",
-            "Marseille": "https://media.api-sports.io/football/teams/41.png",
-            "Lyon": "https://media.api-sports.io/football/teams/80.png",
-            "Monaco": "https://media.api-sports.io/football/teams/91.png",
-            "Lille": "https://media.api-sports.io/football/teams/79.png",
-            "Nice": "https://media.api-sports.io/football/teams/84.png",
-            "Rennes": "https://media.api-sports.io/football/teams/94.png",
-            "Lens": "https://media.api-sports.io/football/teams/116.png",
-            "Nantes": "https://media.api-sports.io/football/teams/83.png",
-            "Toulouse": "https://media.api-sports.io/football/teams/96.png",
-            "Strasbourg": "https://media.api-sports.io/football/teams/95.png",
-            "Reims": "https://media.api-sports.io/football/teams/93.png",
-            "Montpellier": "https://media.api-sports.io/football/teams/77.png",
-            "Brest": "https://media.api-sports.io/football/teams/106.png",
-            "Lorient": "https://media.api-sports.io/football/teams/97.png",
-            "Clermont": "https://media.api-sports.io/football/teams/111.png",
-            "Le Havre": "https://media.api-sports.io/football/teams/1118.png",
-
-            // ===== BUNDESLIGA =====
-            "Bayern Munich": "https://media.api-sports.io/football/teams/157.png",
-            "Borussia Dortmund": "https://media.api-sports.io/football/teams/165.png",
-            "RB Leipzig": "https://media.api-sports.io/football/teams/173.png",
-            "Bayer Leverkusen": "https://media.api-sports.io/football/teams/168.png",
-            "Eintracht Frankfurt": "https://media.api-sports.io/football/teams/169.png",
-            "VfB Stuttgart": "https://media.api-sports.io/football/teams/172.png",
-            "Borussia Mönchengladbach": "https://media.api-sports.io/football/teams/163.png",
-            "VfL Wolfsburg": "https://media.api-sports.io/football/teams/161.png",
-            "Werder Bremen": "https://media.api-sports.io/football/teams/162.png",
-            "SC Freiburg": "https://media.api-sports.io/football/teams/160.png",
-            "TSG Hoffenheim": "https://media.api-sports.io/football/teams/167.png",
-            "Mainz 05": "https://media.api-sports.io/football/teams/164.png",
-            "FC Augsburg": "https://media.api-sports.io/football/teams/170.png",
-            "Union Berlin": "https://media.api-sports.io/football/teams/182.png",
-            "1. FC Köln": "https://media.api-sports.io/football/teams/192.png",
-            "Hamburger SV": "https://media.api-sports.io/football/teams/180.png",
-            "FC St. Pauli": "https://media.api-sports.io/football/teams/191.png",
-            "Heidenheim": "https://media.api-sports.io/football/teams/44.png",
-
-            // ===== CHAMPIONSHIP =====
-            "Birmingham": "https://media.api-sports.io/football/teams/307.png",
-            "Blackburn": "https://media.api-sports.io/football/teams/59.png",
-            "Bristol City": "https://media.api-sports.io/football/teams/142.png",
-            "Cardiff": "https://media.api-sports.io/football/teams/715.png",
-            "Coventry": "https://media.api-sports.io/football/teams/108.png",
-            "Derby": "https://media.api-sports.io/football/teams/64.png",
-            "Hull City": "https://media.api-sports.io/football/teams/63.png",
-            "Ipswich": "https://media.api-sports.io/football/teams/57.png",
-            "Leeds": "https://media.api-sports.io/football/teams/63.png",
-            "Luton": "https://media.api-sports.io/football/teams/1359.png",
-            "Middlesbrough": "https://media.api-sports.io/football/teams/51.png",
-            "Millwall": "https://media.api-sports.io/football/teams/58.png",
-            "Norwich": "https://media.api-sports.io/football/teams/71.png",
-            "Oxford United": "https://media.api-sports.io/football/teams/746.png",
-            "Plymouth": "https://media.api-sports.io/football/teams/62.png",
-            "Portsmouth": "https://media.api-sports.io/football/teams/1357.png",
-            "Preston": "https://media.api-sports.io/football/teams/56.png",
-            "QPR": "https://media.api-sports.io/football/teams/69.png",
-            "Sheffield Wednesday": "https://media.api-sports.io/football/teams/74.png",
-            "Stoke City": "https://media.api-sports.io/football/teams/70.png",
-            "Sunderland": "https://media.api-sports.io/football/teams/746.png",
-            "Swansea": "https://media.api-sports.io/football/teams/72.png",
-            "Watford": "https://media.api-sports.io/football/teams/38.png",
-            "West Brom": "https://media.api-sports.io/football/teams/60.png",
-
-            // ===== SERIE A =====
-            "AC Milan": "https://media.api-sports.io/football/teams/489.png",
-            "AS Roma": "https://media.api-sports.io/football/teams/497.png",
-            "Atalanta": "https://media.api-sports.io/football/teams/499.png",
-            "Bologna": "https://media.api-sports.io/football/teams/500.png",
-            "Cagliari": "https://media.api-sports.io/football/teams/490.png",
-            "Como": "https://media.api-sports.io/football/teams/895.png",
-            "Empoli": "https://media.api-sports.io/football/teams/511.png",
-            "Fiorentina": "https://media.api-sports.io/football/teams/502.png",
-            "Genoa": "https://media.api-sports.io/football/teams/495.png",
-            "Inter": "https://media.api-sports.io/football/teams/505.png",
-            "Juventus": "https://media.api-sports.io/football/teams/496.png",
-            "Lazio": "https://media.api-sports.io/football/teams/487.png",
-            "Lecce": "https://media.api-sports.io/football/teams/867.png",
-            "Monza": "https://media.api-sports.io/football/teams/1579.png",
-            "Napoli": "https://media.api-sports.io/football/teams/492.png",
-            "Parma": "https://media.api-sports.io/football/teams/523.png",
-            "Torino": "https://media.api-sports.io/football/teams/503.png",
-            "Udinese": "https://media.api-sports.io/football/teams/494.png",
-            "Venezia": "https://media.api-sports.io/football/teams/517.png",
-            "Verona": "https://media.api-sports.io/football/teams/504.png",
-
-       
-            // ── UEFA (Europe) ─────────────────────────────────────────
-            // ── UEFA (Europe) ─────────────────────────────────────────
-            "England":        "https://flagcdn.com/w80/gb-eng.png",
-            "France":         "https://flagcdn.com/w80/fr.png",
-            "Germany":        "https://flagcdn.com/w80/de.png",
-            "Spain":          "https://flagcdn.com/w80/es.png",
-            "Portugal":       "https://flagcdn.com/w80/pt.png",
-            "Netherlands":    "https://flagcdn.com/w80/nl.png",
-            "Belgium":        "https://flagcdn.com/w80/be.png",
-            "Croatia":        "https://flagcdn.com/w80/hr.png",
-            "Switzerland":    "https://flagcdn.com/w80/ch.png",
-            "Austria":        "https://flagcdn.com/w80/at.png",
-            "Sweden":         "https://flagcdn.com/w80/se.png",
-            "Scotland":       "https://flagcdn.com/w80/gb-sct.png",
-            "Norway":         "https://flagcdn.com/w80/no.png",
-            "Czechia":        "https://flagcdn.com/w80/cz.png",
-            "Turkey":         "https://flagcdn.com/w80/tr.png",
-            "Turkiye":        "https://flagcdn.com/w80/tr.png",
-            "Bosnia and Herzegovina": "https://flagcdn.com/w80/ba.png",
-
-            // ── CONMEBOL (South America) ───────────────────────────────
-            "Argentina":      "https://flagcdn.com/w80/ar.png",
-            "Brazil":         "https://flagcdn.com/w80/br.png",
-            "Uruguay":        "https://flagcdn.com/w80/uy.png",
-            "Colombia":       "https://flagcdn.com/w80/co.png",
-            "Ecuador":        "https://flagcdn.com/w80/ec.png",
-            "Paraguay":       "https://flagcdn.com/w80/py.png",
-
-            // ── CONCACAF (North/Central America & Caribbean) ──────────
-            "USA":            "https://flagcdn.com/w80/us.png",
-            "Mexico":         "https://flagcdn.com/w80/mx.png",
-            "Canada":         "https://flagcdn.com/w80/ca.png",
-            "Panama":         "https://flagcdn.com/w80/pa.png",
-            "Haiti":          "https://flagcdn.com/w80/ht.png",
-            "Iraq":           "https://flagcdn.com/w80/iq.png",
-            "Curacao":        "https://flagcdn.com/w80/cw.png",
-            "Cape Verde":     "https://flagcdn.com/w80/cv.png",
-
-            // ── CAF (Africa) ──────────────────────────────────────────
-            "Morocco":        "https://flagcdn.com/w80/ma.png",
-            "South Africa":   "https://flagcdn.com/w80/za.png",
-            "Egypt":          "https://flagcdn.com/w80/eg.png",
-            "Senegal":        "https://flagcdn.com/w80/sn.png",
-            "Nigeria":        "https://flagcdn.com/w80/ng.png",
-            "Algeria":        "https://flagcdn.com/w80/dz.png",
-            "Cameroon":       "https://flagcdn.com/w80/cm.png",
-            "Ghana":          "https://flagcdn.com/w80/gh.png",
-            "Ivory Coast":    "https://flagcdn.com/w80/ci.png",
-            "Tunisia":        "https://flagcdn.com/w80/tn.png",
-            "DR Congo":       "https://flagcdn.com/w80/cd.png",
-
-            // ── AFC (Asia) ────────────────────────────────────────────
-            "Japan":          "https://flagcdn.com/w80/jp.png",
-            "South Korea":    "https://flagcdn.com/w80/kr.png",
-            "Australia":      "https://flagcdn.com/w80/au.png",
-            "New Zealand":    "https://flagcdn.com/w80/nz.png",
-            "Jordan":         "https://flagcdn.com/w80/jo.png",
-            "Iran":           "https://flagcdn.com/w80/ir.png",
-            "Saudi Arabia":   "https://flagcdn.com/w80/sa.png",
-            "Qatar":          "https://flagcdn.com/w80/qa.png",
-            "Uzbekistan":     "https://flagcdn.com/w80/uz.png",
-            "China":          "https://flagcdn.com/w80/cn.png",
-
-            // ── OFC ───────────────────────────────────────────────────
-            // (New Zealand already listed above under AFC playoff)
-
-            };
-
-        // ── Helper: get logo URL by team name ─────────────────────
-        function getTeamLogo(teamName) {
-        return teamLogos[teamName] ?? `https://flagcdn.com/w80/xx.png`; // fallback
-
-            };
-
-
-        function renderMatches(day) {
+    // ============================================================
+    // RENDER MATCHES
+    // ============================================================
+    function renderMatches(day) {
         const container = document.getElementById('matches-container');
-        const matches = matchesData[day] || [];
+        const matches   = matchesData[day] || [];
 
-        // Get current local time for auto-live check
-        const now = new Date();
-        const nowMinutes = now.getHours() * 60 + now.getMinutes();
-
-        // Process matches to apply auto-status and auto-score logic
-        const processedMatches = matches.map(match => {
-            let currentHomeScore = Number(match.homeScore); // Convert to number
-            let currentAwayScore = Number(match.awayScore); // Convert to number
-            let displayStatus = match.status;
-            let displayClass = match.statusClass;
-
-            // Only apply auto-status/score for 'maanta' (Today) and if it's a hardcoded match (no API update yet)
-            // The API updateMatchesFromAPI will overwrite these if it finds real data.
-            if (day === 'maanta' && (displayStatus === 'Upcoming' || displayStatus.includes('LIVE') || displayStatus.includes('🔴')) && match.displayTime) {
-                const [h, m] = match.displayTime.split(':').map(Number);
-                const matchMinutes = h * 60 + m;
-                const diff = nowMinutes - matchMinutes; // Minutes elapsed since kickoff
-
-                if (diff >= 120) { // Match considered finished after 120 minutes
-                    displayStatus = 'Finished';
-                    displayClass = 'status-finished';
-                } else if (diff >= 0) { // Match is live
-                    displayStatus = 'LIVE 🔴';
-                    displayClass = 'status-live';
-                }
-            }
-            return { ...match, homeScore: currentHomeScore, awayScore: currentAwayScore, status: displayStatus, statusClass: displayClass };
-        });
-
-        // Now sort the processedMatches based on the criteria
-        processedMatches.sort((a, b) => {
-            const getStatusPriority = (status) => {
-                if (status.includes('LIVE')) return 1;
-                if (status === 'Upcoming') return 2;
-                if (status === 'Finished') return 3;
-                return 4; // Default for unknown statuses
+        const sorted = [...matches].sort((a, b) => {
+            const priority = s => (s.includes('🔴') || s === 'HT') ? 1 : s === 'Upcoming' ? 2 : 3;
+            const pa = priority(a.status), pb = priority(b.status);
+            if (pa !== pb) return pa - pb;
+            const toMin = t => {
+                const [h, m] = (t || '00:00').split(':').map(Number);
+                return h * 60 + m;
             };
-
-            const priorityA = getStatusPriority(a.status);
-            const priorityB = getStatusPriority(b.status);
-
-            if (priorityA !== priorityB) {
-                return priorityA - priorityB; // Sort by status priority (1, 2, 3)
-            }
-
-            // If priorities are the same, apply secondary sorting
-            const [hA, mA] = a.displayTime.split(':').map(Number);
-            const timeInMinutesA = hA * 60 + mA;
-            const [hB, mB] = b.displayTime.split(':').map(Number);
-            const timeInMinutesB = hB * 60 + mB;
-
-            if (priorityA === 1 || priorityA === 2) { // Live or Upcoming: earliest kickoff first
-                return timeInMinutesA - timeInMinutesB;
-            } else if (priorityA === 3) { // Finished: most recently finished first (descending kickoff time)
-                return timeInMinutesB - timeInMinutesA;
-            }
-            return 0; // No change in order
+            return pa === 3
+                ? toMin(b.displayTime) - toMin(a.displayTime)
+                : toMin(a.displayTime) - toMin(b.displayTime);
         });
 
-        container.innerHTML = processedMatches.map(match => {
-            const time = match.utcDate ? formatTime(match.utcDate) : (match.displayTime || '--:--');
-            const baseUrl = match.url || 'watch-live.html';
-            const matchUrl = `${baseUrl}?id=${match.id || ''}&home=${encodeURIComponent(match.home)}&away=${encodeURIComponent(match.away)}&league=${encodeURIComponent(match.league)}`;
+        container.innerHTML = sorted.map(match => {
+            const matchUrl   = `${match.url || 'watch-live.html'}?id=${match.id}&home=${encodeURIComponent(match.home)}&away=${encodeURIComponent(match.away)}&league=${encodeURIComponent(match.league)}`;
+            const homeLogo   = match.homeLogo   || teamLogos[match.home]   || 'https://via.placeholder.com/32x32?text=?';
+            const awayLogo   = match.awayLogo   || teamLogos[match.away]   || 'https://via.placeholder.com/32x32?text=?';
+            const leagueLogo = match.leagueLogo || leagueLogos[match.league] || 'https://via.placeholder.com/20x20?text=🏆';
 
             return `
             <a href="${matchUrl}" class="match-link-wrapper" data-match-id="${match.id}">
                 <div class="match-card">
-                <div class="league-header">
-                    <img src="${match.leagueLogo || leagueLogos[match.league] || 'https://via.placeholder.com/20x20?text=🏆'}" alt="${match.league}" class="league-logo-img" style="width: 18px; height: 18px; margin-right: 8px; border-radius: 2px; background: white; padding: 1px;">
-                    <span class="league-name">${match.league}</span>
+                    <div class="league-header">
+                        <img src="${leagueLogo}" alt="${match.league}" class="league-logo-img"
+                             style="width:18px;height:18px;margin-right:8px;border-radius:2px;background:white;padding:1px;">
+                        <span class="league-name">${match.league}</span>
+                    </div>
+                    <div class="match-row">
+                        <div class="teams">
+                            <div class="team">
+                                <img src="${homeLogo}" alt="${match.home}" class="team-logo" loading="lazy">
+                                <span class="team-name">${match.home}</span>
+                                <span class="score home-score">${match.homeScore}</span>
+                            </div>
+                            <div class="team">
+                                <img src="${awayLogo}" alt="${match.away}" class="team-logo" loading="lazy">
+                                <span class="team-name">${match.away}</span>
+                                <span class="score away-score">${match.awayScore}</span>
+                            </div>
+                        </div>
+                        <div class="status-box">
+                            <div class="time">${match.displayTime}</div>
+                            <div class="status ${match.statusClass}">${match.status}</div>
+                        </div>
+                        <div class="play-overlay">
+                            <i data-lucide="play-circle"></i>
+                            <div class="watch-text">${match.overlayText}</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="match-row">
-                    <div class="teams">
-                    <div class="team">
-                        <img src="${match.homeLogo || teamLogos[match.home] || 'https://via.placeholder.com/32x32?text=?'}" alt="${match.home}" class="team-logo" loading="lazy">
-                        <span class="team-name">${match.home}</span>
-                        <span class="score home-score">${match.homeScore}</span>
-                    </div>
-                    <div class="team">
-                        <img src="${match.awayLogo || teamLogos[match.away] || 'https://via.placeholder.com/32x32?text=?'}" alt="${match.away}" class="team-logo" loading="lazy">
-                        <span class="team-name">${match.away}</span>
-                        <span class="score away-score">${match.awayScore}</span>
-                    </div>
-                    </div>
-                    <div class="status-box">
-                    <div class="time">${time}</div>
-                    <div class="status ${match.statusClass}">${match.status}</div>
-                    </div>
-                    <div class="play-overlay">
-                    <i data-lucide="play-circle"></i>
-                    <div class="watch-text">${match.overlayText}</div>
-                    </div>
-                </div>
-                </div>
-            </a>
-            `;
+            </a>`;
         }).join('');
         lucide.createIcons();
-        }
+    }
 
-        // Tab Switching
-        const tabButtons = document.querySelectorAll('.nav-item.tab-btn');
-        tabButtons.forEach(button => {
+    // ============================================================
+    // TAB SWITCHING
+    // ============================================================
+    document.querySelectorAll('.nav-item.tab-btn').forEach(button => {
         button.addEventListener('click', () => {
-            tabButtons.forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.nav-item.tab-btn').forEach(b => b.classList.remove('active'));
             button.classList.add('active');
             renderMatches(button.getAttribute('data-day'));
         });
-        });
+    });
 
-    function getMatchDay(matchDate) {
-        const now = new Date();
-        const match = new Date(matchDate);
-
-        const today = new Date(now);
-        today.setHours(0, 0, 0, 0);
-
-        const yesterday = new Date(now);
-        yesterday.setDate(now.getDate() - 1);
-        yesterday.setHours(0, 0, 0, 0);
-
-        const tomorrow = new Date(now);
-        tomorrow.setDate(now.getDate() + 1);
-        tomorrow.setHours(0, 0, 0, 0);
-
-        const matchDay = new Date(match);
-        matchDay.setHours(0, 0, 0, 0);
-
-        if (matchDay.getTime() === today.getTime()) return "maanta";
-        if (matchDay.getTime() === yesterday.getTime()) return "shalay";
-        if (matchDay.getTime() === tomorrow.getTime()) return "berri";
-        return "other";
+    function getCurrentDay() {
+        const active = document.querySelector('.nav-item.tab-btn.active');
+        return active ? active.getAttribute('data-day') : 'maanta';
     }
 
+    // ============================================================
+    // GOAL FLASH
+    // ============================================================
+    const previousScores = {};
+
+    function flashGoal(matchId, newHome, newAway) {
+        const key  = String(matchId);
+        const curr = `${newHome}-${newAway}`;
+        const prev = previousScores[key];
+
+        if (prev && prev !== curr) {
+            const [oldHome, oldAway] = prev.split('-').map(Number);
+            const card = document.querySelector(`[data-match-id="${key}"]`);
+            if (card) {
+                if (newHome > oldHome) {
+                    const el = card.querySelector('.home-score');
+                    if (el) {
+                        el.style.cssText = "color:#22c55e;transform:scale(1.8);transition:all 0.3s;font-weight:900;";
+                        setTimeout(() => el.style.cssText = "", 3000);
+                    }
+                }
+                if (newAway > oldAway) {
+                    const el = card.querySelector('.away-score');
+                    if (el) {
+                        el.style.cssText = "color:#22c55e;transform:scale(1.8);transition:all 0.3s;font-weight:900;";
+                        setTimeout(() => el.style.cssText = "", 3000);
+                    }
+                }
+            }
+        }
+        previousScores[key] = curr;
+    }
+
+    // ============================================================
+    // CONVERT API MATCH FORMAT
+    // ============================================================
+    function convertMatch(item) {
+        const score      = item.score || "0 - 0";
+        const [hs, as_]  = score.split(" - ").map(Number);
+        const isLive     = item.status === "Live";
+        const isFinished = item.status === "Finished";
+        const kickoff    = new Date(item.kickoff);
+        const localTime  = String(kickoff.getHours()).padStart(2,'0') + ':' + String(kickoff.getMinutes()).padStart(2,'0');
+
+        return {
+            id:          item.id,
+            home:        item.home_name,
+            away:        item.away_name,
+            homeScore:   hs || 0,
+            awayScore:   as_ || 0,
+            league:      item.league,
+            displayTime: localTime,
+            status:      isLive ? (item.currentMinutes ? `${item.currentMinutes}' 🔴` : 'LIVE 🔴') : isFinished ? 'Finished' : 'Upcoming',
+            statusClass: isLive ? 'status-live' : isFinished ? 'status-finished' : 'status-upcoming',
+            overlayText: 'Watch Live',
+            url:         'watch-live.html',
+            homeLogo:    item.home_flag,
+            awayLogo:    item.away_flag,
+            leagueLogo:  leagueLogos[item.league] || ''
+        };
+    }
+
+    // ============================================================
+    // KEY FIX: UPDATE HARDCODED MATCHES WITH API DATA BY NAME
+    // ============================================================
+    function nameKey(name) {
+        return (name || '').toLowerCase().trim()
+            .replace('democratic republic of the congo', 'dr congo')
+            .replace('bosnia and herzegovina', 'bosnia')
+            .replace(/\s+/g, '')
+            .substring(0, 6);
+    }
+
+    function updateHardcodedWithAPI(hardcoded, apiList) {
+        return hardcoded.map(hMatch => {
+            // ✅ Find matching API match by team name
+            const apiMatch = apiList.find(a =>
+                nameKey(a.home_name) === nameKey(hMatch.home) &&
+                nameKey(a.away_name) === nameKey(hMatch.away)
+            );
+
+            if (apiMatch) {
+                const score      = apiMatch.score || "0 - 0";
+                const [hs, as_]  = score.split(" - ").map(Number);
+                const isLive     = apiMatch.status === "Live";
+                const isFinished = apiMatch.status === "Finished";
+
+                // ✅ Flash goal
+                flashGoal(String(hMatch.id), hs || 0, as_ || 0);
+
+                return {
+                    ...hMatch,                                    // ✅ Keep url, league name
+                    id:          apiMatch.id,                     // ✅ Update to real API id
+                    homeScore:   hs || 0,                         // ✅ Real score
+                    awayScore:   as_ || 0,                        // ✅ Real score
+                    homeLogo:    apiMatch.home_flag || teamLogos[hMatch.home],
+                    awayLogo:    apiMatch.away_flag || teamLogos[hMatch.away],
+                    status:      isLive
+                                    ? (apiMatch.currentMinutes ? `${apiMatch.currentMinutes}' 🔴` : 'LIVE 🔴')
+                                    : isFinished ? 'Finished' : 'Upcoming',
+                    statusClass: isLive ? 'status-live' : isFinished ? 'status-finished' : 'status-upcoming',
+                };
+            }
+
+            // ✅ Not found in API — keep original unchanged
+            return hMatch;
+        });
+    }
+
+    function addNewAPIMatches(hardcoded, apiList) {
+        const hardcodedKeys = new Set(
+            hardcoded.map(m => nameKey(m.home) + nameKey(m.away))
+        );
+        const newMatches = apiList.filter(a =>
+            !hardcodedKeys.has(nameKey(a.home_name) + nameKey(a.away_name))
+        );
+        return [...hardcoded, ...newMatches.map(convertMatch)];
+    }
+
+    // ============================================================
+    // MAIN LIVE SCORE UPDATER
+    // ============================================================
+    let lastKnownDate = new Date().toLocaleDateString('en-CA');
+
+    async function updateLiveScores() {
+        const now        = new Date();
+        const nowLocal   = now.toLocaleDateString('en-CA');
+
+        // ✅ Midnight rollover
+        if (nowLocal !== lastKnownDate) {
+            matchesData.shalay = matchesData.maanta.filter(m => !m.status.includes('🔴') && m.status !== 'HT');
+            matchesData.maanta = [
+                ...matchesData.berri,
+                ...matchesData.maanta.filter(m => m.status.includes('🔴') || m.status === 'HT')
+            ];
+            matchesData.berri  = [];
+            lastKnownDate      = nowLocal;
+        }
+
+        // ✅ Fetch free API
+        let apiMatches = null;
+        try {
+            const res = await fetch(FREE_API);
+            if (res.ok) {
+                const data = await res.json();
+                apiMatches = data.result || [];
+            }
+        } catch (err) {
+            console.error("API failed:", err);
+        }
+
+        // ✅ If API fails just render what we have
+        if (!apiMatches) {
+            renderMatches(getCurrentDay());
+            return;
+        }
+
+        // ✅ Sort API matches into today / yesterday / tomorrow using kickoff local time
+        const yesterday      = new Date(now); yesterday.setDate(now.getDate() - 1);
+        const tomorrow       = new Date(now); tomorrow.setDate(now.getDate() + 1);
+        const yesterdayLocal = yesterday.toLocaleDateString('en-CA');
+        const tomorrowLocal  = tomorrow.toLocaleDateString('en-CA');
+
+        const todayAPI = [], yesterdayAPI = [], tomorrowAPI = [];
+
+        apiMatches.forEach(match => {
+            const kickoffLocal = new Date(match.kickoff).toLocaleDateString('en-CA');
+            if      (kickoffLocal === nowLocal)       todayAPI.push(match);
+            else if (kickoffLocal === yesterdayLocal) yesterdayAPI.push(match);
+            else if (kickoffLocal === tomorrowLocal)  tomorrowAPI.push(match);
+        });
+
+        // ✅ Update hardcoded matches with real API data + add new matches
+        if (todayAPI.length > 0) {
+            matchesData.maanta = updateHardcodedWithAPI(matchesData.maanta, todayAPI);
+            matchesData.maanta = addNewAPIMatches(matchesData.maanta, todayAPI);
+        }
+        if (yesterdayAPI.length > 0) {
+            matchesData.shalay = updateHardcodedWithAPI(matchesData.shalay, yesterdayAPI);
+            matchesData.shalay = addNewAPIMatches(matchesData.shalay, yesterdayAPI);
+        }
+        if (tomorrowAPI.length > 0) {
+            matchesData.berri = updateHardcodedWithAPI(matchesData.berri, tomorrowAPI);
+            matchesData.berri = addNewAPIMatches(matchesData.berri, tomorrowAPI);
+        }
+
+        // ✅ Render current tab
+        renderMatches(getCurrentDay());
+
+        console.log(`✅ Updated → Today: ${todayAPI.length} | Yesterday: ${yesterdayAPI.length} | Tomorrow: ${tomorrowAPI.length} | Live: ${apiMatches.filter(m => m.status === 'Live').length}`);
+    }
+
+    // ============================================================
+    // LEAGUE TABLE
+    // ============================================================
     async function updateLeagueTable() {
         const container = document.getElementById("league-table-container");
         if (!container) return;
-        
         try {
-            const res = await fetch(`https://api-football-v1.p.rapidapi.com/v3/standings?league=39&season=2024`, {
-                headers: {
-                    "x-rapidapi-key": API_KEY,
-                    "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
-                }
-            });
+            const res = await fetch(
+                `https://api-football-v1.p.rapidapi.com/v3/standings?league=39&season=2024`,
+                { headers: { "x-rapidapi-key": API_KEY, "x-rapidapi-host": "api-football-v1.p.rapidapi.com" } }
+            );
             const data = await res.json();
-            
-            if (!data.response || data.response.length === 0) return;
+            if (!data.response || !data.response.length) return;
             const standings = data.response[0].league.standings[0];
-
-            let tableHTML = `
+            container.innerHTML = `
                 <table class="standings-table">
                     <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Team</th>
-                            <th>P</th>
-                            <th>GD</th>
-                            <th>Pts</th>
-                        </tr>
+                        <tr><th>#</th><th>Team</th><th>P</th><th>GD</th><th>Pts</th></tr>
                     </thead>
-                    <tbody>`;
-
-            standings.slice(0, 10).forEach(item => {
-                tableHTML += `
-                    <tr>
-                        <td>${item.rank}</td>
-                        <td class="team-cell">
-                            <img src="${item.team.logo}" alt="${item.team.name}" loading="lazy">
-                            <span>${item.team.name}</span>
-                        </td>
-                        <td>${item.all.played}</td>
-                        <td>${item.goalsDiff}</td>
-                        <td><strong>${item.points}</strong></td>
-                    </tr>`;
-            });
-
-            tableHTML += `</tbody></table>`;
-            container.innerHTML = tableHTML;
+                    <tbody>
+                        ${standings.slice(0, 10).map(item => `
+                        <tr>
+                            <td>${item.rank}</td>
+                            <td class="team-cell">
+                                <img src="${item.team.logo}" loading="lazy">
+                                <span>${item.team.name}</span>
+                            </td>
+                            <td>${item.all.played}</td>
+                            <td>${item.goalsDiff}</td>
+                            <td><strong>${item.points}</strong></td>
+                        </tr>`).join('')}
+                    </tbody>
+                </table>`;
             lucide.createIcons();
         } catch (err) {
-            console.error("Error updating league table:", err);
-            container.innerHTML = `<p style="font-size: 12px; color: #ef4444; text-align: center;">Khalad ayaa dhacay xogta.</p>`;
+            container.innerHTML = `<p style="color:#ef4444;text-align:center;font-size:12px">Table unavailable</p>`;
         }
     }
 
-    function showMatchesLoading() {
-        const container = document.getElementById('matches-container');
-        container.innerHTML = `
-            <div class="flex flex-col gap-4 p-4">
-                <div class="h-24 bg-slate-800/50 animate-pulse rounded-xl"></div>
-                <div class="h-24 bg-slate-800/50 animate-pulse rounded-xl"></div>
-                <div class="h-24 bg-slate-800/50 animate-pulse rounded-xl"></div>
-            </div>
-        `;
-    }
-
-    // Store current local date to detect midnight rollover (Requirement 7)
-    let lastKnownDate = new Date().toLocaleDateString('en-CA');
-
-    function processApiFixtures(fixtures) {
-        if (!fixtures || fixtures.length === 0) return [];
-        let liveCounter = 0;
-        const watchPages = ['watch-live.html', 'watch-live1.html', 'watch-live2.html', 'watch-live3.html'];
-        return fixtures.map(item => {
-            const statusShort = item.fixture.status.short;
-            const isLive = ['1H', 'HT', '2H', 'ET', 'P', 'BT'].includes(statusShort);
-            let displayStatus = "";
-            
-            if (statusShort === 'HT') {
-                displayStatus = 'HT';
-            } else if (isLive) {
-                displayStatus = (item.fixture.status.elapsed ?? 0) + "' 🔴";
-            } else if (['FT', 'AET', 'PEN'].includes(statusShort)) {
-                displayStatus = 'Finished';
-            } else {
-                displayStatus = 'Upcoming';
-            }
-
-            return {
-                id: item.fixture.id,
-                home: item.teams.home.name,
-                away: item.teams.away.name,
-                homeScore: item.goals.home ?? 0,
-                awayScore: item.goals.away ?? 0,
-                league: item.league.name,
-                displayTime: formatToLocalTime(item.fixture.date),
-                status: displayStatus,
-                statusClass: isLive ? 'status-live' : (['FT', 'AET', 'PEN'].includes(statusShort) ? 'status-finished' : 'status-upcoming'),
-                overlayText: 'Watch Live',
-                url: isLive ? watchPages[liveCounter++ % watchPages.length] : 'watch-live.html',
-                homeLogo: item.teams.home.logo,
-                awayLogo: item.teams.away.logo,
-                leagueLogo: item.league.logo
-            };
-        });
-    }
-
-    async function updateMatchesFromAPI() {
-        const now = new Date();
-        const todayStr = now.toLocaleDateString('en-CA');
-        const activeTab = document.querySelector('.nav-item.tab-btn.active');
-        const currentDay = activeTab ? activeTab.getAttribute('data-day') : 'maanta';
-
-        if (todayStr !== lastKnownDate) {
-            console.log(`Midnight Rollover: ${lastKnownDate} -> ${todayStr}`);
-            
-            // ✅ Midnight Rollover: Move Today's matches to Yesterday (except LIVE ones)
-            const liveMatches = matchesData.maanta.filter(m => m.status.includes('🔴') || m.status === 'HT');
-            const finishedOrUpcoming = matchesData.maanta.filter(m => !m.status.includes('🔴') && m.status !== 'HT');
-
-            matchesData.shalay = [...finishedOrUpcoming];
-            matchesData.maanta = [...matchesData.berri, ...liveMatches];
-            matchesData.berri = [];
-
-            lastKnownDate = todayStr;
-            renderMatches(currentDay);
-        }
-
-        const container = document.getElementById('matches-container');
-        if (matchesData[currentDay].length === 0) showMatchesLoading();
-
-        try {
-            const yesterdayDate = new Date(now); yesterdayDate.setDate(now.getDate() - 1);
-            const tomorrowDate = new Date(now); tomorrowDate.setDate(now.getDate() + 1);
-
-            const [yRaw, tRaw, tomRaw] = await Promise.all([
-                getMatchesForDate(yesterdayDate.toLocaleDateString('en-CA')),
-                getMatchesForDate(todayStr),
-                getMatchesForDate(tomorrowDate.toLocaleDateString('en-CA'))
-            ]);
-
-            // ✅ Preserve hardcoded (placeholder) matches that have IDs starting with '2026'
-            const placeholdersShalay = matchesData.shalay.filter(m => String(m.id).startsWith('2026'));
-            const placeholdersMaanta = matchesData.maanta.filter(m => String(m.id).startsWith('2026'));
-            const placeholdersBerri  = matchesData.berri.filter(m => String(m.id).startsWith('2026'));
-
-            const yesterdayProcessed = yRaw ? processApiFixtures(yRaw) : [];
-            const todayProcessed     = tRaw ? processApiFixtures(tRaw) : [];
-            const tomorrowProcessed  = tomRaw ? processApiFixtures(tomRaw) : [];
-
-            // ✅ "Accept the match live": If a match from yesterday is still live, keep it in "Today"
-            const liveFromYesterday = yesterdayProcessed.filter(m => m.status.includes('🔴') || m.status === 'HT');
-            const finishedYesterday = yesterdayProcessed.filter(m => !m.status.includes('🔴') && m.status !== 'HT');
-
-            // ✅ Merge API data + Live matches carried over + Your manual placeholders
-            matchesData.shalay = [...finishedYesterday, ...placeholdersShalay];
-            matchesData.maanta = [...todayProcessed, ...liveFromYesterday, ...placeholdersMaanta];
-            matchesData.berri  = [...tomorrowProcessed, ...placeholdersBerri];
-
-            if (!yRaw && !tRaw && !tomRaw && container.innerHTML.includes('animate-pulse')) {
-                container.innerHTML = '<p class="text-center p-4 text-red-500">Service unavailable. Please try again later.</p>';
-                return;
-            }
-
-            renderMatches(currentDay);
-        } catch (error) {
-            console.error("Error updating live matches:", error);
-            if (container && container.innerHTML.includes('animate-pulse')) {
-                container.innerHTML = '<p class="text-center p-4 text-red-500">Service temporarily unavailable. Retrying...</p>';
-            }
-        }
-    }
-
+    // ============================================================
+    // NEWS
+    // ============================================================
     async function updateNewsFromAPI() {
         const container = document.getElementById('news-container');
         if (!container) return;
 
-        // Fallback news data if API fails or key is placeholder
         const fallbackArticles = [
-            {
-                title: "Top African referee Omar Artan to officiate 2026 UEFA Super Cup after being unable to participate in FIFA World Cup 2026",
-                description: "Somali referee Omar Artan has been appointed to officiate the upcoming UEFA Super Cup, marking a major milestone for African officiating after missing out on the World Cup.",
-                urlToImage: "news image/images.jpg",
-                publishedAt: new Date().toISOString(),
-                url: "#"
-            },
-            {
-                title: "Real Madrid star on the verge of summer exit.",
-                description: "Reports from Spain indicate that the midfielder has received an offer from a top club...",
-                urlToImage: "news image/GettyImages-2166876546-2-scaled.jpg",
-                publishedAt: new Date().toISOString(),
-                url: "#"
-            },
-            {
-                title: "Coach Pep Guardiola speaks on his Manchester City future.",
-                description: "Guardiola stated he is very happy with the team but will make a final decision soon...",
-                urlToImage: "news image/GettyImages-2262861156.jpg.webp",
-                publishedAt: new Date().toISOString(),
-                url: "#"
-            },
-            {
-                title: "Sir Alex Ferguson Taken to Hospital Before Man Utd’s Win Over Liverpool",
-                description: "Manchester United legend Sir Alex Ferguson was reportedly rushed to the hospital today...",
-                urlToImage: "news image/fergusan.jpg",
-                publishedAt: new Date().toISOString(),
-                url: "#"
-            }
+            { title: "Top African referee Omar Artan to officiate 2026 UEFA Super Cup", description: "Somali referee Omar Artan has been appointed to officiate the upcoming UEFA Super Cup, marking a major milestone for African officiating.", urlToImage: "news image/images.jpg", publishedAt: new Date().toISOString(), url: "#" },
+            { title: "Real Madrid star on the verge of summer exit.", description: "Reports from Spain indicate that the midfielder has received an offer from a top club...", urlToImage: "news image/GettyImages-2166876546-2-scaled.jpg", publishedAt: new Date().toISOString(), url: "#" },
+            { title: "Coach Pep Guardiola speaks on his Manchester City future.", description: "Guardiola stated he is very happy with the team but will make a final decision soon...", urlToImage: "news image/GettyImages-2262861156.jpg.webp", publishedAt: new Date().toISOString(), url: "#" },
+            { title: "Sir Alex Ferguson Taken to Hospital Before Man Utd's Win Over Liverpool", description: "Manchester United legend Sir Alex Ferguson was reportedly rushed to the hospital today...", urlToImage: "news image/fergusan.jpg", publishedAt: new Date().toISOString(), url: "#" }
         ];
 
-        try {
-            if (!NEWS_API_KEY || NEWS_API_KEY === "YOUR_NEWS_API_KEY") {
-                throw new Error("Missing API Key");
-            }
-
-            // Fetching football news from NewsAPI (Search query: football OR soccer)
-            const res = await fetch(`https://newsapi.org/v2/everything?q=football+soccer&sortBy=publishedAt&pageSize=6&language=en&apiKey=${NEWS_API_KEY}`);
-            const data = await res.json();
-            
-            const articles = (data.status === 'ok' && data.articles.length > 0) ? data.articles : fallbackArticles;
-            
-            container.innerHTML = articles.map(article => `
-                    <article class="news-card">
-                        <div class="news-thumb">
-                            <img src="${article.urlToImage || 'https://via.placeholder.com/400x240?text=News'}" alt="${article.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x240?text=News'">
-                            <span class="news-tag">News</span>
-                        </div>
-                        <div class="news-info">
-                            <div class="news-meta">
-                                <span><i data-lucide="calendar"></i> ${new Date(article.publishedAt).toLocaleDateString()}</span>
-                                <span><i data-lucide="clock"></i> 3 min read</span>
-                            </div>
-                            <h3>${article.title}</h3>
-                            <p>${article.description || 'Read the full story for more details.'}</p>
-                            <a href="${article.url}" target="_blank" rel="noopener noreferrer" class="btn-read">Read More <i data-lucide="arrow-right"></i></a>
-                        </div>
-                    </article>
-                `).join('');
-                lucide.createIcons();
-
-        } catch (err) {
-            console.warn("NewsAPI error (likely CORS or Key). Showing fallback news:", err);
-            // Render fallbacks immediately on error
-            container.innerHTML = fallbackArticles.map(article => `
+        const renderArticles = articles => {
+            container.innerHTML = articles.map(a => `
                 <article class="news-card">
                     <div class="news-thumb">
-                        <img src="${article.urlToImage}" alt="${article.title}" loading="lazy">
+                        <img src="${a.urlToImage || 'https://via.placeholder.com/400x240?text=News'}"
+                             alt="${a.title}" loading="lazy"
+                             onerror="this.src='https://via.placeholder.com/400x240?text=News'">
                         <span class="news-tag">News</span>
                     </div>
                     <div class="news-info">
                         <div class="news-meta">
-                            <span><i data-lucide="calendar"></i> ${new Date(article.publishedAt).toLocaleDateString()}</span>
+                            <span><i data-lucide="calendar"></i> ${new Date(a.publishedAt).toLocaleDateString()}</span>
                             <span><i data-lucide="clock"></i> 3 min read</span>
                         </div>
-                        <h3>${article.title}</h3>
-                        <p>${article.description}</p>
-                        <a href="${article.url}" target="_blank" rel="noopener noreferrer" class="btn-read">Read More <i data-lucide="arrow-right"></i></a>
+                        <h3>${a.title}</h3>
+                        <p>${a.description || 'Read the full story.'}</p>
+                        <a href="${a.url}" target="_blank" rel="noopener noreferrer" class="btn-read">
+                            Read More <i data-lucide="arrow-right"></i>
+                        </a>
                     </div>
-                </article>
-            `).join('');
+                </article>`).join('');
             lucide.createIcons();
+        };
+
+        try {
+            if (!NEWS_API_KEY || NEWS_API_KEY === "YOUR_NEWS_API_KEY") throw new Error("No key");
+            const res  = await fetch(`https://newsapi.org/v2/everything?q=football+soccer&sortBy=publishedAt&pageSize=6&language=en&apiKey=${NEWS_API_KEY}`);
+            const data = await res.json();
+            renderArticles(data.status === 'ok' && data.articles.length ? data.articles : fallbackArticles);
+        } catch {
+            renderArticles(fallbackArticles);
         }
     }
 
-        // Initial render
-        renderMatches('maanta');
-        updateMatchesFromAPI();
-        updateLeagueTable();
-        updateNewsFromAPI();
+    // ============================================================
+    // START
+    // ============================================================
+    renderMatches('maanta');
+    updateLiveScores();
+    updateLeagueTable();
+    updateNewsFromAPI();
 
-        // ✅ MAIN LIVE SCORE UPDATER - Runs every 30 seconds
-        async function updateLiveScores() {
-            try {
-                const res = await fetch(
-                    `https://api-football-v1.p.rapidapi.com/v3/fixtures?live=all`,
-                    {
-                        headers: {
-                            "x-rapidapi-key": API_KEY,
-                            "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
-                            "Content-Type": "application/json"
-                        }
-                    }
-                );
+    // ✅ Update every 30 seconds
+    setInterval(updateLiveScores, 30000);
 
-                if (!res.ok) return;
+</script>
 
-                const data = await res.json();
-                if (!data.response || data.response.length === 0) return;
-
-                data.response.forEach(match => {
-                    const id = String(match.fixture.id);
-                    const newHome = match.goals.home ?? 0;
-                    const newAway = match.goals.away ?? 0;
-                    const elapsed = match.fixture.status.elapsed;
-                    const statusShort = match.fixture.status.short;
-
-                    // ✅ Find the card in the DOM using the data-match-id attribute
-                    const card = document.querySelector(`[data-match-id="${id}"]`);
-                    if (!card) return;
-
-                    const homeScoreEl = card.querySelector('.home-score');
-                    const awayScoreEl = card.querySelector('.away-score');
-                    const statusEl    = card.querySelector('.status');
-
-                    // ✅ Update home score with flash animation if goal scored
-                    if (homeScoreEl && parseInt(homeScoreEl.innerText) !== newHome) {
-                        homeScoreEl.innerText = newHome;
-                        homeScoreEl.classList.add("goal-flash");
-                        setTimeout(() => homeScoreEl.classList.remove("goal-flash"), 2000);
-                    }
-
-                    // ✅ Update away score with flash animation if goal scored
-                    if (awayScoreEl && parseInt(awayScoreEl.innerText) !== newAway) {
-                        awayScoreEl.innerText = newAway;
-                        awayScoreEl.classList.add("goal-flash");
-                        setTimeout(() => awayScoreEl.classList.remove("goal-flash"), 2000);
-                    }
-
-                    // ✅ Update match status (elapsed minutes or HT/FT)
-                    if (statusEl) {
-                        if (statusShort === 'HT') {
-                            statusEl.innerText = 'HT';
-                            statusEl.className = 'status status-live';
-                        } else if (['FT', 'AET', 'PEN'].includes(statusShort)) {
-                            statusEl.innerText = 'Finished';
-                            statusEl.className = 'status status-finished';
-                        } else if (['1H', '2H', 'ET'].includes(statusShort)) {
-                            statusEl.innerText = `${elapsed}' 🔴`;
-                            statusEl.className = 'status status-live';
-                        }
-                    }
-                });
-            } catch (err) {
-                console.error("Live score update failed:", err);
-            }
-        }
-
-        // ✅ Run every 30 seconds for high-frequency live updates
-        setInterval(updateLiveScores, 30000);
-
-        // ✅ Periodically refresh the full list (every 5 mins) to handle new matches or structural changes
-        setInterval(updateMatchesFromAPI, 300000);
-
-    </script>
-    <script>
-        let deferredPrompt;
-        const installBtn = document.getElementById('installBtn');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installBtn.style.display = 'block'; // Show the button when ready
-        });
-
+<script>
+    // PWA Install
+    let deferredPrompt;
+    const installBtn = document.getElementById('installBtn');
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (installBtn) installBtn.style.display = 'block';
+    });
+    if (installBtn) {
         installBtn.addEventListener('click', async () => {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    installBtn.style.display = 'none';
-                }
+                if (outcome === 'accepted') installBtn.style.display = 'none';
                 deferredPrompt = null;
             }
         });
-    </script>
-    <script>
-      if ('serviceWorker' in navigator) {
+    }
+</script>
+
+<script>
+    // Service Worker
+    if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js')
-          .then(reg => console.log('Service Worker Registered', reg))
-          .catch(err => console.error('Service Worker Registration Failed:', err));
-      }
-    </script>
-    <script>
-        (function () {
-        function injectScript() {
-            var doc = iframe.contentDocument || iframe.contentWindow.document;
-
-            if (doc) {
-            var script = doc.createElement('script');
-            script.innerHTML =
-                "window.__CF$cv$params={r:'9f5788fd06658a65',t:'MTc3NzczMDI0OC4wMDAwMDA='};" +
-                "var s=document.createElement('script');" +
-                "s.nonce='';" +
-                "s.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';" +
-                "document.head.appendChild(s);";
-
-            doc.head.appendChild(script);
-            }
-        }
-
-        if (document.body) {
-            var iframe = document.createElement('iframe');
-
-            iframe.height = 1;
-            iframe.width = 1;
-            iframe.style.position = 'absolute';
-            iframe.style.top = 0;
-            iframe.style.left = 0;
-            iframe.style.border = 'none';
-            iframe.style.visibility = 'hidden';
-
-            document.body.appendChild(iframe);
-
-            if (document.readyState !== 'loading') {
-            injectScript();
-            } else if (window.addEventListener) {
-            document.addEventListener('DOMContentLoaded', injectScript);
-            } else {
-            var oldReady = document.onreadystatechange || function () {};
-            document.onreadystatechange = function (e) {
-                oldReady(e);
-                if (document.readyState !== 'loading') {
-                document.onreadystatechange = oldReady;
-                injectScript();
-                }
-            };
-            }
-        }
-        })();
-    </script>
+            .then(reg => console.log('SW Registered', reg))
+            .catch(err => console.error('SW Failed:', err));
+    }
+</script>
 </body>
 </html>
