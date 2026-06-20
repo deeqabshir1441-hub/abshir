@@ -107,28 +107,6 @@
             <p>&copy; 2026 TV96 Live. HD Sports Streaming.</p>
         </div>
     </footer>
-<script>
-const rotateBtn = document.getElementById('rotateBtn');
-const playerContainer = document.querySelector('.video-player-container');
-
-rotateBtn.addEventListener('click', async () => {
-    try {
-        if (!document.fullscreenElement) {
-            await playerContainer.requestFullscreen();
-        }
-
-        if (screen.orientation && screen.orientation.lock) {
-            try {
-                await screen.orientation.lock('landscape');
-            } catch (err) {
-                console.log('Orientation lock not supported');
-            }
-        }
-    } catch (err) {
-        console.error(err);
-    }
-});
-</script>
 
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script>
