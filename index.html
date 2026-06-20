@@ -346,8 +346,7 @@
 
             if (day === 'maanta') {
                 const [matchH, matchM] = match.displayTime.split(':').map(Number);
-                const startTime = new Date();
-                startTime.setHours(matchH, matchM, 0, 0);
+                const startTime = new Date(`${match.matchDate}T${match.displayTime}:00`);
 
                 const diffMs = now - startTime;
                 const diff   = Math.floor(diffMs / (1000 * 60));
