@@ -416,14 +416,17 @@
                 const diffMs = now - startTime;
                 const diff   = Math.floor(diffMs / (1000 * 60));
 
-                if (diff >= 120) { // Match considered finished after 120 minutes
-                    displayStatus = 'Finished';
-                    displayClass  = 'status-finished';
-                } else if (diff >= 0) { // Match is live
-                    displayStatus = 'LIVE 🔴';
-                    displayClass  = 'status-live';
-                }
-            }
+       if (diff < 0) {
+        displayStatus = 'Upcoming';
+        displayClass = 'status-upcoming';
+    } else if (diff >= 120) {
+        displayStatus = 'Finished';
+        displayClass = 'status-finished';
+    } else {
+        displayStatus = 'LIVE 🔴';
+        displayClass = 'status-live';
+    }
+}
             return { ...match, status: displayStatus, statusClass: displayClass };
         });
 
