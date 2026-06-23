@@ -268,7 +268,7 @@
     displayTime: '00:00',
     matchDate: '2026-06-23',
     id: '2026036',
-    delayMinutes: 130
+    delayed: true
 },
 {
     home: 'Norway',
@@ -505,22 +505,22 @@
                 const [matchH, matchM] = match.displayTime.split(':').map(Number);
                 const startTime = new Date(`${match.matchDate}T${match.displayTime}:00`);
 
-if (match.delayMinutes) {
-    startTime.setMinutes(startTime.getMinutes() + match.delayMinutes);
-}
                 const diffMs = now - startTime;
                 const diff   = Math.floor(diffMs / (1000 * 60));
 
-       if (diff < 0) {
-        displayStatus = 'Upcoming';
-        displayClass = 'status-upcoming';
-    } else if (diff >= 120) {
-        displayStatus = 'Finished';
-        displayClass = 'status-finished';
-    } else {
-        displayStatus = 'LIVE 🔴';
-        displayClass = 'status-live';
-    }
+if (match.delayed) {
+    displayStatus = 'Delayed ⛈️';
+    displayClass = 'status-delayed';
+} else if (diff < 0) {
+    displayStatus = 'Upcoming';
+    displayClass = 'status-upcoming';
+} else if (diff >= 120) {
+    displayStatus = 'Finished';
+    displayClass = 'status-finished';
+} else {
+    displayStatus = 'LIVE 🔴';
+    displayClass = 'status-live';
+}
 }
             return { ...match, status: displayStatus, statusClass: displayClass };
         });
