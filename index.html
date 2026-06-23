@@ -268,7 +268,7 @@
     displayTime: '00:00',
     matchDate: '2026-06-23',
     id: '2026036',
-    delayed: true
+    delayMinutes: 300
 },
 {
     home: 'Norway',
@@ -505,16 +505,15 @@
                 const [matchH, matchM] = match.displayTime.split(':').map(Number);
                 const startTime = new Date(`${match.matchDate}T${match.displayTime}:00`);
 
+const totalMinutes = diff - (match.delayMinutes || 0);
+
                 const diffMs = now - startTime;
                 const diff   = Math.floor(diffMs / (1000 * 60));
 
-if (match.delayed) {
-    displayStatus = 'Delayed ⛈️';
-    displayClass = 'status-delayed';
-} else if (diff < 0) {
+if (totalMinutes < 0) {
     displayStatus = 'Upcoming';
     displayClass = 'status-upcoming';
-} else if (diff >= 250) {
+} else if (totalMinutes >= 120) {
     displayStatus = 'Finished';
     displayClass = 'status-finished';
 } else {
