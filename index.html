@@ -505,8 +505,9 @@
                 const [matchH, matchM] = match.displayTime.split(':').map(Number);
                 const startTime = new Date(`${match.matchDate}T${match.displayTime}:00`);
 
-const totalMinutes = diff - (match.delayMinutes || 0);
-
+if (match.delayMinutes) {
+    startTime.setMinutes(startTime.getMinutes() + match.delayMinutes);
+}
                 const diffMs = now - startTime;
                 const diff   = Math.floor(diffMs / (1000 * 60));
 
