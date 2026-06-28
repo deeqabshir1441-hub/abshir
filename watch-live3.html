@@ -158,7 +158,12 @@
 
         const serverLinks = [
             { name: "HD Server 1", url: 'https://gocaptv-vol.b-cdn.net/hls/stream1.m3u8', quality: "1080p HD", btn: btn1 },
-            { name: "Standard Server 2", url: 'https://pub-098b280041274cf5929f5e19cfc8ac67.r2.dev/en/index.m3u8', quality: "720p SD", btn: btn2 }
+            { name: "Standard Server 2", url: 'https://dami-tv.pro/live-hls/channel/wc/2026-06-27/col-por/fox/playlist.m3u8', quality: "720p SD", btn: btn2 }
+
+headers: {
+            "Referer": "https://dami-tv.pro/",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+        }
         ];
 
         let hls = new Hls();
