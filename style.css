@@ -2400,33 +2400,6 @@
     }
 }
 
-/* Manual Rotate Button for Video Player */
-.rotate-icon-btn {
-    display: none; /* Hidden by default, shown on mobile via media query */
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    z-index: 15;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.3s ease;
-}
-
-.rotate-icon-btn:hover {
-    background: rgba(0, 0, 0, 0.8);
-}
-
-.rotate-icon-btn svg {
-    width: 20px;
-    height: 20px;
-    stroke: #fff;
-}
 
 
 /* Auto-rotate prompt for mobile */
