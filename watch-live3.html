@@ -254,17 +254,7 @@
             leagueTag.innerHTML = `<i class="fa-solid fa-trophy"></i> ${leagueParam} • <span id="match-status" class="match-status">Loading...</span>`;
         }
 
-        // Screen Rotation Logic
-        document.getElementById('rotateBtn').addEventListener('click', async () => {
-            try {
-                if (screen.orientation && screen.orientation.lock) {
-                    await screen.orientation.lock('landscape');
-                }
-            } catch (err) {
-                console.log('Rotation lock not supported:', err);
-            }
-        });
-
+      
     });
     </script>
     <script>
