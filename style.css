@@ -2400,32 +2400,3 @@
     }
 }
 
-
-
-/* Auto-rotate prompt for mobile */
-@media screen and (max-width: 992px) and (orientation: portrait) {
-    /* .video-player-container already has position: relative */
-    .video-player-container::before {
-        content: "\f021"; /* Font Awesome rotate icon */
-        font-family: "Font Awesome 6 Free";
-        font-weight: 900;
-        font-size: 28px;
-        color: #fff;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 15;
-        text-shadow: 0 0 10px rgba(0,0,0,0.7);
-        animation: rotate-pulse 2s ease-in-out infinite;
-    }
-
-    .rotate-icon-btn {
-        display: flex; /* Show the button on mobile */
-    }
-}
-
-@keyframes rotate-pulse {
-    0%, 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 0.8; }
-    50% { transform: translate(-50%, -50%) scale(1.1) rotate(90deg); opacity: 1; }
-}
