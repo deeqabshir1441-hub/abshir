@@ -1,25 +1,30 @@
 <!DOCTYPE html>
-<html lang="so">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV96 Live | Live Stream</title>
+    <title>Liverpool vs Chelsea | Live Stream HD</title>
     <meta name="google-adsense-account" content="ca-pub-9924964891667864">
-    <meta property="og:title" content="TV96 Live">
-    <meta property="og:description" content="Watch world sports live in high-quality HD.">
-    <meta property="og:url" content="https://www.tv96live.org/watch-live2">
-    <link rel="canonical" href="https://www.tv96live.org/watch-live2">
+    <meta property="og:title" content="TV96 Live - Live HD Sports">
+    <meta property="og:description" content="Watch Liverpool vs Chelsea live in HD. Stay updated with live scores and stream on TV96 Live.">
+    <meta property="og:image" content="/icon-512.png">
+    <meta property="og:type" content="website"> 
+    <meta property="og:url" content="https://www.tv96live.org/watch-live">
+    <link rel="canonical" href="https://www.tv96live.org/watch-live">
+    <meta name="description" content="Watch Liverpool vs Chelsea live in HD. Stay updated with live scores and stream on TV96 Live.">
+    <meta name="keywords" content="Liverpool vs Chelsea live, live football streaming, sports hd, premier league live">
     <meta name="mobile-web-app-capable" content="yes">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#000000">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9924964891667864"
      crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 
@@ -37,6 +42,7 @@
                 <a href="#" class="active">Live Stream</a>
             </nav>
             <div class="header-right">
+                <button id="installBtn" class="btn-primary" style="display:none; padding: 6px 15px; font-size: 12px; height: 34px; margin-right: 10px;">Install App</button>
                 <div class="social-icons">
                     <a href="https://www.facebook.com/tv96live"><i class="fa-brands fa-facebook-f"></i></a>
                     <a href="https://www.tiktok.com/@user242901873?_r=1&_t=ZS-97GcQsYcm6m"><i class="fa-brands fa-tiktok"></i></a>
@@ -65,8 +71,8 @@
 
             <div class="match-info-card">
                 <div class="match-title-area">
-                    <h1>Real Betis <span id="home-score" class="score-display">0</span> <span class="vs">vs</span> <span id="away-score" class="score-display">0</span> Real Oviedo</h1>
-                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> La Liga • <span id="match-status" class="match-status status-live">Loading...</span></p>
+                    <h1>Liverpool <span id="home-score" class="score-display">0</span> <span class="vs">vs</span> <span id="away-score" class="score-display">0</span> Chelsea</h1>
+                    <p class="league-tag"><i class="fa-solid fa-trophy"></i> Premier League • <span id="match-status" class="match-status status-live">LIVE 🔴</span></p>
                 </div>
                 <div class="server-selection">
                     <span class="server-label">Select Source:</span>
@@ -104,18 +110,16 @@
 
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Mobile Menu Logic
-            const menuIcon = document.querySelector('.menu-icon');
-            const navMenu = document.querySelector('.nav-menu');
-            const body = document.body;
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
 
-            if (menuIcon && navMenu) {
-                menuIcon.addEventListener('click', (e) => {
-                    navMenu.classList.toggle('active');
-                    body.classList.toggle('menu-open');
-                });
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'block'; // Show the button when ready
+        });
 
+<<<<<<< HEAD
                 document.addEventListener('click', (e) => {
                     if (body.classList.contains('menu-open') && !navMenu.contains(e.target) && !menuIcon.contains(e.target)) {
                         navMenu.classList.remove('active');
@@ -160,91 +164,176 @@
                     video.addEventListener('loadedmetadata', function() {
                         video.play();
                     });
+=======
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    installBtn.style.display = 'none';
+>>>>>>> 51c7dc8 (First upload)
                 }
-                if (qualityIndicator) qualityIndicator.innerText = quality;
+                deferredPrompt = null;
             }
-
-            /**
-             * Checks if a link is active with a 5-second timeout.
-             */
-            async function isLinkWorking(url) {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 3000);
-
-                try {
-                    const response = await fetch(url, { method: 'GET', signal: controller.signal, headers: { 'Range': 'bytes=0-0' } });
-                    clearTimeout(timeoutId);
-                    return response.ok;
-                } catch (err) {
-                    return false;
-                }
-            }
-
-            /**
-             * Automatically finds the first working server.
-             */
-            async function checkAndPlay() {
-                console.log("Checking for active servers...");
-                let activeServer = null;
-
-                for (let server of serverLinks) {
-                    const working = await isLinkWorking(server.url);
-                    if (working) {
-                        activeServer = server;
-                        break;
-                    }
-                    console.warn(`${server.name} is down.`);
-                }
-
-                if (activeServer) {
-                    console.log(`Success: Using ${activeServer.name}`);
-                    setupPlayer(activeServer.url, activeServer.quality);
-                    // Update UI Buttons
-                    serverLinks.forEach(s => s.btn?.classList.remove('active'));
-                    activeServer.btn?.classList.add('active');
-                } else {
-                    console.error("All servers are offline.");
-                    if (qualityIndicator) qualityIndicator.innerText = "Server error";
-                }
-            }
-
-            // Manual button overrides
-            btn1.onclick = () => { setupPlayer(serverLinks[0].url, serverLinks[0].quality); btn1.classList.add('active'); btn2.classList.remove('active'); };
-            btn2.onclick = () => { setupPlayer(serverLinks[1].url, serverLinks[1].quality); btn2.classList.add('active'); btn1.classList.remove('active'); };
-
-            // Start the auto-check on load
-            checkAndPlay();
-
-            // URL Parameter Logic to connect matches dynamically
-            const urlParams = new URLSearchParams(window.location.search);
-            const matchIdFromUrl = urlParams.get('id');
-            const homeParam = urlParams.get('home');
-            const awayParam = urlParams.get('away');
-            const leagueParam = urlParams.get('league');
-
-            if (homeParam && awayParam) {
-                const h1 = document.querySelector('.match-title-area h1');
-                h1.innerHTML = `${homeParam} <span id="home-score" class="score-display">0</span> <span class="vs">vs</span> <span id="away-score" class="score-display">0</span> ${awayParam}`;
-                document.title = `${homeParam} vs ${awayParam} | Live Stream HD`;
-            }
-            if (leagueParam) {
-                const leagueTag = document.querySelector('.league-tag');
-                leagueTag.innerHTML = `<i class="fa-solid fa-trophy"></i> ${leagueParam} • <span id="match-status" class="match-status">Loading...</span>`;
-            }
-
-            // Screen Rotation Logic
-            document.getElementById('rotateBtn').addEventListener('click', async () => {
-                try {
-                    if (screen.orientation && screen.orientation.lock) {
-                        await screen.orientation.lock('landscape');
-                    }
-                } catch (err) {
-                    console.log('Rotation lock not supported:', err);
-                }
-            });
-
         });
     </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Mobile Menu Logic
+        const menuIcon = document.querySelector('.menu-icon');
+        const navMenu = document.querySelector('.nav-menu');
+        const body = document.body;
 
+        if (menuIcon && navMenu) {
+            menuIcon.addEventListener('click', (e) => {
+                navMenu.classList.toggle('active');
+                body.classList.toggle('menu-open');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (body.classList.contains('menu-open') && !navMenu.contains(e.target) && !menuIcon.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    body.classList.remove('menu-open');
+                }
+            });
+        }
+
+        const video = document.getElementById('live-video');
+        const btn1 = document.getElementById('btn-hd');
+        const btn2 = document.getElementById('btn-sd');
+        const qualityIndicator = document.getElementById('quality-indicator');
+
+        const serverLinks = [
+            { name: "HD Server 1", url: 'https://live.cubiktv.com/live/cubiktv_hd.m3u8', quality: "1080p HD", btn: btn1 },
+            { name: "Standard Server 2", url: 'https://live.cubiktv.com/live/cubiktv_hd.m3u8', quality: "720p SD", btn: btn2 }
+        ];
+
+        let hls = new Hls();
+
+        /**
+         * Sets up the HLS player with the provided link.
+         */
+        function setupPlayer(url, quality) {
+            if (Hls.isSupported()) {
+                hls.destroy();
+                hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                    video.play().catch(() => console.log("Autoplay blocked, waiting for interaction."));
+                });
+                hls.on(Hls.Events.ERROR, (event, data) => {
+                    if (data.fatal) {
+                        console.log("Stream failed. Switching to backup...");
+                        // Automatic failover logic
+                        checkAndPlay();
+                    }
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = url;
+                video.addEventListener('loadedmetadata', function() {
+                    video.play();
+                });
+            }
+            if (qualityIndicator) qualityIndicator.innerText = quality;
+        }
+
+        /**
+         * Checks if a link is active with a 5-second timeout.
+         */
+        async function isLinkWorking(url) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+            try {
+                const response = await fetch(url, { method: 'GET', signal: controller.signal, headers: { 'Range': 'bytes=0-0' } });
+                clearTimeout(timeoutId);
+                return response.ok;
+            } catch (err) {
+                return false;
+            }
+        }
+
+        /**
+         * Automatically finds the first working server.
+         */
+        async function checkAndPlay() {
+            console.log("Checking for active servers...");
+            let activeServer = null;
+
+            for (let server of serverLinks) {
+                const working = await isLinkWorking(server.url);
+                if (working) {
+                    activeServer = server;
+                    break;
+                }
+                console.warn(`${server.name} is down.`);
+            }
+
+            if (activeServer) {
+                console.log(`Success: Using ${activeServer.name}`);
+                setupPlayer(activeServer.url, activeServer.quality);
+                // Update UI Buttons
+                serverLinks.forEach(s => s.btn?.classList.remove('active'));
+                activeServer.btn?.classList.add('active');
+            } else {
+                console.error("All servers are offline.");
+                if (qualityIndicator) qualityIndicator.innerText = "Server error";
+            }
+        }
+
+        // Manual button overrides
+        btn1.onclick = () => { setupPlayer(serverLinks[0].url, serverLinks[0].quality); btn1.classList.add('active'); btn2.classList.remove('active'); };
+        btn2.onclick = () => { setupPlayer(serverLinks[1].url, serverLinks[1].quality); btn2.classList.add('active'); btn1.classList.remove('active'); };
+
+        // Start the auto-check on load
+        checkAndPlay();
+
+        // URL Parameter Logic to connect matches dynamically
+        const urlParams = new URLSearchParams(window.location.search);
+        const matchIdFromUrl = urlParams.get('id');
+        const homeParam = urlParams.get('home');
+        const awayParam = urlParams.get('away');
+        const leagueParam = urlParams.get('league');
+
+        if (homeParam && awayParam) {
+            const h1 = document.querySelector('.match-title-area h1');
+            h1.innerHTML = `${homeParam} <span id="home-score" class="score-display">0</span> <span class="vs">vs</span> <span id="away-score" class="score-display">0</span> ${awayParam}`;
+            document.title = `${homeParam} vs ${awayParam} | Live Stream HD`;
+        }
+        if (leagueParam) {
+            const leagueTag = document.querySelector('.league-tag');
+            leagueTag.innerHTML = `<i class="fa-solid fa-trophy"></i> ${leagueParam} • <span id="match-status" class="match-status">Loading...</span>`;
+        }
+
+        // Screen Rotation Logic
+        document.getElementById('rotateBtn').addEventListener('click', async () => {
+            try {
+                if (screen.orientation && screen.orientation.lock) {
+                    await screen.orientation.lock('landscape');
+                }
+            } catch (err) {
+                console.log('Rotation lock not supported:', err);
+            }
+        });
+
+    });
+    </script>
+    <script>
+        if ('wakeLock' in navigator) {
+            let wakeLock = null;
+            const requestWakeLock = async () => {
+                try {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                    console.log('Wake Lock active!');
+                } catch (err) {
+                    console.error(`Wake Lock error: ${err.name}, ${err.message}`);
+                }
+            };
+
+            // Request wake lock when the page loads
+            requestWakeLock();
+        }
+    </script>
 </body>
 </html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latest News | TV96 Live</title>
+    <meta name="google-adsense-account" content="ca-pub-9924964891667864">
+    <meta name="description" content="Stay updated with the latest football news, transfer rumors, and match analysis from TV96 Live.">
+    <meta property="og:title" content="Latest News | TV96 Live">
+    <meta property="og:description" content="The latest football news, transfer rumors, and match analysis.">
+    <meta property="og:image" content="/icon-512.png">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.tv96live.org/news.html">
+    <link rel="canonical" href="https://www.tv96live.org/news.html">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#000000">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="news-style.css">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9924964891667864"
+     crossorigin="anonymous"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="navbar-container">
+            <div class="logo">
+                <a href="index.html"><img src="logo/Logo.png" alt="TV96 Live Logo"></a>
+            </div>
+            <i class="fas fa-bars menu-icon" id="menuToggle"></i>
+            <nav class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#matches" class="nav-link">Matches</a>
+                <a href="news.html" class="nav-link active">Latest News</a>
+                <a href="index.html#about" class="nav-link">About Us</a>
+                <a href="privacy.html" class="nav-link">Privacy</a>
+            </nav>
+            <div class="header-right">
+                <div class="social-icons">
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" title="Facebook"><i data-lucide="facebook"></i></a>
+                    <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" title="YouTube"><i data-lucide="youtube"></i></a>
+                </div>
+                <div class="theme-toggle" id="themeToggle" title="Switch Theme">
+                    <i data-lucide="moon"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- News Content Wrapper -->
+        <div class="news-content-wrapper">
+            <section class="news-grid-section">
+                <h1 class="section-title" style="font-size: 2rem; margin-bottom: 30px;">Latest Football News</h1>
+
+                <!-- Category Filter -->
+                <div class="category-filter">
+                    <button class="filter-btn active">All</button>
+                    <button class="filter-btn">Premier League</button>
+                    <button class="filter-btn">Transfers</button>
+                    <button class="filter-btn">Champions League</button>
+                    <button class="filter-btn">Highlights</button>
+                </div>
+
+                <!-- News Articles Grid -->
+                <div class="news-articles-grid" id="news-container">
+                    <!-- News cards will be dynamically inserted here -->
+                </div>
+
+                <!-- Load More Button -->
+                <div class="load-more-container">
+                    <button class="btn-load-more"><i class="fa-solid fa-rotate"></i> Load More</button>
+                </div>
+            </section>
+
+            <aside class="news-sidebar">
+
+                <!-- Trending News Widget -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title"><i class="fa-solid fa-fire"></i> Trending News</h3>
+                    <ul class="trending-list">
+                        <li><a href="#">Real Madrid star on the verge of summer exit.</a></li>
+                        <li><a href="#">Coach Pep Guardiola speaks on his Manchester City future.</a></li>
+                        <li><a href="#">Top African referee Omar Artan to officiate 2026 UEFA Super Cup</a></li>
+                        <li><a href="#">Sir Alex Ferguson Taken to Hospital Before Man Utd's Win</a></li>
+                    </ul>
+                </div>
+
+                <!-- Trending Matches Widget -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title"><i class="fa-solid fa-futbol"></i> Trending Matches</h3>
+                    <ul class="trending-matches-list">
+                        <!-- Matches will be dynamically inserted here -->
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+         <div class="footer-col about-col"><img src="logo/Logo.png" alt="TV96 Live Logo" class="footer-logo">
+          <p>The most trusted source for sports news and live results for fans worldwide.</p>
+         </div>
+         <div class="footer-col links-col">
+          <h4>Quick Links</h4>
+          <ul>
+           <li><a href="index.html">Home</a></li>
+           <li><a href="index.html#matches">Matches</a></li>
+           <li><a href="news.html">News</a></li>
+           <li><a href="privacy.html">Privacy Policy</a></li>
+          </ul>
+         </div>
+         <div class="footer-col social-col">
+          <h4>Download Our App</h4>
+          <div class="app-buttons">
+           <a href="#" class="app-btn" target="_blank" rel="noopener noreferrer"> <i data-lucide="apple"></i>
+            <div class="app-btn-text">
+             <span>Download on the</span> <strong>App Store</strong>
+            </div></a> <a href="#" class="app-btn" target="_blank" rel="noopener noreferrer"> <i data-lucide="play"></i>
+            <div class="app-btn-text">
+             <span>Get it on</span> <strong>Google Play</strong>
+            </div></a>
+          </div>
+          <h4 style="margin-top: 25px;">Contact Us</h4>
+          <div class="footer-social-links">
+           <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><i data-lucide="facebook"></i></a> 
+           <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-tiktok"></i></a>
+           <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><i data-lucide="instagram"></i></a> 
+           <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" title="WhatsApp"><i data-lucide="message-circle"></i></a>
+          </div>
+         </div>
+        </div>
+        <div class="footer-bottom">
+         <p>© 2026 <a href="https://www.tv96live.org" class="hover:text-emerald-500 transition-colors">www.tv96live.org</a> - All rights reserved.</p>
+        </div>
+       </footer>
+
+    <script>
+        // Basic script for mobile menu and theme toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        menuToggle.addEventListener('click', () => navMenu.classList.toggle('active'));
+
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const savedTheme = localStorage.getItem('theme') || 'dark'; 
+        if (savedTheme === 'light') { body.classList.add('light-mode'); updateThemeIcon(); } 
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            localStorage.setItem('theme', body.classList.contains('light-mode') ? 'light' : 'dark');
+            updateThemeIcon();
+        });
+        function updateThemeIcon() {
+            const icon = themeToggle.querySelector('[data-lucide]');
+            icon.setAttribute('data-lucide', body.classList.contains('light-mode') ? 'sun' : 'moon');
+            lucide.createIcons();
+        }
+
+        // Dummy data for news
+        const newsContainer = document.getElementById('news-container');
+        const articles = [
+            { title: "Top African referee Omar Artan to officiate 2026 UEFA Super Cup", description: "Somali referee Omar Artan has been appointed to officiate the upcoming UEFA Super Cup...", urlToImage: "news image/images.jpg", url: "article-template.html", category: "Champions League" },
+            { title: "Real Madrid star on the verge of summer exit.", description: "Reports from Spain indicate that the midfielder has received an offer...", urlToImage: "news image/GettyImages-2166876546-2-scaled.jpg", url: "article-template.html", category: "Transfers" },
+            { title: "Coach Pep Guardiola speaks on his Manchester City future.", description: "Guardiola stated he is very happy with the team but will make a final decision soon...", urlToImage: "news image/GettyImages-2262861156.jpg.webp", url: "article-template.html", category: "Premier League" },
+            { title: "Sir Alex Ferguson Taken to Hospital Before Man Utd's Win Over Liverpool", description: "Manchester United legend Sir Alex Ferguson was reportedly rushed to the hospital...", urlToImage: "news image/fergusan.jpg", url: "article-template.html", category: "Premier League" }
+        ];
+
+        newsContainer.innerHTML = articles.map(a => `
+            <a href="${a.url}" class="news-card" style="text-decoration: none;">
+                <div class="news-card-image"><img src="${a.urlToImage}" alt="${a.title}"><span class="news-category-badge">${a.category}</span></div>
+                <div class="news-card-content">
+                    <h3 class="news-card-title">${a.title}</h3>
+                    <p class="news-card-excerpt">${a.description}</p>
+                    <div class="news-card-footer">
+                        <span class="news-time"><i class="fa-regular fa-clock"></i> 5 hours ago</span>
+                        <span class="read-more">Read More <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </a>`).join('');
+        lucide.createIcons();
+    </script>
+
+</body>
+</html>
