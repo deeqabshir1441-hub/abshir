@@ -31,7 +31,9 @@
     <header class="main-header">
         <div class="navbar-container">
             <div class="logo">
-                <img src="logo/Logo.png" alt="Logo">
+                <a href="index.html">
+                    <img src="logo/Logo.png" alt="Logo">
+                </a>
             </div>
 
             <i class="fas fa-bars menu-icon"></i>
@@ -119,59 +121,12 @@
             installBtn.style.display = 'block'; // Show the button when ready
         });
 
-<<<<<<< HEAD
-                document.addEventListener('click', (e) => {
-                    if (body.classList.contains('menu-open') && !navMenu.contains(e.target) && !menuIcon.contains(e.target)) {
-                        navMenu.classList.remove('active');
-                        body.classList.remove('menu-open');
-                    }
-                });
-            }
-
-            const video = document.getElementById('live-video');
-            const btn1 = document.getElementById('btn-hd');
-            const btn2 = document.getElementById('btn-sd');
-            const qualityIndicator = document.getElementById('quality-indicator');
-
-            const serverLinks = [
-                { name: "HD Server 1", url: 'https://live.sumadtv.co/SUMADSPORTSHD/tracks-v1a1/mono.ts.m3u8', quality: "1080p HD", btn: btn1 },
-                { name: "Standard Server 2", url: 'https://pub-ccad88611b3243c4a2c67779bb48da76.r2.dev/hls/1/stream.m3u8', quality: "720p SD", btn: btn2 }
-            ];
-
-            let hls = new Hls();
-
-            /**
-             * Sets up the HLS player with the provided link.
-             */
-            function setupPlayer(url, quality) {
-                if (Hls.isSupported()) {
-                    hls.destroy();
-                    hls = new Hls();
-                    hls.loadSource(url);
-                    hls.attachMedia(video);
-                    hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                        video.play().catch(() => console.log("Autoplay blocked, waiting for interaction."));
-                    });
-                    hls.on(Hls.Events.ERROR, (event, data) => {
-                        if (data.fatal) {
-                            console.log("Stream failed. Switching to backup...");
-                            // Automatic failover logic
-                            checkAndPlay();
-                        }
-                    });
-                } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                    video.src = url;
-                    video.addEventListener('loadedmetadata', function() {
-                        video.play();
-                    });
-=======
         installBtn.addEventListener('click', async () => {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
                 if (outcome === 'accepted') {
                     installBtn.style.display = 'none';
->>>>>>> 51c7dc8 (First upload)
                 }
                 deferredPrompt = null;
             }
