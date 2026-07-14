@@ -2468,13 +2468,11 @@ body.light-mode .trending-match-info {
 
 .tv96-banner {
     width: 100%;
-    height: 50px;
+    height: 74px;
+    overflow: hidden;
     border-radius: 14px;
-    overflow: hidden; /* Muhiim */
-    border: 1px solid rgba(16, 185, 129, 0.3);
     background: #08232d;
     margin-bottom: 30px;
-    position: relative;
 }
 
 .tv96-banner img {
@@ -2482,24 +2480,21 @@ body.light-mode .trending-match-info {
     height: 100%;
     display: block;
     object-fit: cover;
-    object-position: center;
-
-    /* Hubi in image-ka laftiisu leeyahay radius */
-    border-radius: inherit;
 }
 @media (max-width: 600px) {
     .tv96-banner {
-        height: 40px;
+        width: calc(100% - 20px);
+        height: 65px;
+        margin: 0 10px 20px;
         border-radius: 12px;
         overflow: hidden;
-        margin-bottom: 20px;
     }
 
     .tv96-banner img {
         width: 100%;
         height: 100%;
+        display: block;
         object-fit: cover;
-        border-radius: 12px;
     }
 }
 
