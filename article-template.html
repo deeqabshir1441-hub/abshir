@@ -3,107 +3,734 @@
 <head>
     <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Article Title | TV96 Live</title>
+
+    <!-- Dynamic title -->
+    <title id="page-title">Article | TV96 Live</title>
+
     <meta name="google-adsense-account" content="ca-pub-9924964891667864">
-    <meta name="description" content="Detailed news article about the latest in sports.">
+
+    <!-- Dynamic description -->
+    <meta 
+        name="description" 
+        id="meta-description"
+        content="Read the latest football news, transfer updates and match analysis on TV96 Live."
+    >
+
     <meta name="mobile-web-app-capable" content="yes">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#000000">
+
+    <!-- Font Awesome -->
+    <link 
+        rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    >
+
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Main CSS -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="news-style.css">
+
+    <!-- Icons -->
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9924964891667864"
-     crossorigin="anonymous"></script>
+
+    <!-- Google AdSense -->
+    <script 
+        async 
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9924964891667864"
+        crossorigin="anonymous">
+    </script>
+
+    <!-- Vercel Analytics -->
     <script defer src="/_vercel/insights/script.js"></script>
+
     <style>
+
+        /* ========================================
+           ARTICLE PAGE
+        ======================================== */
+
         .article-content {
-            max-width: 800px;
+            max-width: 850px;
             margin: 40px auto;
             padding: 0 20px;
             color: var(--text-secondary);
             line-height: 1.8;
         }
+
         .article-content h2 {
-            font-size: 24px;
+            font-size: 26px;
             color: var(--text-primary);
-            margin-top: 30px;
+            margin-top: 35px;
             margin-bottom: 15px;
         }
+
         .article-content p {
             margin-bottom: 20px;
+            font-size: 17px;
         }
-        .article-content img {
+
+        .article-content strong {
+            color: var(--text-primary);
+        }
+
+        /* Article main image */
+
+        .article-main-image {
             width: 100%;
             height: auto;
+            max-height: 500px;
+            object-fit: cover;
             border-radius: 15px;
-            margin: 20px 0;
+            margin: 25px 0;
         }
+
+        /* Back button */
+
         .back-to-news {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             margin-bottom: 30px;
             color: var(--primary-green);
             text-decoration: none;
             font-weight: 700;
+            transition: gap 0.3s ease;
         }
+
         .back-to-news:hover {
-            text-decoration: underline;
+            gap: 12px;
         }
+
+        /* Error message */
+
+        .article-error {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .article-error h2 {
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 768px) {
+
+            .article-content {
+                margin: 25px auto;
+                padding: 0 15px;
+            }
+
+            .article-content p {
+                font-size: 16px;
+            }
+
+            .article-content h2 {
+                font-size: 22px;
+            }
+
+            .article-main-image {
+                border-radius: 10px;
+            }
+        }
+
     </style>
+
 </head>
+
 <body>
 
+    <!-- ========================================
+         HEADER
+    ======================================== -->
+
     <header class="main-header">
+
         <div class="navbar-container">
+
             <div class="logo">
                 <a href="index.html">
-                    <img src="logo/Logo.png" alt="Logo">
+                    <img src="logo/Logo.png" alt="TV96 Live Logo">
                 </a>
             </div>
-            <i class="fas fa-bars menu-icon"></i>
-            <nav class="nav-menu">
+
+            <i class="fas fa-bars menu-icon" id="menuToggle"></i>
+
+            <nav class="nav-menu" id="navMenu">
                 <a href="index.html">Home</a>
+                <a href="index.html#matches">Matches</a>
                 <a href="news.html" class="active">Latest News</a>
+                <a href="index.html#about">About Us</a>
+                <a href="privacy.html">Privacy</a>
             </nav>
+
             <div class="header-right">
+
                 <div class="social-icons">
-                    <a href="https://www.facebook.com/tv96live"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="https://www.tiktok.com/@user242901873?_r=1&_t=ZS-97GcQsYcm6m"><i class="fa-brands fa-tiktok"></i></a>
+
+                    <a 
+                        href="https://www.facebook.com/tv96live" 
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="TV96 Live Facebook"
+                    >
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+
+                    <a 
+                        href="https://www.tiktok.com/@user242901873?_r=1&_t=ZS-97GcQsYcm6m"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="TV96 Live TikTok"
+                    >
+                        <i class="fa-brands fa-tiktok"></i>
+                    </a>
+
                 </div>
+
             </div>
+
         </div>
+
     </header>
 
-    <!-- News Hero Section -->
-    <section class="news-hero">
+
+    <!-- ========================================
+         DYNAMIC NEWS HERO
+    ======================================== -->
+
+    <section class="news-hero" id="articleHero">
+
         <div class="hero-container">
-            <h1 class="hero-title">Manchester United Eye Summer Transfer for Star Midfielder</h1>
+
+            <!-- Title automatically inserted here -->
+            <h1 class="hero-title" id="articleTitle">
+                Loading article...
+            </h1>
+
             <div class="hero-meta">
-                <span><i class="fa-regular fa-clock"></i> 4 hours ago</span>
-                <span><i class="fa-solid fa-tag"></i> Premier League</span>
+
+                <span>
+                    <i class="fa-regular fa-clock"></i>
+                    <span id="articleTime">Loading...</span>
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-tag"></i>
+                    <span id="articleCategory">Football</span>
+                </span>
+
             </div>
+
         </div>
+
     </section>
 
-    <main class="article-content">
-        <a href="news.html" class="back-to-news"><i class="fa-solid fa-arrow-left"></i> Back to All News</a>
-        <p><strong>The Red Devils are reportedly preparing a massive bid to secure one of Europe's top midfield talents this summer. This move signals a clear intent from the club to bolster their squad ahead of the new season.</strong></p>
-        <p>This is the full content of the news article. You can add more paragraphs, images, and other details here to build out the story. This template provides a starting point for creating individual article pages for your news section.</p>
-        <img src="banner/poster.png" alt="Article main image">
-        <h2>A New Era in Midfield</h2>
-        <p>Sources close to the club suggest that the manager has identified the midfield as a key area for improvement. The potential new signing is known for their creativity, work rate, and ability to control the tempo of the game. Fans are eagerly awaiting an official announcement.</p>
-        <p>More details will follow as the story develops. Stay tuned to TV96 Live for the latest updates on this and other transfer news.</p>
+
+    <!-- ========================================
+         DYNAMIC ARTICLE CONTENT
+    ======================================== -->
+
+    <main class="article-content" id="articleContent">
+
+        <a href="news.html" class="back-to-news">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to All News
+        </a>
+
+        <!-- Article will automatically appear here -->
+
+        <div id="articleBody">
+            <p>Loading article...</p>
+        </div>
+
     </main>
 
+
+    <!-- ========================================
+         FOOTER
+    ======================================== -->
+
     <footer class="main-footer">
+
         <div class="footer-bottom">
-            <p>&copy; 2026 TV96 Live. HD Sports Streaming.</p>
+            <p>
+                &copy; 2026 TV96 Live. All rights reserved.
+            </p>
         </div>
+
     </footer>
 
+
+    <!-- ========================================
+         ARTICLE DATA AND JAVASCRIPT
+    ======================================== -->
+
+    <script>
+
+        /*
+        ==========================================
+        ADD ALL YOUR NEWS ARTICLES HERE
+        ==========================================
+        */
+
+        const articles = [
+
+            // =====================================
+            // ARTICLE 1
+            // =====================================
+
+            {
+                id: 1,
+
+                title: "Atalanta to offer Éderson new five-year deal amid transfer uncertainty",
+
+                description: "Atalanta are set to offer Brazilian midfielder Éderson a new five-year contract, with the final decision now up to the player.",
+
+                category: "Serie A",
+
+                time: "Just now",
+
+                image: "news image/1.jpg",
+
+                content: `
+                    <p>
+                        <strong>
+                            Atalanta are set to offer Brazilian midfielder Éderson a new five-year contract from next week, as the Italian club insist that the player is 100% fit.
+                        </strong>
+                    </p>
+
+                    <img 
+                        src="news image/1.jpg" 
+                        alt="Éderson Atalanta midfielder"
+                        class="article-main-image"
+                    >
+
+                    <h2>Atalanta Prepare New Five-Year Contract</h2>
+
+                    <p>
+                        Atalanta are expected to present Éderson with a new five-year deal as they look to secure the long-term future of the Brazilian midfielder.
+                    </p>
+
+                    <p>
+                        The club have also made it clear that Éderson is fully fit, despite any uncertainty surrounding his physical condition.
+                    </p>
+
+                    <h2>Final Decision Up to Éderson</h2>
+
+                    <p>
+                        The final decision will be up to the player. Éderson can either accept the new long-term contract or remain available on the transfer market.
+                    </p>
+
+                    <p>
+                        The Brazilian currently has just 10 months remaining on his existing contract, making his future an important issue for Atalanta.
+                    </p>
+                `
+            },
+
+
+            // =====================================
+            // ARTICLE 2
+            // =====================================
+
+            {
+                id: 2,
+
+                title: "Arsenal wait for Trossard decision as they target new winger",
+
+                description: "Arsenal are waiting for Leandro Trossard's final green light to join Besiktas before moving for a new winger, with Christos Tzolis keen on the move.",
+
+                category: "Premier League",
+
+                time: "Just now",
+
+                image: "news image/2.jpeg",
+
+                content: `
+                    <p>
+                        <strong>
+                            Arsenal are waiting for Leandro Trossard's final green light to join Besiktas before moving forward with plans to bring in a new winger.
+                        </strong>
+                    </p>
+
+                    <img 
+                        src="news image/2.jpeg" 
+                        alt="Arsenal transfer news involving Leandro Trossard and Christos Tzolis"
+                        class="article-main-image"
+                    >
+
+                    <h2>Arsenal Wait for Trossard Decision</h2>
+
+                    <p>
+                        Arsenal are waiting for Leandro Trossard to make a final decision on a potential move to Besiktas. His departure could allow the Gunners to proceed with plans to sign a new winger.
+                    </p>
+
+                    <h2>Christos Tzolis Wants Arsenal Move</h2>
+
+                    <p>
+                        Christos Tzolis is keen on joining Arsenal and has reportedly put another proposal on hold as he waits for the Premier League club.
+                    </p>
+
+                    <p>
+                        The winger's desire to make the move could play an important role as Arsenal consider their options in the transfer market.
+                    </p>
+
+                    <h2>Morgan Rogers Remains a Top Target</h2>
+
+                    <p>
+                        Morgan Rogers remains a top target for Arsenal in a separate potential transfer. The move is considered independent of the club's pursuit of a new winger.
+                    </p>
+
+                    <p>
+                        Further developments are expected as Arsenal wait for Trossard's final decision and continue working on their transfer plans.
+                    </p>
+                `
+            },
+
+            // =====================================
+            // ARTICLE 3
+            // =====================================
+            {
+                id: 3,
+
+                title: "Lionel Messi makes history with 15 goal contributions in World Cup knockout rounds",
+
+                description: "Lionel Messi has reached 15 goal contributions in World Cup knockout matches, the most by any player in the last 60 years.",
+
+                category: "FIFA World Cup",
+
+                time: "Just now",
+
+                image: "news image/3.jpg",
+
+                content: `
+                    <p>
+                        <strong>
+                            Lionel Messi has made more history on the biggest stage, reaching 15 goal contributions in FIFA World Cup knockout rounds.
+                        </strong>
+                    </p>
+
+                    <img 
+                        src="news image/3.jpg" 
+                        alt="Lionel Messi Argentina FIFA World Cup"
+                        class="article-main-image"
+                    >
+
+                    <h2>Messi Reaches 15 Goal Contributions</h2>
+
+                    <p>
+                        The Argentina captain has now registered an incredible 15 combined goals and assists in World Cup knockout matches throughout his career.
+                    </p>
+
+                    <p>
+                        This remarkable achievement makes Messi the player with the most goal contributions in World Cup knockout rounds over the last 60 years.
+                    </p>
+
+                    <h2>Another Historic World Cup Record</h2>
+
+                    <p>
+                        Messi continues to add to his extraordinary World Cup legacy, having delivered decisive performances for Argentina on football's biggest stage.
+                    </p>
+
+                    <p>
+                        His latest milestone further strengthens his place among the greatest players in World Cup history.
+                    </p>
+                `
+            },
+
+            // =====================================
+            // ARTICLE 4
+            // =====================================
+
+            {
+                id: 4,
+
+                title: "Aston Villa hijack Newcastle deal for Johan Manzambi",
+
+                description: "Aston Villa are in talks with SC Freiburg to hijack Newcastle's €60m deal for Swiss midfielder Johan Manzambi.",
+
+                category: "Premier League",
+
+                time: "Just now",
+
+                image: "news image/4.jpg",
+
+                content: `
+                    <p>
+                        <strong>
+                            Aston Villa are attempting to hijack Newcastle United's deal for Johan Manzambi, with negotiations now underway for the highly-rated Swiss midfielder.
+                        </strong>
+                    </p>
+
+                    <img 
+                        src="news image/4.jpg" 
+                        alt="Johan Manzambi Aston Villa Newcastle transfer news"
+                        class="article-main-image"
+                    >
+
+                    <h2>Aston Villa Enter Race for Manzambi</h2>
+
+                    <p>
+                        Aston Villa are in negotiations with SC Freiburg as they look to match Newcastle United's €60 million offer for Johan Manzambi.
+                    </p>
+
+                    <p>
+                        Villa have accelerated their pursuit of the 20-year-old Switzerland international as they search for a replacement for the injured Amadou Onana.
+                    </p>
+
+                    <h2>Newcastle Still Waiting for Player's Decision</h2>
+
+                    <p>
+                        Newcastle had already reached a €60 million agreement with Freiburg but have been waiting for Manzambi's final decision since Tuesday.
+                    </p>
+
+                    <p>
+                        The player has yet to give Newcastle the green light, opening the door for Aston Villa to make their move and attempt to hijack the transfer.
+                    </p>
+
+                    <h2>Villa Push to Complete the Deal</h2>
+
+                    <p>
+                        Aston Villa are now actively working on the transfer and remain in discussions with Freiburg as they seek to secure Manzambi's signature.
+                    </p>
+
+                    <p>
+                        The final decision will ultimately depend on the player as both Premier League clubs compete for the talented Swiss midfielder.
+                    </p>
+                `
+            },
+
+            // =====================================
+            // ARTICLE 5
+            // =====================================
+
+            {
+                id: 5,
+
+                title: "Romelu Lukaku reveals why he did not join Real Madrid in 2010",
+
+                description: "Romelu Lukaku has revealed that his parents decided against a move to Real Madrid in 2010 because they wanted him to focus on his education.",
+
+                category: "Football News",
+
+                time: "Just now",
+
+                image: "news image/5.jpg",
+
+                content: `
+                    <p>
+                        <strong>
+                            Romelu Lukaku has revealed that he was close to joining Real Madrid in 2010, but his parents decided against the move because they wanted him to complete his education.
+                        </strong>
+                    </p>
+
+                    <img 
+                        src="news image/5.jpg" 
+                        alt="Romelu Lukaku speaks about Real Madrid and Barcelona"
+                        class="article-main-image"
+                    >
+
+                    <h2>Lukaku Reveals Why He Did Not Join Real Madrid</h2>
+
+                    <p>
+                        When asked whether he was close to joining Real Madrid in 2010, Lukaku explained that it was his parents' decision not to make the move because he was still in school.
+                    </p>
+
+                    <p>
+                        "It was my parents' decision to not join because I was in school, and since my parents didn't graduate, it was very important to them that I succeed in my studies," Lukaku said.
+                    </p>
+
+                    <h2>Real Madrid or Barcelona?</h2>
+
+                    <p>
+                        Lukaku was also asked whether he prefers Real Madrid or Barcelona, but the striker chose not to reveal his preference.
+                    </p>
+
+                    <p>
+                        "That's personal," Lukaku replied, leaving fans to speculate about which of the two Spanish giants he prefers.
+                    </p>
+
+                    <p>
+                        The Belgian striker's comments offer an interesting insight into an important decision early in his career and the role his family played in prioritising his education.
+                    </p>
+                `
+            },
+
+            // =====================================
+            // ARTICLE 6    
+            // =====================================
+
+            {
+                id: 7,
+
+                title: "Kylian Mbappé makes World Cup history with 11 goal contributions",
+
+                description: "Kylian Mbappé has recorded 8 goals and 3 assists at the 2026 World Cup, the most goal contributions by any player at a single edition since Gerd Müller in 1970.",
+
+                category: "FIFA World Cup",
+
+                time: "Just now",
+
+                image: "news image/7.webp",
+
+                content: `
+                    <p>
+                        <strong>
+                            Kylian Mbappé has continued his extraordinary 2026 FIFA World Cup campaign, reaching 11 goal contributions with eight goals and three assists for France.
+                        </strong>
+                    </p>
+
+                    <img 
+                        src="news image/7.webp" 
+                        alt="Kylian Mbappé celebrates for France at the 2026 FIFA World Cup"
+                        class="article-main-image"
+                    >
+
+                    <h2>Mbappé Reaches 11 Goal Contributions</h2>
+
+                    <p>
+                        The France captain has been one of the standout performers at the 2026 World Cup, registering eight goals and three assists to reach a remarkable total of 11 direct goal contributions.
+                    </p>
+
+                    <p>
+                        His performances have played a major role in France's impressive tournament run and have placed him among the leading stars of the competition.
+                    </p>
+
+                    <h2>Most Since Gerd Müller in 1970</h2>
+
+                    <p>
+                        Mbappé's 11 goal contributions are the most by any player at a single FIFA World Cup since German legend Gerd Müller achieved the feat at the 1970 tournament.
+                    </p>
+
+                    <p>
+                        The achievement highlights Mbappé's extraordinary impact as both a goalscorer and creator on football's biggest stage.
+                    </p>
+
+                    <h2>Mbappé Continues to Rewrite World Cup History</h2>
+
+                    <p>
+                        With eight goals and three assists already to his name, Mbappé continues to strengthen his remarkable World Cup legacy.
+                    </p>
+
+                    <p>
+                        The French superstar remains a crucial figure for his country as France continues its pursuit of World Cup glory.
+                    </p>
+                `
+            },
+
+        ];
+
+
+
+        /*
+        ==========================================
+        GET ARTICLE ID FROM URL
+        Example: article-template.html?id=3
+        ==========================================
+        */
+
+        const params = new URLSearchParams(window.location.search);
+
+        const articleId = Number(params.get("id"));
+
+        const article = articles.find(item => item.id === articleId);
+
+
+        /*
+        ==========================================
+        DISPLAY ARTICLE
+        ==========================================
+        */
+
+        if (article) {
+
+            // Change browser tab title
+            document.title = `${article.title} | TV96 Live`;
+
+            // Change meta description
+            const metaDescription = document.querySelector(
+                'meta[name="description"]'
+            );
+
+            if (metaDescription) {
+                metaDescription.setAttribute(
+                    "content",
+                    article.description
+                );
+            }
+
+            // Display hero title
+            document.getElementById("articleTitle").textContent =
+                article.title;
+
+            // Display time
+            document.getElementById("articleTime").textContent =
+                article.time;
+
+            // Display category
+            document.getElementById("articleCategory").textContent =
+                article.category;
+
+            // Display full article content
+            document.getElementById("articleBody").innerHTML =
+                article.content;
+
+        } else {
+
+            /*
+            ======================================
+            ARTICLE NOT FOUND
+            ======================================
+            */
+
+            document.getElementById("articleHero").style.display = "none";
+
+            document.getElementById("articleContent").innerHTML = `
+                <div class="article-error">
+
+                    <h2>Article Not Found</h2>
+
+                    <p>
+                        Sorry, the article you are looking for could not be found.
+                    </p>
+
+                    <a href="news.html" class="back-to-news">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Back to All News
+                    </a>
+
+                </div>
+            `;
+        }
+
+
+        /*
+        ==========================================
+        MOBILE MENU
+        ==========================================
+        */
+
+        const menuToggle = document.getElementById("menuToggle");
+        const navMenu = document.getElementById("navMenu");
+
+        if (menuToggle && navMenu) {
+
+            menuToggle.addEventListener("click", () => {
+
+                navMenu.classList.toggle("active");
+
+            });
+
+        }
+
+    </script>
+
+    <!-- Your main website script -->
     <script src="script.js"></script>
 
 </body>
