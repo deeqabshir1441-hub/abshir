@@ -2502,3 +2502,14 @@ body.light-mode .trending-match-info {
         border-radius: 12px;
     }
 }
+
+/* Mobile fix */
+@media (max-width: 768px) {
+    .social-links a,
+    .social-icons a,
+    .footer-social a {
+        text-decoration: none !important;
+        border: none !important;
+        border-bottom: none !important;
+    }
+}
