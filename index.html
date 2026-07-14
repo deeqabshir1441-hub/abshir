@@ -78,9 +78,9 @@
     <div class="content-left">
      <section class="section-block" id="matches">
       <div class="fixtures-container">
-       <div class="fixtures-header">
-        FIFA World Cup 2026
-       </div>
+        <div class="tv96-banner">
+            <img src="tv96-banner.png" alt="TV96 Live">
+        </div>
        <div class="nav-tabs"><button class="nav-item tab-btn" data-day="shalay">Yesterday</button> <button class="nav-item tab-btn active" data-day="maanta">Today</button> <button class="nav-item tab-btn" data-day="berri">Tomorrow</button>
        </div>
        <div id="matches-container"></div>
@@ -164,7 +164,8 @@
     <p>© 2026 <a href="https://www.tv96live.org" class="hover:text-emerald-500 transition-colors">www.tv96live.org</a> - All rights reserved.</p>
    </div>
   </footer>
-
+    <script src="news-data.js"></script>
+    <script src="matches-data.js"></script>
  <script>
     // ============================================================
     // MOBILE MENU
@@ -211,58 +212,6 @@
     // ============================================================
     // HARDCODED MATCH DATA
     // ============================================================
-    const matchesData = {
-        shalay: [
-{
-    home: 'Spain',
-    away: 'Belgium',
-    homeScore: 1,
-    awayScore: 0,
-    league: 'FIFA World Cup 2026',
-    status: 'Finished',
-    statusClass: 'status-finished',
-    overlayText: 'Watch Live',
-    url: 'watch-live3.html',
-    displayTime: '22:00',
-    matchDate: '2026-07-10',
-    id: '2026092'
-} 
-   
-        ],
-        maanta: [
-{
-    home: 'Norway',
-    away: 'England',
-    homeScore: 0,
-    awayScore: 0,
-    league: 'FIFA World Cup 2026',
-    status: 'Upcoming',
-    statusClass: 'status-upcoming',
-    overlayText: 'Watch Live',
-    url: 'watch-live.html',
-    displayTime: '00:00',
-    matchDate: '2026-07-12',
-    id: '2026093'
-},
-{
-    home: 'Argentina',
-    away: 'Switzerland',
-    homeScore: 0,
-    awayScore: 0,
-    league: 'FIFA World Cup 2026',
-    status: 'Upcoming',
-    statusClass: 'status-upcoming',
-    overlayText: 'Watch Live',
-    url: 'watch-live1.html',
-    displayTime: '04:00',
-    matchDate: '2026-07-12',
-    id: '2026094'
-}
-],
-        berri: [
-
-]
-    };
 
     // ============================================================
     // LOGOS
@@ -563,7 +512,9 @@ if (totalMinutes < 0) {
                 </div>
             </a>`;
         }).join('');
-        lucide.createIcons();
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
     }
 
     // ============================================================
@@ -645,40 +596,76 @@ if (totalMinutes < 0) {
     }
 
     // ============================================================
-    // NEWS
+    // LATEST NEWS - SHOW ONLY 4 NEWEST ARTICLES
     // ============================================================
+
     function updateNews() {
         const container = document.getElementById('news-container');
+
         if (!container) return;
 
-        const articles = [
-            { title: "Top African referee Omar Artan to officiate 2026 UEFA Super Cup", description: "Somali referee Omar Artan has been appointed to officiate the upcoming UEFA Super Cup, marking a major milestone for African officiating.", urlToImage: "news image/images.jpg", publishedAt: new Date().toISOString(), url: "#" },
-            { title: "Real Madrid star on the verge of summer exit.", description: "Reports from Spain indicate that the midfielder has received an offer from a top club...", urlToImage: "news image/GettyImages-2166876546-2-scaled.jpg", publishedAt: new Date().toISOString(), url: "#" },
-            { title: "Coach Pep Guardiola speaks on his Manchester City future.", description: "Guardiola stated he is very happy with the team but will make a final decision soon...", urlToImage: "news image/GettyImages-2262861156.jpg.webp", publishedAt: new Date().toISOString(), url: "#" },
-            { title: "Sir Alex Ferguson Taken to Hospital Before Man Utd's Win Over Liverpool", description: "Manchester United legend Sir Alex Ferguson was reportedly rushed to the hospital today...", urlToImage: "news image/fergusan.jpg", publishedAt: new Date().toISOString(), url: "#" }
-        ];
+        // ID-ga ugu weyn ayaa latest ah
+        // Tusaale: 7, 6, 5, 4
+        const latestArticles = [...articles]
+            .sort((a, b) => b.id - a.id)
+            .slice(0, 4);
 
-        container.innerHTML = articles.map(a => `
+        container.innerHTML = latestArticles.map(a => `
             <article class="news-card">
+
                 <div class="news-thumb">
-                    <img src="${a.urlToImage || 'https://via.placeholder.com/400x240?text=News'}"
-                         alt="${a.title}" loading="lazy"
-                         onerror="this.src='https://via.placeholder.com/400x240?text=News'">
-                    <span class="news-tag">News</span>
+
+                    <img 
+                        src="${a.image}" 
+                        alt="${a.title}" 
+                        loading="lazy"
+                        onerror="this.src='https://via.placeholder.com/400x240?text=News'"
+                    >
+
+                    <span class="news-tag">
+                        ${a.category}
+                    </span>
+
                 </div>
+
                 <div class="news-info">
+
                     <div class="news-meta">
-                        <span><i data-lucide="calendar"></i> ${new Date(a.publishedAt).toLocaleDateString()}</span>
-                        <span><i data-lucide="clock"></i> 3 min read</span>
+
+                        <span>
+                            <i data-lucide="calendar"></i>
+                            Latest News
+                        </span>
+
+                        <span>
+                            <i data-lucide="clock"></i>
+                            3 min read
+                        </span>
+
                     </div>
+
                     <h3>${a.title}</h3>
-                    <p>${a.description || 'Read the full story.'}</p>
-                    <a href="${a.url}" target="_blank" rel="noopener noreferrer" class="btn-read">
-                        Read More <i data-lucide="arrow-right"></i>
+
+                    <p>
+                        ${a.description || 'Read the full story.'}
+                    </p>
+
+                    <a 
+                        href="article-template.html?id=${a.id}" 
+                        class="btn-read"
+                    >
+                        Read More 
+                        <i data-lucide="arrow-right"></i>
                     </a>
+
                 </div>
-            </article>`).join('');
-        lucide.createIcons();
+
+            </article>
+        `).join('');
+
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
     }
 
     // ============================================================

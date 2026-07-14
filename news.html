@@ -42,9 +42,9 @@
             </nav>
             <div class="header-right">
                 <div class="social-icons">
-                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" title="Facebook"><i data-lucide="facebook"></i></a>
-                    <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-tiktok"></i></a>
-                    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" title="YouTube"><i data-lucide="youtube"></i></a>
+                    <a href="https://www.facebook.com/share/1EVaiqB9sZ/" target="_blank" rel="noopener noreferrer" title="Facebook"> <i data-lucide="facebook"></i> </a> 
+                    <a href="https://www.tiktok.com/@user242901873?_r=1&_t=ZS-97lGYrPehTp" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://www.youtube.com/channel/UC1UYBGeLGdB7O59qImRAGrg" target="_blank" rel="noopener noreferrer" title="YouTube"> <i data-lucide="youtube"></i> </a>
                 </div>
                 <div class="theme-toggle" id="themeToggle" title="Switch Theme">
                     <i data-lucide="moon"></i>
@@ -62,10 +62,15 @@
                 <!-- Category Filter -->
                 <div class="category-filter">
                     <button class="filter-btn active">All</button>
-                    <button class="filter-btn">Premier League</button>
                     <button class="filter-btn">Transfers</button>
                     <button class="filter-btn">Champions League</button>
                     <button class="filter-btn">Highlights</button>
+                    <button class="filter-btn">Premier League</button>
+                    <button class="filter-btn">Serie A</button>
+                    <button class="filter-btn">La Liga</button>
+                    <button class="filter-btn">Bundesliga</button>
+                    <button class="filter-btn">Ligue 1</button>
+                    <button class="filter-btn">FIFA World Cup</button>
                 </div>
 
                 <!-- News Articles Grid -->
@@ -84,20 +89,22 @@
                 <!-- Trending News Widget -->
                 <div class="sidebar-widget">
                     <h3 class="widget-title"><i class="fa-solid fa-fire"></i> Trending News</h3>
-                    <ul class="trending-list">
-                        <li><a href="#">Real Madrid star on the verge of summer exit.</a></li>
-                        <li><a href="#">Coach Pep Guardiola speaks on his Manchester City future.</a></li>
-                        <li><a href="#">Top African referee Omar Artan to officiate 2026 UEFA Super Cup</a></li>
-                        <li><a href="#">Sir Alex Ferguson Taken to Hospital Before Man Utd's Win</a></li>
+                    <ul class="trending-list" id="trending-list">
+                        <!-- Latest trending news will be inserted automatically -->
                     </ul>
                 </div>
 
                 <!-- Trending Matches Widget -->
                 <div class="sidebar-widget">
-                    <h3 class="widget-title"><i class="fa-solid fa-futbol"></i> Trending Matches</h3>
+
+                    <h3 class="widget-title">
+                        <i class="fa-solid fa-futbol"></i> Trending Matches
+                    </h3>
+
                     <ul class="trending-matches-list">
-                        <!-- Matches will be dynamically inserted here -->
+                        <!-- Today's matches will be dynamically inserted here -->
                     </ul>
+
                 </div>
             </aside>
         </div>
@@ -141,7 +148,8 @@
          <p>© 2026 <a href="https://www.tv96live.org" class="hover:text-emerald-500 transition-colors">www.tv96live.org</a> - All rights reserved.</p>
         </div>
        </footer>
-
+    <script src="news-data.js"></script>
+    <script src="matches-data.js"></script>
     <script>
         // Basic script for mobile menu and theme toggle
         const menuToggle = document.getElementById('menuToggle');
@@ -165,26 +173,214 @@
 
         // Dummy data for news
         const newsContainer = document.getElementById('news-container');
-        const articles = [
-            { title: "Top African referee Omar Artan to officiate 2026 UEFA Super Cup", description: "Somali referee Omar Artan has been appointed to officiate the upcoming UEFA Super Cup...", urlToImage: "news image/images.jpg", url: "article-template.html", category: "Champions League" },
-            { title: "Real Madrid star on the verge of summer exit.", description: "Reports from Spain indicate that the midfielder has received an offer...", urlToImage: "news image/GettyImages-2166876546-2-scaled.jpg", url: "article-template.html", category: "Transfers" },
-            { title: "Coach Pep Guardiola speaks on his Manchester City future.", description: "Guardiola stated he is very happy with the team but will make a final decision soon...", urlToImage: "news image/GettyImages-2262861156.jpg.webp", url: "article-template.html", category: "Premier League" },
-            { title: "Sir Alex Ferguson Taken to Hospital Before Man Utd's Win Over Liverpool", description: "Manchester United legend Sir Alex Ferguson was reportedly rushed to the hospital...", urlToImage: "news image/fergusan.jpg", url: "article-template.html", category: "Premier League" }
-        ];
 
-        newsContainer.innerHTML = articles.map(a => `
-            <a href="${a.url}" class="news-card" style="text-decoration: none;">
-                <div class="news-card-image"><img src="${a.urlToImage}" alt="${a.title}"><span class="news-category-badge">${a.category}</span></div>
-                <div class="news-card-content">
-                    <h3 class="news-card-title">${a.title}</h3>
-                    <p class="news-card-excerpt">${a.description}</p>
-                    <div class="news-card-footer">
-                        <span class="news-time"><i class="fa-regular fa-clock"></i> 5 hours ago</span>
-                        <span class="read-more">Read More <i class="fa-solid fa-arrow-right"></i></span>
+        // ===============================
+        // AUTOMATIC TRENDING NEWS
+        // ===============================
+
+        const trendingList = document.getElementById("trending-list");
+
+        const latestTrendingNews = [...articles]
+            .sort((a, b) => b.id - a.id)
+            .slice(0, 6);
+
+        trendingList.innerHTML = latestTrendingNews.map(article => `
+            <li>
+                <a href="article-template.html?id=${article.id}">
+                    ${article.title}
+                </a>
+            </li>
+        `).join("");
+
+        // ===============================
+        // NEWS, LOAD MORE & CATEGORY FILTER
+        // ===============================
+
+        const loadMoreBtn = document.querySelector(".btn-load-more");
+        const filterButtons = document.querySelectorAll(".filter-btn");
+
+        const itemsPerLoad = 6;
+
+        let visibleItems = 6;
+        let currentCategory = "All";
+
+
+        // ===============================
+        // DISPLAY ARTICLES
+        // ===============================
+
+        function displayArticles() {
+
+            // Filter articles by selected category
+            const filteredArticles = currentCategory === "All"
+                ? [...articles]
+                : articles.filter(article => article.category === currentCategory);
+
+            // Latest news first: highest ID first
+            const sortedArticles = filteredArticles.sort((a, b) => b.id - a.id);
+
+            // Show only currently visible articles
+            const visibleArticles = sortedArticles.slice(0, visibleItems);
+
+            newsContainer.innerHTML = visibleArticles.map(a => `
+                <a href="article-template.html?id=${a.id}" 
+                class="news-card" 
+                style="text-decoration: none;">
+
+                    <div class="news-card-image">
+
+                        <img 
+                            src="${a.image}" 
+                            alt="${a.title}"
+                            loading="lazy"
+                        >
+
+                        <span class="news-category-badge">
+                            ${a.category}
+                        </span>
+
                     </div>
-                </div>
-            </a>`).join('');
-        lucide.createIcons();
+
+                    <div class="news-card-content">
+
+                        <h3 class="news-card-title">
+                            ${a.title}
+                        </h3>
+
+                        <p class="news-card-excerpt">
+                            ${a.description}
+                        </p>
+
+                        <div class="news-card-footer">
+
+                            <span class="news-time">
+                                <i class="fa-regular fa-clock"></i>
+                                5 hours ago
+                            </span>
+
+                            <span class="read-more">
+                                Read More
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </a>
+            `).join("");
+
+
+            // ===============================
+            // SHOW OR HIDE LOAD MORE BUTTON
+            // ===============================
+
+            if (visibleItems >= sortedArticles.length) {
+                loadMoreBtn.style.display = "none";
+            } else {
+                loadMoreBtn.style.display = "inline-flex";
+            }
+
+            lucide.createIcons();
+        }
+
+
+        // ===============================
+        // LOAD MORE BUTTON
+        // ===============================
+
+        loadMoreBtn.addEventListener("click", function () {
+
+            visibleItems += itemsPerLoad;
+
+            displayArticles();
+
+        });
+
+
+        // ===============================
+        // CATEGORY FILTER BUTTONS
+        // ===============================
+
+        filterButtons.forEach(button => {
+
+            button.addEventListener("click", function () {
+
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => {
+                    btn.classList.remove("active");
+                });
+
+                // Add active class to clicked button
+                this.classList.add("active");
+
+                // Get selected category
+                currentCategory = this.textContent.trim();
+
+                // Reset visible items to first 6
+                visibleItems = 6;
+
+                // Display filtered articles
+                displayArticles();
+
+            });
+
+            });
+
+
+            // ===============================
+            // INITIAL DISPLAY
+            // ===============================
+
+            displayArticles();
+
+            // ===============================
+            // TODAY'S TRENDING MATCHES
+            // ===============================
+
+            const trendingMatchesList = document.querySelector(".trending-matches-list");
+
+            function displayTrendingMatches() {
+
+                if (!trendingMatchesList) return;
+
+                const todayMatches = matchesData.maanta || [];
+
+                if (todayMatches.length === 0) {
+                    trendingMatchesList.innerHTML = `
+                        <li class="no-matches">
+                            No matches available today.
+                        </li>
+                    `;
+                    return;
+                }
+
+                trendingMatchesList.innerHTML = todayMatches.map(match => {
+
+                    const matchUrl = `${match.url}?id=${match.id}&home=${encodeURIComponent(match.home)}&away=${encodeURIComponent(match.away)}&league=${encodeURIComponent(match.league)}`;
+
+                    return `
+                        <li>
+                            <a href="${matchUrl}">
+
+                                <div class="trending-match-teams">
+                                    <strong>
+                                        ${match.home} vs ${match.away}
+                                    </strong>
+                                </div>
+
+                                <div class="trending-match-info">
+                                    <span>${match.league}</span>
+                                    <span>${match.displayTime}</span>
+                                </div>
+
+                            </a>
+                        </li>
+                    `;
+                }).join("");
+            }
+
+            displayTrendingMatches();
     </script>
 
 </body>
