@@ -2479,7 +2479,7 @@ body.light-mode .trending-match-info {
     width: 100%;
     height: 100%;
     display: block;
-    object-fit: cover;
+    object-fit: contain;
 }
 @media (max-width: 600px) {
     .tv96-banner {
