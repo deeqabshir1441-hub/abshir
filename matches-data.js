@@ -17,20 +17,34 @@ const matchesData = {
     ],
 
     maanta: [
-   {
-    home: 'England',
+{
+    home: 'France',
+    away: 'England',
+    homeScore: 0,
+    awayScore: 0,
+    league: 'FIFA World Cup 2026',
+    status: 'Upcoming',
+    statusClass: 'status-upcoming',
+    overlayText: 'Watch Live',
+    url: 'watch-live2.html',
+    displayTime: '00:00',
+    matchDate: '2026-07-19',
+    id: '2026097'
+},
+{
+    home: 'Spain',
     away: 'Argentina',
-    homeScore: 1,
-    awayScore: 2,
+    homeScore: 0,
+    awayScore: 0,
     league: 'FIFA World Cup 2026',
     status: 'Upcoming',
     statusClass: 'status-upcoming',
     overlayText: 'Watch Live',
     url: 'watch-live3.html',
     displayTime: '22:00',
-    matchDate: '2026-07-15',
-    id: '2026096'
-    }
+    matchDate: '2026-07-19',
+    id: '2026098'
+}
     ],
 
     berri: [
