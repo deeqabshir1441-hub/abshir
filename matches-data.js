@@ -20,8 +20,8 @@ const matchesData = {
 {
     home: 'France',
     away: 'England',
-    homeScore: 0,
-    awayScore: 0,
+    homeScore: 4,
+    awayScore: 6,
     league: 'FIFA World Cup 2026',
     status: 'Upcoming',
     statusClass: 'status-upcoming',
