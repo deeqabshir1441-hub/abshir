@@ -77,22 +77,34 @@
                     </div>
                 </div>
             </div>
+            <div class="stream-disclaimer">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <div>
+                    <strong>Disclaimer:</strong>
+                    This content is provided and hosted by third-party websites. TV96 Live does not host or store any video files. For any legal complaints, please contact the respective video/audio hosting provider.
+                </div>
+            </div>
         </main>
 
         <aside class="content-sidebar">
-            <div class="ad-container">
-                <span class="ad-tag">SPONSORED</span>
-                <div class="ad-space">
-                    <ins class="adsbygoogle"
-                        style="display:block"
-                        data-ad-client="ca-pub-9924964891667864"
-                        data-ad-slot="1234567890" 
-                        data-ad-format="auto"
-                        data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
+            <!-- Trending News Widget -->
+            <div class="sidebar-widget">
+                <h3 class="widget-title" style="font-size: 16px; font-weight: 800; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 2px solid var(--primary-green);">
+                    <i class="fa-solid fa-fire"></i> Trending News
+                </h3>
+                <ul class="trending-list" id="trending-list" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px;">
+                    <!-- Latest trending news will be inserted automatically -->
+                </ul>
+            </div>
+
+            <!-- Trending Matches Widget -->
+            <div class="sidebar-widget">
+                <h3 class="widget-title" style="font-size: 16px; font-weight: 800; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 2px solid var(--primary-green);">
+                    <i class="fa-solid fa-futbol"></i> Trending Matches
+                </h3>
+                <ul class="trending-matches-list">
+                    <!-- Matches will be loaded here by script -->
+                </ul>
             </div>
         </aside>
     </div>
@@ -105,6 +117,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script>
+        // PWA Install Button
         let deferredPrompt;
         const installBtn = document.getElementById('installBtn');
 
@@ -125,6 +138,8 @@
             }
         });
     </script>
+    <script src="news-data.js"></script>
+    <script src="matches-data.js"></script>
     <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Mobile Menu Logic
@@ -254,20 +269,76 @@
             leagueTag.innerHTML = `<i class="fa-solid fa-trophy"></i> ${leagueParam} • <span id="match-status" class="match-status">Loading...</span>`;
         }
 
-        // Screen Rotation Logic
-        document.getElementById('rotateBtn').addEventListener('click', async () => {
-            try {
-                if (screen.orientation && screen.orientation.lock) {
-                    await screen.orientation.lock('landscape');
-                }
-            } catch (err) {
-                console.log('Rotation lock not supported:', err);
-            }
-        });
+        // Display Trending News
+        function displayTrendingNews() {
+            const trendingList = document.getElementById("trending-list");
+            if (!trendingList || typeof articles === 'undefined') return;
 
+            const latestTrendingNews = [...articles]
+                .sort((a, b) => b.id - a.id)
+                .slice(0, 5); // Show 5 news items
+
+            trendingList.innerHTML = latestTrendingNews.map(article => `
+                <li style="margin: 0;">
+                    <a href="article-template.html?id=${article.id}" style="display: block; padding: 10px 12px; background: rgba(255,255,255,0.04); border-radius: 8px; text-decoration: none; color: var(--text-secondary); font-size: 13px; font-weight: 600; transition: all 0.2s ease;">
+                        ${article.title}
+                    </a>
+                </li>
+            `).join("");
+
+            // Add hover effect with JS
+            trendingList.querySelectorAll('a').forEach(link => {
+                link.onmouseover = () => {
+                    link.style.background = 'rgba(16, 185, 129, 0.1)';
+                    link.style.color = 'var(--primary-green)';
+                };
+                link.onmouseout = () => {
+                    link.style.background = 'rgba(255,255,255,0.04)';
+                    link.style.color = 'var(--text-secondary)';
+                };
+            });
+        }
+
+        // Display Trending Matches
+        function displayTrendingMatches() {
+            const trendingMatchesList = document.querySelector(".trending-matches-list");
+            if (!trendingMatchesList) return;
+
+            const allTodayMatches = (window.matchesData && window.matchesData.maanta) || [];
+
+            // Filter out the current match from the list
+            const otherUpcomingMatches = allTodayMatches.filter(
+                match => (!matchIdFromUrl || match.id !== matchIdFromUrl) && match.status === 'Upcoming'
+            );
+
+            if (otherUpcomingMatches.length === 0) {
+                trendingMatchesList.innerHTML = `<li style="color: var(--text-secondary); padding: 10px;">No other upcoming matches today.</li>`;
+            } else {
+                trendingMatchesList.innerHTML = otherUpcomingMatches.map(match => {
+                const matchUrl = `${match.url}?id=${match.id}&home=${encodeURIComponent(match.home)}&away=${encodeURIComponent(match.away)}&league=${encodeURIComponent(match.league)}`;
+                return `
+                    <li>
+                        <a href="${matchUrl}">
+                            <div class="trending-match-teams">
+                                <strong>${match.home} vs ${match.away}</strong>
+                            </div>
+                            <div class="trending-match-info">
+                                <span>${match.league}</span>
+                                <span>${match.displayTime}</span>
+                            </div>
+                        </a>
+                    </li>
+                `;
+                }).join("");
+            }
+        }
+
+        displayTrendingNews();
+        displayTrendingMatches();
     });
     </script>
     <script>
+        // Screen Wake Lock
         if ('wakeLock' in navigator) {
             let wakeLock = null;
             const requestWakeLock = async () => {

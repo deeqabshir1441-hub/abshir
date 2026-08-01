@@ -177,20 +177,22 @@
         // ===============================
         // AUTOMATIC TRENDING NEWS
         // ===============================
+        function displayTrendingNewsSidebar() {
+            const trendingList = document.getElementById("trending-list");
+            if (!trendingList) return;
 
-        const trendingList = document.getElementById("trending-list");
+            const latestTrendingNews = [...articles]
+                .sort((a, b) => b.id - a.id)
+                .slice(0, 6);
 
-        const latestTrendingNews = [...articles]
-            .sort((a, b) => b.id - a.id)
-            .slice(0, 6);
-
-        trendingList.innerHTML = latestTrendingNews.map(article => `
+            trendingList.innerHTML = latestTrendingNews.map(article => `
             <li>
                 <a href="article-template.html?id=${article.id}">
                     ${article.title}
                 </a>
             </li>
         `).join("");
+        }
 
         // ===============================
         // NEWS, LOAD MORE & CATEGORY FILTER
@@ -198,8 +200,6 @@
 
         const loadMoreBtn = document.querySelector(".btn-load-more");
         const filterButtons = document.querySelectorAll(".filter-btn");
-
-        const itemsPerLoad = 6;
 
         let visibleItems = 6;
         let currentCategory = "All";
@@ -291,7 +291,7 @@
 
         loadMoreBtn.addEventListener("click", function () {
 
-            visibleItems += itemsPerLoad;
+            visibleItems += 6; // Load 6 more items
 
             displayArticles();
 
@@ -332,48 +332,46 @@
             // INITIAL DISPLAY
             // ===============================
 
+            displayTrendingNewsSidebar();
             displayArticles();
 
             // ===============================
             // TODAY'S TRENDING MATCHES
             // ===============================
 
-            const trendingMatchesList = document.querySelector(".trending-matches-list");
-
             function displayTrendingMatches() {
 
+                const trendingMatchesList = document.querySelector(".trending-matches-list");
                 if (!trendingMatchesList) return;
 
-                const todayMatches = matchesData.maanta || [];
+                const urlParams = new URLSearchParams(window.location.search);
+                const matchIdFromUrl = urlParams.get('id'); // This will be null on news.html, which is fine
 
-                if (todayMatches.length === 0) {
-                    trendingMatchesList.innerHTML = `
-                        <li class="no-matches">
-                            No matches available today.
-                        </li>
-                    `;
+                const allTodayMatches = (matchesData && matchesData.maanta) || [];
+
+                // Filter out the current match if we are on a match page (won't do anything on news.html)
+                // Also, only show upcoming matches
+                const upcomingMatches = allTodayMatches.filter(
+                    match => (!matchIdFromUrl || match.id !== matchIdFromUrl) && match.status === 'Upcoming'
+                );
+
+                if (upcomingMatches.length === 0) {
+                    trendingMatchesList.innerHTML = `<li style="color: var(--text-secondary); padding: 10px;">No matches available today.</li>`;
                     return;
                 }
 
-                trendingMatchesList.innerHTML = todayMatches.map(match => {
-
+                trendingMatchesList.innerHTML = upcomingMatches.map(match => {
                     const matchUrl = `${match.url}?id=${match.id}&home=${encodeURIComponent(match.home)}&away=${encodeURIComponent(match.away)}&league=${encodeURIComponent(match.league)}`;
-
                     return `
                         <li>
                             <a href="${matchUrl}">
-
                                 <div class="trending-match-teams">
-                                    <strong>
-                                        ${match.home} vs ${match.away}
-                                    </strong>
+                                    <strong>${match.home} vs ${match.away}</strong>
                                 </div>
-
                                 <div class="trending-match-info">
                                     <span>${match.league}</span>
                                     <span>${match.displayTime}</span>
                                 </div>
-
                             </a>
                         </li>
                     `;
