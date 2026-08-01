@@ -18,32 +18,60 @@ const matchesData = {
 
     maanta: [
 {
-    home: 'France',
-    away: 'England',
-    homeScore: 4,
-    awayScore: 6,
-    league: 'FIFA World Cup 2026',
+    home: 'Manchester United',
+    away: 'Atletico Madrid',
+    homeScore: 0,
+    awayScore: 0,
+    league: 'Club Friendly',
+    status: 'Upcoming',
+    statusClass: 'status-upcoming',
+    overlayText: 'Watch Live',
+    url: 'watch-live.html',
+    displayTime: '16:00',
+    matchDate: '2026-08-01',
+    id: '2026099'
+},
+{
+    home: 'Real Madrid',
+    away: 'Fiorentina',
+    homeScore: 0,
+    awayScore: 0,
+    league: 'Club Friendly',
+    status: 'Upcoming',
+    statusClass: 'status-upcoming',
+    overlayText: 'Watch Live',
+    url: 'watch-live1.html',
+    displayTime: '19:00',
+    matchDate: '2026-08-01',
+    id: '2026100'
+},
+{
+    home: 'Girona',
+    away: 'Arsenal',
+    homeScore: 0,
+    awayScore: 0,
+    league: 'Club Friendly',
     status: 'Upcoming',
     statusClass: 'status-upcoming',
     overlayText: 'Watch Live',
     url: 'watch-live2.html',
-    displayTime: '00:00',
-    matchDate: '2026-07-19',
-    id: '2026097'
+    displayTime: '21:00',
+    matchDate: '2026-08-01',
+    id: '2026101'
 },
 {
-    home: 'Spain',
-    away: 'Argentina',
+    home: 'Manchester City',
+    away: 'Inter Milan',
     homeScore: 0,
     awayScore: 0,
-    league: 'FIFA World Cup 2026',
+    league: 'Club Friendly',
     status: 'Upcoming',
     statusClass: 'status-upcoming',
     overlayText: 'Watch Live',
     url: 'watch-live3.html',
-    displayTime: '22:00',
-    matchDate: '2026-07-19',
-    id: '2026098'
+    displayTime: '14:30',
+    matchDate: '2026-08-01',
+    id: '2026102'
 }
     ],
 
