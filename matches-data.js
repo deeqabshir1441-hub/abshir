@@ -20,8 +20,8 @@ const matchesData = {
 {
     home: 'Manchester United',
     away: 'Atlético Madrid',
-    homeScore: 0,
-    awayScore: 0,
+    homeScore: 2,
+    awayScore: 1,
     league: 'Club Friendly',
     status: 'Upcoming',
     statusClass: 'status-upcoming',
@@ -62,8 +62,8 @@ const matchesData = {
 {
     home: 'Manchester City',
     away: 'Inter Milan',
-    homeScore: 0,
-    awayScore: 0,
+    homeScore: 1,
+    awayScore: 1,
     league: 'Club Friendly',
     status: 'Upcoming',
     statusClass: 'status-upcoming',
