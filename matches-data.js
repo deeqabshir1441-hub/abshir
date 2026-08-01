@@ -19,7 +19,7 @@ const matchesData = {
     maanta: [
 {
     home: 'Manchester United',
-    away: 'Atletico Madrid',
+    away: 'Atlético Madrid',
     homeScore: 0,
     awayScore: 0,
     league: 'Club Friendly',
