@@ -110,7 +110,7 @@
         </aside>
     </div>
 
-    <footer class="main-footer">
+      <footer class="main-footer">
         <div class="footer-bottom">
             <p>&copy; 2026 TV96 Live. HD Sports Streaming.</p>
         </div>
@@ -305,258 +305,29 @@
             const trendingMatchesList = document.querySelector(".trending-matches-list");
             if (!trendingMatchesList) return;
 
-            const allTodayMatches = (window.matchesData && window.matchesData.maanta) || [];
+            const todayMatches = (window.matchesData && window.matchesData.maanta) || [];
 
-            // Filter out the current match from the list
-            const otherUpcomingMatches = allTodayMatches.filter(
+            // Filter out the current match and only show other upcoming matches
+            const otherUpcomingMatches = todayMatches.filter(
                 match => (!matchIdFromUrl || match.id !== matchIdFromUrl) && match.status === 'Upcoming'
             );
 
             if (otherUpcomingMatches.length === 0) {
                 trendingMatchesList.innerHTML = `<li style="color: var(--text-secondary); padding: 10px;">No other upcoming matches today.</li>`;
-            } else {
-                trendingMatchesList.innerHTML = otherUpcomingMatches.map(match => {
-                const matchUrl = `${match.url}?id=${match.id}&home=${encodeURIComponent(match.home)}&away=${encodeURIComponent(match.away)}&league=${encodeURIComponent(match.league)}`;
-                return `
-                    <li>
-                        <a href="${matchUrl}">
-                            <div class="trending-match-teams">
-                                <strong>${match.home} vs ${match.away}</strong>
-                            </div>
-                            <div class="trending-match-info">
-                                <span>${match.league}</span>
-                                <span>${match.displayTime}</span>
-                            </div>
-                        </a>
-                    </li>
-                `;
-                }).join("");
-            }
-        }
-
-        displayTrendingNews();
-        displayTrendingMatches();
-    });
-    </script>
-    <script>
-        // Screen Wake Lock
-        if ('wakeLock' in navigator) {
-            let wakeLock = null;
-            const requestWakeLock = async () => {
-                try {
-                    wakeLock = await navigator.wakeLock.request('screen');
-                    console.log('Wake Lock active!');
-                } catch (err) {
-                    console.error(`Wake Lock error: ${err.name}, ${err.message}`);
-                }
-            };
-
-            // Request wake lock when the page loads
-            requestWakeLock();
-        }
-    </script>
-</body>
-</html>
-                        <i class="fa-solid fa-futbol"></i> Trending Matches
-                    </h3>
-
-                    <ul class="trending-matches-list">
-                        <!-- Today's matches will be dynamically inserted here -->
-                    </ul>
-
-                </div>
-            </aside>
-    </div>
-
-    <footer class="main-footer">
-        <div class="footer-bottom">
-            <p>&copy; 2026 TV96 Live. HD Sports Streaming.</p>
-        </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script>
-        // PWA Install Button
-        let deferredPrompt;
-        const installBtn = document.getElementById('installBtn');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installBtn.style.display = 'block'; // Show the button when ready
-        });
-
-        installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    installBtn.style.display = 'none';
-                }
-                deferredPrompt = null;
-            }
-        });
-    </script>
-    <script src="matches-data.js"></script>
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Mobile Menu Logic
-        const menuIcon = document.querySelector('.menu-icon');
-        const navMenu = document.querySelector('.nav-menu');
-        const body = document.body;
-
-        if (menuIcon && navMenu) {
-            menuIcon.addEventListener('click', (e) => {
-                navMenu.classList.toggle('active');
-                body.classList.toggle('menu-open');
-            });
-
-            document.addEventListener('click', (e) => {
-                if (body.classList.contains('menu-open') && !navMenu.contains(e.target) && !menuIcon.contains(e.target)) {
-                    navMenu.classList.remove('active');
-                    body.classList.remove('menu-open');
-                }
-            });
-        }
-
-        const video = document.getElementById('live-video');
-        const btn1 = document.getElementById('btn-hd');
-        const btn2 = document.getElementById('btn-sd');
-        const qualityIndicator = document.getElementById('quality-indicator');
-
-        const serverLinks = [
-            { name: "HD Server 1", url: 'https://messi.damitv.st/live-hls/channel/club-friendly/2026-08-01/mun-atm/playlist.m3u8', quality: "1080p HD", btn: btn1 },
-            { name: "Standard Server 2", url: 'https://messi.damitv.st/live-hls/channel/club-friendly/2026-08-01/mun-atm/playlist.m3u8', quality: "720p SD", btn: btn2 }
-        ];
-
-        let hls = new Hls();
-
-        /**
-         * Sets up the HLS player with the provided link.
-         */
-        function setupPlayer(url, quality) {
-            if (Hls.isSupported()) {
-                hls.destroy();
-                hls = new Hls();
-                hls.loadSource(url);
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                    video.play().catch(() => console.log("Autoplay blocked, waiting for interaction."));
-                });
-                hls.on(Hls.Events.ERROR, (event, data) => {
-                    if (data.fatal) {
-                        console.log("Stream failed. Switching to backup...");
-                        // Automatic failover logic
-                        checkAndPlay();
-                    }
-                });
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = url;
-                video.addEventListener('loadedmetadata', function() {
-                    video.play();
-                });
-            }
-            if (qualityIndicator) qualityIndicator.innerText = quality;
-        }
-
-        /**
-         * Checks if a link is active with a 5-second timeout.
-         */
-        async function isLinkWorking(url) {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 3000);
-
-            try {
-                const response = await fetch(url, { method: 'GET', signal: controller.signal, headers: { 'Range': 'bytes=0-0' } });
-                clearTimeout(timeoutId);
-                return response.ok;
-            } catch (err) {
-                return false;
-            }
-        }
-
-        /**
-         * Automatically finds the first working server.
-         */
-        async function checkAndPlay() {
-            console.log("Checking for active servers...");
-            let activeServer = null;
-
-            for (let server of serverLinks) {
-                const working = await isLinkWorking(server.url);
-                if (working) {
-                    activeServer = server;
-                    break;
-                }
-                console.warn(`${server.name} is down.`);
-            }
-
-            if (activeServer) {
-                console.log(`Success: Using ${activeServer.name}`);
-                setupPlayer(activeServer.url, activeServer.quality);
-                // Update UI Buttons
-                serverLinks.forEach(s => s.btn?.classList.remove('active'));
-                activeServer.btn?.classList.add('active');
-            } else {
-                console.error("All servers are offline.");
-                if (qualityIndicator) qualityIndicator.innerText = "Server error";
-            }
-        }
-
-        // Manual button overrides
-        btn1.onclick = () => { setupPlayer(serverLinks[0].url, serverLinks[0].quality); btn1.classList.add('active'); btn2.classList.remove('active'); };
-        btn2.onclick = () => { setupPlayer(serverLinks[1].url, serverLinks[1].quality); btn2.classList.add('active'); btn1.classList.remove('active'); };
-
-        // Start the auto-check on load
-        checkAndPlay();
-
-        // URL Parameter Logic to connect matches dynamically
-        const urlParams = new URLSearchParams(window.location.search);
-        const matchIdFromUrl = urlParams.get('id');
-        const homeParam = urlParams.get('home');
-        const awayParam = urlParams.get('away');
-        const leagueParam = urlParams.get('league');
-
-        if (homeParam && awayParam) {
-            const h1 = document.querySelector('.match-title-area h1');
-            h1.innerHTML = `${homeParam} <span id="home-score" class="score-display">0</span> <span class="vs">vs</span> <span id="away-score" class="score-display">0</span> ${awayParam}`;
-            document.title = `${homeParam} vs ${awayParam} | Live Stream HD`;
-        }
-        if (leagueParam) {
-            const leagueTag = document.querySelector('.league-tag');
-            leagueTag.innerHTML = `<i class="fa-solid fa-trophy"></i> ${leagueParam} • <span id="match-status" class="match-status">Loading...</span>`;
-        }
-
-        // Display Trending Matches
-        function displayTrendingMatches() {
-            const trendingMatchesList = document.querySelector(".trending-matches-list");
-            if (!trendingMatchesList) return;
-
-            const todayMatches = (window.matchesData && window.matchesData.maanta) || [];
-
-            if (todayMatches.length === 0) {
-                trendingMatchesList.innerHTML = `<li style="color: var(--text-secondary);">No other matches today.</li>`;
                 return;
             }
 
-            trendingMatchesList.innerHTML = todayMatches.map(match => {
-                const matchUrl = `${match.url}?id=${match.id}&home=${encodeURIComponent(match.home)}&away=${encodeURIComponent(match.away)}&league=${encodeURIComponent(match.league)}`;
-                return `
-                    <li>
-                        <a href="${matchUrl}">
-                            <div class="trending-match-teams">
-                                <strong>${match.home} vs ${match.away}</strong>
-                            </div>
-                            <div class="trending-match-info">
-                                <span>${match.league}</span>
-                                <span>${match.displayTime}</span>
-                            </div>
-                        </a>
-                    </li>
-                `;
-            }).join("");
+            trendingMatchesList.innerHTML = otherUpcomingMatches.map(match => `
+                <li>
+                    <a href="${match.url}?id=${match.id}&home=${encodeURIComponent(match.home)}&away=${encodeURIComponent(match.away)}&league=${encodeURIComponent(match.league)}">
+                        <div class="trending-match-teams"><strong>${match.home} vs ${match.away}</strong></div>
+                        <div class="trending-match-info"><span>${match.league}</span><span>${match.displayTime}</span></div>
+                    </a>
+                </li>
+            `).join("");
         }
 
+        displayTrendingNews();
         displayTrendingMatches();
     });
     </script>
