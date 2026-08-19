@@ -6,7 +6,7 @@ const matchesData = {
     maanta: [
 {
     home: 'Barcelona',
-    away: 'Al Ahly SC',
+    away: 'Al Ahli',
     homeScore: 0,
     awayScore: 0,
     league: 'Club Friendly',
@@ -19,11 +19,11 @@ const matchesData = {
     id: '2026105'
 },
 {
-    home: 'Atletico Madrid',
-    away: 'Malaga',
+    home: 'Atlético Madrid',
+    away: 'Málaga',
     homeScore: 0,
     awayScore: 0,
-    league: 'Club Friendly',
+    league: 'La Liga',
     status: 'Upcoming',
     statusClass: 'status-upcoming',
     overlayText: 'Watch Live',
