@@ -312,15 +312,17 @@
             const trendingMatchesList = document.querySelector(".trending-matches-list");
             if (!trendingMatchesList) return;
 
-            const todayMatches = (window.matchesData && window.matchesData.maanta) || [];
+            const allMatches = typeof matchesData !== 'undefined'
+                ? [...(matchesData.shalay || []), ...(matchesData.maanta || []), ...(matchesData.berri || [])]
+                : [];
 
-            // Filter out the current match and only show other upcoming matches
-            const otherUpcomingMatches = todayMatches.filter(
-                match => (!matchIdFromUrl || match.id !== matchIdFromUrl) && match.status === 'Upcoming'
+            // Filter out only the match currently being viewed.
+            const otherUpcomingMatches = allMatches.filter(
+                match => !matchIdFromUrl || match.id !== matchIdFromUrl
             );
 
             if (otherUpcomingMatches.length === 0) {
-                trendingMatchesList.innerHTML = `<li style="color: var(--text-secondary); padding: 10px;">No other upcoming matches today.</li>`;
+                trendingMatchesList.innerHTML = `<li style="color: var(--text-secondary); padding: 10px;">No matches available.</li>`;
                 return;
             }
 

@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TV96 Live - League Standings</title>
+
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css?v=2">
+
+    <style>
+
+        /* ==========================================
+           STANDINGS PAGE
+        ========================================== */
+
+        .standings-page {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .standings-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 300px;
+            gap: 30px;
+            max-width: 1300px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .standings-sidebar .sidebar-widget {
+            margin-bottom: 20px;
+        }
+
+
+        /* ==========================================
+           TOP HEADER
+        ========================================== */
+
+        .standings-header {
+            background: var(--card-bg, #08232d);
+            border-radius: 16px;
+            padding: 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+            margin-bottom: 20px;
+
+            border: 1px solid rgba(16, 185, 129, 0.25);
+        }
+
+
+        .league-title-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+
+        .league-title-box img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+
+            background: white;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+
+        .league-title-box h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #ffffff;
+        }
+
+
+        .league-title-box p {
+            margin: 4px 0 0;
+            font-size: 13px;
+            color: #9ca3af;
+        }
+
+
+        /* ==========================================
+           BACK BUTTON
+        ========================================== */
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 9px 14px;
+
+            background: #10b981;
+            color: white;
+
+            border-radius: 8px;
+
+            text-decoration: none !important;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            transition: 0.25s ease;
+        }
+
+
+        .back-button:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+
+
+        /* ==========================================
+           TABLE
+        ========================================== */
+
+        .standings-card {
+            background: var(--card-bg, #08232d);
+
+            border-radius: 16px;
+
+            overflow: hidden;
+
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+
+        .standings-table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+
+        .standings-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+
+        .standings-table thead {
+            background: rgba(16, 185, 129, 0.12);
+        }
+
+
+        .standings-table th {
+            padding: 13px 10px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            color: #10b981;
+
+            text-align: center;
+
+            white-space: nowrap;
+        }
+
+
+        .standings-table th:nth-child(2) {
+            text-align: left;
+        }
+
+
+        .standings-table td {
+            padding: 12px 10px;
+
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+            text-align: center;
+
+            font-size: 13px;
+
+            color: #e5e7eb;
+        }
+
+
+        .standings-table td:nth-child(2) {
+            text-align: left;
+        }
+
+
+        /* ==========================================
+           TEAM
+        ========================================== */
+
+        .team-cell {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            font-weight: 600;
+        }
+
+
+        .team-logo {
+            width: 30px;
+            height: 30px;
+
+            object-fit: contain;
+
+            flex-shrink: 0;
+        }
+
+
+        .position {
+            width: 45px;
+            font-weight: 800;
+        }
+
+
+        .points {
+            font-weight: 800;
+            color: #10b981;
+        }
+
+
+        /* ==========================================
+           FORM
+        ========================================== */
+
+        .form {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+        }
+
+
+        .form span {
+            width: 19px;
+            height: 19px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 4px;
+
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+
+        .form-win {
+            background: #16a34a;
+            color: white;
+        }
+
+
+        .form-draw {
+            background: #f59e0b;
+            color: white;
+        }
+
+
+        .form-loss {
+            background: #dc2626;
+            color: white;
+        }
+
+
+        /* ==========================================
+           POSITION COLORS
+        ========================================== */
+
+        .champions {
+            border-left: 4px solid #2563eb;
+        }
+
+
+        .europa {
+            border-left: 4px solid #f59e0b;
+        }
+
+
+        .relegation {
+            border-left: 4px solid #dc2626;
+        }
+
+
+        /* ==========================================
+           LIGHT MODE
+        ========================================== */
+
+        body.light-mode .standings-header,
+        body.light-mode .standings-card {
+            background: #ffffff;
+            border-color: #e5e7eb;
+        }
+
+
+        body.light-mode .league-title-box h1 {
+            color: #111827;
+        }
+
+
+        body.light-mode .standings-table td {
+            color: #374151;
+            border-top-color: #e5e7eb;
+        }
+
+
+        body.light-mode .standings-table thead {
+            background: #f0fdf4;
+        }
+
+        @media (max-width: 900px) {
+            .standings-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        /* ==========================================
+           MOBILE
+        ========================================== */
+
+        @media (max-width: 600px) {
+
+            .standings-layout {
+                grid-template-columns: 1fr;
+                margin: 20px auto;
+                padding: 0 10px;
+            }
+
+            .standings-page {
+                margin: 0;
+                padding: 0;
+            }
+
+
+            .standings-header {
+                padding: 14px;
+                border-radius: 12px;
+
+                align-items: flex-start;
+            }
+
+
+            .league-title-box {
+                gap: 10px;
+            }
+
+
+            .league-title-box img {
+                width: 42px;
+                height: 42px;
+            }
+
+
+            .league-title-box h1 {
+                font-size: 18px;
+            }
+
+
+            .league-title-box p {
+                font-size: 11px;
+            }
+
+
+            .back-button {
+                padding: 8px 10px;
+                font-size: 11px;
+            }
+
+
+            .standings-card {
+                border-radius: 12px;
+            }
+
+
+            .standings-table {
+                min-width: 600px;
+            }
+
+
+            .standings-table th,
+            .standings-table td {
+                padding: 9px 7px;
+                font-size: 11px;
+            }
+
+
+            .team-logo {
+                width: 25px;
+                height: 25px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <header class="main-header">
+        <div class="navbar-container">
+            <div class="logo">
+                <a href="index.html"><img src="logo/Logo.png" alt="TV96 Live"></a>
+            </div>
+            <i class="fas fa-bars menu-icon" aria-label="Open menu"></i>
+            <nav class="nav-menu">
+                <a href="index.html">Home</a>
+                <a href="index.html#news">Latest News</a>
+                <a href="index.html#matches">Live Stream</a>
+            </nav>
+            <div class="header-right">
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/tv96live" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://www.tiktok.com/@user242901873?_r=1&_t=ZS-97GcQsYcm6m" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==========================================
+         MAIN
+    ========================================== -->
+
+    <div class="standings-layout">
+    <main class="standings-page">
+
+
+        <!-- HEADER -->
+
+        <div class="standings-header">
+
+            <div class="league-title-box">
+
+                <img
+                    id="leagueLogo"
+                    src=""
+                    alt="League Logo"
+                >
+
+                <div>
+
+                    <h1 id="leagueName">
+                        League Standings
+                    </h1>
+
+                    <p id="seasonName">
+                        2026/27 Season
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <a href="index.html#matches" class="back-button">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Back
+
+            </a>
+
+        </div>
+
+
+        <!-- TABLE -->
+
+        <div class="standings-card">
+
+            <div class="standings-table-wrapper">
+
+                <table class="standings-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>Team</th>
+
+                            <th>P</th>
+
+                            <th>W</th>
+
+                            <th>D</th>
+
+                            <th>L</th>
+
+                            <th>GF</th>
+
+                            <th>GA</th>
+
+                            <th>GD</th>
+
+                            <th>Pts</th>
+
+                            <th>Form</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="standingsBody"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+        <aside class="content-sidebar standings-sidebar">
+            <!-- Trending News Widget -->
+            <div class="sidebar-widget">
+                <h3 class="widget-title" style="font-size: 16px; font-weight: 800; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 2px solid var(--primary-green);">
+                    <i class="fa-solid fa-fire"></i> Trending News
+                </h3>
+                <ul class="trending-list" id="trending-list" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px;"></ul>
+            </div>
+
+            <!-- Trending Matches Widget -->
+            <div class="sidebar-widget">
+                <h3 class="widget-title" style="font-size: 16px; font-weight: 800; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 2px solid var(--primary-green);">
+                    <i class="fa-solid fa-futbol"></i> Trending Matches
+                </h3>
+                <ul class="trending-matches-list"></ul>
+            </div>
+        </aside>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 TV96 Live. HD Sports Streaming.</p>
+        </div>
+    </footer>
+
+
+<script>
+
+
+// ======================================================
+// LEAGUE LOGOS
+// ======================================================
+
+const leagueLogos = {
+
+    "Premier League":
+        "https://media.api-sports.io/football/leagues/39.png",
+
+    "La Liga":
+        "https://media.api-sports.io/football/leagues/140.png",
+
+    "Serie A":
+        "https://media.api-sports.io/football/leagues/135.png",
+
+    "Bundesliga":
+        "https://media.api-sports.io/football/leagues/78.png",
+
+    "Ligue 1":
+        "https://media.api-sports.io/football/leagues/61.png",
+
+    "UEFA Champions League":
+        "https://media.api-sports.io/football/leagues/2.png",
+
+    "Champions League":
+        "https://media.api-sports.io/football/leagues/2.png",
+
+    "UEFA Europa League":
+        "https://media.api-sports.io/football/leagues/3.png",
+
+    "Saudi Pro League":
+        "https://media.api-sports.io/football/leagues/307.png",
+
+    "MLS":
+        "https://media.api-sports.io/football/leagues/253.png",
+
+    "Championship":
+        "https://media.api-sports.io/football/leagues/40.png",
+
+    "FA Cup":
+        "https://media.api-sports.io/football/leagues/45.png",
+
+    "Club Friendly":
+        "https://media.api-sports.io/football/leagues/10.png"
+
+};
+
+
+// ======================================================
+// TEAM LOGOS
+// ======================================================
+//
+// Waxaan isticmaalay isla teamLogos-ka aad ku leedahay
+// index.html. Haddii koox cusub lagu daro, halkan ku dar.
+// ======================================================
+
+const teamLogos = {
+
+    // ==========================
+    // Premier League
+    // ==========================
+    "Arsenal": "https://media.api-sports.io/football/teams/42.png",
+    "Aston Villa": "https://media.api-sports.io/football/teams/66.png",
+    "Bournemouth": "https://media.api-sports.io/football/teams/35.png",
+    "Brentford": "https://media.api-sports.io/football/teams/55.png",
+    "Brighton": "https://media.api-sports.io/football/teams/51.png",
+    "Chelsea": "https://media.api-sports.io/football/teams/49.png",
+    "Coventry": "https://media.api-sports.io/football/teams/488.png",
+    "Crystal Palace": "https://media.api-sports.io/football/teams/52.png",
+    "Everton": "https://media.api-sports.io/football/teams/45.png",
+    "Fulham": "https://media.api-sports.io/football/teams/36.png",
+    "Hull City": "https://media.api-sports.io/football/teams/63.png",
+    "Ipswich Town": "https://media.api-sports.io/football/teams/57.png",
+    "Leeds United": "https://media.api-sports.io/football/teams/63.png",
+    "Liverpool": "https://media.api-sports.io/football/teams/40.png",
+    "Man City": "https://media.api-sports.io/football/teams/50.png",
+    "Man United": "https://media.api-sports.io/football/teams/33.png",
+    "Newcastle": "https://media.api-sports.io/football/teams/34.png",
+    "Nottingham Forest": "https://media.api-sports.io/football/teams/65.png",
+    "Sunderland": "https://media.api-sports.io/football/teams/746.png",
+    "Tottenham": "https://media.api-sports.io/football/teams/47.png",
+
+    // ==========================
+    // la liga
+    // ==========================
+
+    "Alavés": "https://media.api-sports.io/football/teams/542.png",
+    "Athletic": "https://media.api-sports.io/football/teams/531.png",
+    "Atlético": "https://media.api-sports.io/football/teams/530.png",
+    "Barcelona": "https://media.api-sports.io/football/teams/529.png",
+    "Betis": "https://media.api-sports.io/football/teams/543.png",
+    "Celta Vigo": "https://media.api-sports.io/football/teams/538.png",
+    "Deportivo": "https://media.api-sports.io/football/teams/724.png",
+    "Elche": "https://media.api-sports.io/football/teams/797.png",
+    "Espanyol": "https://media.api-sports.io/football/teams/540.png",
+    "Getafe": "https://media.api-sports.io/football/teams/546.png",
+    "Levante": "https://media.api-sports.io/football/teams/5463.png",
+    "Málaga": "https://media.api-sports.io/football/teams/723.png",
+    "Osasuna": "https://media.api-sports.io/football/teams/727.png",
+    "Racing": "https://media.api-sports.io/football/teams/7285.png",
+    "Rayo": "https://media.api-sports.io/football/teams/728.png",
+    "Real Madrid": "https://media.api-sports.io/football/teams/541.png",
+    "Real Sociedad": "https://media.api-sports.io/football/teams/548.png",
+    "Sevilla": "https://media.api-sports.io/football/teams/536.png",
+    "Valencia": "https://media.api-sports.io/football/teams/532.png",
+    "Villarreal": "https://media.api-sports.io/football/teams/533.png",
+
+    // ==========================
+    // Serie A
+    // ==========================
+    "AC Milan": "https://s.hs-data.com/gfx/emblem/common/80x80/43.png",
+    "AC Monza": "https://s.hs-data.com/gfx/emblem/common/80x80/13760.png",
+    "ACF Fiorentina": "https://s.hs-data.com/gfx/emblem/common/80x80/48.png",
+    "AS Roma": "https://s.hs-data.com/gfx/emblem/common/80x80/138.png",
+    "Atalanta": "https://s.hs-data.com/gfx/emblem/common/80x80/155.png",
+    "Bologna FC": "https://s.hs-data.com/gfx/emblem/common/80x80/249.png",
+    "Cagliari Calcio": "https://s.hs-data.com/gfx/emblem/common/80x80/312.png",
+    "Como 1907": "https://s.hs-data.com/gfx/emblem/common/80x80/17583.png",
+    "Frosinone Calcio": "https://s.hs-data.com/gfx/emblem/common/80x80/840.png",
+    "Genoa CFC": "https://s.hs-data.com/gfx/emblem/common/80x80/626.png",
+    "Inter": "https://s.hs-data.com/gfx/emblem/common/80x80/1052.png",
+    "Juventus": "https://s.hs-data.com/gfx/emblem/common/80x80/1094.png",
+    "Lazio Roma": "https://s.hs-data.com/gfx/emblem/common/80x80/1187.png",
+    "Parma Calcio 1913": "https://s.hs-data.com/gfx/emblem/common/80x80/1458.png",
+    "Sassuolo Calcio": "https://s.hs-data.com/gfx/emblem/common/80x80/13744.png",
+    "SSC Napoli": "https://s.hs-data.com/gfx/emblem/common/80x80/1794.png",
+    "Torino FC": "https://s.hs-data.com/gfx/emblem/common/80x80/1916.png",
+    "Udinese Calcio": "https://s.hs-data.com/gfx/emblem/common/80x80/1983.png",
+    "US Lecce": "https://s.hs-data.com/gfx/emblem/common/80x80/2020.png",
+    "Venezia FC": "https://s.hs-data.com/gfx/emblem/common/80x80/17626.png",
+
+    // ==========================
+    // Bundesliga
+    // ==========================
+    "Augsburg": "https://media.api-sports.io/football/teams/170.png",
+    "Leverkusen": "https://media.api-sports.io/football/teams/168.png",
+    "Bayern Munich": "https://media.api-sports.io/football/teams/157.png",
+    "Dortmund": "https://media.api-sports.io/football/teams/165.png",
+    "Mönchengladbach": "https://media.api-sports.io/football/teams/163.png",
+    "Frankfurt": "https://media.api-sports.io/football/teams/169.png",
+    "Elversberg": "https://media.api-sports.io/football/teams/1928.png",
+    "Freiburg": "https://media.api-sports.io/football/teams/160.png",
+    "Hamburg": "https://media.api-sports.io/football/teams/148.png",
+    "Hoffenheim": "https://media.api-sports.io/football/teams/167.png",
+    "Köln": "https://media.api-sports.io/football/teams/192.png",
+    "Mainz": "https://media.api-sports.io/football/teams/164.png",
+    "Paderborn": "https://media.api-sports.io/football/teams/202.png",
+    "Schalke": "https://media.api-sports.io/football/teams/174.png",
+    "Stuttgart": "https://media.api-sports.io/football/teams/172.png",
+    "Union Berlin": "https://media.api-sports.io/football/teams/182.png",
+    "Werder Bremen": "https://media.api-sports.io/football/teams/162.png",
+    "Leipzig": "https://media.api-sports.io/football/teams/173.png",
+
+    // ==========================
+    // Ligue 1
+    // ==========================
+    "Angers": "https://images.fotmob.com/image_resources/logo/teamlogo/8121_xsmall.png",
+    "Auxerre": "https://images.fotmob.com/image_resources/logo/teamlogo/8583_xsmall.png",
+    "Brest": "https://images.fotmob.com/image_resources/logo/teamlogo/8521_xsmall.png",
+    "Le Havre": "https://images.fotmob.com/image_resources/logo/teamlogo/9746_xsmall.png",
+    "Le Mans": "https://images.fotmob.com/image_resources/logo/teamlogo/8682_xsmall.png",
+    "Lens": "https://images.fotmob.com/image_resources/logo/teamlogo/8588_xsmall.png",
+    "Lille": "https://images.fotmob.com/image_resources/logo/teamlogo/8639_xsmall.png",
+    "Lorient": "https://images.fotmob.com/image_resources/logo/teamlogo/8689_xsmall.png",
+    "Lyon": "https://images.fotmob.com/image_resources/logo/teamlogo/9748_xsmall.png",
+    "Marseille": "https://images.fotmob.com/image_resources/logo/teamlogo/8592_xsmall.png",
+    "Monaco": "https://images.fotmob.com/image_resources/logo/teamlogo/9829_xsmall.png",
+    "Nice": "https://images.fotmob.com/image_resources/logo/teamlogo/9831_xsmall.png",
+    "Paris FC": "https://images.fotmob.com/image_resources/logo/teamlogo/6379_xsmall.png",
+    "PSG": "https://images.fotmob.com/image_resources/logo/teamlogo/9847_xsmall.png",
+    "Rennes": "https://images.fotmob.com/image_resources/logo/teamlogo/9851_xsmall.png",
+    "Strasbourg": "https://images.fotmob.com/image_resources/logo/teamlogo/9848_xsmall.png",
+    "Toulouse": "https://images.fotmob.com/image_resources/logo/teamlogo/9941_xsmall.png",
+    "Troyes": "https://images.fotmob.com/image_resources/logo/teamlogo/10242_xsmall.png",
+        
+    // ==========================
+    // SAUDI PRO LEAGUE
+    // ==========================
+    "Al Ahli": "https://media.api-sports.io/football/teams/2933.png",
+    "Al Ettifaq": "https://media.api-sports.io/football/teams/2934.png",
+    "Al Fateh": "https://media.api-sports.io/football/teams/2935.png",
+    "Al Fayha": "https://media.api-sports.io/football/teams/2940.png",
+    "Al Hazem": "https://media.api-sports.io/football/teams/2937.png",
+    "Al Hilal": "https://media.api-sports.io/football/teams/2932.png",
+    "Al Ittihad": "https://media.api-sports.io/football/teams/2938.png",
+    "Al Khaleej": "https://media.api-sports.io/football/teams/2941.png",
+    "Al Kholood": "https://media.api-sports.io/football/teams/3027.png",
+    "Al Najma": "https://media.api-sports.io/football/teams/2946.png",
+    "Al Nassr": "https://media.api-sports.io/football/teams/2939.png",
+    "Al Okhdood": "https://media.api-sports.io/football/teams/2942.png",
+    "Al Qadsiah": "https://media.api-sports.io/football/teams/2929.png",
+    "Al Riyadh": "https://media.api-sports.io/football/teams/2943.png",
+    "Al Shabab": "https://media.api-sports.io/football/teams/2936.png",
+    "Al Taawoun": "https://media.api-sports.io/football/teams/2931.png",
+    "Abha": "https://media.api-sports.io/football/teams/2930.png",
+    "Al Diriyah": "https://media.api-sports.io/football/teams/3030.png"
+
+};
+
+
+// ======================================================
+// STANDINGS DATA
+// ======================================================
+//
+// HALKAN AYAAD ISKA BEDDELI KARTAA XOGTA
+//
+// points = W x 3 + D
+//
+// Haddii aad rabto inaad koox ku darto,
+// copy garee object-ka koox kale.
+// ======================================================
+
+const standingsData = {
+
+    // ==========================
+    // Premier League
+    // ==========================
+    "Premier League": [
+        { team: "Arsenal", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Aston Villa", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Bournemouth", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Brentford", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Brighton", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Chelsea", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Coventry", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Crystal Palace", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Everton", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Fulham", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Hull City", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Ipswich Town", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Leeds United", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Liverpool", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Man City", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Man United", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Newcastle", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Nottingham Forest", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Sunderland", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Tottenham", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] }
+    ],
+
+    // ==========================
+    // Serie A
+    // ==========================
+    "Serie A": [
+        { team: "AC Milan", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "AC Monza", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "ACF Fiorentina", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "AS Roma", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Atalanta", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Bologna FC", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Cagliari Calcio", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Como 1907", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Frosinone Calcio", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Genoa CFC", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Inter", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Juventus", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Lazio Roma", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Parma Calcio 1913", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Sassuolo Calcio", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "SSC Napoli", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Torino FC", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Udinese Calcio", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "US Lecce", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Venezia FC", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] }
+    ],
+
+    // ==========================
+    // Bundesliga
+    // ==========================
+    "Bundesliga": [
+        { team: "Augsburg", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Leverkusen", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Bayern Munich", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Dortmund", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Mönchengladbach", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Frankfurt", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Elversberg", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Freiburg", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Hamburg", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Hoffenheim", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Köln", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Mainz", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Paderborn", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Schalke", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Stuttgart", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Union Berlin", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Werder Bremen", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Leipzig", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] }
+    ],
+
+    // ==========================
+    // Ligue 1
+    // ==========================
+    "Ligue 1": [
+        { team: "Angers", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Auxerre", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Brest", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Le Havre", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Le Mans", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Lens", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Lille", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Lorient", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Lyon", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Marseille", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Monaco", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Nice", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Paris FC", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "PSG", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Rennes", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Strasbourg", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Toulouse", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Troyes", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] }
+    ],
+
+    // ==========================
+    // La Liga
+    // ==========================
+
+    "La Liga": [
+        { team: "Alavés", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Athletic", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Atlético", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Barcelona", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Betis", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Celta Vigo", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Deportivo", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Elche", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Espanyol", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Getafe", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Levante", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Málaga", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Osasuna", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Racing", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Rayo", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Real Madrid", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Real Sociedad", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Sevilla", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Valencia", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Villarreal", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] }
+    ],
+
+    // ==================================================
+    // SAUDI PRO LEAGUE
+    // ==================================================
+    "Saudi Pro League": [
+        { team: "Al Ahli", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Al Ettifaq", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Al Fateh", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Al Fayha", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Al Hazem", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Al Hilal", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Al Ittihad", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Al Khaleej", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Al Kholood", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Al Najma", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Al Nassr", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Al Okhdood", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Al Qadsiah", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Al Riyadh", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Al Shabab", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Al Taawoun", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Abha", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
+        { team: "Al Diriyah", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] }
+    ]
+
+};
+
+
+// ======================================================
+// GET LEAGUE FROM URL
+// ======================================================
+
+const params = new URLSearchParams(window.location.search);
+
+const selectedLeague =
+    params.get("league") || "Premier League";
+
+
+// ======================================================
+// LOAD LEAGUE
+// ======================================================
+
+function loadStandings() {
+
+    const leagueName =
+        document.getElementById("leagueName");
+
+    const leagueLogo =
+        document.getElementById("leagueLogo");
+
+    const seasonName =
+        document.getElementById("seasonName");
+
+    const tbody =
+        document.getElementById("standingsBody");
+
+
+    leagueName.textContent = selectedLeague;
+
+    leagueLogo.src =
+        leagueLogos[selectedLeague] || "";
+
+    seasonName.textContent =
+        "2026/27 Season";
+
+
+    let teams =
+        standingsData[selectedLeague] || [];
+
+
+    if (!teams.length) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="11"
+                    style="padding:40px;text-align:center;">
+                    No standings data available
+                    for ${selectedLeague}.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    // ==============================================
+    // CALCULATE
+    // ==============================================
+
+    teams = teams.map(team => {
+
+        const gd =
+            team.gf - team.ga;
+
+        const points =
+            (team.won * 3) + team.drawn;
+
+        return {
+            ...team,
+            gd,
+            points
+        };
+
+    });
+
+
+    // ==============================================
+    // SORT
+    // ==============================================
+
+    teams.sort((a, b) => {
+
+        if (b.points !== a.points)
+            return b.points - a.points;
+
+        if (b.gd !== a.gd)
+            return b.gd - a.gd;
+
+        return b.gf - a.gf;
+
+    });
+
+
+    // ==============================================
+    // RENDER
+    // ==============================================
+
+    tbody.innerHTML = teams.map((team, index) => {
+
+        const position =
+            index + 1;
+
+        let positionClass = "";
+
+        if (position <= 4)
+            positionClass = "champions";
+
+        else if (position <= 6)
+            positionClass = "europa";
+
+        else if (position >= teams.length - 2)
+            positionClass = "relegation";
+
+
+        const logo =
+            teamLogos[team.team] ||
+            "https://via.placeholder.com/40?text=?";
+
+
+        const form =
+            (team.form || []).map(result => {
+
+                if (result === "W")
+                    return `<span class="form-win">W</span>`;
+
+                if (result === "D")
+                    return `<span class="form-draw">D</span>`;
+
+                return `<span class="form-loss">L</span>`;
+
+            }).join("");
+
+
+        return `
+
+            <tr class="${positionClass}">
+
+                <td class="position">
+                    ${position}
+                </td>
+
+                <td>
+
+                    <div class="team-cell">
+
+                        <img
+                            class="team-logo"
+                            src="${logo}"
+                            alt="${team.team}"
+                            loading="lazy"
+                        >
+
+                        <span>
+                            ${team.team}
+                        </span>
+
+                    </div>
+
+                </td>
+
+                <td>${team.played}</td>
+
+                <td>${team.won}</td>
+
+                <td>${team.drawn}</td>
+
+                <td>${team.lost}</td>
+
+                <td>${team.gf}</td>
+
+                <td>${team.ga}</td>
+
+                <td>${team.gd}</td>
+
+                <td class="points">
+                    ${team.points}
+                </td>
+
+                <td>
+
+                    <div class="form">
+                        ${form}
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }).join("");
+
+}
+
+
+loadStandings();
+
+</script>
+
+<script src="news-data.js"></script>
+<script src="matches-data.js"></script>
+<script>
+    const menuIcon = document.querySelector('.menu-icon');
+    const navMenu = document.querySelector('.nav-menu');
+
+    if (menuIcon && navMenu) {
+        menuIcon.addEventListener('click', () => navMenu.classList.toggle('active'));
+    }
+
+    const trendingList = document.getElementById('trending-list');
+    if (trendingList && typeof articles !== 'undefined') {
+        trendingList.innerHTML = [...articles]
+            .sort((a, b) => b.id - a.id)
+            .slice(0, 5)
+            .map(article => `
+                <li>
+                    <a href="article-template.html?id=${article.id}" style="display:block; padding:10px 12px; background:rgba(255,255,255,0.04); border-radius:8px; text-decoration:none; color:var(--text-secondary); font-size:13px; font-weight:600;">
+                        ${article.title}
+                    </a>
+                </li>`)
+            .join('');
+    }
+
+    const trendingMatchesList = document.querySelector('.trending-matches-list');
+    if (trendingMatchesList) {
+        const allTodayMatches = typeof matchesData !== 'undefined' ? matchesData.maanta : [];
+        const upcomingMatches = allTodayMatches
+            .filter(match => match.status === 'Upcoming')
+            .slice(0, 5);
+
+        trendingMatchesList.innerHTML = upcomingMatches.length
+            ? upcomingMatches.map(match => {
+                const url = `${match.url}?id=${match.id}&home=${encodeURIComponent(match.home)}&away=${encodeURIComponent(match.away)}&league=${encodeURIComponent(match.league)}`;
+                return `<li><a href="${url}"><div class="trending-match-teams"><strong>${match.home} vs ${match.away}</strong></div><div class="trending-match-info"><span>${match.league}</span><span>${match.displayTime}</span></div></a></li>`;
+            }).join('')
+            : '<li style="color:var(--text-secondary); padding:10px;">No upcoming matches today.</li>';
+    }
+</script>
+
+</body>
+</html>
