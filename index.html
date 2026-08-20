@@ -126,6 +126,28 @@
    </section>
   </main>
 
+  <div class="match-modal-overlay is-hidden" id="matchModal" aria-hidden="true">
+   <div class="match-modal-backdrop" data-modal-close></div>
+   <section class="match-modal" role="dialog" aria-modal="true" aria-labelledby="matchModalStatus">
+    <button class="match-modal-close" type="button" aria-label="Close match details" data-modal-close>&times;</button>
+    <div class="match-modal-date" id="matchModalDate"></div>
+    <div class="match-modal-teams">
+     <div class="match-modal-team">
+      <img id="matchModalHomeLogo" class="match-modal-logo" src="" alt="">
+      <strong id="matchModalHome"></strong>
+     </div>
+     <div class="match-modal-score">
+      <strong id="matchModalScore">0 - 0</strong>
+      <span id="matchModalStatus" class="match-modal-status"></span>
+     </div>
+     <div class="match-modal-team">
+      <img id="matchModalAwayLogo" class="match-modal-logo" src="" alt="">
+      <strong id="matchModalAway"></strong>
+     </div>
+    </div>
+   </section>
+  </div>
+
   <footer class="main-footer">
    <div class="footer-container">
     <div class="footer-col about-col"><img src="logo/Logo.png" alt="TV96 Live Logo" class="footer-logo">
@@ -506,7 +528,13 @@ if (totalMinutes < 0) {
             const leagueLogo = match.leagueLogo || leagueLogos[match.league] || 'https://via.placeholder.com/20x20?text=🏆';
 
             return `
-            <a href="${matchUrl}" class="match-link-wrapper" data-match-id="${match.id}">
+            <a href="${matchUrl}" class="match-link-wrapper" data-match-id="${match.id}"
+               data-is-live="${match.statusClass === 'status-live'}"
+               data-home="${match.home}" data-away="${match.away}"
+               data-home-logo="${homeLogo}" data-away-logo="${awayLogo}"
+               data-home-score="${match.homeScore}" data-away-score="${match.awayScore}"
+               data-status="${match.status}" data-status-class="${match.statusClass}"
+               data-date="${match.matchDate || ''}" data-time="${match.displayTime || ''}">
                 <div class="match-card">
                     <div class="league-header">
                         <img src="${leagueLogo}" alt="${match.league}" class="league-logo-img"
@@ -541,7 +569,62 @@ if (totalMinutes < 0) {
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         }
+
+        document.querySelectorAll('.match-link-wrapper').forEach(link => {
+            link.addEventListener('click', event => {
+                if (link.dataset.isLive === 'true') return;
+                event.preventDefault();
+                openMatchModal(link.dataset);
+            });
+        });
     }
+
+    function formatMatchDate(date, time) {
+        const matchDate = new Date(`${date}T${time}:00`);
+        if (Number.isNaN(matchDate.getTime())) return time || 'Match details';
+
+        return matchDate.toLocaleString('en-US', {
+            month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true
+        });
+    }
+
+    function openMatchModal(match) {
+        const modal = document.getElementById('matchModal');
+        const homeLogo = document.getElementById('matchModalHomeLogo');
+        const awayLogo = document.getElementById('matchModalAwayLogo');
+        const status = document.getElementById('matchModalStatus');
+
+        document.getElementById('matchModalDate').textContent = formatMatchDate(match.date, match.time);
+        document.getElementById('matchModalHome').textContent = match.home;
+        document.getElementById('matchModalAway').textContent = match.away;
+        document.getElementById('matchModalScore').textContent = `${match.homeScore} - ${match.awayScore}`;
+
+        homeLogo.src = match.homeLogo;
+        homeLogo.alt = match.home;
+        awayLogo.src = match.awayLogo;
+        awayLogo.alt = match.away;
+        status.textContent = match.status;
+        status.className = `match-modal-status ${match.statusClass}`;
+
+        modal.classList.remove('is-hidden');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+    }
+
+    function closeMatchModal() {
+        const modal = document.getElementById('matchModal');
+        modal.classList.add('is-hidden');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+    }
+
+    document.querySelectorAll('[data-modal-close]').forEach(button => {
+        button.addEventListener('click', closeMatchModal);
+    });
+
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape') closeMatchModal();
+    });
 
     // ============================================================
     // TAB SWITCHING
