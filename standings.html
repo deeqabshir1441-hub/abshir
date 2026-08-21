@@ -582,570 +582,164 @@
 
 
 // ======================================================
-// LEAGUE LOGOS
+// AUTOMATIC STANDINGS
 // ======================================================
 
-const leagueLogos = {
-
-    "Premier League":
-        "https://media.api-sports.io/football/leagues/39.png",
-
-    "La Liga":
-        "https://media.api-sports.io/football/leagues/140.png",
-
-    "Serie A":
-        "https://media.api-sports.io/football/leagues/135.png",
-
-    "Bundesliga":
-        "https://media.api-sports.io/football/leagues/78.png",
-
-    "Ligue 1":
-        "https://media.api-sports.io/football/leagues/61.png",
-
-    "UEFA Champions League":
-        "https://media.api-sports.io/football/leagues/2.png",
-
-    "Champions League":
-        "https://media.api-sports.io/football/leagues/2.png",
-
-    "UEFA Europa League":
-        "https://media.api-sports.io/football/leagues/3.png",
-
-    "Saudi Pro League":
-        "https://media.api-sports.io/football/leagues/307.png",
-
-    "MLS":
-        "https://media.api-sports.io/football/leagues/253.png",
-
-    "Championship":
-        "https://media.api-sports.io/football/leagues/40.png",
-
-    "FA Cup":
-        "https://media.api-sports.io/football/leagues/45.png",
-
-    "Club Friendly":
-        "https://media.api-sports.io/football/leagues/10.png"
-
-};
-
-
-// ======================================================
-// TEAM LOGOS
-// ======================================================
-//
-// Waxaan isticmaalay isla teamLogos-ka aad ku leedahay
-// index.html. Haddii koox cusub lagu daro, halkan ku dar.
-// ======================================================
-
-const teamLogos = {
-
-    // ==========================
-    // Premier League
-    // ==========================
-    "Arsenal": "https://media.api-sports.io/football/teams/42.png",
-    "Aston Villa": "https://media.api-sports.io/football/teams/66.png",
-    "Bournemouth": "https://media.api-sports.io/football/teams/35.png",
-    "Brentford": "https://media.api-sports.io/football/teams/55.png",
-    "Brighton": "https://media.api-sports.io/football/teams/51.png",
-    "Chelsea": "https://media.api-sports.io/football/teams/49.png",
-    "Coventry": "https://media.api-sports.io/football/teams/1346.png",
-    "Crystal Palace": "https://media.api-sports.io/football/teams/52.png",
-    "Everton": "https://media.api-sports.io/football/teams/45.png",
-    "Fulham": "https://media.api-sports.io/football/teams/36.png",
-    "Hull City": "https://media.api-sports.io/football/teams/63.png",
-    "Ipswich Town": "https://media.api-sports.io/football/teams/57.png",
-    "Leeds United": "https://media.api-sports.io/football/teams/63.png",
-    "Liverpool": "https://media.api-sports.io/football/teams/40.png",
-    "Man City": "https://media.api-sports.io/football/teams/50.png",
-    "Man United": "https://media.api-sports.io/football/teams/33.png",
-    "Newcastle": "https://media.api-sports.io/football/teams/34.png",
-    "Nottingham Forest": "https://media.api-sports.io/football/teams/65.png",
-    "Sunderland": "https://media.api-sports.io/football/teams/746.png",
-    "Tottenham": "https://media.api-sports.io/football/teams/47.png",
-
-    // ==========================
-    // la liga
-    // ==========================
-
-    "Deportivo Alaves": "https://media.api-sports.io/football/teams/542.png",
-    "Athletic Club": "https://media.api-sports.io/football/teams/531.png",
-    "Atletico Madrid": "https://media.api-sports.io/football/teams/530.png",
-    "Barcelona": "https://media.api-sports.io/football/teams/529.png",
-    "Real Betis": "https://media.api-sports.io/football/teams/543.png",
-    "Celta Vigo": "https://media.api-sports.io/football/teams/538.png",
-    "Deportivo La Coruna": "https://media.api-sports.io/football/teams/724.png",
-    "Elche": "https://media.api-sports.io/football/teams/797.png",
-    "Espanyol": "https://media.api-sports.io/football/teams/540.png",
-    "Getafe": "https://media.api-sports.io/football/teams/546.png",
-    "Levante": "https://media.api-sports.io/football/teams/5463.png",
-    "Malaga": "https://media.api-sports.io/football/teams/723.png",
-    "Osasuna": "https://media.api-sports.io/football/teams/727.png",
-    "Racing Santander": "https://media.api-sports.io/football/teams/7285.png",
-    "Rayo Vallecano": "https://media.api-sports.io/football/teams/728.png",
-    "Real Madrid": "https://media.api-sports.io/football/teams/541.png",
-    "Real Sociedad": "https://media.api-sports.io/football/teams/548.png",
-    "Sevilla": "https://media.api-sports.io/football/teams/536.png",
-    "Valencia": "https://media.api-sports.io/football/teams/532.png",
-    "Villarreal": "https://media.api-sports.io/football/teams/533.png",
-
-    // ==========================
-    // Serie A
-    // ==========================
-    "AC Milan": "https://s.hs-data.com/gfx/emblem/common/80x80/43.png",
-    "AC Monza": "https://s.hs-data.com/gfx/emblem/common/80x80/13760.png",
-    "ACF Fiorentina": "https://s.hs-data.com/gfx/emblem/common/80x80/48.png",
-    "AS Roma": "https://s.hs-data.com/gfx/emblem/common/80x80/138.png",
-    "Atalanta": "https://s.hs-data.com/gfx/emblem/common/80x80/155.png",
-    "Bologna FC": "https://s.hs-data.com/gfx/emblem/common/80x80/249.png",
-    "Cagliari Calcio": "https://s.hs-data.com/gfx/emblem/common/80x80/312.png",
-    "Como 1907": "https://s.hs-data.com/gfx/emblem/common/80x80/17583.png",
-    "Frosinone Calcio": "https://s.hs-data.com/gfx/emblem/common/80x80/840.png",
-    "Genoa CFC": "https://s.hs-data.com/gfx/emblem/common/80x80/626.png",
-    "Inter": "https://s.hs-data.com/gfx/emblem/common/80x80/1052.png",
-    "Juventus": "https://s.hs-data.com/gfx/emblem/common/80x80/1094.png",
-    "Lazio Roma": "https://s.hs-data.com/gfx/emblem/common/80x80/1187.png",
-    "Parma Calcio 1913": "https://s.hs-data.com/gfx/emblem/common/80x80/1458.png",
-    "Sassuolo Calcio": "https://s.hs-data.com/gfx/emblem/common/80x80/13744.png",
-    "SSC Napoli": "https://s.hs-data.com/gfx/emblem/common/80x80/1794.png",
-    "Torino FC": "https://s.hs-data.com/gfx/emblem/common/80x80/1916.png",
-    "Udinese Calcio": "https://s.hs-data.com/gfx/emblem/common/80x80/1983.png",
-    "US Lecce": "https://s.hs-data.com/gfx/emblem/common/80x80/2020.png",
-    "Venezia FC": "https://s.hs-data.com/gfx/emblem/common/80x80/17626.png",
-
-    // ==========================
-    // Bundesliga
-    // ==========================
-    "Augsburg": "https://media.api-sports.io/football/teams/170.png",
-    "Leverkusen": "https://media.api-sports.io/football/teams/168.png",
-    "Bayern Munich": "https://media.api-sports.io/football/teams/157.png",
-    "Dortmund": "https://media.api-sports.io/football/teams/165.png",
-    "Mönchengladbach": "https://media.api-sports.io/football/teams/163.png",
-    "Frankfurt": "https://media.api-sports.io/football/teams/169.png",
-    "Elversberg": "https://media.api-sports.io/football/teams/1928.png",
-    "Freiburg": "https://media.api-sports.io/football/teams/160.png",
-    "Hamburg": "https://media.api-sports.io/football/teams/148.png",
-    "Hoffenheim": "https://media.api-sports.io/football/teams/167.png",
-    "Köln": "https://media.api-sports.io/football/teams/192.png",
-    "Mainz": "https://media.api-sports.io/football/teams/164.png",
-    "Paderborn": "https://media.api-sports.io/football/teams/202.png",
-    "Schalke": "https://media.api-sports.io/football/teams/174.png",
-    "Stuttgart": "https://media.api-sports.io/football/teams/172.png",
-    "Union Berlin": "https://media.api-sports.io/football/teams/182.png",
-    "Werder Bremen": "https://media.api-sports.io/football/teams/162.png",
-    "Leipzig": "https://media.api-sports.io/football/teams/173.png",
-
-    // ==========================
-    // Ligue 1
-    // ==========================
-    "Angers": "https://images.fotmob.com/image_resources/logo/teamlogo/8121_xsmall.png",
-    "Auxerre": "https://images.fotmob.com/image_resources/logo/teamlogo/8583_xsmall.png",
-    "Brest": "https://images.fotmob.com/image_resources/logo/teamlogo/8521_xsmall.png",
-    "Le Havre": "https://images.fotmob.com/image_resources/logo/teamlogo/9746_xsmall.png",
-    "Le Mans": "https://images.fotmob.com/image_resources/logo/teamlogo/8682_xsmall.png",
-    "Lens": "https://images.fotmob.com/image_resources/logo/teamlogo/8588_xsmall.png",
-    "Lille": "https://images.fotmob.com/image_resources/logo/teamlogo/8639_xsmall.png",
-    "Lorient": "https://images.fotmob.com/image_resources/logo/teamlogo/8689_xsmall.png",
-    "Lyon": "https://images.fotmob.com/image_resources/logo/teamlogo/9748_xsmall.png",
-    "Marseille": "https://images.fotmob.com/image_resources/logo/teamlogo/8592_xsmall.png",
-    "Monaco": "https://images.fotmob.com/image_resources/logo/teamlogo/9829_xsmall.png",
-    "Nice": "https://images.fotmob.com/image_resources/logo/teamlogo/9831_xsmall.png",
-    "Paris FC": "https://images.fotmob.com/image_resources/logo/teamlogo/6379_xsmall.png",
-    "PSG": "https://images.fotmob.com/image_resources/logo/teamlogo/9847_xsmall.png",
-    "Rennes": "https://images.fotmob.com/image_resources/logo/teamlogo/9851_xsmall.png",
-    "Strasbourg": "https://images.fotmob.com/image_resources/logo/teamlogo/9848_xsmall.png",
-    "Toulouse": "https://images.fotmob.com/image_resources/logo/teamlogo/9941_xsmall.png",
-    "Troyes": "https://images.fotmob.com/image_resources/logo/teamlogo/10242_xsmall.png",
-        
-    // ==========================
-    // SAUDI PRO LEAGUE
-    // ==========================
-    "Al Ahli": "https://media.api-sports.io/football/teams/2933.png",
-    "Al Ettifaq": "https://media.api-sports.io/football/teams/2934.png",
-    "Al Fateh": "https://media.api-sports.io/football/teams/2935.png",
-    "Al Fayha": "https://media.api-sports.io/football/teams/2940.png",
-    "Al Hazem": "https://media.api-sports.io/football/teams/2937.png",
-    "Al Hilal": "https://media.api-sports.io/football/teams/2932.png",
-    "Al Ittihad": "https://media.api-sports.io/football/teams/2938.png",
-    "Al Khaleej": "https://media.api-sports.io/football/teams/2941.png",
-    "Al Kholood": "https://media.api-sports.io/football/teams/3027.png",
-    "Al Najma": "https://media.api-sports.io/football/teams/2946.png",
-    "Al Nassr": "https://media.api-sports.io/football/teams/2939.png",
-    "Al Okhdood": "https://media.api-sports.io/football/teams/2942.png",
-    "Al Qadsiah": "https://media.api-sports.io/football/teams/2929.png",
-    "Al Riyadh": "https://media.api-sports.io/football/teams/2943.png",
-    "Al Shabab": "https://media.api-sports.io/football/teams/2936.png",
-    "Al Taawoun": "https://media.api-sports.io/football/teams/2931.png",
-    "Abha": "https://media.api-sports.io/football/teams/2930.png",
-    "Al Diriyah": "https://media.api-sports.io/football/teams/3030.png"
-
-};
-
-
-// ======================================================
-// STANDINGS DATA
-// ======================================================
-//
-// HALKAN AYAAD ISKA BEDDELI KARTAA XOGTA
-//
-// points = W x 3 + D
-//
-// Haddii aad rabto inaad koox ku darto,
-// copy garee object-ka koox kale.
-// ======================================================
-
-const standingsData = {
-
-    // ==========================
-    // Premier League
-    // ==========================
-    "Premier League": [
-        { team: "Arsenal", played: 1, won: 1, drawn: 0, lost: 0, gf: 3, ga: 0, form: ["W"] },
-        { team: "Aston Villa", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Bournemouth", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Brentford", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Brighton", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Chelsea", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Coventry", played: 1, won: 0, drawn: 0, lost: 1, gf: 0, ga: 3, form: ["L"] },
-        { team: "Crystal Palace", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Everton", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Fulham", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Hull City", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Ipswich Town", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Leeds United", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Liverpool", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Man City", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Man United", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Newcastle", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Nottingham Forest", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Sunderland", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Tottenham", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] }
-    ],
-
-    // ==========================
-    // Serie A
-    // ==========================
-    "Serie A": [
-        { team: "AC Milan", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "AC Monza", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "ACF Fiorentina", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "AS Roma", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Atalanta", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Bologna FC", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Cagliari Calcio", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Como 1907", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Frosinone Calcio", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Genoa CFC", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Inter", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Juventus", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Lazio Roma", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Parma Calcio 1913", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Sassuolo Calcio", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "SSC Napoli", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Torino FC", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Udinese Calcio", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "US Lecce", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Venezia FC", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] }
-    ],
-
-    // ==========================
-    // Bundesliga
-    // ==========================
-    "Bundesliga": [
-        { team: "Augsburg", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Leverkusen", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Bayern Munich", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Dortmund", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Mönchengladbach", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Frankfurt", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Elversberg", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Freiburg", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Hamburg", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Hoffenheim", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Köln", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Mainz", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Paderborn", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Schalke", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Stuttgart", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Union Berlin", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Werder Bremen", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Leipzig", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] }
-    ],
-
-    // ==========================
-    // Ligue 1
-    // ==========================
-    "Ligue 1": [
-        { team: "Angers", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Auxerre", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Brest", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Le Havre", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Le Mans", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Lens", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Lille", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Lorient", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Lyon", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Marseille", played: 1, won: 1, drawn: 0, lost: 0, gf: 4, ga: 0, form: ["W"] },
-        { team: "Monaco", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Nice", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Paris FC", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "PSG", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Rennes", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Strasbourg", played: 1, won: 0, drawn: 0, lost: 1, gf: 0, ga: 4, form: ["L"] },
-        { team: "Toulouse", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Troyes", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] }
-    ],
-
-    // ==========================
-    // La Liga
-    // ==========================
-
-    "La Liga": [
-        { team: "Deportivo Alaves", played: 2, won: 1, drawn: 1, lost: 0, gf: 4, ga: 1, form: ["W", "D"] },
-        { team: "Espanyol", played: 1, won: 1, drawn: 0, lost: 0, gf: 3, ga: 0, form: ["W"] },
-        { team: "Atletico Madrid", played: 1, won: 1, drawn: 0, lost: 0, gf: 2, ga: 0, form: ["W"] },
-        { team: "Sevilla", played: 1, won: 1, drawn: 0, lost: 0, gf: 2, ga: 1, form: ["W"] },
-        { team: "Real Betis", played: 1, won: 1, drawn: 0, lost: 0, gf: 1, ga: 0, form: ["W"] },
-        { team: "Racing Santander", played: 1, won: 0, drawn: 1, lost: 0, gf: 2, ga: 2, form: ["D"] },
-        { team: "Villarreal", played: 1, won: 0, drawn: 1, lost: 0, gf: 2, ga: 2, form: ["D"] },
-        { team: "Deportivo La Coruna", played: 1, won: 0, drawn: 1, lost: 0, gf: 1, ga: 1, form: ["D"] },
-        { team: "Elche", played: 1, won: 0, drawn: 1, lost: 0, gf: 1, ga: 1, form: ["D"] },
-        { team: "Athletic Club", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Barcelona", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Celta Vigo", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Osasuna", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Real Madrid", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Valencia", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Real Sociedad", played: 1, won: 0, drawn: 0, lost: 1, gf: 0, ga: 1, form: ["L"] },
-        { team: "Rayo Vallecano", played: 2, won: 0, drawn: 1, lost: 1, gf: 2, ga: 3, form: ["L", "D"] },
-        { team: "Malaga", played: 1, won: 0, drawn: 0, lost: 1, gf: 0, ga: 2, form: ["L"] },
-        { team: "Getafe", played: 1, won: 0, drawn: 0, lost: 1, gf: 0, ga: 3, form: ["L"] },
-        { team: "Levante", played: 1, won: 0, drawn: 0, lost: 1, gf: 0, ga: 3, form: ["L"] }
-    ],
-
-    // ==================================================
-    // SAUDI PRO LEAGUE
-    // ==================================================
-    "Saudi Pro League": [
-        { team: "Al Ahli", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Al Ettifaq", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Al Fateh", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Al Fayha", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Al Hazem", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Al Hilal", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Al Ittihad", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Al Khaleej", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Al Kholood", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Al Najma", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Al Nassr", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Al Okhdood", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Al Qadsiah", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Al Riyadh", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Al Shabab", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Al Taawoun", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Abha", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] },
-        { team: "Al Diriyah", played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, form: [] }
-    ]
-
-};
-
-
-// ======================================================
-// GET LEAGUE FROM URL
-// ======================================================
+const leagueCodes = Object.freeze({
+    "Premier League": "PL",
+    "La Liga": "PD",
+    "Serie A": "SA",
+    "Bundesliga": "BL1",
+    "Ligue 1": "FL1",
+    "UEFA Champions League": "CL",
+    "Champions League": "CL"
+});
 
 const params = new URLSearchParams(window.location.search);
+const selectedLeague = params.get("league") || "Premier League";
 
-const selectedLeague =
-    params.get("league") || "Premier League";
+function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>'"]/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "'": "&#39;",
+        "\"": "&quot;"
+    })[character]);
+}
 
+function showTableMessage(tbody, message) {
+    tbody.innerHTML = `
+        <tr>
+            <td colspan="11" style="padding:40px;text-align:center;">
+                ${escapeHtml(message)}
+            </td>
+        </tr>
+    `;
+}
 
-// ======================================================
-// LOAD LEAGUE
-// ======================================================
+function formatSeason(season) {
+    if (!season?.startDate || !season?.endDate) {
+        return "Current season";
+    }
 
-function loadStandings() {
+    const startYear = new Date(season.startDate).getUTCFullYear();
+    const endYear = new Date(season.endDate).getUTCFullYear();
 
-    const leagueName =
-        document.getElementById("leagueName");
+    if (!Number.isFinite(startYear) || !Number.isFinite(endYear)) {
+        return "Current season";
+    }
 
-    const leagueLogo =
-        document.getElementById("leagueLogo");
+    return `${startYear}/${String(endYear).slice(-2)} Season`;
+}
 
-    const seasonName =
-        document.getElementById("seasonName");
+function formatForm(form) {
+    const results = Array.isArray(form)
+        ? form
+        : String(form || "").match(/[WDL]/g) || [];
 
-    const tbody =
-        document.getElementById("standingsBody");
+    return results.map(result => {
+        const safeResult = String(result).toUpperCase();
+        const formClass = safeResult === "W"
+            ? "form-win"
+            : safeResult === "D"
+                ? "form-draw"
+                : "form-loss";
 
+        return `<span class="${formClass}">${escapeHtml(safeResult)}</span>`;
+    }).join("");
+}
+
+async function loadStandings() {
+    const leagueName = document.getElementById("leagueName");
+    const leagueLogo = document.getElementById("leagueLogo");
+    const seasonName = document.getElementById("seasonName");
+    const tbody = document.getElementById("standingsBody");
+    const leagueCode = leagueCodes[selectedLeague];
 
     leagueName.textContent = selectedLeague;
+    seasonName.textContent = "Current season";
+    leagueLogo.style.display = "none";
 
-    leagueLogo.src =
-        leagueLogos[selectedLeague] || "";
-
-    seasonName.textContent =
-        "2026/27 Season";
-
-
-    let teams =
-        standingsData[selectedLeague] || [];
-
-
-    if (!teams.length) {
-
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="11"
-                    style="padding:40px;text-align:center;">
-                    No standings data available
-                    for ${selectedLeague}.
-                </td>
-            </tr>
-        `;
-
+    if (!leagueCode) {
+        showTableMessage(tbody, `Automatic standings are not available for ${selectedLeague}.`);
         return;
     }
 
+    showTableMessage(tbody, "Loading standings...");
 
-    // ==============================================
-    // CALCULATE
-    // ==============================================
+    try {
+        const response = await fetch(`/api/standings?league=${encodeURIComponent(leagueCode)}`);
+        const payload = await response.json().catch(() => null);
 
-    teams = teams.map(team => {
+        if (!response.ok) {
+            const message = payload?.error || "Could not load standings right now.";
+            const requestError = new Error(message);
+            requestError.status = response.status;
+            throw requestError;
+        }
 
-        const gd =
-            team.gf - team.ga;
+        if (!payload || !Array.isArray(payload.standings) || payload.standings.length === 0) {
+            throw new Error("No standings are available for this competition yet.");
+        }
 
-        const points =
-            (team.won * 3) + team.drawn;
+        leagueName.textContent = payload.competition?.name || selectedLeague;
+        seasonName.textContent = formatSeason(payload.season);
 
-        return {
-            ...team,
-            gd,
-            points
-        };
+        if (payload.competition?.emblem) {
+            leagueLogo.src = payload.competition.emblem;
+            leagueLogo.alt = `${leagueName.textContent} logo`;
+            leagueLogo.style.display = "block";
+        }
 
-    });
+        const totalTeams = payload.standings.length;
+        tbody.innerHTML = payload.standings.map(team => {
+            const position = Number(team.rank) || "-";
+            let positionClass = "";
 
+            if (position <= 4) {
+                positionClass = "champions";
+            } else if (position <= 6) {
+                positionClass = "europa";
+            } else if (position >= totalTeams - 2) {
+                positionClass = "relegation";
+            }
 
-    // ==============================================
-    // SORT
-    // ==============================================
+            const crest = team.logo
+                ? `<img class="team-logo" src="${escapeHtml(team.logo)}" alt="${escapeHtml(team.name)} crest" loading="lazy" onerror="this.style.visibility='hidden'">`
+                : "";
+            const form = formatForm(team.form);
 
-    teams.sort((a, b) => {
-
-        if (b.points !== a.points)
-            return b.points - a.points;
-
-        if (b.gd !== a.gd)
-            return b.gd - a.gd;
-
-        return b.gf - a.gf;
-
-    });
-
-
-    // ==============================================
-    // RENDER
-    // ==============================================
-
-    tbody.innerHTML = teams.map((team, index) => {
-
-        const position =
-            index + 1;
-
-        let positionClass = "";
-
-        if (position <= 4)
-            positionClass = "champions";
-
-        else if (position <= 6)
-            positionClass = "europa";
-
-        else if (position >= teams.length - 2)
-            positionClass = "relegation";
-
-
-        const logo =
-            teamLogos[team.team] ||
-            "https://via.placeholder.com/40?text=?";
-
-
-        const form =
-            (team.form || []).map(result => {
-
-                if (result === "W")
-                    return `<span class="form-win">W</span>`;
-
-                if (result === "D")
-                    return `<span class="form-draw">D</span>`;
-
-                return `<span class="form-loss">L</span>`;
-
-            }).join("");
-
-
-        return `
-
-            <tr class="${positionClass}">
-
-                <td class="position">
-                    ${position}
-                </td>
-
-                <td>
-
-                    <div class="team-cell">
-
-                        <img
-                            class="team-logo"
-                            src="${logo}"
-                            alt="${team.team}"
-                            loading="lazy"
-                        >
-
-                        <span>
-                            ${team.team}
-                        </span>
-
-                    </div>
-
-                </td>
-
-                <td>${team.played}</td>
-
-                <td>${team.won}</td>
-
-                <td>${team.drawn}</td>
-
-                <td>${team.lost}</td>
-
-                <td>${team.gf}</td>
-
-                <td>${team.ga}</td>
-
-                <td>${team.gd}</td>
-
-                <td class="points">
-                    ${team.points}
-                </td>
-
-                <td>
-
-                    <div class="form">
-                        ${form}
-                    </div>
-
-                </td>
-
-            </tr>
-
-        `;
-
-    }).join("");
-
+            return `
+                <tr class="${positionClass}">
+                    <td class="position">${escapeHtml(position)}</td>
+                    <td>
+                        <div class="team-cell">
+                            ${crest}
+                            <span>${escapeHtml(team.name || "Unknown team")}</span>
+                        </div>
+                    </td>
+                    <td>${escapeHtml(team.played)}</td>
+                    <td>${escapeHtml(team.win)}</td>
+                    <td>${escapeHtml(team.draw)}</td>
+                    <td>${escapeHtml(team.lose)}</td>
+                    <td>${escapeHtml(team.goalsFor)}</td>
+                    <td>${escapeHtml(team.goalsAgainst)}</td>
+                    <td>${escapeHtml(team.goalDifference)}</td>
+                    <td class="points">${escapeHtml(team.points)}</td>
+                    <td><div class="form">${form}</div></td>
+                </tr>
+            `;
+        }).join("");
+    } catch (error) {
+        console.error("[standings] Failed to load standings", {
+            league: selectedLeague,
+            status: error.status || null,
+            message: error.message
+        });
+        showTableMessage(tbody, error.message || "Could not load standings right now. Please try again later.");
+    }
 }
-
 
 loadStandings();
 
