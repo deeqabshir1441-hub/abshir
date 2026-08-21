@@ -232,3 +232,32 @@ const matchesData = {
 }
     ]
 };
+
+// The manual data above remains as a fallback if the automatic service is unavailable.
+// Automatic matches replace these arrays after /api/matches responds successfully.
+window.matchesDataReady = fetch('/api/matches')
+    .then(async response => {
+        const payload = await response.json().catch(() => null);
+
+        if (!response.ok || !payload?.matchesData) {
+            throw new Error(payload?.error || 'Unable to load matches right now.');
+        }
+
+        ['shalay', 'maanta', 'berri'].forEach(day => {
+            const automaticMatches = Array.isArray(payload.matchesData[day])
+                ? payload.matchesData[day]
+                : [];
+
+            matchesData[day].splice(0, matchesData[day].length, ...automaticMatches);
+        });
+
+        window.dispatchEvent(new CustomEvent('matchesDataUpdated', { detail: payload }));
+        return payload;
+    })
+    .catch(error => {
+        console.error('[matches] Automatic match loading failed; using manual fallback.', error);
+        window.dispatchEvent(new CustomEvent('matchesDataFailed', {
+            detail: { message: error.message }
+        }));
+        return { matchesData, error: error.message };
+    });

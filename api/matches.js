@@ -1,0 +1,246 @@
+const competitionCodes = ["PL", "PD", "SA", "BL1", "FL1", "CL"];
+
+const competitionNames = {
+    PL: "Premier League",
+    PD: "La Liga",
+    SA: "Serie A",
+    BL1: "Bundesliga",
+    FL1: "Ligue 1",
+    CL: "UEFA Champions League"
+};
+
+// Edit this list to control which teams are shown automatically.
+const featuredTeams = [
+    "Arsenal",
+    "Manchester United",
+    "Man United",
+    "Manchester City",
+    "Man City",
+    "Liverpool",
+    "Chelsea",
+    "Tottenham Hotspur",
+    "Real Madrid",
+    "Barcelona",
+    "Atletico Madrid",
+    "Atlético de Madrid",
+    "Bayern Munich",
+    "FC Bayern München",
+    "Borussia Dortmund",
+    "Inter Milan",
+    "Inter",
+    "AC Milan",
+    "Juventus",
+    "Napoli"
+];
+
+// Add football-data.org match IDs here when you want a specific watch page
+// or want to show a match even if neither team is in featuredTeams.
+const matchOverrides = {
+    // "123456": { url: "watch-live3.html", featured: true }
+};
+
+const NAIROBI_TIMEZONE = "Africa/Nairobi";
+const CACHE_CONTROL = "s-maxage=120, stale-while-revalidate=60";
+
+function sendJson(res, status, body) {
+    res.setHeader("Content-Type", "application/json; charset=utf-8");
+    return res.status(status).json(body);
+}
+
+function getNairobiParts(date) {
+    const parts = new Intl.DateTimeFormat("en-GB", {
+        timeZone: NAIROBI_TIMEZONE,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+    }).formatToParts(date);
+
+    return Object.fromEntries(
+        parts.filter((part) => part.type !== "literal").map((part) => [part.type, part.value])
+    );
+}
+
+function formatNairobiDate(date) {
+    const parts = getNairobiParts(date);
+    return `${parts.year}-${parts.month}-${parts.day}`;
+}
+
+function getNairobiDateRange() {
+    const todayParts = getNairobiParts(new Date());
+    const today = new Date(Date.UTC(
+        Number(todayParts.year),
+        Number(todayParts.month) - 1,
+        Number(todayParts.day)
+    ));
+
+    const formatUtcDate = (date) => date.toISOString().slice(0, 10);
+
+    return {
+        yesterday: formatUtcDate(new Date(today.getTime() - 86400000)),
+        today: formatUtcDate(today),
+        tomorrow: formatUtcDate(new Date(today.getTime() + 86400000))
+    };
+}
+
+function formatNairobiTime(utcDate) {
+    return new Intl.DateTimeFormat("en-GB", {
+        timeZone: NAIROBI_TIMEZONE,
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+    }).format(new Date(utcDate));
+}
+
+function statusDetails(apiStatus) {
+    if (["IN_PLAY", "PAUSED"].includes(apiStatus)) {
+        return { status: "Live", statusClass: "status-live" };
+    }
+
+    if (["FINISHED", "AWARDED"].includes(apiStatus)) {
+        return { status: "Finished", statusClass: "status-finished" };
+    }
+
+    if (["POSTPONED", "SUSPENDED"].includes(apiStatus)) {
+        return { status: "Postponed", statusClass: "status-upcoming" };
+    }
+
+    if (["CANCELLED", "CANCELED"].includes(apiStatus)) {
+        return { status: "Cancelled", statusClass: "status-upcoming" };
+    }
+
+    return { status: "Upcoming", statusClass: "status-upcoming" };
+}
+
+function isFeaturedTeam(team) {
+    return [team?.name, team?.shortName]
+        .filter(Boolean)
+        .some((name) => featuredTeams.includes(name));
+}
+
+function normalizeMatch(match, competitionCode) {
+    const override = matchOverrides[String(match.id)] || {};
+    const homeTeam = match.homeTeam || {};
+    const awayTeam = match.awayTeam || {};
+    const homeScore = match.score?.fullTime?.home ?? match.score?.halfTime?.home ?? 0;
+    const awayScore = match.score?.fullTime?.away ?? match.score?.halfTime?.away ?? 0;
+    const apiStatus = statusDetails(match.status);
+    const matchDate = formatNairobiDate(new Date(match.utcDate));
+
+    return {
+        home: homeTeam.shortName || homeTeam.name || "Home team",
+        away: awayTeam.shortName || awayTeam.name || "Away team",
+        homeScore,
+        awayScore,
+        league: competitionNames[competitionCode],
+        status: apiStatus.status,
+        statusClass: apiStatus.statusClass,
+        overlayText: "Watch Live",
+        url: override.url || "watch-live.html",
+        displayTime: formatNairobiTime(match.utcDate),
+        matchDate,
+        id: String(match.id),
+        homeLogo: homeTeam.crest || null,
+        awayLogo: awayTeam.crest || null,
+        leagueLogo: match.competition?.emblem || null,
+        isApiMatch: true,
+        featured: Boolean(override.featured),
+        shouldDisplay: Boolean(override.featured) || isFeaturedTeam(homeTeam) || isFeaturedTeam(awayTeam)
+    };
+}
+
+export default async function handler(req, res) {
+    if (req.method !== "GET") {
+        res.setHeader("Allow", "GET");
+        return sendJson(res, 405, { error: "Method not allowed" });
+    }
+
+    if (!process.env.FOOTBALL_DATA_TOKEN) {
+        console.error("[api/matches] FOOTBALL_DATA_TOKEN is not configured");
+        return sendJson(res, 500, { error: "FOOTBALL_DATA_TOKEN is not configured" });
+    }
+
+    const dates = getNairobiDateRange();
+
+    try {
+        const results = await Promise.all(competitionCodes.map(async (code) => {
+            const endpoint = new URL(`https://api.football-data.org/v4/competitions/${code}/matches`);
+            endpoint.searchParams.set("dateFrom", dates.yesterday);
+            endpoint.searchParams.set("dateTo", dates.tomorrow);
+
+            try {
+                const response = await fetch(endpoint, {
+                    headers: { "X-Auth-Token": process.env.FOOTBALL_DATA_TOKEN }
+                });
+                const data = await response.json().catch(() => null);
+
+                if (!response.ok) {
+                    console.error("[api/matches] Competition request failed", {
+                        code,
+                        status: response.status,
+                        message: data?.message
+                    });
+                    return { code, matches: [], unavailable: true, status: response.status };
+                }
+
+                return { code, matches: Array.isArray(data?.matches) ? data.matches : [], unavailable: false };
+            } catch (error) {
+                console.error("[api/matches] Competition network error", { code, message: error.message });
+                return { code, matches: [], unavailable: true, status: 0 };
+            }
+        }));
+
+        const matchesData = { shalay: [], maanta: [], berri: [] };
+        const dateKeys = {
+            [dates.yesterday]: "shalay",
+            [dates.today]: "maanta",
+            [dates.tomorrow]: "berri"
+        };
+
+        if (results.every((result) => result.unavailable)) {
+            console.error("[api/matches] All competition requests were unavailable");
+            return sendJson(res, 502, {
+                error: "Unable to load matches right now"
+            });
+        }
+
+        results.forEach(({ code, matches }) => {
+            matches
+                .map((match) => normalizeMatch(match, code))
+                .filter((match) => match.shouldDisplay)
+                .forEach((match) => {
+                    const day = dateKeys[match.matchDate];
+                    if (day) {
+                        delete match.shouldDisplay;
+                        delete match.featured;
+                        matchesData[day].push(match);
+                    }
+                });
+        });
+
+        Object.values(matchesData).forEach((matches) => {
+            matches.sort((a, b) => a.displayTime.localeCompare(b.displayTime));
+        });
+
+        const availableCompetitions = results
+            .filter((result) => !result.unavailable)
+            .map((result) => result.code);
+        const unavailableCompetitions = results
+            .filter((result) => result.unavailable)
+            .map((result) => ({ code: result.code, status: result.status }));
+
+        res.setHeader("Cache-Control", CACHE_CONTROL);
+        return sendJson(res, 200, {
+            matchesData,
+            availableCompetitions,
+            unavailableCompetitions,
+            dates: {
+                shalay: dates.yesterday,
+                maanta: dates.today,
+                berri: dates.tomorrow
+            }
+        });
+    } catch (error) {
+        console.error("[api/matches] Server error", { message: error.message });
+        return sendJson(res, 502, { error: "Unable to load matches right now" });
+    }
+}

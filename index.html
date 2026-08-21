@@ -481,7 +481,7 @@
             let displayStatus = match.status;
             let displayClass  = match.statusClass;
 
-            if (day === 'maanta') {
+            if (day === 'maanta' && !match.isApiMatch) {
 
 const startTime = new Date(`${match.matchDate}T${match.displayTime}:00`);
 
@@ -510,13 +510,18 @@ if (totalMinutes < 0) {
         });
 
         const sorted = processedMatches.sort((a, b) => {
-            const priority = s => (s.includes('🔴') || s === 'HT') ? 1 : s === 'Upcoming' ? 2 : 3;
-            const pa = priority(a.status), pb = priority(b.status);
-            if (pa !== pb) return pa - pb;
             const toMin = t => {
                 const [h, m] = (t || '00:00').split(':').map(Number);
                 return h * 60 + m;
             };
+
+            if (a.isApiMatch && b.isApiMatch) {
+                return toMin(a.displayTime) - toMin(b.displayTime);
+            }
+
+            const priority = s => (s.includes('🔴') || s === 'HT') ? 1 : s === 'Upcoming' ? 2 : 3;
+            const pa = priority(a.status), pb = priority(b.status);
+            if (pa !== pb) return pa - pb;
             return pa === 3
                 ? toMin(b.displayTime) - toMin(a.displayTime)
                 : toMin(a.displayTime) - toMin(b.displayTime);
@@ -782,6 +787,12 @@ if (totalMinutes < 0) {
     // START
     // ============================================================
     renderMatches('maanta');
+    window.addEventListener('matchesDataUpdated', () => {
+        renderMatches(getCurrentDay());
+    });
+    if (window.matchesDataReady) {
+        window.matchesDataReady.then(() => renderMatches(getCurrentDay()));
+    }
     updateNews();
 
     // Refresh matches every minute to update live timers
