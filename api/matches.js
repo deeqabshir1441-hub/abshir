@@ -9,29 +9,43 @@ const competitionNames = {
     CL: "UEFA Champions League"
 };
 
-// Edit this list to control which teams are shown automatically.
-const featuredTeams = [
-    "Arsenal",
-    "Manchester United",
-    "Man United",
-    "Manchester City",
-    "Man City",
-    "Liverpool",
-    "Chelsea",
-    "Tottenham Hotspur",
-    "Real Madrid",
-    "Barcelona",
-    "Atletico Madrid",
-    "Atlético de Madrid",
-    "Bayern Munich",
-    "FC Bayern München",
-    "Borussia Dortmund",
-    "Inter Milan",
-    "Inter",
-    "AC Milan",
-    "Juventus",
-    "Napoli"
-];
+const matchFilterConfig = {
+    PL: { showAll: true },
+    PD: { teams: ["real madrid", "barcelona", "atletico madrid"] },
+    SA: { teams: ["ac milan", "inter", "juventus", "napoli", "roma"] },
+    BL1: { teams: ["bayern munich", "borussia dortmund"] },
+    FL1: { teams: ["paris saint germain"] },
+    CL: { showAll: true }
+};
+
+// Exact aliases for football-data.org naming variants. Matching is normalized
+// then compared by key, never by broad substring.
+const teamAliases = {
+    "real madrid": "real madrid",
+    "fc barcelona": "barcelona",
+    "barcelona": "barcelona",
+    "atletico madrid": "atletico madrid",
+    "atletico de madrid": "atletico madrid",
+    "club atletico de madrid": "atletico madrid",
+    "ac milan": "ac milan",
+    "milan": "ac milan",
+    "inter": "inter",
+    "inter milan": "inter",
+    "fc internazionale milano": "inter",
+    "internazionale milano": "inter",
+    "juventus": "juventus",
+    "napoli": "napoli",
+    "ssc napoli": "napoli",
+    "roma": "roma",
+    "as roma": "roma",
+    "bayern munich": "bayern munich",
+    "bayern munchen": "bayern munich",
+    "fc bayern munchen": "bayern munich",
+    "borussia dortmund": "borussia dortmund",
+    "psg": "paris saint germain",
+    "paris saint germain": "paris saint germain",
+    "paris saint germain fc": "paris saint germain"
+};
 
 // Add football-data.org match IDs here when you want a specific watch page
 // or want to show a match even if neither team is in featuredTeams.
@@ -111,10 +125,36 @@ function statusDetails(apiStatus) {
     return { status: "Upcoming", statusClass: "status-upcoming" };
 }
 
-function isFeaturedTeam(team) {
+function normalizeTeamName(name) {
+    return String(name || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim();
+}
+
+function getTeamKeys(team) {
     return [team?.name, team?.shortName]
         .filter(Boolean)
-        .some((name) => featuredTeams.includes(name));
+        .map(normalizeTeamName)
+        .map((name) => teamAliases[name] || name);
+}
+
+function matchesCompetitionFilter(match, competitionCode) {
+    const filter = matchFilterConfig[competitionCode];
+
+    if (!filter) {
+        return false;
+    }
+
+    if (filter.showAll) {
+        return true;
+    }
+
+    const allowedTeams = new Set(filter.teams);
+    return [...getTeamKeys(match.homeTeam), ...getTeamKeys(match.awayTeam)]
+        .some((team) => allowedTeams.has(team));
 }
 
 function normalizeMatch(match, competitionCode) {
@@ -144,7 +184,7 @@ function normalizeMatch(match, competitionCode) {
         leagueLogo: match.competition?.emblem || null,
         isApiMatch: true,
         featured: Boolean(override.featured),
-        shouldDisplay: Boolean(override.featured) || isFeaturedTeam(homeTeam) || isFeaturedTeam(awayTeam)
+        shouldDisplay: Boolean(override.featured) || matchesCompetitionFilter(match, competitionCode)
     };
 }
 
