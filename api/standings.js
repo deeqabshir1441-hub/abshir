@@ -83,7 +83,7 @@ export default async function handler(req, res) {
             goalsAgainst: entry.goalsAgainst,
             goalDifference: entry.goalDifference,
             points: entry.points,
-            form: entry.form || null
+            form: entry.form || ""
         }));
 
         res.setHeader("Cache-Control", CACHE_CONTROL);

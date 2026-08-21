@@ -634,19 +634,28 @@ function formatSeason(season) {
 }
 
 function formatForm(form) {
-    const results = Array.isArray(form)
+    const rawForm = Array.isArray(form)
         ? form
-        : String(form || "").match(/[WDL]/g) || [];
+        : String(form || "").trim();
 
-    return results.map(result => {
-        const safeResult = String(result).toUpperCase();
-        const formClass = safeResult === "W"
+    const formResults = (Array.isArray(rawForm)
+        ? rawForm
+        : rawForm.includes(",")
+            ? rawForm.split(",")
+            : rawForm.split("")
+    )
+        .map(result => String(result).trim().toUpperCase())
+        .filter(result => ["W", "D", "L"].includes(result))
+        .slice(-5);
+
+    return formResults.map(result => {
+        const formClass = result === "W"
             ? "form-win"
-            : safeResult === "D"
+            : result === "D"
                 ? "form-draw"
                 : "form-loss";
 
-        return `<span class="${formClass}">${escapeHtml(safeResult)}</span>`;
+        return `<span class="${formClass}">${escapeHtml(result)}</span>`;
     }).join("");
 }
 
