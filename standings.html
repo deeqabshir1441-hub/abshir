@@ -402,13 +402,17 @@
                 font-size: 11px;
             }
 
-            /* Keep the most useful columns on screen. */
+            /* On mobile, show only position, team, P, GD and Pts. */
+            .standings-table th:nth-child(4),
+            .standings-table td:nth-child(4),
+            .standings-table th:nth-child(5),
+            .standings-table td:nth-child(5),
+            .standings-table th:nth-child(6),
+            .standings-table td:nth-child(6),
             .standings-table th:nth-child(7),
             .standings-table td:nth-child(7),
             .standings-table th:nth-child(8),
             .standings-table td:nth-child(8),
-            .standings-table th:nth-child(9),
-            .standings-table td:nth-child(9),
             .standings-table th:nth-child(11),
             .standings-table td:nth-child(11) {
                 display: none;
