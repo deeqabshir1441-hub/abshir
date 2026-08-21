@@ -1,30 +1,13 @@
 const matchesData = {
     shalay: [
- {
-    home: 'Rayo Vallecano',
-    away: 'Deportivo Alavés',
-    homeScore: 1,
-    awayScore: 1,
-    league: 'La Liga',
-    status: 'Finished',
-    statusClass: 'status-finished',
-    overlayText: 'Watch Live',
-    url: 'watch-live2.html',
-    displayTime: '22:00',
-    matchDate: '2026-08-20',
-    id: '2026106'
-}
-    ],
-
-    maanta: [
 {
     home: 'Arsenal',
     away: 'Coventry City',
-    homeScore: 0,
+    homeScore: 3,
     awayScore: 0,
     league: 'Premier League',
-    status: 'Upcoming',
-    statusClass: 'status-upcoming',
+    status: 'Finished',
+    statusClass: 'status-finished',
     overlayText: 'Watch Live',
     url: 'watch-live3.html',
     displayTime: '22:00',
@@ -33,7 +16,7 @@ const matchesData = {
 }
     ],
 
-    berri: [
+    maanta: [
 {
     home: 'Hull City',
     away: 'Manchester United',
@@ -131,6 +114,79 @@ const matchesData = {
     displayTime: '22:30',
     matchDate: '2026-08-22',
     id: '2026114'
+}
+    ],
+
+    berri: [
+{
+    home: 'Brighton',
+    away: 'Aston Villa',
+    homeScore: 0,
+    awayScore: 0,
+    league: 'Premier League',
+    status: 'Upcoming',
+    statusClass: 'status-upcoming',
+    overlayText: 'Watch Live',
+    url: 'watch-live.html',
+    displayTime: '16:00',
+    matchDate: '2026-08-24',
+    id: '2026115'
+},
+{
+    home: 'Manchester City',
+    away: 'AFC Bournemouth',
+    homeScore: 0,
+    awayScore: 0,
+    league: 'Premier League',
+    status: 'Upcoming',
+    statusClass: 'status-upcoming',
+    overlayText: 'Watch Live',
+    url: 'watch-live1.html',
+    displayTime: '16:00',
+    matchDate: '2026-08-24',
+    id: '2026116'
+},
+{
+    home: 'Newcastle United',
+    away: 'Liverpool',
+    homeScore: 0,
+    awayScore: 0,
+    league: 'Premier League',
+    status: 'Upcoming',
+    statusClass: 'status-upcoming',
+    overlayText: 'Watch Live',
+    url: 'watch-live2.html',
+    displayTime: '18:30',
+    matchDate: '2026-08-24',
+    id: '2026117'
+},
+{
+    home: 'Atletico Madrid',
+    away: 'Villarreal',
+    homeScore: 0,
+    awayScore: 0,
+    league: 'La Liga',
+    status: 'Upcoming',
+    statusClass: 'status-upcoming',
+    overlayText: 'Watch Live',
+    url: 'watch-live3.html',
+    displayTime: '18:00',
+    matchDate: '2026-08-24',
+    id: '2026118'
+},
+{
+    home: 'Elche',
+    away: 'Barcelona',
+    homeScore: 0,
+    awayScore: 0,
+    league: 'La Liga',
+    status: 'Upcoming',
+    statusClass: 'status-upcoming',
+    overlayText: 'Watch Live',
+    url: 'watch-live1.html',
+    displayTime: '22:30',
+    matchDate: '2026-08-24',
+    id: '2026120'
 }
     ]
 };
