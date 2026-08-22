@@ -7,6 +7,28 @@ const matchesData = {
     berri: []
 };
 
+// Featured matches from competitions not provided by football-data.org.
+const featuredMatches = [
+        {
+            id: 'supercup-2026-dortmund-bayern',
+            home: 'Borussia Dortmund',
+            away: 'Bayern Munich',
+            homeScore: 0,
+            awayScore: 0,
+            league: 'Super Cup Final',
+            status: 'Upcoming',
+            statusClass: 'status-upcoming',
+            overlayText: 'Watch Live',
+            url: 'watch-live.html?id=supercup-2026-dortmund-bayern',
+            displayTime: '21:30',
+            matchDate: '2026-08-22',
+            homeLogo: 'https://media.api-sports.io/football/teams/165.png',
+            awayLogo: 'https://media.api-sports.io/football/teams/157.png',
+            leagueLogo: 'https://media.api-sports.io/football/leagues/531.png',
+            isApiMatch: false
+        }
+];
+
 function applyKickoffStatus(match, day) {
     if (day !== 'maanta' || match.status !== 'Upcoming') {
         return match;
@@ -40,11 +62,17 @@ window.matchesDataReady = fetch('/api/matches')
             const automaticMatches = Array.isArray(payload.matchesData[day])
                 ? payload.matchesData[day].map(match => applyKickoffStatus(match, day))
                 : [];
+            const automaticIds = new Set(automaticMatches.map(match => String(match.id)));
+            const manualMatches = featuredMatches
+                .filter(match => match.matchDate === payload.dates?.[day])
+                .filter(match => !automaticIds.has(String(match.id)))
+                .map(match => applyKickoffStatus(match, day));
 
             matchesData[day].splice(
                 0,
                 matchesData[day].length,
-                ...automaticMatches
+                ...automaticMatches,
+                ...manualMatches
             );
         });
 
