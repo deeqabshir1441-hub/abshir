@@ -7,6 +7,25 @@ const matchesData = {
     berri: []
 };
 
+function applyKickoffStatus(match, day) {
+    if (day !== 'maanta' || match.status !== 'Upcoming') {
+        return match;
+    }
+
+    const kickoff = new Date(`${match.matchDate}T${match.displayTime}:00+03:00`);
+    const elapsedMinutes = Math.floor((Date.now() - kickoff.getTime()) / 60000);
+
+    if (!Number.isFinite(elapsedMinutes) || elapsedMinutes < 0) {
+        return match;
+    }
+
+    if (elapsedMinutes < 135) {
+        return { ...match, status: 'Live', statusClass: 'status-live' };
+    }
+
+    return { ...match, status: 'Finished', statusClass: 'status-finished' };
+}
+
 window.matchesDataReady = fetch('/api/matches')
     .then(async response => {
         const payload = await response.json().catch(() => null);
@@ -19,7 +38,7 @@ window.matchesDataReady = fetch('/api/matches')
 
         ['shalay', 'maanta', 'berri'].forEach(day => {
             const automaticMatches = Array.isArray(payload.matchesData[day])
-                ? payload.matchesData[day]
+                ? payload.matchesData[day].map(match => applyKickoffStatus(match, day))
                 : [];
 
             matchesData[day].splice(

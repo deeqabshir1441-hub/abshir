@@ -481,9 +481,9 @@
             let displayStatus = match.status;
             let displayClass  = match.statusClass;
 
-            if (day === 'maanta' && !match.isApiMatch) {
+            if (day === 'maanta' && match.status === 'Upcoming') {
 
-const startTime = new Date(`${match.matchDate}T${match.displayTime}:00`);
+const startTime = new Date(`${match.matchDate}T${match.displayTime}:00+03:00`);
 
 // Daqiiqadaha ka soo wareegay bilowga ciyaarta
 const diffMs = now - startTime;
@@ -496,7 +496,7 @@ if (totalMinutes < 0) {
     displayStatus = 'Upcoming';
     displayClass = 'status-upcoming';
 
-} else if (totalMinutes >= 120) {
+} else if (totalMinutes >= 135) {
     displayStatus = 'Finished';
     displayClass = 'status-finished';
 
