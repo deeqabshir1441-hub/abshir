@@ -3111,3 +3111,24 @@ body.light-mode .news-card {
         animation-iteration-count: 1 !important;
     }
 }
+
+/* Homepage mobile spacing: match the wider fixtures view used on matches.html. */
+@media (max-width: 600px) {
+    .home-page .league-scroller {
+        margin-top: 12px;
+        padding: 6px 10px 4px;
+    }
+
+    .home-page .league-scroller .scroller-wrapper {
+        padding-inline: 4px;
+    }
+
+    .home-page .main-layout-container {
+        margin-top: 14px;
+        padding-inline: 10px;
+    }
+
+    .home-page .fixtures-container {
+        padding: 14px;
+    }
+}
