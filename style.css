@@ -4766,3 +4766,38 @@ body.light-mode.home-page .about-card {
         line-height: 1;
     }
 }
+
+/* Final match highlight palette: deliberately subtle on all screen sizes. */
+.match-card:hover {
+    border-color: rgba(52, 211, 153, 0.42);
+    background: rgba(52, 211, 153, 0.025);
+    box-shadow: 0 10px 24px rgba(16, 185, 129, 0.09);
+}
+
+.home-page .match-link-wrapper[data-is-live="true"] .match-card,
+.matches-list-page .match-link-wrapper[data-is-live="true"] .match-card {
+    border-color: rgba(52, 211, 153, 0.42);
+    background: rgba(52, 211, 153, 0.035);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.075);
+}
+
+body.light-mode .match-card:hover {
+    border-color: rgba(5, 150, 105, 0.3);
+    background: rgba(16, 185, 129, 0.022);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.07);
+}
+
+body.light-mode.home-page .match-link-wrapper[data-is-live="true"] .match-card,
+body.light-mode.matches-list-page .match-link-wrapper[data-is-live="true"] .match-card {
+    border-color: rgba(5, 150, 105, 0.3);
+    background: rgba(16, 185, 129, 0.028);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.06);
+}
+
+@media (hover: none), (pointer: coarse) {
+    .match-link-wrapper:not([data-is-live="true"]) .match-card:hover {
+        border-color: var(--border-light);
+        background: rgba(255, 255, 255, 0.02);
+        box-shadow: none;
+    }
+}
