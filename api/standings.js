@@ -72,7 +72,7 @@ export default async function handler(req, res) {
         }
 
         const standings = totalStanding.table.map((entry) => ({
-            rank: entry.position,
+            position: entry.position,
             name: entry.team?.shortName || entry.team?.name || "Unknown team",
             logo: entry.team?.crest || null,
             played: entry.playedGames,

@@ -277,32 +277,32 @@
            POSITION COLORS
         ========================================== */
 
-        .standings-table tbody tr.champions {
+        .standings-table tbody tr.champions td:first-child {
             border-left: 4px solid #2563eb;
         }
 
 
-        .standings-table tbody tr.champions-qualifier {
+        .standings-table tbody tr.champions-qualifier td:first-child {
             border-left: 4px solid #06b6d4;
         }
 
 
-        .standings-table tbody tr.europa {
+        .standings-table tbody tr.europa td:first-child {
             border-left: 4px solid #f59e0b;
         }
 
 
-        .standings-table tbody tr.conference {
-            border-left: 4px solid #10b981;
+        .standings-table tbody tr.conference td:first-child {
+            border-left: 4px solid #22c55e;
         }
 
 
-        .standings-table tbody tr.relegation-playoff {
-            border-left: 4px solid #eab308;
+        .standings-table tbody tr.relegation-playoff td:first-child {
+            border-left: 4px solid #facc15;
         }
 
 
-        .standings-table tbody tr.relegation {
+        .standings-table tbody tr.relegation td:first-child {
             border-left: 4px solid #dc2626;
         }
 
@@ -357,12 +357,12 @@
 
 
         .legend-color.conference {
-            background: #10b981;
+            background: #22c55e;
         }
 
 
         .legend-color.relegation-playoff {
-            background: #eab308;
+            background: #facc15;
         }
 
 
@@ -885,7 +885,7 @@ async function loadStandings() {
 
         const totalTeams = payload.standings.length;
         tbody.innerHTML = payload.standings.map(team => {
-            const rank = Number(team.rank);
+            const rank = Number(team.position ?? team.rank);
             const position = Number.isInteger(rank) ? rank : "-";
             const positionClass = getPositionClass(leagueCode, rank, totalTeams);
 
