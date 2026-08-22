@@ -2766,3 +2766,348 @@ body.light-mode .trending-match-info {
     color: var(--text-primary);
     font-weight: 700;
 }
+
+/* ========================================
+   TV96 VISUAL REFINEMENT (PRESENTATION ONLY)
+======================================== */
+:root {
+    --tv96-surface-raised: rgba(15, 30, 43, 0.9);
+    --tv96-surface-soft: rgba(255, 255, 255, 0.035);
+    --tv96-border-strong: rgba(148, 163, 184, 0.16);
+    --tv96-shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.16);
+    --tv96-shadow-lg: 0 18px 44px rgba(0, 0, 0, 0.25);
+    --tv96-radius-lg: 18px;
+    --tv96-radius-md: 12px;
+}
+
+body {
+    background:
+        radial-gradient(circle at 8% -12%, rgba(16, 185, 129, 0.13), transparent 31rem),
+        radial-gradient(circle at 94% 10%, rgba(59, 130, 246, 0.09), transparent 27rem),
+        var(--primary-dark);
+    line-height: 1.5;
+}
+
+body.light-mode {
+    background:
+        radial-gradient(circle at 8% -12%, rgba(16, 185, 129, 0.1), transparent 31rem),
+        #f5f8fb;
+}
+
+.main-header {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(14px);
+}
+
+.nav-menu a {
+    border-radius: 9px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-menu a:hover,
+.nav-menu a:focus-visible {
+    background: rgba(16, 185, 129, 0.11);
+    color: var(--accent-green);
+    transform: translateY(-1px);
+}
+
+.social-icons a,
+.footer-social a {
+    transition: transform 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+.social-icons a:hover,
+.footer-social a:hover {
+    transform: translateY(-2px);
+}
+
+.league-scroller {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.league-chip {
+    border: 1px solid var(--tv96-border-strong);
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.league-chip:hover,
+.league-chip:focus-visible {
+    border-color: rgba(16, 185, 129, 0.65);
+    box-shadow: 0 9px 20px rgba(16, 185, 129, 0.14);
+    transform: translateY(-2px);
+}
+
+.main-layout-container,
+.standings-layout {
+    align-items: start;
+}
+
+.section-block,
+.fixtures-container,
+.sidebar-widget,
+.standings-card,
+.match-info-card,
+.video-player-container {
+    border-color: var(--tv96-border-strong);
+    box-shadow: var(--tv96-shadow-sm);
+}
+
+.section-block,
+.fixtures-container,
+.sidebar-widget {
+    border-radius: var(--tv96-radius-lg);
+}
+
+.section-title,
+.widget-title,
+.fixtures-header h2,
+.league-history > h2 {
+    letter-spacing: -0.015em;
+}
+
+.section-title::after {
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+}
+
+.fixtures-header {
+    border-bottom-color: var(--tv96-border-strong);
+}
+
+.nav-tabs {
+    gap: 7px;
+    padding: 5px;
+    border: 1px solid var(--tv96-border-strong);
+    border-radius: 12px;
+    background: rgba(2, 6, 23, 0.24);
+}
+
+.nav-item {
+    border-radius: 8px;
+    transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nav-item.active {
+    box-shadow: 0 5px 12px rgba(16, 185, 129, 0.18);
+}
+
+.match-link-wrapper {
+    border-radius: var(--tv96-radius-md);
+}
+
+.match-card {
+    border: 1px solid var(--tv96-border-strong);
+    border-radius: var(--tv96-radius-md);
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.11);
+    overflow: hidden;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.match-card:hover {
+    border-color: rgba(16, 185, 129, 0.52);
+    box-shadow: 0 13px 25px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px);
+}
+
+.league-header {
+    background: linear-gradient(90deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.035));
+    border-bottom-color: rgba(16, 185, 129, 0.17);
+}
+
+.team-logo {
+    filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.22));
+}
+
+.team-name {
+    font-weight: 700;
+}
+
+.score {
+    font-variant-numeric: tabular-nums;
+}
+
+.status-box,
+.status,
+.time {
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+.play-overlay {
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+.match-card:hover .play-overlay {
+    background-color: rgba(16, 185, 129, 0.94);
+}
+
+.news-grid {
+    gap: 20px;
+}
+
+.news-card {
+    border: 1px solid var(--tv96-border-strong);
+    border-radius: var(--tv96-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--tv96-shadow-sm);
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.news-card:hover {
+    border-color: rgba(16, 185, 129, 0.48);
+    box-shadow: var(--tv96-shadow-lg);
+    transform: translateY(-4px);
+}
+
+.news-thumb,
+.news-card-image {
+    overflow: hidden;
+}
+
+.news-card:hover .news-thumb img,
+.news-card:hover .news-card-image img {
+    transform: scale(1.045);
+}
+
+.news-thumb img,
+.news-card-image img {
+    transition: transform 0.35s ease;
+}
+
+.news-info,
+.news-card-content {
+    padding: 18px;
+}
+
+.news-card-title,
+.news-info h3 {
+    letter-spacing: -0.012em;
+    line-height: 1.35;
+}
+
+.btn-read,
+.back-button,
+.server-btn {
+    box-shadow: 0 6px 14px rgba(16, 185, 129, 0.16);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-read:hover,
+.back-button:hover,
+.server-btn:hover {
+    box-shadow: 0 10px 20px rgba(16, 185, 129, 0.24);
+    transform: translateY(-2px);
+}
+
+.sidebar-widget {
+    background: linear-gradient(145deg, rgba(15, 30, 43, 0.96), rgba(8, 25, 36, 0.9));
+    padding: 20px;
+}
+
+.trending-matches-list li a,
+.trending-list li a {
+    border: 1px solid transparent;
+    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.trending-matches-list li a:hover,
+.trending-list li a:hover {
+    border-color: rgba(16, 185, 129, 0.35);
+    transform: translateX(3px);
+}
+
+.video-player-container,
+.match-info-card {
+    border-radius: var(--tv96-radius-lg);
+    overflow: hidden;
+}
+
+.server-btn.active {
+    box-shadow: 0 7px 17px rgba(16, 185, 129, 0.3);
+}
+
+.main-footer {
+    background: linear-gradient(135deg, #020617, #06212a);
+    border-top-width: 1px;
+    border-top-color: rgba(16, 185, 129, 0.55);
+    box-shadow: 0 -12px 30px rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .sidebar-widget {
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border-color: #e2e8f0;
+}
+
+body.light-mode .nav-tabs {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+}
+
+body.light-mode .league-chip,
+body.light-mode .match-card,
+body.light-mode .news-card {
+    border-color: #e2e8f0;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.07);
+}
+
+@media (max-width: 768px) {
+    .main-header {
+        width: calc(100% - 24px);
+        top: 10px;
+    }
+
+    .main-layout-container,
+    .standings-layout {
+        gap: 20px;
+    }
+
+    .section-block,
+    .fixtures-container,
+    .sidebar-widget {
+        border-radius: 14px;
+    }
+
+    .news-grid {
+        gap: 14px;
+    }
+
+    .match-card:hover,
+    .news-card:hover {
+        transform: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-tabs {
+        gap: 3px;
+        padding: 3px;
+    }
+
+    .nav-item {
+        border-radius: 7px;
+    }
+
+    .sidebar-widget,
+    .news-info,
+    .news-card-content {
+        padding: 15px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
