@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV96 Live - Matches</title>
+    <meta name="description" content="View today, tomorrow and yesterday's football matches on TV96 Live.">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=2">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+    <style>
+        .matches-page {
+            max-width: 980px;
+            margin: 36px auto 0;
+            padding: 0 20px;
+        }
+
+        .matches-page-header {
+            margin-bottom: 20px;
+        }
+
+        .matches-page-header h1 {
+            margin: 0;
+            color: var(--text-primary);
+            font-size: clamp(25px, 4vw, 34px);
+            font-weight: 800;
+        }
+
+        .matches-page-header p {
+            margin: 7px 0 0;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .matches-page .fixtures-container {
+            padding: 20px;
+        }
+
+        .matches-page .nav-tabs {
+            margin-bottom: 18px;
+        }
+
+        .matches-empty {
+            padding: 42px 20px;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .matches-empty i {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--primary-green);
+            font-size: 25px;
+        }
+
+        @media (max-width: 600px) {
+            .matches-page {
+                margin-top: 24px;
+                padding: 0 10px;
+            }
+
+            .matches-page .fixtures-container {
+                padding: 14px;
+            }
+
+            .matches-page .nav-tabs {
+                margin-bottom: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="navbar-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo/Logo.png" alt="TV96 Live Logo">
+                </a>
+            </div>
+            <i class="fas fa-bars menu-icon" id="menuToggle" aria-label="Open menu"></i>
+            <nav class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="matches.html" class="nav-link active">Matches</a>
+                <a href="news.html" class="nav-link">Latest News</a>
+                <a href="about.html" class="nav-link">About Us</a>
+                <a href="privacy.html" class="nav-link">Privacy</a>
+            </nav>
+            <div class="header-right">
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/share/1EVaiqB9sZ/" target="_blank" rel="noopener noreferrer" title="Facebook"><i data-lucide="facebook"></i></a>
+                    <a href="https://www.tiktok.com/@user242901873?_r=1&_t=ZS-97lGYrPehTp" target="_blank" rel="noopener noreferrer" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://www.youtube.com/channel/UC1UYBGeLGdB7O59qImRAGrg" target="_blank" rel="noopener noreferrer" title="YouTube"><i data-lucide="youtube"></i></a>
+                </div>
+                <button class="theme-toggle" id="themeToggle" type="button" title="Switch Theme" aria-label="Switch theme"><i data-lucide="moon"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <section class="league-scroller" aria-label="League standings">
+        <div class="scroller-wrapper">
+            <a href="standings.html?league=Premier%20League" class="league-chip"><img src="https://media.api-sports.io/football/leagues/39.png" alt=""> Premier League</a>
+            <a href="standings.html?league=La%20Liga" class="league-chip"><img src="https://media.api-sports.io/football/leagues/140.png" alt=""> La Liga</a>
+            <a href="standings.html?league=Serie%20A" class="league-chip"><img src="https://media.api-sports.io/football/leagues/135.png" alt=""> Serie A</a>
+            <a href="standings.html?league=Ligue%201" class="league-chip"><img src="https://media.api-sports.io/football/leagues/61.png" alt=""> Ligue 1</a>
+            <a href="standings.html?league=Bundesliga" class="league-chip"><img src="https://media.api-sports.io/football/leagues/78.png" alt=""> Bundesliga</a>
+            <a href="standings.html?league=UEFA%20Champions%20League" class="league-chip"><img src="https://media.api-sports.io/football/leagues/2.png" alt=""> UEFA Champions League</a>
+        </div>
+    </section>
+
+    <main class="matches-page">
+        <div class="matches-page-header">
+            <h1>Football Matches</h1>
+            <p>Fixtures, live scores, and upcoming matches.</p>
+        </div>
+
+        <section class="section-block" aria-label="Football matches">
+            <div class="fixtures-container">
+                <div class="nav-tabs" role="tablist" aria-label="Match day">
+                    <button class="nav-item tab-btn" type="button" data-day="shalay">Yesterday</button>
+                    <button class="nav-item tab-btn active" type="button" data-day="maanta">Today</button>
+                    <button class="nav-item tab-btn" type="button" data-day="berri">Tomorrow</button>
+                </div>
+                <div id="matches-container" aria-live="polite">
+                    <div class="matches-empty"><i class="fa-solid fa-spinner fa-spin"></i>Loading matches...</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-col about-col">
+                <img src="logo/Logo.png" alt="TV96 Live Logo" class="footer-logo">
+                <p>The most trusted source for sports news and live results for fans worldwide.</p>
+            </div>
+            <div class="footer-col links-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="matches.html">Matches</a></li>
+                    <li><a href="news.html">News</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col social-col">
+                <h4>Download Our App</h4>
+                <div class="app-buttons">
+                    <a href="#" class="app-btn" target="_blank" rel="noopener noreferrer"><i data-lucide="apple"></i><div class="app-btn-text"><span>Download on the</span><strong>App Store</strong></div></a>
+                    <a href="#" class="app-btn" target="_blank" rel="noopener noreferrer"><i data-lucide="play"></i><div class="app-btn-text"><span>Get it on</span><strong>Google Play</strong></div></a>
+                </div>
+                <h4 style="margin-top: 25px;">Contact Us</h4>
+                <div class="footer-social-links">
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i data-lucide="facebook"></i></a>
+                    <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+                    <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i data-lucide="message-circle"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 <a href="https://www.tv96live.org">www.tv96live.org</a> - All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="matches-data.js"></script>
+    <script>
+        const menuToggle = document.getElementById("menuToggle");
+        const navMenu = document.getElementById("navMenu");
+        const themeToggle = document.getElementById("themeToggle");
+
+        menuToggle?.addEventListener("click", () => navMenu?.classList.toggle("active"));
+        document.querySelectorAll(".nav-link").forEach(link => {
+            link.addEventListener("click", () => navMenu?.classList.remove("active"));
+        });
+
+        function updateThemeIcon() {
+            const icon = themeToggle?.querySelector("[data-lucide]");
+            if (icon) {
+                icon.setAttribute("data-lucide", document.body.classList.contains("light-mode") ? "sun" : "moon");
+            }
+            window.lucide?.createIcons();
+        }
+
+        if (localStorage.getItem("theme") === "light") {
+            document.body.classList.add("light-mode");
+        }
+        updateThemeIcon();
+
+        themeToggle?.addEventListener("click", () => {
+            document.body.classList.toggle("light-mode");
+            localStorage.setItem("theme", document.body.classList.contains("light-mode") ? "light" : "dark");
+            updateThemeIcon();
+        });
+
+        function escapeHtml(value) {
+            return String(value ?? "").replace(/[&<>'"]/g, character => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                "'": "&#39;",
+                "\"": "&quot;"
+            })[character]);
+        }
+
+        function renderMatches(day) {
+            const container = document.getElementById("matches-container");
+            const matches = Array.isArray(window.matchesData?.[day]) ? window.matchesData[day] : [];
+
+            if (!matches.length) {
+                container.innerHTML = '<div class="matches-empty"><i class="fa-regular fa-futbol"></i>No matches available.</div>';
+                return;
+            }
+
+            container.innerHTML = matches.map(match => {
+                const matchUrl = match.url || `watch-live.html?id=${encodeURIComponent(match.id)}`;
+                const homeLogo = match.homeLogo || "";
+                const awayLogo = match.awayLogo || "";
+                const leagueLogo = match.leagueLogo || "";
+                const homeCrest = homeLogo ? `<img src="${escapeHtml(homeLogo)}" alt="${escapeHtml(match.home)}" class="team-logo" loading="lazy">` : "";
+                const awayCrest = awayLogo ? `<img src="${escapeHtml(awayLogo)}" alt="${escapeHtml(match.away)}" class="team-logo" loading="lazy">` : "";
+                const competitionCrest = leagueLogo ? `<img src="${escapeHtml(leagueLogo)}" alt="" class="league-logo-img" style="width:18px;height:18px;margin-right:8px;border-radius:2px;background:white;padding:1px;">` : "";
+
+                return `
+                    <a href="${escapeHtml(matchUrl)}" class="match-link-wrapper">
+                        <div class="match-card">
+                            <div class="league-header">${competitionCrest}<span class="league-name">${escapeHtml(match.league)}</span></div>
+                            <div class="match-row">
+                                <div class="teams">
+                                    <div class="team">${homeCrest}<span class="team-name">${escapeHtml(match.home)}</span><span class="score home-score">${escapeHtml(match.homeScore)}</span></div>
+                                    <div class="team">${awayCrest}<span class="team-name">${escapeHtml(match.away)}</span><span class="score away-score">${escapeHtml(match.awayScore)}</span></div>
+                                </div>
+                                <div class="status-box">
+                                    <div class="time">${escapeHtml(match.displayTime)}</div>
+                                    <div class="status ${escapeHtml(match.statusClass)}">${escapeHtml(match.status)}</div>
+                                </div>
+                                <div class="play-overlay"><i data-lucide="play-circle"></i><div class="watch-text">${escapeHtml(match.overlayText || "Watch Live")}</div></div>
+                            </div>
+                        </div>
+                    </a>`;
+            }).join("");
+
+            window.lucide?.createIcons();
+        }
+
+        document.querySelectorAll(".tab-btn").forEach(button => {
+            button.addEventListener("click", () => {
+                document.querySelectorAll(".tab-btn").forEach(tab => tab.classList.remove("active"));
+                button.classList.add("active");
+                renderMatches(button.dataset.day);
+            });
+        });
+
+        function currentDay() {
+            return document.querySelector(".tab-btn.active")?.dataset.day || "maanta";
+        }
+
+        renderMatches(currentDay());
+        window.addEventListener("matchesDataUpdated", () => renderMatches(currentDay()));
+        window.matchesDataReady?.then(() => renderMatches(currentDay()));
+    </script>
+</body>
+</html>
