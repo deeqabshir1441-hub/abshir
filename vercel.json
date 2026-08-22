@@ -14,8 +14,8 @@
   ],
   "rewrites": [
     {
-      "source": "/match/(.*)",
-      "destination": "/match.html"
+      "source": "/articles/:id",
+      "destination": "/article-template.html?id=:id"
     }
   ],
   "redirects": [

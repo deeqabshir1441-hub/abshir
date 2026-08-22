@@ -368,7 +368,7 @@
 
             trendingList.innerHTML = latestTrendingNews.map(article => `
                 <li style="margin: 0;">
-                    <a href="article-template.html?id=${article.id}" style="display: block; padding: 10px 12px; background: rgba(255,255,255,0.04); border-radius: 8px; text-decoration: none; color: var(--text-secondary); font-size: 13px; font-weight: 600; transition: all 0.2s ease;">
+                    <a href="/articles/${article.id}" style="display: block; padding: 10px 12px; background: rgba(255,255,255,0.04); border-radius: 8px; text-decoration: none; color: var(--text-secondary); font-size: 13px; font-weight: 600; transition: all 0.2s ease;">
                         ${article.title}
                     </a>
                 </li>

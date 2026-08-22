@@ -7,12 +7,20 @@
 
     <title>TV96 Live - League Standings</title>
 
+    <meta name="google-adsense-account" content="ca-pub-9924964891667864">
+    <meta name="description" content="View current football league standings and tables on TV96 Live.">
+    <meta property="og:url" content="https://www.tv96live.org/standings">
+    <link rel="canonical" href="https://www.tv96live.org/standings">
+
     <link rel="icon" type="image/png" href="favicon.png">
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <link rel="stylesheet" href="style.css?v=2">
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9924964891667864"
+            crossorigin="anonymous"></script>
 
     <style>
 
@@ -832,7 +840,7 @@ loadStandings();
             .slice(0, 5)
             .map(article => `
                 <li>
-                    <a href="article-template.html?id=${article.id}" style="display:block; padding:10px 12px; background:rgba(255,255,255,0.04); border-radius:8px; text-decoration:none; color:var(--text-secondary); font-size:13px; font-weight:600;">
+                    <a href="/articles/${article.id}" style="display:block; padding:10px 12px; background:rgba(255,255,255,0.04); border-radius:8px; text-decoration:none; color:var(--text-secondary); font-size:13px; font-weight:600;">
                         ${article.title}
                     </a>
                 </li>`)

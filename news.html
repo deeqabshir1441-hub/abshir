@@ -10,8 +10,8 @@
     <meta property="og:description" content="The latest football news, transfer rumors, and match analysis.">
     <meta property="og:image" content="/icon-512.png">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.tv96live.org/news.html">
-    <link rel="canonical" href="https://www.tv96live.org/news.html">
+    <meta property="og:url" content="https://www.tv96live.org/news">
+    <link rel="canonical" href="https://www.tv96live.org/news">
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#000000">
@@ -187,7 +187,7 @@
 
             trendingList.innerHTML = latestTrendingNews.map(article => `
             <li>
-                <a href="article-template.html?id=${article.id}">
+                <a href="/articles/${article.id}">
                     ${article.title}
                 </a>
             </li>
@@ -223,7 +223,7 @@
             const visibleArticles = sortedArticles.slice(0, visibleItems);
 
             newsContainer.innerHTML = visibleArticles.map(a => `
-                <a href="article-template.html?id=${a.id}" 
+                <a href="/articles/${a.id}"
                 class="news-card" 
                 style="text-decoration: none;">
 
