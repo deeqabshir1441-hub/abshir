@@ -332,10 +332,15 @@
                     throw new Error(payload?.error || 'Unable to load match details.');
                 }
 
+                // matchesData contains both API fixtures and locally featured matches.
+                // The raw API payload alone does not contain featuredMatches.
+                const combinedMatches = typeof matchesData !== 'undefined'
+                    ? matchesData
+                    : payload.matchesData;
                 const allMatches = [
-                    ...(payload.matchesData.shalay || []),
-                    ...(payload.matchesData.maanta || []),
-                    ...(payload.matchesData.berri || [])
+                    ...(combinedMatches.shalay || []),
+                    ...(combinedMatches.maanta || []),
+                    ...(combinedMatches.berri || [])
                 ];
                 const match = allMatches.find((item) => String(item.id) === String(matchId));
 
