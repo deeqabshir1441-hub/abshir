@@ -55,11 +55,24 @@ const matchOverrides = {
 };
 
 const NAIROBI_TIMEZONE = "Africa/Nairobi";
-const CACHE_CONTROL = "s-maxage=120, stale-while-revalidate=60";
+const CACHE_CONTROL = "public, s-maxage=300, stale-while-revalidate=600";
+const upstreamMatchCache = new Map();
 
 function sendJson(res, status, body) {
     res.setHeader("Content-Type", "application/json; charset=utf-8");
     return res.status(status).json(body);
+}
+
+function competitionCacheKey(code, dates) {
+    return `${code}:${dates.yesterday}:${dates.tomorrow}`;
+}
+
+function getCachedCompetition(code, dates) {
+    return upstreamMatchCache.get(competitionCacheKey(code, dates)) || null;
+}
+
+function cacheCompetition(code, dates, matches) {
+    upstreamMatchCache.set(competitionCacheKey(code, dates), { matches });
 }
 
 function getNairobiParts(date) {
@@ -220,13 +233,51 @@ export default async function handler(req, res) {
                         status: response.status,
                         message: data?.message
                     });
-                    return { code, matches: [], unavailable: true, status: response.status };
+
+                    if (response.status === 429) {
+                        const cachedCompetition = getCachedCompetition(code, dates);
+
+                        if (cachedCompetition) {
+                            return {
+                                code,
+                                matches: cachedCompetition.matches,
+                                unavailable: true,
+                                cached: true,
+                                status: 429,
+                                reason: "rate_limit"
+                            };
+                        }
+
+                        return {
+                            code,
+                            matches: [],
+                            unavailable: true,
+                            status: 429,
+                            reason: "rate_limit"
+                        };
+                    }
+
+                    return {
+                        code,
+                        matches: [],
+                        unavailable: true,
+                        status: response.status,
+                        reason: "upstream_error"
+                    };
                 }
 
-                return { code, matches: Array.isArray(data?.matches) ? data.matches : [], unavailable: false };
+                const matches = Array.isArray(data?.matches) ? data.matches : [];
+                cacheCompetition(code, dates, matches);
+                return { code, matches, unavailable: false };
             } catch (error) {
                 console.error("[api/matches] Competition network error", { code, message: error.message });
-                return { code, matches: [], unavailable: true, status: 0 };
+                return {
+                    code,
+                    matches: [],
+                    unavailable: true,
+                    status: 0,
+                    reason: "network_error"
+                };
             }
         }));
 
@@ -237,7 +288,7 @@ export default async function handler(req, res) {
             [dates.tomorrow]: "berri"
         };
 
-        if (results.every((result) => result.unavailable)) {
+        if (results.every((result) => result.unavailable && !result.cached)) {
             console.error("[api/matches] All competition requests were unavailable");
             return sendJson(res, 502, {
                 error: "Unable to load matches right now"
@@ -267,7 +318,12 @@ export default async function handler(req, res) {
             .map((result) => result.code);
         const unavailableCompetitions = results
             .filter((result) => result.unavailable)
-            .map((result) => ({ code: result.code, status: result.status }));
+            .map((result) => ({
+                code: result.code,
+                status: result.status,
+                reason: result.reason || "upstream_error",
+                cached: Boolean(result.cached)
+            }));
 
         res.setHeader("Cache-Control", CACHE_CONTROL);
         return sendJson(res, 200, {
