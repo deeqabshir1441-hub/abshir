@@ -16,23 +16,6 @@
             padding: 0 20px;
         }
 
-        .matches-page-header {
-            margin-bottom: 20px;
-        }
-
-        .matches-page-header h1 {
-            margin: 0;
-            color: var(--text-primary);
-            font-size: clamp(25px, 4vw, 34px);
-            font-weight: 800;
-        }
-
-        .matches-page-header p {
-            margin: 7px 0 0;
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
         .matches-page .fixtures-container {
             padding: 20px;
         }
@@ -109,13 +92,11 @@
     </section>
 
     <main class="matches-page">
-        <div class="matches-page-header">
-            <h1>Football Matches</h1>
-            <p>Fixtures, live scores, and upcoming matches.</p>
-        </div>
-
         <section class="section-block" aria-label="Football matches">
             <div class="fixtures-container">
+                <div class="tv96-banner">
+                    <img src="tv96-banner.png" alt="TV96 Live">
+                </div>
                 <div class="nav-tabs" role="tablist" aria-label="Match day">
                     <button class="nav-item tab-btn" type="button" data-day="shalay">Yesterday</button>
                     <button class="nav-item tab-btn active" type="button" data-day="maanta">Today</button>
@@ -212,7 +193,25 @@
                 return;
             }
 
-            container.innerHTML = matches.map(match => {
+            const toMinutes = time => {
+                const [hours, minutes] = String(time || "00:00").split(":").map(Number);
+                return hours * 60 + minutes;
+            };
+            const priority = status => status === "Live" ? 1 : status === "Upcoming" ? 2 : 3;
+            const sortedMatches = [...matches].sort((first, second) => {
+                const firstPriority = priority(first.status);
+                const secondPriority = priority(second.status);
+
+                if (firstPriority !== secondPriority) {
+                    return firstPriority - secondPriority;
+                }
+
+                return firstPriority === 3
+                    ? toMinutes(second.displayTime) - toMinutes(first.displayTime)
+                    : toMinutes(first.displayTime) - toMinutes(second.displayTime);
+            });
+
+            container.innerHTML = sortedMatches.map(match => {
                 const matchUrl = match.url || `watch-live.html?id=${encodeURIComponent(match.id)}`;
                 const homeLogo = match.homeLogo || "";
                 const awayLogo = match.awayLogo || "";
