@@ -47,10 +47,11 @@ const teamAliases = {
     "paris saint germain fc": "paris saint germain"
 };
 
-// Add football-data.org match IDs here when you want a specific watch page
-// or want to show a match even if neither team is in featuredTeams.
+// Mark a football-data.org match ID as featured to show it even when it does
+// not meet the automatic competition filter. Public stream sources belong in
+// streams.js, which is loaded only by the single watch-live page.
 const matchOverrides = {
-    // "123456": { url: "watch-live3.html", featured: true }
+    // "123456": { featured: true }
 };
 
 const NAIROBI_TIMEZONE = "Africa/Nairobi";
@@ -175,7 +176,7 @@ function normalizeMatch(match, competitionCode) {
         status: apiStatus.status,
         statusClass: apiStatus.statusClass,
         overlayText: "Watch Live",
-        url: override.url || "watch-live.html",
+        url: `watch-live.html?id=${encodeURIComponent(match.id)}`,
         displayTime: formatNairobiTime(match.utcDate),
         matchDate,
         id: String(match.id),

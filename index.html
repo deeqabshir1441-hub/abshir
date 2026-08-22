@@ -528,7 +528,7 @@ if (totalMinutes < 0) {
         });
 
         container.innerHTML = sorted.map(match => {
-            const matchUrl   = `${match.url || 'watch-live.html'}?id=${match.id}&home=${encodeURIComponent(match.home)}&away=${encodeURIComponent(match.away)}&league=${encodeURIComponent(match.league)}`;
+            const matchUrl   = match.url || `watch-live.html?id=${encodeURIComponent(match.id)}`;
             const homeLogo   = match.homeLogo   || teamLogos[match.home]   || 'https://via.placeholder.com/32x32?text=?';
             const awayLogo   = match.awayLogo   || teamLogos[match.away]   || 'https://via.placeholder.com/32x32?text=?';
             const leagueLogo = match.leagueLogo || leagueLogos[match.league] || 'https://via.placeholder.com/20x20?text=🏆';
