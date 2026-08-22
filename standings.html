@@ -779,7 +779,9 @@ loadStandings();
     }
 
     const trendingMatchesList = document.querySelector('.trending-matches-list');
-    if (trendingMatchesList) {
+    function renderTrendingMatches() {
+        if (!trendingMatchesList) return;
+
         const allTodayMatches = typeof matchesData !== 'undefined' ? matchesData.maanta : [];
         const upcomingMatches = allTodayMatches
             .filter(match => match.status === 'Upcoming')
@@ -787,10 +789,16 @@ loadStandings();
 
         trendingMatchesList.innerHTML = upcomingMatches.length
             ? upcomingMatches.map(match => {
-                const url = `${match.url}?id=${match.id}&home=${encodeURIComponent(match.home)}&away=${encodeURIComponent(match.away)}&league=${encodeURIComponent(match.league)}`;
+                const url = match.url || `watch-live.html?id=${encodeURIComponent(match.id)}`;
                 return `<li><a href="${url}"><div class="trending-match-teams"><strong>${match.home} vs ${match.away}</strong></div><div class="trending-match-info"><span>${match.league}</span><span>${match.displayTime}</span></div></a></li>`;
             }).join('')
             : '<li style="color:var(--text-secondary); padding:10px;">No upcoming matches today.</li>';
+    }
+
+    if (window.matchesDataReady) {
+        window.matchesDataReady.then(renderTrendingMatches);
+    } else {
+        renderTrendingMatches();
     }
 </script>
 
