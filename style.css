@@ -3129,6 +3129,35 @@ body.light-mode .news-card {
     }
 }
 
+/* Prevent sticky hover/green tap states on touch-screen match cards. */
+@media (hover: none), (pointer: coarse) {
+    .match-link-wrapper {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    }
+
+    .match-link-wrapper:not([data-is-live="true"]) .match-card:hover {
+        border-color: var(--border-light);
+        background: rgba(255, 255, 255, 0.02);
+        box-shadow: none;
+        transform: none;
+    }
+
+    .match-link-wrapper .match-card:active {
+        transform: scale(0.995);
+    }
+
+    .match-link-wrapper .match-card:hover .play-overlay {
+        opacity: 0;
+    }
+
+    body.light-mode .match-link-wrapper:not([data-is-live="true"]) .match-card:hover {
+        border-color: rgba(0, 0, 0, 0.08);
+        background: rgba(0, 0, 0, 0.02);
+        box-shadow: none;
+    }
+}
+
 /* Shared site chrome: match every public page to the homepage header and footer. */
 @media (min-width: 769px) {
     body:not(.home-page) .main-header {
