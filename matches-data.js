@@ -48,7 +48,14 @@ function applyKickoffStatus(match, day) {
     return { ...match, status: 'Finished', statusClass: 'status-finished' };
 }
 
-window.matchesDataReady = fetch('/api/matches')
+let matchesRequestInFlight = null;
+
+function loadMatches() {
+    if (matchesRequestInFlight) {
+        return matchesRequestInFlight;
+    }
+
+    matchesRequestInFlight = fetch('/api/matches')
     .then(async response => {
         const payload = await response.json().catch(() => null);
 
@@ -102,4 +109,15 @@ window.matchesDataReady = fetch('/api/matches')
             matchesData,
             error: error.message
         };
+    })
+    .finally(() => {
+        matchesRequestInFlight = null;
     });
+
+    return matchesRequestInFlight;
+}
+
+window.matchesDataReady = loadMatches();
+
+// Fetch fresh scores and statuses instead of only repainting old data.
+setInterval(loadMatches, 60000);

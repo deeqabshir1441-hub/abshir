@@ -14,7 +14,7 @@ const matchFilterConfig = {
     PD: { teams: ["real madrid", "barcelona", "atletico madrid"] },
     SA: { teams: ["ac milan", "inter", "juventus", "napoli", "roma"] },
     BL1: { teams: ["bayern munich", "borussia dortmund"] },
-    FL1: { teams: ["paris saint germain"] },
+    FL1: { showAll: true },
     CL: { showAll: true }
 };
 
@@ -55,7 +55,7 @@ const matchOverrides = {
 };
 
 const NAIROBI_TIMEZONE = "Africa/Nairobi";
-const CACHE_CONTROL = "public, s-maxage=300, stale-while-revalidate=600";
+const CACHE_CONTROL = "public, max-age=0, s-maxage=60, stale-while-revalidate=120";
 const upstreamMatchCache = new Map();
 
 function sendJson(res, status, body) {
