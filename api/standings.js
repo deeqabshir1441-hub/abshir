@@ -1,5 +1,5 @@
 const ALLOWED_LEAGUES = new Set(["PL", "PD", "SA", "BL1", "FL1", "CL"]);
-const CACHE_CONTROL = "s-maxage=120, stale-while-revalidate=300";
+const CACHE_CONTROL = "public, max-age=0, s-maxage=60, stale-while-revalidate=120";
 
 function sendJson(res, status, body) {
     res.setHeader("Content-Type", "application/json; charset=utf-8");

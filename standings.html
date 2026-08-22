@@ -731,7 +731,13 @@ function getPositionClass(leagueCode, position, totalTeams) {
     return rule?.className || "";
 }
 
-async function loadStandings() {
+let standingsRequestInFlight = false;
+
+async function loadStandings(showLoading = true) {
+    if (standingsRequestInFlight) {
+        return;
+    }
+
     const leagueName = document.getElementById("leagueName");
     const leagueLogo = document.getElementById("leagueLogo");
     const seasonName = document.getElementById("seasonName");
@@ -747,7 +753,11 @@ async function loadStandings() {
         return;
     }
 
-    showTableMessage(tbody, "Loading standings...");
+    if (showLoading) {
+        showTableMessage(tbody, "Loading standings...");
+    }
+
+    standingsRequestInFlight = true;
 
     try {
         const response = await fetch(`/api/standings?league=${encodeURIComponent(leagueCode)}`);
@@ -816,10 +826,13 @@ async function loadStandings() {
             message: error.message
         });
         showTableMessage(tbody, error.message || "Could not load standings right now. Please try again later.");
+    } finally {
+        standingsRequestInFlight = false;
     }
 }
 
 loadStandings();
+setInterval(() => loadStandings(false), 60000);
 
 </script>
 

@@ -14,7 +14,7 @@ const matchFilterConfig = {
     PD: { teams: ["real madrid", "barcelona", "atletico madrid"] },
     SA: { teams: ["ac milan", "inter", "juventus", "napoli", "roma"] },
     BL1: { teams: ["bayern munich", "borussia dortmund"] },
-    FL1: { showAll: true },
+    FL1: { teams: ["paris saint germain"] },
     CL: { showAll: true }
 };
 
