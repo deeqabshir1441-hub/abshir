@@ -35,8 +35,8 @@ const streams = {
     },
 
     "558632": {
-        server1: "",
-        server2: ""
+        server1: "https://0713546501eefc1afcb0b54d64dcb5b8.v.smtcdns.net/live2.kinxie.com/live/71944898_0f8579e30428f0c77dfb210c29dc202e_720p.m3u8?auth_key=1787430496-0-0-35e074f9758342d88d908ca044f7322e",
+        server2: "https://0713546501eefc1afcb0b54d64dcb5b8.v.smtcdns.net/live2.kinxie.com/live/71944898_0f8579e30428f0c77dfb210c29dc202e_360p.m3u8?auth_key=1787430496-0-0-35e074f9758342d88d908ca044f7322e"
     },
 
     "558631": {
