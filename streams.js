@@ -15,7 +15,7 @@ const streams = {
     },
 
     "560544": {
-        server1: "",
+        server1: "https://live.kinxie.com/live/72221156_02aea7b01c6c33449e0dc18c0bf11c66_720p.m3u8?auth_key=1787412303-0-0-b6c7a951c2fee7ccb7d2c0387c05f6ec",
         server2: ""
     },
 
