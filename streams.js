@@ -45,8 +45,8 @@ const streams = {
     },
 
     "564645": {
-        server1: "",
-        server2: ""
+        server1: "https://0713546501eefc1afcb0b54d64dcb5b8.v.smtcdns.net/live2.kinxie.com/live/72478494_9b1804e82db29810470e0de023c7980d_720p.m3u8?auth_key=1787441136-0-0-6ce2c2959a4518d875d834211d954c80",
+        server2: "https://0713546501eefc1afcb0b54d64dcb5b8.v.smtcdns.net/live2.kinxie.com/live/72478494_9b1804e82db29810470e0de023c7980d_360p.m3u8?auth_key=1787441136-0-0-6ce2c2959a4518d875d834211d954c80"
     },
     "supercup-2026-dortmund-bayern": {
     server1: "https://0713546501eefc1afcb0b54d64dcb5b8.v.smtcdns.net/live.kinxie.com/live/71778666_a57e14350ad3e9a5dd6070292a777460_720p.m3u8?auth_key=1787437729-0-0-d7ec90e2e79e26f5cd6a79b21c60a7dc",
