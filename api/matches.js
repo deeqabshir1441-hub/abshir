@@ -119,7 +119,7 @@ function formatNairobiTime(utcDate) {
     }).format(new Date(utcDate));
 }
 
-function statusDetails(apiStatus) {
+function statusDetails(apiStatus, utcDate, now = new Date()) {
     if (["IN_PLAY", "PAUSED"].includes(apiStatus)) {
         return { status: "Live", statusClass: "status-live" };
     }
@@ -134,6 +134,22 @@ function statusDetails(apiStatus) {
 
     if (["CANCELLED", "CANCELED"].includes(apiStatus)) {
         return { status: "Cancelled", statusClass: "status-upcoming" };
+    }
+
+    // The upstream API can be rate-limited and leave a cached SCHEDULED/TIMED
+    // status in place after kickoff. Use the kickoff time as a conservative
+    // fallback, while still respecting explicit live/final/postponed statuses.
+    if (["SCHEDULED", "TIMED"].includes(apiStatus)) {
+        const kickoff = new Date(utcDate);
+        const elapsedMinutes = Math.floor((now.getTime() - kickoff.getTime()) / 60000);
+
+        if (Number.isFinite(elapsedMinutes) && elapsedMinutes >= 0 && elapsedMinutes < 135) {
+            return { status: "Live", statusClass: "status-live" };
+        }
+
+        if (Number.isFinite(elapsedMinutes) && elapsedMinutes >= 135) {
+            return { status: "Finished", statusClass: "status-finished" };
+        }
     }
 
     return { status: "Upcoming", statusClass: "status-upcoming" };
@@ -177,7 +193,7 @@ function normalizeMatch(match, competitionCode) {
     const awayTeam = match.awayTeam || {};
     const homeScore = match.score?.fullTime?.home ?? match.score?.halfTime?.home ?? 0;
     const awayScore = match.score?.fullTime?.away ?? match.score?.halfTime?.away ?? 0;
-    const apiStatus = statusDetails(match.status);
+    const apiStatus = statusDetails(match.status, match.utcDate);
     const matchDate = formatNairobiDate(new Date(match.utcDate));
 
     return {
