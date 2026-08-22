@@ -766,10 +766,14 @@ async function loadStandings() {
         }
 
         const totalTeams = payload.standings.length;
-        tbody.innerHTML = payload.standings.map(team => {
-            const rank = Number(team.position ?? team.rank);
-            const position = Number.isInteger(rank) ? rank : "-";
-            const positionClass = getPositionClass(leagueCode, rank, totalTeams);
+        const hasSequentialApiPositions = payload.standings.every((team, index) => (
+            Number(team.position ?? team.rank) === index + 1
+        ));
+
+        tbody.innerHTML = payload.standings.map((team, index) => {
+            const apiPosition = Number(team.position ?? team.rank);
+            const position = hasSequentialApiPositions ? apiPosition : index + 1;
+            const positionClass = getPositionClass(leagueCode, position, totalTeams);
 
             const crest = team.logo
                 ? `<img class="team-logo" src="${escapeHtml(team.logo)}" alt="${escapeHtml(team.name)} crest" loading="lazy" onerror="this.style.visibility='hidden'">`
