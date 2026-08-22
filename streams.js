@@ -10,8 +10,8 @@
 const streams = {
 
     "560543": {
-        server1: "",
-        server2: ""
+        server1: "https://live.kinxie.com/live/72221154_6f7b6a3ad6e3be83540c44e4585be9b3_720p.m3u8",
+        server2: "https://live.kinxie.com/live/72221154_6f7b6a3ad6e3be83540c44e4585be9b3_360p.m3u8"
     },
 
     "560544": {
