@@ -183,8 +183,13 @@
         const matchId = params.get('id');
         const matchIdFromUrl = matchId;
         let hls = null;
+        let servers = [];
 
         function showStreamMessage(message) {
+            if (hls) {
+                hls.destroy();
+                hls = null;
+            }
             video.pause();
             video.removeAttribute('src');
             video.load();
@@ -194,36 +199,95 @@
             qualityIndicator.textContent = 'Stream pending';
         }
 
-        function setupPlayer(stream) {
-            if (!stream || stream.type !== 'hls' || !stream.source) {
-                showStreamMessage('Live stream will be available before kickoff.');
+        function setActiveServerButton(index) {
+            [btn1, btn2].forEach((button, buttonIndex) => {
+                button.classList.toggle('active', buttonIndex === index);
+            });
+        }
+
+        function useBackupServer(failedIndex) {
+            const backupIndex = servers.findIndex((source, index) => source && index !== failedIndex);
+
+            if (backupIndex !== -1) {
+                console.warn(`Server ${failedIndex + 1} failed. Switching to Server ${backupIndex + 1}.`);
+                loadServer(backupIndex, false);
+                return;
+            }
+
+            showStreamMessage('This live stream is currently unavailable. Please try again later.');
+        }
+
+        function loadServer(index, allowFallback = true) {
+            const source = servers[index];
+
+            if (!source) {
+                if (allowFallback) {
+                    useBackupServer(index);
+                } else {
+                    showStreamMessage('Live stream will be available before kickoff.');
+                }
                 return;
             }
 
             streamMessage.style.display = 'none';
             video.style.visibility = 'visible';
-            qualityIndicator.textContent = stream.quality || 'Live HD';
+            qualityIndicator.textContent = `Server ${index + 1}`;
+            setActiveServerButton(index);
 
             if (window.Hls && Hls.isSupported()) {
                 if (hls) hls.destroy();
                 hls = new Hls();
-                hls.loadSource(stream.source);
+                hls.loadSource(source);
                 hls.attachMedia(video);
                 hls.on(Hls.Events.MANIFEST_PARSED, () => {
                     video.play().catch(() => console.log('Autoplay blocked, waiting for interaction.'));
                 });
                 hls.on(Hls.Events.ERROR, (event, data) => {
                     if (data.fatal) {
-                        console.error('HLS stream failed', data);
-                        showStreamMessage('This live stream is currently unavailable. Please try again later.');
+                        console.error(`HLS Server ${index + 1} failed`, data);
+                        if (allowFallback) {
+                            useBackupServer(index);
+                        } else {
+                            showStreamMessage('This live stream is currently unavailable. Please try again later.');
+                        }
                     }
                 });
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = stream.source;
+                video.src = source;
+                video.onerror = () => {
+                    if (allowFallback) {
+                        useBackupServer(index);
+                    } else {
+                        showStreamMessage('This live stream is currently unavailable. Please try again later.');
+                    }
+                };
                 video.play().catch(() => console.log('Autoplay blocked, waiting for interaction.'));
             } else {
                 showStreamMessage('Your browser does not support this live stream format.');
             }
+        }
+
+        function configureStreams(matchId) {
+            const streamConfig = typeof streams !== 'undefined' ? streams[String(matchId)] : null;
+            servers = [
+                streamConfig?.server1?.trim() || '',
+                streamConfig?.server2?.trim() || ''
+            ];
+
+            if (!servers[0] && !servers[1]) {
+                showStreamMessage('Live stream will be available before kickoff.');
+                return;
+            }
+
+            serverSelection.style.display = '';
+            btn1.textContent = 'Server 1';
+            btn2.textContent = 'Server 2';
+            btn1.style.display = servers[0] ? '' : 'none';
+            btn2.style.display = servers[1] ? '' : 'none';
+            btn1.onclick = () => loadServer(0);
+            btn2.onclick = () => loadServer(1);
+
+            loadServer(servers[0] ? 0 : 1);
         }
 
         function addTeamLogo(url, name) {
@@ -283,19 +347,7 @@
                 }
 
                 renderMatchDetails(match);
-                const stream = typeof streams !== 'undefined' ? streams[String(matchId)] : null;
-
-                if (!stream) {
-                    showStreamMessage('Live stream will be available before kickoff.');
-                    return;
-                }
-
-                btn1.textContent = stream.label || 'Live Stream';
-                btn1.style.display = '';
-                btn2.style.display = 'none';
-                serverSelection.style.display = '';
-                btn1.onclick = () => setupPlayer(stream);
-                setupPlayer(stream);
+                configureStreams(matchId);
             } catch (error) {
                 console.error('[watch-live] Failed to load match', error);
                 matchTitle.textContent = 'Match not found';
