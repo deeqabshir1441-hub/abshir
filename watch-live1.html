@@ -15,10 +15,12 @@
     <meta name="keywords" content="Liverpool vs Chelsea live, live football streaming, sports hd, premier league live">
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="style.css?v=2">
+    <script defer src="site-header.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#000000">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="site-chrome.css?v=1">
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
@@ -36,9 +38,9 @@
                 </a>
             </div>
 
-            <i class="fas fa-bars menu-icon"></i>
+            <button class="menu-icon" id="menuToggle" type="button" aria-label="Open navigation menu" aria-controls="navMenu" aria-expanded="false"><i class="fas fa-bars" aria-hidden="true"></i></button>
 
-            <nav class="nav-menu">
+            <nav class="nav-menu" id="navMenu">
                 <a href="index.html">Home</a>
                 <a href="#">Latest News</a>
                 <a href="#" class="active">Live Stream</a>
@@ -49,6 +51,7 @@
                     <a href="https://www.facebook.com/tv96live"><i class="fa-brands fa-facebook-f"></i></a>
                     <a href="https://www.tiktok.com/@user242901873?_r=1&_t=ZS-97GcQsYcm6m"><i class="fa-brands fa-tiktok"></i></a>
                 </div>
+                <button class="theme-toggle" id="themeToggle" type="button" title="Switch Theme" aria-label="Switch theme"><i data-lucide="moon"></i></button>
             </div>
         </div>
     </header>
@@ -148,25 +151,6 @@
     <script src="matches-data.js"></script>
     <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Mobile Menu Logic
-        const menuIcon = document.querySelector('.menu-icon');
-        const navMenu = document.querySelector('.nav-menu');
-        const body = document.body;
-
-        if (menuIcon && navMenu) {
-            menuIcon.addEventListener('click', (e) => {
-                navMenu.classList.toggle('active');
-                body.classList.toggle('menu-open');
-            });
-
-            document.addEventListener('click', (e) => {
-                if (body.classList.contains('menu-open') && !navMenu.contains(e.target) && !menuIcon.contains(e.target)) {
-                    navMenu.classList.remove('active');
-                    body.classList.remove('menu-open');
-                }
-            });
-        }
-
         const video = document.getElementById('live-video');
         const btn1 = document.getElementById('btn-hd');
         const btn2 = document.getElementById('btn-sd');

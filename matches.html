@@ -11,6 +11,8 @@
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="site-chrome.css?v=1">
+    <script defer src="site-header.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9924964891667864"
      crossorigin="anonymous"></script>
@@ -66,7 +68,7 @@
                     <img src="logo/Logo.png" alt="TV96 Live Logo">
                 </a>
             </div>
-            <i class="fas fa-bars menu-icon" id="menuToggle" aria-label="Open menu"></i>
+            <button class="menu-icon" id="menuToggle" type="button" aria-label="Open navigation menu" aria-controls="navMenu" aria-expanded="false"><i class="fas fa-bars" aria-hidden="true"></i></button>
             <nav class="nav-menu" id="navMenu">
                 <a href="index.html" class="nav-link">Home</a>
                 <a href="matches.html" class="nav-link active">Matches</a>
@@ -159,36 +161,9 @@
         </div>
     </footer>
 
+    <script src="streams.js"></script>
     <script src="matches-data.js"></script>
     <script>
-        const menuToggle = document.getElementById("menuToggle");
-        const navMenu = document.getElementById("navMenu");
-        const themeToggle = document.getElementById("themeToggle");
-
-        menuToggle?.addEventListener("click", () => navMenu?.classList.toggle("active"));
-        document.querySelectorAll(".nav-link").forEach(link => {
-            link.addEventListener("click", () => navMenu?.classList.remove("active"));
-        });
-
-        function updateThemeIcon() {
-            const icon = themeToggle?.querySelector("[data-lucide]");
-            if (icon) {
-                icon.setAttribute("data-lucide", document.body.classList.contains("light-mode") ? "sun" : "moon");
-            }
-            window.lucide?.createIcons();
-        }
-
-        if (localStorage.getItem("theme") === "light") {
-            document.body.classList.add("light-mode");
-        }
-        updateThemeIcon();
-
-        themeToggle?.addEventListener("click", () => {
-            document.body.classList.toggle("light-mode");
-            localStorage.setItem("theme", document.body.classList.contains("light-mode") ? "light" : "dark");
-            updateThemeIcon();
-        });
-
         function escapeHtml(value) {
             return String(value ?? "").replace(/[&<>'"]/g, character => ({
                 "&": "&amp;",
@@ -251,9 +226,23 @@
                 const homeCrest = homeLogo ? `<img src="${escapeHtml(homeLogo)}" alt="${escapeHtml(match.home)}" class="team-logo" loading="lazy">` : "";
                 const awayCrest = awayLogo ? `<img src="${escapeHtml(awayLogo)}" alt="${escapeHtml(match.away)}" class="team-logo" loading="lazy">` : "";
                 const competitionCrest = leagueLogo ? `<img src="${escapeHtml(leagueLogo)}" alt="" class="league-logo-img" style="width:18px;height:18px;margin-right:8px;border-radius:2px;background:white;padding:1px;">` : "";
+                const streamConfig = typeof streams !== "undefined" ? streams[String(match.id)] : null;
+                const hasStream = Boolean(streamConfig?.server1?.trim() || streamConfig?.server2?.trim());
+                const kickoff = new Date(`${match.matchDate}T${match.displayTime}:00+03:00`);
+                const minutesUntilKickoff = Math.ceil((kickoff.getTime() - Date.now()) / 60000);
+                let timingText = "Full time";
+                if (match.statusClass === "status-live") {
+                    timingText = "In progress";
+                } else if (match.status === "Upcoming" && Number.isFinite(minutesUntilKickoff)) {
+                    timingText = minutesUntilKickoff < 60
+                        ? `Starts in ${Math.max(1, minutesUntilKickoff)} min`
+                        : minutesUntilKickoff < 1440
+                            ? `Starts in ${Math.ceil(minutesUntilKickoff / 60)} hr`
+                            : match.matchDate;
+                }
 
                 return `
-                    <a href="${escapeHtml(matchUrl)}" class="match-link-wrapper" data-is-live="${match.status === "Live"}">
+                    <a href="${escapeHtml(matchUrl)}" class="match-link-wrapper" data-is-live="${match.statusClass === "status-live"}">
                         <div class="match-card">
                             <div class="league-header">${competitionCrest}<span class="league-name">${escapeHtml(match.league)}</span></div>
                             <div class="match-row">
@@ -264,6 +253,8 @@
                                 <div class="status-box">
                                     <div class="time">${escapeHtml(match.displayTime)}</div>
                                     <div class="status ${escapeHtml(match.statusClass)}">${escapeHtml(match.status)}</div>
+                                    <div class="match-timing">${escapeHtml(timingText)}</div>
+                                    <div class="stream-badge ${hasStream ? "is-available" : "is-pending"}">${hasStream ? "Stream available" : "Stream pending"}</div>
                                 </div>
                                 <div class="play-overlay"><i data-lucide="play-circle"></i><div class="watch-text">${escapeHtml(match.overlayText || "Watch Live")}</div></div>
                             </div>

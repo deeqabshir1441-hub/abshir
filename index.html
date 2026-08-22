@@ -21,6 +21,7 @@
     <meta name="theme-color" content="#000000">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="site-chrome.css?v=1">
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
@@ -49,15 +50,15 @@
             <a href="privacy.html" class="nav-link">Privacy</a>
             </nav>
             <div class="header-right">
-            <button id="installBtn" class="btn-primary" style="display:none; padding: 6px 15px; font-size: 12px; height: 34px; margin-right: 10px;">Install App</button>
+            <button id="installBtn" class="btn-primary header-install-btn" hidden>Install App</button>
             <div class="social-icons">
             <a href="https://www.facebook.com/share/1EVaiqB9sZ/" target="_blank" rel="noopener noreferrer" title="Facebook"> <i data-lucide="facebook"></i> </a> 
-            <a href="https://www.tiktok.com/@user242901873?_r=1&_t=ZS-97lGYrPehTp" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="https://www.tiktok.com/@user242901873?_r=1&_t=ZS-97lGYrPehTp" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
             <a href="https://www.youtube.com/channel/UC1UYBGeLGdB7O59qImRAGrg" target="_blank" rel="noopener noreferrer" title="YouTube"> <i data-lucide="youtube"></i> </a>
             </div>
-            <div class="theme-toggle" id="themeToggle" title="Switch Theme">
+            <button class="theme-toggle" id="themeToggle" type="button" title="Switch Theme" aria-label="Switch theme">
             <i data-lucide="moon"></i>
-            </div>
+            </button>
             </div>
         </div>
     </header>
@@ -165,7 +166,7 @@
     <div class="footer-col links-col">
      <h4>Quick Links</h4>
      <ul>
-      <li><a href="#home">Home</a></li>
+      <li><a href="index.html">Home</a></li>
       <li><a href="#matches">Matches</a></li>
       <li><a href="#news">News</a></li>
       <li><a href="privacy.html">Privacy Policy</a></li>
@@ -174,20 +175,19 @@
     <div class="footer-col social-col">
      <h4>Download Our App</h4>
      <div class="app-buttons">
-      <a href="#" class="app-btn" target="_blank" rel="noopener noreferrer"> <i data-lucide="apple"></i>
+      <div class="app-btn app-btn-coming" aria-label="App Store app coming soon"> <i data-lucide="apple"></i>
        <div class="app-btn-text">
-        <span>Download on the</span> <strong>App Store</strong>
-       </div></a> <a href="#" class="app-btn" target="_blank" rel="noopener noreferrer"> <i data-lucide="play"></i>
+        <span>Coming soon on the</span> <strong>App Store</strong>
+       </div></div> <div class="app-btn app-btn-coming" aria-label="Google Play app coming soon"> <i data-lucide="play"></i>
        <div class="app-btn-text">
-        <span>Get it on</span> <strong>Google Play</strong>
-       </div></a>
+        <span>Coming soon on</span> <strong>Google Play</strong>
+       </div></div>
      </div>
      <h4 style="margin-top: 25px;">Contact Us</h4>
      <div class="footer-social-links">
-      <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><i data-lucide="facebook"></i></a> 
-      <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-tiktok"></i></a>
-      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><i data-lucide="instagram"></i></a> 
-      <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" title="WhatsApp"><i data-lucide="message-circle"></i></a>
+      <a href="https://www.facebook.com/share/1EVaiqB9sZ/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i data-lucide="facebook"></i></a>
+      <a href="https://www.tiktok.com/@user242901873?_r=1&_t=ZS-97lGYrPehTp" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+      <a href="https://www.youtube.com/channel/UC1UYBGeLGdB7O59qImRAGrg" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i data-lucide="youtube"></i></a>
      </div>
     </div>
    </div>
@@ -213,6 +213,7 @@
         navMenu.classList.remove('active');
         menuToggle.setAttribute('aria-expanded', 'false');
         menuToggle.setAttribute('aria-label', 'Open navigation menu');
+        menuToggle.querySelector('i')?.classList.replace('fa-xmark', 'fa-bars');
     }
     menuToggle.addEventListener('click', event => {
         event.stopPropagation();
@@ -220,6 +221,9 @@
         const isOpen = navMenu.classList.contains('active');
         menuToggle.setAttribute('aria-expanded', String(isOpen));
         menuToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+        const menuIcon = menuToggle.querySelector('i');
+        menuIcon?.classList.toggle('fa-bars', !isOpen);
+        menuIcon?.classList.toggle('fa-xmark', isOpen);
     });
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', closeNavigation);
@@ -259,7 +263,8 @@
         document.querySelectorAll('section[id], .section-block[id]').forEach(section => {
             if (pageYOffset >= section.offsetTop - 150) current = section.getAttribute('id');
         });
-        document.querySelectorAll('.nav-link').forEach(link => {
+        const sectionLinks = document.querySelectorAll('.nav-link[href^="#"]');
+        sectionLinks.forEach(link => {
             link.classList.remove('active');
             if (link.getAttribute('href').substring(1) === current) link.classList.add('active');
         });
@@ -873,14 +878,14 @@ if (totalMinutes < 0) {
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        if (installBtn) installBtn.style.display = 'block';
+        if (installBtn) installBtn.hidden = false;
     });
     if (installBtn) {
         installBtn.addEventListener('click', async () => {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') installBtn.style.display = 'none';
+                if (outcome === 'accepted') installBtn.hidden = true;
                 deferredPrompt = null;
             }
         });

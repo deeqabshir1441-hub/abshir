@@ -3129,6 +3129,537 @@ body.light-mode .news-card {
     }
 }
 
+/* Shared site chrome: match every public page to the homepage header and footer. */
+@media (min-width: 769px) {
+    body:not(.home-page) .main-header {
+        border-color: rgba(148, 163, 184, 0.18);
+        background: rgba(8, 25, 36, 0.88);
+        -webkit-backdrop-filter: blur(18px) saturate(135%);
+        backdrop-filter: blur(18px) saturate(135%);
+        box-shadow: 0 12px 34px rgba(2, 6, 23, 0.24), inset 0 -1px 0 rgba(16, 185, 129, 0.08);
+    }
+
+    body:not(.home-page) .logo img {
+        display: block;
+        height: 46px;
+    }
+
+    body:not(.home-page) .nav-menu {
+        gap: 8px;
+    }
+
+    body:not(.home-page) .nav-menu a {
+        padding: 9px 13px;
+        border-radius: 999px;
+    }
+
+    body:not(.home-page) .nav-menu a::after {
+        display: none;
+    }
+
+    body:not(.home-page) .nav-menu a:hover,
+    body:not(.home-page) .nav-menu a.active {
+        color: #ecfdf5;
+        background: rgba(16, 185, 129, 0.12);
+        box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.18);
+    }
+
+    body:not(.home-page) .header-right,
+    body:not(.home-page) .social-icons {
+        gap: 8px;
+    }
+
+    body:not(.home-page) .social-icons a,
+    body:not(.home-page) .theme-toggle {
+        width: 36px;
+        height: 36px;
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        color: var(--text-secondary);
+        background: rgba(255, 255, 255, 0.045);
+    }
+
+    body.light-mode:not(.home-page) .main-header {
+        border-color: rgba(15, 23, 42, 0.09);
+        background: rgba(255, 255, 255, 0.86);
+    }
+
+    body.light-mode:not(.home-page) .nav-menu a:hover,
+    body.light-mode:not(.home-page) .nav-menu a.active {
+        color: #065f46;
+    }
+}
+
+body:not(.home-page) .main-footer {
+    margin-top: 54px;
+    padding-top: 62px;
+    border-top: 1px solid rgba(16, 185, 129, 0.32);
+    background:
+        radial-gradient(circle at 12% 10%, rgba(16, 185, 129, 0.1), transparent 22rem),
+        linear-gradient(150deg, #071923 0%, #081f2a 52%, #06151e 100%);
+}
+
+body:not(.home-page) .main-footer::before {
+    height: 2px;
+    opacity: 0.75;
+}
+
+body:not(.home-page) .footer-container {
+    grid-template-columns: 1.25fr 0.75fr 1fr;
+    gap: clamp(34px, 6vw, 80px);
+    align-items: start;
+}
+
+body:not(.home-page) .footer-logo {
+    max-height: 58px;
+    margin-bottom: 16px;
+}
+
+body:not(.home-page) .about-col p {
+    max-width: 390px;
+    line-height: 1.75;
+}
+
+body:not(.home-page) .footer-col h4 {
+    position: relative;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+}
+
+body:not(.home-page) .footer-col h4::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 32px;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--primary-green);
+}
+
+body:not(.home-page) .footer-social-links a {
+    width: 38px;
+    height: 38px;
+    border-color: rgba(148, 163, 184, 0.16);
+}
+
+body:not(.home-page) .footer-bottom {
+    margin-top: 44px;
+    padding-top: 22px;
+    border-top-color: rgba(148, 163, 184, 0.13);
+}
+
+body:not(.home-page) .footer-bottom a {
+    color: #6ee7b7;
+}
+
+body.light-mode:not(.home-page) .main-footer {
+    border-top-color: rgba(16, 185, 129, 0.28);
+    background:
+        radial-gradient(circle at 12% 10%, rgba(16, 185, 129, 0.08), transparent 22rem),
+        linear-gradient(150deg, #ffffff, #f1f5f9);
+}
+
+@media (max-width: 1024px) {
+    body:not(.home-page) .footer-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 36px;
+    }
+
+    body:not(.home-page) .social-col {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 768px) {
+    body:not(.home-page) .main-header {
+        top: 8px;
+        width: calc(100% - 20px);
+        min-height: 58px;
+        padding: 8px 12px;
+        border-radius: 14px;
+        background: rgba(8, 25, 36, 0.96);
+        box-shadow: 0 9px 24px rgba(2, 6, 23, 0.24);
+    }
+
+    body:not(.home-page) .navbar-container {
+        gap: 8px;
+    }
+
+    body:not(.home-page) .logo img {
+        display: block;
+        height: 36px;
+    }
+
+    body:not(.home-page) .header-right {
+        order: 2;
+        margin-left: auto;
+        gap: 7px;
+    }
+
+    body:not(.home-page) .social-icons {
+        display: none;
+    }
+
+    body:not(.home-page) .theme-toggle,
+    body:not(.home-page) .menu-icon {
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        border-radius: 10px;
+        color: var(--text-secondary);
+        background: rgba(255, 255, 255, 0.045);
+    }
+
+    body:not(.home-page) .menu-icon {
+        order: 3;
+    }
+
+    body:not(.home-page) .nav-menu {
+        top: calc(100% + 7px);
+        margin-top: 0;
+        padding: 8px;
+        gap: 3px;
+        border-radius: 12px;
+        background: rgba(8, 25, 36, 0.98);
+        box-shadow: 0 16px 32px rgba(2, 6, 23, 0.32);
+    }
+
+    body:not(.home-page) .nav-menu a,
+    body:not(.home-page) .nav-menu a:hover,
+    body:not(.home-page) .nav-menu a.active {
+        padding: 11px 13px;
+        border-radius: 8px;
+    }
+
+    body.light-mode:not(.home-page) .main-header,
+    body.light-mode:not(.home-page) .nav-menu {
+        border-color: #e2e8f0;
+        background: rgba(255, 255, 255, 0.97);
+    }
+}
+
+@media (max-width: 600px) {
+    body:not(.home-page) .main-footer {
+        margin-top: 38px;
+        padding: 44px 18px 18px;
+    }
+
+    body:not(.home-page) .footer-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    body:not(.home-page) .social-col {
+        grid-column: auto;
+    }
+
+    body:not(.home-page) .footer-logo {
+        max-height: 50px;
+    }
+
+    body:not(.home-page) .footer-bottom {
+        margin-top: 30px;
+        line-height: 1.6;
+    }
+}
+
+/* Matches page league scroller mirrors the homepage. */
+.matches-list-page .league-scroller {
+    margin-top: 14px;
+    padding-block: 10px;
+}
+
+.matches-list-page .scroller-wrapper {
+    gap: 10px;
+    scroll-snap-type: x proximity;
+}
+
+.matches-list-page .league-chip {
+    min-height: 38px;
+    scroll-snap-align: start;
+}
+
+.matches-list-page .league-chip img {
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
+    object-fit: contain;
+}
+
+@media (min-width: 769px) {
+    .matches-list-page .league-scroller {
+        margin-top: 11px;
+        padding-block: 9px;
+        -webkit-mask-image: linear-gradient(90deg, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+        mask-image: linear-gradient(90deg, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+    }
+
+    .matches-list-page .league-chip {
+        min-height: 40px;
+        padding: 7px 13px 7px 9px;
+        border: 1px solid rgba(148, 163, 184, 0.15);
+        border-radius: 999px;
+        background: linear-gradient(145deg, rgba(15, 30, 43, 0.92), rgba(8, 25, 36, 0.86));
+        box-shadow: 0 6px 16px rgba(2, 6, 23, 0.12);
+    }
+
+    .matches-list-page .league-chip:hover,
+    .matches-list-page .league-chip:focus-visible {
+        border-color: rgba(16, 185, 129, 0.42);
+        color: #ecfdf5;
+        background: rgba(16, 185, 129, 0.11);
+        transform: translateY(-2px);
+        box-shadow: 0 9px 20px rgba(16, 185, 129, 0.12);
+    }
+
+    body.light-mode.matches-list-page .league-chip {
+        border-color: #e2e8f0;
+        background: linear-gradient(145deg, #ffffff, #f8fafc);
+        box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+    }
+
+    body.light-mode.matches-list-page .league-chip:hover,
+    body.light-mode.matches-list-page .league-chip:focus-visible {
+        color: #065f46;
+        border-color: rgba(16, 185, 129, 0.38);
+        background: #ecfdf5;
+    }
+}
+
+@media (max-width: 768px) {
+    .matches-list-page .league-scroller {
+        margin-top: 10px;
+        padding: 7px 10px 5px;
+    }
+
+    .matches-list-page .scroller-wrapper {
+        gap: 8px;
+    }
+
+    .matches-list-page .league-chip {
+        min-height: 36px;
+        padding: 6px 10px 6px 7px;
+        font-size: 12px;
+    }
+
+    .matches-list-page .league-chip img {
+        width: 22px;
+        height: 22px;
+        flex-basis: 22px;
+    }
+}
+
+/* Homepage footer polish. */
+.home-page .main-footer {
+    margin-top: 54px;
+    padding-top: 62px;
+    border-top: 1px solid rgba(16, 185, 129, 0.32);
+    background:
+        radial-gradient(circle at 12% 10%, rgba(16, 185, 129, 0.1), transparent 22rem),
+        linear-gradient(150deg, #071923 0%, #081f2a 52%, #06151e 100%);
+}
+
+.home-page .main-footer::before {
+    height: 2px;
+    opacity: 0.75;
+}
+
+.home-page .footer-container {
+    grid-template-columns: 1.25fr 0.75fr 1fr;
+    gap: clamp(34px, 6vw, 80px);
+    align-items: start;
+}
+
+.home-page .footer-logo {
+    max-height: 58px;
+    margin-bottom: 16px;
+}
+
+.home-page .about-col p {
+    max-width: 390px;
+    line-height: 1.75;
+}
+
+.home-page .footer-col h4 {
+    position: relative;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+}
+
+.home-page .footer-col h4::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 32px;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--primary-green);
+}
+
+.home-page .links-col li {
+    margin-bottom: 7px;
+}
+
+.home-page .links-col a {
+    width: fit-content;
+    padding: 5px 0;
+}
+
+.home-page .links-col a::before {
+    content: "›";
+    margin-right: 8px;
+    color: var(--primary-green);
+    font-size: 17px;
+    line-height: 1;
+}
+
+.home-page .app-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+}
+
+.home-page .app-btn-coming {
+    min-width: 0;
+    padding: 11px 12px;
+    cursor: default;
+    opacity: 0.78;
+}
+
+.home-page .app-btn-coming:hover {
+    border-color: rgba(16, 185, 129, 0.22);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: none;
+    transform: none;
+}
+
+.home-page .app-btn-coming i {
+    margin-right: 9px;
+    font-size: 21px;
+}
+
+.home-page .footer-social-links a {
+    width: 38px;
+    height: 38px;
+    border-color: rgba(148, 163, 184, 0.16);
+}
+
+.home-page .footer-bottom {
+    margin-top: 44px;
+    padding-top: 22px;
+    border-top-color: rgba(148, 163, 184, 0.13);
+}
+
+.home-page .footer-bottom a {
+    color: #6ee7b7;
+}
+
+body.light-mode.home-page .main-footer {
+    border-top-color: rgba(16, 185, 129, 0.28);
+    background:
+        radial-gradient(circle at 12% 10%, rgba(16, 185, 129, 0.08), transparent 22rem),
+        linear-gradient(150deg, #ffffff, #f1f5f9);
+}
+
+@media (max-width: 1024px) {
+    .home-page .footer-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 36px;
+    }
+
+    .home-page .social-col {
+        grid-column: 1 / -1;
+    }
+
+    .home-page .app-buttons {
+        max-width: 520px;
+    }
+}
+
+@media (max-width: 600px) {
+    .home-page .main-footer {
+        margin-top: 38px;
+        padding: 44px 18px 18px;
+    }
+
+    .home-page .footer-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .home-page .social-col {
+        grid-column: auto;
+    }
+
+    .home-page .footer-logo {
+        max-height: 50px;
+    }
+
+    .home-page .app-buttons {
+        grid-template-columns: 1fr;
+        max-width: 310px;
+    }
+
+    .home-page .footer-bottom {
+        margin-top: 30px;
+        line-height: 1.6;
+    }
+}
+
+/* Small header refinements without changing the original visual character. */
+.home-page .header-install-btn {
+    height: 34px;
+    margin-right: 10px;
+    padding: 6px 14px;
+    font-size: 12px;
+}
+
+.home-page .header-install-btn[hidden] {
+    display: none;
+}
+
+.home-page button.theme-toggle {
+    padding: 0;
+    border: 0;
+    font: inherit;
+}
+
+.home-page .league-scroller {
+    margin-top: 14px;
+    padding-block: 10px;
+}
+
+.home-page .scroller-wrapper {
+    gap: 10px;
+    scroll-snap-type: x proximity;
+}
+
+.home-page .league-chip {
+    min-height: 38px;
+    scroll-snap-align: start;
+}
+
+.home-page .league-chip img {
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
+    object-fit: contain;
+}
+
+@media (max-width: 768px) {
+    .home-page .league-scroller {
+        padding-inline: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-page .header-install-btn {
+        display: none;
+    }
+}
+
 /* Keep the dedicated matches page visually aligned with the homepage fixture panel. */
 .matches-list-page .matches-section-heading {
     display: flex;
@@ -3201,6 +3732,32 @@ body.light-mode .news-card {
     border-color: rgba(16, 185, 129, 0.72);
     background: rgba(16, 185, 129, 0.055);
     box-shadow: 0 7px 20px rgba(16, 185, 129, 0.13);
+}
+
+.matches-list-page .match-timing {
+    color: var(--text-secondary);
+    font-size: 9px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.matches-list-page .stream-badge {
+    margin-top: 3px;
+    padding: 3px 6px;
+    border-radius: 999px;
+    font-size: 8px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.matches-list-page .stream-badge.is-available {
+    color: #6ee7b7;
+    background: rgba(16, 185, 129, 0.13);
+}
+
+.matches-list-page .stream-badge.is-pending {
+    color: #cbd5e1;
+    background: rgba(148, 163, 184, 0.12);
 }
 
 .matches-list-page .tv96-banner {
@@ -3943,5 +4500,240 @@ body.light-mode.home-page .about-card {
 
     .home-page .about-card {
         padding: 24px 20px;
+    }
+}
+
+/* Desktop keeps the richer header treatment; mobile stays compact and calm. */
+@media (min-width: 769px) {
+    .home-page .main-header {
+        border-color: rgba(148, 163, 184, 0.18);
+        background: rgba(8, 25, 36, 0.88);
+        -webkit-backdrop-filter: blur(18px) saturate(135%);
+        backdrop-filter: blur(18px) saturate(135%);
+        box-shadow: 0 12px 34px rgba(2, 6, 23, 0.24), inset 0 -1px 0 rgba(16, 185, 129, 0.08);
+    }
+
+    .home-page .logo img {
+        display: block;
+        height: 46px;
+    }
+
+    .home-page .nav-menu {
+        gap: 8px;
+    }
+
+    .home-page .nav-menu a {
+        padding: 9px 13px;
+        border-radius: 999px;
+    }
+
+    .home-page .nav-menu a::after {
+        display: none;
+    }
+
+    .home-page .nav-menu a:hover,
+    .home-page .nav-menu a.active {
+        color: #ecfdf5;
+        background: rgba(16, 185, 129, 0.12);
+        box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.18);
+    }
+
+    .home-page .header-right,
+    .home-page .social-icons {
+        gap: 8px;
+    }
+
+    .home-page .social-icons a,
+    .home-page .theme-toggle {
+        width: 36px;
+        height: 36px;
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        color: var(--text-secondary);
+        background: rgba(255, 255, 255, 0.045);
+    }
+
+    .home-page .social-icons a:hover,
+    .home-page .theme-toggle:hover {
+        border-color: rgba(16, 185, 129, 0.38);
+        color: #6ee7b7;
+        background: rgba(16, 185, 129, 0.11);
+    }
+
+    .home-page .league-scroller {
+        margin-top: 11px;
+        padding-block: 9px;
+        -webkit-mask-image: linear-gradient(90deg, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+        mask-image: linear-gradient(90deg, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+    }
+
+    .home-page .league-chip {
+        min-height: 40px;
+        padding: 7px 13px 7px 9px;
+        border: 1px solid rgba(148, 163, 184, 0.15);
+        border-radius: 999px;
+        background: linear-gradient(145deg, rgba(15, 30, 43, 0.92), rgba(8, 25, 36, 0.86));
+        box-shadow: 0 6px 16px rgba(2, 6, 23, 0.12);
+    }
+
+    .home-page .league-chip:hover,
+    .home-page .league-chip:focus-visible {
+        border-color: rgba(16, 185, 129, 0.42);
+        color: #ecfdf5;
+        background: rgba(16, 185, 129, 0.11);
+        transform: translateY(-2px);
+        box-shadow: 0 9px 20px rgba(16, 185, 129, 0.12);
+    }
+
+    body.light-mode.home-page .main-header {
+        border-color: rgba(15, 23, 42, 0.09);
+        background: rgba(255, 255, 255, 0.86);
+    }
+
+    body.light-mode.home-page .nav-menu a:hover,
+    body.light-mode.home-page .nav-menu a.active {
+        color: #065f46;
+    }
+
+    body.light-mode.home-page .league-chip {
+        border-color: #e2e8f0;
+        background: linear-gradient(145deg, #ffffff, #f8fafc);
+        box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+    }
+}
+
+@media (max-width: 768px) {
+    .home-page .main-header {
+        top: 8px;
+        width: calc(100% - 20px);
+        min-height: 58px;
+        padding: 8px 12px;
+        border-radius: 14px;
+        background: rgba(8, 25, 36, 0.96);
+        box-shadow: 0 9px 24px rgba(2, 6, 23, 0.24);
+    }
+
+    .home-page .navbar-container {
+        gap: 8px;
+    }
+
+    .home-page .logo img {
+        display: block;
+        height: 36px;
+    }
+
+    .home-page .header-right {
+        order: 2;
+        margin-left: auto;
+        gap: 7px;
+    }
+
+    .home-page .social-icons,
+    .home-page .header-install-btn {
+        display: none;
+    }
+
+    .home-page .theme-toggle,
+    .home-page button.menu-icon {
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        border-radius: 10px;
+        color: var(--text-secondary);
+        background: rgba(255, 255, 255, 0.045);
+    }
+
+    .home-page button.menu-icon {
+        order: 3;
+    }
+
+    .home-page button.menu-icon[aria-expanded="true"] {
+        border-color: rgba(16, 185, 129, 0.4);
+        color: #6ee7b7;
+        background: rgba(16, 185, 129, 0.11);
+    }
+
+    .home-page .nav-menu {
+        top: calc(100% + 7px);
+        margin-top: 0;
+        padding: 8px;
+        gap: 3px;
+        border-radius: 12px;
+        background: rgba(8, 25, 36, 0.98);
+        box-shadow: 0 16px 32px rgba(2, 6, 23, 0.32);
+    }
+
+    .home-page .nav-menu a,
+    .home-page .nav-menu a:hover,
+    .home-page .nav-menu a.active {
+        padding: 11px 13px;
+        border-radius: 8px;
+    }
+
+    .home-page .league-scroller {
+        margin-top: 10px;
+        padding: 7px 10px 5px;
+    }
+
+    .home-page .scroller-wrapper {
+        gap: 8px;
+    }
+
+    .home-page .league-chip {
+        min-height: 36px;
+        padding: 6px 10px 6px 7px;
+        font-size: 12px;
+    }
+
+    .home-page .league-chip img {
+        width: 22px;
+        height: 22px;
+        flex-basis: 22px;
+    }
+
+    body.light-mode.home-page .main-header,
+    body.light-mode.home-page .nav-menu {
+        border-color: #e2e8f0;
+        background: rgba(255, 255, 255, 0.97);
+    }
+}
+
+/* Final mobile header sizing parity across every page. */
+@media (max-width: 768px) {
+    body:not(.home-page) .main-header {
+        min-height: 58px !important;
+        padding: 8px 12px !important;
+    }
+
+    body:not(.home-page) .logo img {
+        width: auto !important;
+        height: 36px !important;
+        max-height: 36px !important;
+    }
+
+    body:not(.home-page) button.menu-icon,
+    body:not(.home-page) .theme-toggle {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 34px;
+        width: 34px !important;
+        min-width: 34px;
+        height: 34px !important;
+        min-height: 34px;
+        padding: 0 !important;
+        box-sizing: border-box;
+        font: inherit;
+        font-size: 16px !important;
+        line-height: 1;
+    }
+
+    body:not(.home-page) button.menu-icon i,
+    body:not(.home-page) .theme-toggle i,
+    body:not(.home-page) .theme-toggle svg {
+        width: 16px;
+        height: 16px;
+        font-size: 16px;
+        line-height: 1;
     }
 }
