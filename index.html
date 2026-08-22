@@ -515,13 +515,16 @@ if (totalMinutes < 0) {
                 return h * 60 + m;
             };
 
-            if (a.isApiMatch && b.isApiMatch) {
-                return toMin(a.displayTime) - toMin(b.displayTime);
-            }
-
-            const priority = s => (s.includes('🔴') || s === 'HT') ? 1 : s === 'Upcoming' ? 2 : 3;
-            const pa = priority(a.status), pb = priority(b.status);
+            const priority = match => {
+                if (match.statusClass === 'status-live' || match.status === 'HT') return 1;
+                if (match.statusClass === 'status-upcoming' && match.status === 'Upcoming') return 2;
+                return 3;
+            };
+            const pa = priority(a), pb = priority(b);
             if (pa !== pb) return pa - pb;
+
+            // Upcoming/live matches: nearest kickoff first.
+            // Finished matches: most recently completed first, at the bottom.
             return pa === 3
                 ? toMin(b.displayTime) - toMin(a.displayTime)
                 : toMin(a.displayTime) - toMin(b.displayTime);
