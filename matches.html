@@ -186,7 +186,9 @@
 
         function renderMatches(day) {
             const container = document.getElementById("matches-container");
-            const matches = Array.isArray(window.matchesData?.[day]) ? window.matchesData[day] : [];
+            const matches = typeof matchesData !== "undefined" && Array.isArray(matchesData[day])
+                ? matchesData[day]
+                : [];
 
             if (!matches.length) {
                 container.innerHTML = '<div class="matches-empty"><i class="fa-regular fa-futbol"></i>No matches available.</div>';
