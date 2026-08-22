@@ -78,12 +78,18 @@
     <div class="content-left">
      <section class="section-block" id="matches">
       <div class="fixtures-container">
+        <div class="matches-section-heading">
+         <div><h2 id="matches-heading">Today&rsquo;s Matches</h2><p>Live scores and upcoming fixtures</p></div>
+         <span id="matches-updated" aria-live="polite">Updating scores...</span>
+        </div>
         <div class="tv96-banner">
             <img src="tv96-banner.png" alt="TV96 Live">
         </div>
        <div class="nav-tabs"><button class="nav-item tab-btn" data-day="shalay">Yesterday</button> <button class="nav-item tab-btn active" data-day="maanta">Today</button> <button class="nav-item tab-btn" data-day="berri">Tomorrow</button>
        </div>
-       <div id="matches-container"></div>
+       <div id="matches-container" aria-live="polite">
+        <div class="matches-skeleton" aria-hidden="true"><span></span><span></span><span></span></div>
+       </div>
       </div>
      </section>
     </div>
@@ -97,18 +103,18 @@
     </div>
     <aside class="sidebar">
      <div class="sidebar-widget">
-      <h3>Leagues</h3>
+      <h3>Popular Leagues</h3>
       <ul class="league-list">
-       <li><img src="icon football/champion.png" alt="Champions League" loading="lazy"> Champions League</li>
-       <li><img src="icon football/premier league.png" alt="Premier League" loading="lazy"> Premier League</li>
-       <li><img src="icon football/laliga.png" alt="La Liga" loading="lazy"> La Liga</li>
-       <li><img src="icon football/serie a.png" alt="Serie A" loading="lazy"> Serie A</li>
-       <li><img src="icon football/league 1.png" alt="Ligue 1" loading="lazy"> Ligue 1</li>
-       <li><img src="icon football/bundisliga.png" alt="Bundesliga" loading="lazy"> Bundesliga</li>
-       <li><img src="icon football/CAF.jpg" alt="African Cup" loading="lazy"> African Cup</li>
-       <li><img src="icon football/europa_league.jpg" alt="Europa League" loading="lazy"> Europa League</li>
-       <li><img src="icon football/Suadi-Pro-League.jpg" alt="Saudi Pro League" loading="lazy"> Saudi Pro League</li>
-       <li><img src="icon football/world cup1.png" alt="FIFA World Cup" loading="lazy"> FIFA World Cup</li>
+       <li><a href="standings.html?league=UEFA%20Champions%20League"><img src="https://media.api-sports.io/football/leagues/2.png" alt="Champions League" loading="lazy"><span>Champions League</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
+       <li><a href="standings.html?league=Premier%20League"><img src="https://media.api-sports.io/football/leagues/39.png" alt="Premier League" loading="lazy"><span>Premier League</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
+       <li><a href="standings.html?league=La%20Liga"><img src="https://media.api-sports.io/football/leagues/140.png" alt="La Liga" loading="lazy"><span>La Liga</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
+       <li><a href="standings.html?league=Serie%20A"><img src="https://media.api-sports.io/football/leagues/135.png" alt="Serie A" loading="lazy"><span>Serie A</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
+       <li><a href="standings.html?league=Ligue%201"><img src="https://media.api-sports.io/football/leagues/61.png" alt="Ligue 1" loading="lazy"><span>Ligue 1</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
+       <li><a href="standings.html?league=Bundesliga"><img src="https://media.api-sports.io/football/leagues/78.png" alt="Bundesliga" loading="lazy"><span>Bundesliga</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
+       <li class="league-coming-soon"><img src="https://media.api-sports.io/football/leagues/12.png" alt="African Cup" loading="lazy"><span>African Cup<small>Coming soon</small></span></li>
+       <li class="league-coming-soon"><img src="https://media.api-sports.io/football/leagues/3.png" alt="Europa League" loading="lazy"><span>Europa League<small>Coming soon</small></span></li>
+       <li class="league-coming-soon"><img src="https://media.api-sports.io/football/leagues/307.png" alt="Saudi Pro League" loading="lazy"><span>Saudi Pro League<small>Coming soon</small></span></li>
+       <li class="league-coming-soon"><img src="https://cdn.prod.website-files.com/68f550992570ca0322737dc2/69f4a666ff876f5a52a1b7ab_fifa-world-cup-2026-official-logo-footylogos.png" alt="FIFA World Cup 2026" loading="lazy"><span>FIFA World Cup 2026<small>Coming soon</small></span></li>
       </ul>
      </div>
      <div class="sidebar-widget social-promo">
@@ -187,6 +193,7 @@
    </div>
   </footer>
     <script src="news-data.js"></script>
+    <script src="streams.js"></script>
     <script src="matches-data.js"></script>
  <script>
     // ============================================================
@@ -475,6 +482,15 @@
         const container = document.getElementById('matches-container');
         const matches   = matchesData[day] || [];
         const now       = new Date();
+        const heading = document.getElementById('matches-heading');
+        const headingLabels = { shalay: "Yesterday's Matches", maanta: "Today's Matches", berri: "Tomorrow's Matches" };
+        if (heading) heading.textContent = headingLabels[day] || "Today's Matches";
+
+        if (!matches.length) {
+            container.innerHTML = '<div class="matches-empty-state"><i data-lucide="calendar-x"></i><strong>No featured matches</strong><span>Check another day for fixtures.</span></div>';
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            return;
+        }
 
         // Apply dynamic time-based status updates
         const processedMatches = matches.map(match => {
@@ -534,11 +550,15 @@ if (totalMinutes < 0) {
             const matchUrl   = match.url || `watch-live.html?id=${encodeURIComponent(match.id)}`;
             const homeLogo   = match.homeLogo   || teamLogos[match.home]   || 'https://via.placeholder.com/32x32?text=?';
             const awayLogo   = match.awayLogo   || teamLogos[match.away]   || 'https://via.placeholder.com/32x32?text=?';
+            const streamConfig = typeof streams !== 'undefined' ? streams[String(match.id)] : null;
+            const hasStream = Boolean(streamConfig?.server1?.trim() || streamConfig?.server2?.trim());
+            const availabilityText = hasStream ? 'Watch Live' : 'Stream pending';
             const leagueLogo = match.leagueLogo || leagueLogos[match.league] || 'https://via.placeholder.com/20x20?text=🏆';
 
             return `
             <a href="${matchUrl}" class="match-link-wrapper" data-match-id="${match.id}"
                data-is-live="${match.statusClass === 'status-live'}"
+               data-has-stream="${hasStream}"
                data-home="${match.home}" data-away="${match.away}"
                data-home-logo="${homeLogo}" data-away-logo="${awayLogo}"
                data-home-score="${match.homeScore}" data-away-score="${match.awayScore}"
@@ -569,7 +589,7 @@ if (totalMinutes < 0) {
                         </div>
                         <div class="play-overlay">
                             <i data-lucide="play-circle"></i>
-                            <div class="watch-text">${match.overlayText}</div>
+                            <div class="watch-text">${availabilityText}</div>
                         </div>
                     </div>
                 </div>
@@ -789,12 +809,20 @@ if (totalMinutes < 0) {
     // ============================================================
     // START
     // ============================================================
-    renderMatches('maanta');
+    function markMatchesUpdated() {
+        const updated = document.getElementById('matches-updated');
+        if (updated) updated.textContent = 'Updated just now';
+    }
+
     window.addEventListener('matchesDataUpdated', () => {
         renderMatches(getCurrentDay());
+        markMatchesUpdated();
     });
     if (window.matchesDataReady) {
-        window.matchesDataReady.then(() => renderMatches(getCurrentDay()));
+        window.matchesDataReady.then(() => {
+            renderMatches(getCurrentDay());
+            markMatchesUpdated();
+        });
     }
     updateNews();
 

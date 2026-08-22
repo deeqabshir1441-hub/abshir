@@ -1136,9 +1136,10 @@ body.modal-open {
         /* ===== LEAGUE LIST STYLES ===== */
         .league-list {
             list-style: none;
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 10px;
+            padding: 0;
         }
 
         .league-list li {
@@ -1153,9 +1154,42 @@ body.modal-open {
             background: rgba(16, 185, 129, 0.12);
             border: 1px solid rgba(16, 185, 129, 0.15);
             transition: background 0.4s ease, border-color 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
-            cursor: pointer;
             position: relative;
             overflow: hidden;
+        }
+
+        .league-list li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            min-width: 0;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .league-list li a span,
+        .league-list .league-coming-soon > span {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .league-list li a > i {
+            color: var(--primary-green);
+            font-size: 10px;
+        }
+
+        .league-list .league-coming-soon {
+            cursor: default;
+            opacity: 0.7;
+        }
+
+        .league-list .league-coming-soon small {
+            display: block;
+            margin-top: 2px;
+            color: var(--text-secondary);
+            font-size: 9px;
+            font-weight: 600;
         }
 
         .league-list li::before {
@@ -1182,18 +1216,23 @@ body.modal-open {
         }
 
         .league-list li img {
-            width: 20px;
-            height: 20px;
+            width: 28px;
+            height: 28px;
+            padding: 3px;
+            box-sizing: border-box;
             object-fit: contain;
             flex-shrink: 0;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 4px;
-            filter: brightness(0.95);
+            background: linear-gradient(135deg, #f8fafc 0 50%, #475569 50%);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(2, 6, 23, 0.16);
+            filter: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .league-list li:hover img {
-            transform: scale(1.25) rotate(-8deg);
-            filter: brightness(1.3) drop-shadow(0 0 6px rgba(16, 185, 129, 0.4));
+            transform: scale(1.08);
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
         }
 
         body.light-mode .league-list li {
@@ -1205,6 +1244,12 @@ body.modal-open {
             background: rgba(16, 185, 129, 0.13);
             border-color: var(--primary-green);
             box-shadow: 0 6px 16px rgba(16, 185, 129, 0.12);
+        }
+
+        @media (max-width: 600px) {
+            .league-list {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* ===== SOCIAL PROMO STYLES ===== */
@@ -3112,6 +3157,75 @@ body.light-mode .news-card {
     }
 }
 
+/* Homepage matches status, loading, and responsive presentation. */
+.home-page .matches-section-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.home-page .matches-section-heading h2 {
+    margin: 0 0 4px;
+    color: var(--text-primary);
+    font-size: 21px;
+    line-height: 1.2;
+}
+
+.home-page .matches-section-heading p {
+    margin: 0;
+    font-size: 12px;
+}
+
+.home-page #matches-updated {
+    flex-shrink: 0;
+    color: var(--primary-green);
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.home-page .match-link-wrapper[data-is-live="true"] .match-card {
+    border-color: rgba(16, 185, 129, 0.72);
+    background: rgba(16, 185, 129, 0.055);
+    box-shadow: 0 7px 20px rgba(16, 185, 129, 0.13);
+}
+
+.home-page .matches-skeleton {
+    display: grid;
+    gap: 12px;
+}
+
+.home-page .matches-skeleton span {
+    display: block;
+    height: 108px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, rgba(148, 163, 184, 0.08), rgba(148, 163, 184, 0.2), rgba(148, 163, 184, 0.08));
+    background-size: 200% 100%;
+    animation: matches-skeleton-loading 1.4s linear infinite;
+}
+
+.home-page .matches-empty-state {
+    display: grid;
+    justify-items: center;
+    gap: 7px;
+    padding: 36px 16px;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.home-page .matches-empty-state svg {
+    color: var(--primary-green);
+}
+
+.home-page .matches-empty-state strong {
+    color: var(--text-primary);
+}
+
+@keyframes matches-skeleton-loading {
+    to { background-position: -200% 0; }
+}
+
 /* Homepage mobile spacing: match the wider fixtures view used on matches.html. */
 @media (max-width: 600px) {
     .home-page > main {
@@ -3134,5 +3248,22 @@ body.light-mode .news-card {
 
     .home-page .fixtures-container {
         padding: 14px;
+    }
+
+    .home-page .matches-section-heading {
+        align-items: flex-end;
+        margin-bottom: 13px;
+    }
+
+    .home-page .matches-section-heading h2 {
+        font-size: 18px;
+    }
+
+    .home-page .matches-section-heading p {
+        font-size: 11px;
+    }
+
+    .home-page .matches-skeleton span {
+        height: 132px;
     }
 }
