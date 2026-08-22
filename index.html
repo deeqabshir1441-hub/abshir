@@ -40,7 +40,7 @@
             <a href="index.html">
                 <img src="logo/Logo.png" alt="TV96 Live Logo">
             </a>
-            </div><i class="fas fa-bars menu-icon" id="menuToggle"></i>
+            </div><button class="menu-icon" id="menuToggle" type="button" aria-label="Open navigation menu" aria-controls="navMenu" aria-expanded="false"><i class="fas fa-bars" aria-hidden="true"></i></button>
             <nav class="nav-menu" id="navMenu">
             <a href="index.html" class="nav-link active">Home</a> 
             <a href="matches.html" class="nav-link">Matches</a> 
@@ -80,7 +80,7 @@
       <div class="fixtures-container">
         <div class="matches-section-heading">
          <div><h2 id="matches-heading">Today&rsquo;s Matches</h2><p>Live scores and upcoming fixtures</p></div>
-         <span id="matches-updated" aria-live="polite">Updating scores...</span>
+         <div class="matches-heading-status"><span id="live-count" hidden>0 Live</span><span id="matches-updated" aria-live="polite">Updating scores...</span></div>
         </div>
         <div class="tv96-banner">
             <img src="tv96-banner.png" alt="TV96 Live">
@@ -96,8 +96,11 @@
     <div class="content-middle">
      <section class="section-block" id="news">
       <div style="padding: 0;">
-       <h2 class="section-title">📰 Latest News</h2>
-       <div class="news-grid" id="news-container"></div>
+       <div class="home-news-header">
+        <div><h2>Latest Football News</h2><p>Breaking stories, transfers and match updates</p></div>
+        <a href="news.html">View All News <i data-lucide="arrow-right"></i></a>
+       </div>
+       <div class="home-news-layout" id="news-container"></div>
       </div>
      </section>
     </div>
@@ -201,9 +204,33 @@
     // ============================================================
     const menuToggle = document.getElementById('menuToggle');
     const navMenu = document.getElementById('navMenu');
-    menuToggle.addEventListener('click', () => navMenu.classList.toggle('active'));
+    function escapeHtml(value) {
+        return String(value ?? '').replace(/[&<>'"]/g, character => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+        })[character]);
+    }
+    function closeNavigation() {
+        navMenu.classList.remove('active');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Open navigation menu');
+    }
+    menuToggle.addEventListener('click', event => {
+        event.stopPropagation();
+        navMenu.classList.toggle('active');
+        const isOpen = navMenu.classList.contains('active');
+        menuToggle.setAttribute('aria-expanded', String(isOpen));
+        menuToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+    });
     document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', () => navMenu.classList.remove('active'));
+        link.addEventListener('click', closeNavigation);
+    });
+    document.addEventListener('click', event => {
+        if (navMenu.classList.contains('active') && !navMenu.contains(event.target)) {
+            closeNavigation();
+        }
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape') closeNavigation();
     });
 
     // ============================================================
@@ -487,6 +514,8 @@
         if (heading) heading.textContent = headingLabels[day] || "Today's Matches";
 
         if (!matches.length) {
+            const liveCountElement = document.getElementById('live-count');
+            if (liveCountElement) liveCountElement.hidden = true;
             container.innerHTML = '<div class="matches-empty-state"><i data-lucide="calendar-x"></i><strong>No featured matches</strong><span>Check another day for fixtures.</span></div>';
             if (typeof lucide !== 'undefined') lucide.createIcons();
             return;
@@ -525,6 +554,13 @@ if (totalMinutes < 0) {
             return { ...match, status: displayStatus, statusClass: displayClass };
         });
 
+        const liveCount = processedMatches.filter(match => match.statusClass === 'status-live').length;
+        const liveCountElement = document.getElementById('live-count');
+        if (liveCountElement) {
+            liveCountElement.textContent = `${liveCount} Live`;
+            liveCountElement.hidden = liveCount === 0;
+        }
+
         const sorted = processedMatches.sort((a, b) => {
             const toMin = t => {
                 const [h, m] = (t || '00:00').split(':').map(Number);
@@ -554,6 +590,18 @@ if (totalMinutes < 0) {
             const hasStream = Boolean(streamConfig?.server1?.trim() || streamConfig?.server2?.trim());
             const availabilityText = hasStream ? 'Watch Live' : 'Stream pending';
             const leagueLogo = match.leagueLogo || leagueLogos[match.league] || 'https://via.placeholder.com/20x20?text=🏆';
+            const kickoff = new Date(`${match.matchDate}T${match.displayTime}:00+03:00`);
+            const minutesUntilKickoff = Math.ceil((kickoff.getTime() - now.getTime()) / 60000);
+            let timingText = 'Full time';
+            if (match.statusClass === 'status-live') {
+                timingText = 'In progress';
+            } else if (match.status === 'Upcoming' && Number.isFinite(minutesUntilKickoff)) {
+                timingText = minutesUntilKickoff < 60
+                    ? `Starts in ${Math.max(1, minutesUntilKickoff)} min`
+                    : minutesUntilKickoff < 1440
+                        ? `Starts in ${Math.ceil(minutesUntilKickoff / 60)} hr`
+                        : match.matchDate;
+            }
 
             return `
             <a href="${matchUrl}" class="match-link-wrapper" data-match-id="${match.id}"
@@ -586,6 +634,8 @@ if (totalMinutes < 0) {
                         <div class="status-box">
                             <div class="time">${match.displayTime}</div>
                             <div class="status ${match.statusClass}">${match.status}</div>
+                            <div class="match-timing">${timingText}</div>
+                            <div class="stream-badge ${hasStream ? 'is-available' : 'is-pending'}">${hasStream ? 'Stream available' : 'Stream pending'}</div>
                         </div>
                         <div class="play-overlay">
                             <i data-lucide="play-circle"></i>
@@ -748,58 +798,24 @@ if (totalMinutes < 0) {
             .sort((a, b) => b.id - a.id)
             .slice(0, 4);
 
-        container.innerHTML = latestArticles.map(a => `
-            <article class="news-card">
-
-                <div class="news-thumb">
-
-                    <img 
-                        src="${a.image}" 
-                        alt="${a.title}" 
-                        loading="lazy"
-                        onerror="this.src='https://via.placeholder.com/400x240?text=News'"
-                    >
-
-                    <span class="news-tag">
-                        ${a.category}
-                    </span>
-
-                </div>
-
+        const articleCard = (article, featured = false) => `
+            <article class="news-card ${featured ? 'home-news-featured' : 'home-news-compact'}">
+                <a class="home-news-image-link news-thumb" href="/articles/${article.id}" aria-label="Read ${article.title}">
+                    <img src="${article.image}" alt="${article.title}" loading="${featured ? 'eager' : 'lazy'}" onerror="this.src='https://via.placeholder.com/640x360?text=News'">
+                    <span class="news-tag">${article.category}</span>
+                </a>
                 <div class="news-info">
-
-                    <div class="news-meta">
-
-                        <span>
-                            <i data-lucide="calendar"></i>
-                            Latest News
-                        </span>
-
-                        <span>
-                            <i data-lucide="clock"></i>
-                            3 min read
-                        </span>
-
-                    </div>
-
-                    <h3>${a.title}</h3>
-
-                    <p>
-                        ${a.description || 'Read the full story.'}
-                    </p>
-
-                    <a 
-                        href="/articles/${a.id}"
-                        class="btn-read"
-                    >
-                        Read More 
-                        <i data-lucide="arrow-right"></i>
-                    </a>
-
+                    <div class="news-meta"><span><i data-lucide="clock"></i> Just now</span><span>3 min read</span></div>
+                    <h3><a href="/articles/${article.id}">${article.title}</a></h3>
+                    <p>${article.description || 'Read the full story.'}</p>
+                    <a href="/articles/${article.id}" class="btn-read">Read full story <i data-lucide="arrow-right"></i></a>
                 </div>
+            </article>`;
 
-            </article>
-        `).join('');
+        const [featuredArticle, ...otherArticles] = latestArticles;
+        container.innerHTML = featuredArticle
+            ? `${articleCard(featuredArticle, true)}<div class="home-news-list">${otherArticles.map(article => articleCard(article)).join('')}</div>`
+            : '<p>No news is available right now.</p>';
 
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
@@ -811,12 +827,32 @@ if (totalMinutes < 0) {
     // ============================================================
     function markMatchesUpdated() {
         const updated = document.getElementById('matches-updated');
-        if (updated) updated.textContent = 'Updated just now';
+        if (updated) {
+            updated.textContent = `Updated ${new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date())}`;
+        }
+    }
+
+    function retryMatches() {
+        const container = document.getElementById('matches-container');
+        const updated = document.getElementById('matches-updated');
+        if (container) container.innerHTML = '<div class="matches-skeleton" aria-hidden="true"><span></span><span></span><span></span></div>';
+        if (updated) updated.textContent = 'Updating scores...';
+        loadMatches();
     }
 
     window.addEventListener('matchesDataUpdated', () => {
         renderMatches(getCurrentDay());
         markMatchesUpdated();
+    });
+    window.addEventListener('matchesDataFailed', event => {
+        const container = document.getElementById('matches-container');
+        const updated = document.getElementById('matches-updated');
+        if (updated) updated.textContent = 'Update failed';
+        if (container) {
+            container.innerHTML = `<div class="matches-error-state"><i data-lucide="wifi-off"></i><strong>Unable to load matches</strong><span>${escapeHtml(event.detail?.message || 'Please check your connection and try again.')}</span><button type="button" id="retry-matches">Try Again</button></div>`;
+            document.getElementById('retry-matches')?.addEventListener('click', retryMatches);
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
     });
     if (window.matchesDataReady) {
         window.matchesDataReady.then(() => {

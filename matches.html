@@ -58,7 +58,7 @@
         }
     </style>
 </head>
-<body>
+<body class="matches-list-page">
     <header class="main-header">
         <div class="navbar-container">
             <div class="logo">
@@ -99,6 +99,16 @@
     <main class="matches-page">
         <section class="section-block" aria-label="Football matches">
             <div class="fixtures-container">
+                <div class="matches-section-heading">
+                    <div>
+                        <h2 id="matches-heading">Today&rsquo;s Matches</h2>
+                        <p>Live scores and upcoming fixtures</p>
+                    </div>
+                    <div class="matches-heading-status">
+                        <span id="live-count" hidden>0 Live</span>
+                        <span id="matches-updated" aria-live="polite">Updated now</span>
+                    </div>
+                </div>
                 <div class="tv96-banner">
                     <img src="tv96-banner.png" alt="TV96 Live">
                 </div>
@@ -194,6 +204,21 @@
             const matches = typeof matchesData !== "undefined" && Array.isArray(matchesData[day])
                 ? matchesData[day]
                 : [];
+            const heading = document.getElementById("matches-heading");
+            const headingLabels = { shalay: "Yesterday's Matches", maanta: "Today's Matches", berri: "Tomorrow's Matches" };
+            if (heading) heading.textContent = headingLabels[day] || "Today's Matches";
+
+            const liveCount = matches.filter(match => match.status === "Live").length;
+            const liveBadge = document.getElementById("live-count");
+            if (liveBadge) {
+                liveBadge.textContent = `${liveCount} Live`;
+                liveBadge.hidden = liveCount === 0;
+            }
+
+            const updated = document.getElementById("matches-updated");
+            if (updated) {
+                updated.textContent = `Updated ${new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date())}`;
+            }
 
             if (!matches.length) {
                 container.innerHTML = '<div class="matches-empty"><i class="fa-regular fa-futbol"></i>No matches available.</div>';
@@ -228,7 +253,7 @@
                 const competitionCrest = leagueLogo ? `<img src="${escapeHtml(leagueLogo)}" alt="" class="league-logo-img" style="width:18px;height:18px;margin-right:8px;border-radius:2px;background:white;padding:1px;">` : "";
 
                 return `
-                    <a href="${escapeHtml(matchUrl)}" class="match-link-wrapper">
+                    <a href="${escapeHtml(matchUrl)}" class="match-link-wrapper" data-is-live="${match.status === "Live"}">
                         <div class="match-card">
                             <div class="league-header">${competitionCrest}<span class="league-name">${escapeHtml(match.league)}</span></div>
                             <div class="match-row">
