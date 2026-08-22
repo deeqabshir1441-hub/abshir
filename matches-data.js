@@ -29,8 +29,8 @@ const featuredMatches = [
         }
 ];
 
-function applyKickoffStatus(match, day) {
-    if (day !== 'maanta' || match.status !== 'Upcoming') {
+function applyKickoffStatus(match) {
+    if (match.status !== 'Upcoming') {
         return match;
     }
 
@@ -65,22 +65,28 @@ function loadMatches() {
             );
         }
 
-        ['shalay', 'maanta', 'berri'].forEach(day => {
-            const automaticMatches = Array.isArray(payload.matchesData[day])
-                ? payload.matchesData[day].map(match => applyKickoffStatus(match, day))
-                : [];
-            const automaticIds = new Set(automaticMatches.map(match => String(match.id)));
-            const manualMatches = featuredMatches
-                .filter(match => match.matchDate === payload.dates?.[day])
-                .filter(match => !automaticIds.has(String(match.id)))
-                .map(match => applyKickoffStatus(match, day));
+        const nextMatchesData = { shalay: [], maanta: [], berri: [] };
+        const dateToDay = Object.fromEntries(
+            Object.entries(payload.dates || {}).map(([day, date]) => [date, day])
+        );
+        const automaticMatches = ['shalay', 'maanta', 'berri']
+            .flatMap(day => Array.isArray(payload.matchesData[day]) ? payload.matchesData[day] : [])
+            .map(match => applyKickoffStatus(match));
+        const automaticIds = new Set(automaticMatches.map(match => String(match.id)));
+        const manualMatches = featuredMatches
+            .filter(match => dateToDay[match.matchDate])
+            .filter(match => !automaticIds.has(String(match.id)))
+            .map(match => applyKickoffStatus(match));
 
-            matchesData[day].splice(
-                0,
-                matchesData[day].length,
-                ...automaticMatches,
-                ...manualMatches
-            );
+        [...automaticMatches, ...manualMatches].forEach(match => {
+            // A match that crosses midnight remains in Today while live. Once
+            // it finishes, it is grouped by its kickoff date (Yesterday).
+            const day = match.status === 'Live' ? 'maanta' : dateToDay[match.matchDate];
+            if (day) nextMatchesData[day].push(match);
+        });
+
+        ['shalay', 'maanta', 'berri'].forEach(day => {
+            matchesData[day].splice(0, matchesData[day].length, ...nextMatchesData[day]);
         });
 
         window.dispatchEvent(

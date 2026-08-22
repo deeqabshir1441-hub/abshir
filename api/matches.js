@@ -316,7 +316,12 @@ export default async function handler(req, res) {
                 .map((match) => normalizeMatch(match, code))
                 .filter((match) => match.shouldDisplay)
                 .forEach((match) => {
-                    const day = dateKeys[match.matchDate];
+                    // Keep an overnight match under Today while it is still
+                    // live. As soon as the provider marks it Finished, its
+                    // kickoff date puts it back under Yesterday automatically.
+                    const day = match.status === "Live"
+                        ? "maanta"
+                        : dateKeys[match.matchDate];
                     if (day) {
                         delete match.shouldDisplay;
                         delete match.featured;
