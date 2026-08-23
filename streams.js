@@ -9,14 +9,14 @@
 // authorization headers, or other secrets to this frontend file.
 const streams = {
 
-    "560543": {
-        server1: "https://live.kinxie.com/live/72221156_02aea7b01c6c33449e0dc18c0bf11c66_720p.m3u8?auth_key=1787412303-0-0-b6c7a951c2fee7ccb7d2c0387c05f6ec",
-        server2: "https://live.kinxie.com/live/72221156_02aea7b01c6c33449e0dc18c0bf11c66_360p.m3u8?auth_key=1787412303-0-0-b6c7a951c2fee7ccb7d2c0387c05f6ec"
+    "560548": {
+        server1: "https://0713546501eefc1afcb0b54d64dcb5b8.v.smtcdns.net/live1.kinxie.com/live/72221168_9b7b47b1c297250d3f9dd38740cdf22b_720p.m3u8?auth_key=1787504317-0-0-34c5ff11fdba049e6a235f3ee5ab8d2f",
+        server2: "https://0713546501eefc1afcb0b54d64dcb5b8.v.smtcdns.net/live1.kinxie.com/live/72221168_9b7b47b1c297250d3f9dd38740cdf22b_360p.m3u8?auth_key=1787504317-0-0-34c5ff11fdba049e6a235f3ee5ab8d2f"
     },
 
-    "560544": {
-        server1: "https://0713546501eefc1afcb0b54d64dcb5b8.v.smtcdns.net/live2.kinxie.com/live/72221160_b771b86c631a1129dabb011f0871a43e_720p.m3u8?auth_key=1787421390-0-0-89d8bdf072473db092d34e6caaceda21",
-        server2: "https://0713546501eefc1afcb0b54d64dcb5b8.v.smtcdns.net/live2.kinxie.com/live/72221160_b771b86c631a1129dabb011f0871a43e_360p.m3u8?auth_key=1787421390-0-0-89d8bdf072473db092d34e6caaceda21"
+    "560549": {
+        server1: "https://0713546501eefc1afcb0b54d64dcb5b8.v.smtcdns.net/live.kinxie.com/live/72221166_aff4e9c57927168e4ea996fc14e19a35_720p.m3u8?auth_key=1787504229-0-0-cfd61a5158960168062043bc1178f57c",
+        server2: "https://0713546501eefc1afcb0b54d64dcb5b8.v.smtcdns.net/live.kinxie.com/live/72221166_aff4e9c57927168e4ea996fc14e19a35_360p.m3u8?auth_key=1787504229-0-0-cfd61a5158960168062043bc1178f57c"
     },
 
     "560545": {
