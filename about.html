@@ -5,30 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>About Us | TV96 Live</title>
-
-    <meta name="description" content="Learn more about TV96 Live, our mission, vision, editorial standards, football coverage, and commitment to delivering quality sports content for fans worldwide.">
-
+    <meta name="description" content="Learn what TV96 Live publishes, how football information and editorial content are handled, and how to contact us.">
     <meta name="keywords" content="About TV96 Live, Football News, Live Football, Sports News, Premier League, Champions League, Football Coverage">
-
     <meta name="author" content="TV96 Live">
-
     <meta name="google-adsense-account" content="ca-pub-9924964891667864">
 
     <!-- Open Graph -->
     <meta property="og:title" content="About TV96 Live">
-    <meta property="og:description" content="Discover TV96 Live and our commitment to providing reliable football news, live scores, fixtures, standings, and sports coverage.">
+    <meta property="og:description" content="Learn about TV96 Live, our football coverage, editorial approach, corrections process, and contact information.">
     <meta property="og:type" content="website">
     <meta property="og:image" content="/icon-512.png">
     <meta property="og:url" content="https://www.tv96live.org/about">
 
     <link rel="canonical" href="https://www.tv96live.org/about">
-
     <meta name="theme-color" content="#000000">
-
     <link rel="manifest" href="manifest.json">
-
     <link rel="apple-touch-icon" href="icon-192.png">
-
     <link rel="icon" href="favicon.png">
 
     <link rel="stylesheet"
@@ -43,282 +35,174 @@
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9924964891667864"
         crossorigin="anonymous">
     </script>
-
 </head>
 
 <body class="about-page">
+    <header class="main-header">
+        <div class="navbar-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo/Logo.png" alt="TV96 Live">
+                </a>
+            </div>
 
-        <header class="main-header">
+            <button class="menu-icon" id="menuToggle" type="button" aria-label="Open navigation menu" aria-controls="navMenu" aria-expanded="false"><i class="fas fa-bars" aria-hidden="true"></i></button>
 
-            <div class="navbar-container">
+            <nav class="nav-menu" id="navMenu">
+                <a href="index.html">Home</a>
+                <a href="matches.html">Matches</a>
+                <a href="standings.html">Standings</a>
+                <a href="news.html">Latest News</a>
+                <a href="about.html" class="active">About Us</a>
+                <a href="privacy.html">Privacy</a>
+            </nav>
 
-                <div class="logo">
-                    <a href="index.html">
-                        <img src="logo/Logo.png" alt="TV96 Live">
+            <div class="header-right">
+                <button id="installBtn"
+                    class="btn-primary"
+                    style="display:none;padding:6px 15px;font-size:12px;height:34px;margin-right:10px;">
+                    Install App
+                </button>
+
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/tv96live" aria-label="TV96 Live on Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.tiktok.com" aria-label="TikTok">
+                        <i class="fab fa-tiktok"></i>
                     </a>
                 </div>
 
-                <button class="menu-icon" id="menuToggle" type="button" aria-label="Open navigation menu" aria-controls="navMenu" aria-expanded="false"><i class="fas fa-bars" aria-hidden="true"></i></button>
+                <button class="theme-toggle" id="themeToggle" type="button" title="Switch Theme" aria-label="Switch theme"><i data-lucide="moon"></i></button>
+            </div>
+        </div>
+    </header>
 
-                <nav class="nav-menu" id="navMenu">
-
-                    <a href="index.html">Home</a>
-
-                    <a href="news.html">Latest News</a>
-
-                    <a href="about.html" class="active">About Us</a>
-
-                </nav>
-
-                <div class="header-right">
-
-                    <button id="installBtn"
-                        class="btn-primary"
-                        style="display:none;padding:6px 15px;font-size:12px;height:34px;margin-right:10px;">
-                        Install App
-                    </button>
-
-                    <div class="social-icons">
-
-                        <a href="https://www.facebook.com/tv96live">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-
-                        <a href="https://www.tiktok.com">
-                            <i class="fab fa-tiktok"></i>
-                        </a>
-
-                    </div>
-                    <button class="theme-toggle" id="themeToggle" type="button" title="Switch Theme" aria-label="Switch theme"><i data-lucide="moon"></i></button>
-
+    <main>
+        <section class="policy-section">
+            <div class="policy-header">
+                <div class="policy-icon">
+                    <i class="fas fa-futbol"></i>
                 </div>
-
+                <h1>About TV96 Live</h1>
+                <p class="last-updated">Updated August 2026</p>
             </div>
 
-        </header>
+            <div class="policy-content">
+                <div class="policy-toc">
+                    <h3><i class="fas fa-list"></i> Contents</h3>
+                    <ul>
+                        <li><a href="#who">Who We Are</a></li>
+                        <li><a href="#cover">What We Cover</a></li>
+                        <li><a href="#editorial">Our Editorial Approach</a></li>
+                        <li><a href="#accuracy">Accuracy and Corrections</a></li>
+                        <li><a href="#values">Our Values</a></li>
+                        <li><a href="#vision">Our Vision</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
 
-        <section class="policy-section">
+                <h2 id="who"><i class="fas fa-users"></i> Who We Are</h2>
+                <p>
+                    TV96 Live is a football information website for supporters who want to follow
+                    competitions, clubs, matches, and developments in the game. The site brings
+                    together match information and football-related editorial content in one place.
+                </p>
+                <p>
+                    We aim to present information in a clear and accessible format. TV96 Live is not
+                    described as an official league, club, governing-body, or broadcasting partner.
+                </p>
 
-        <div class="policy-header">
+                <h2 id="cover"><i class="fas fa-futbol"></i> What We Cover</h2>
+                <p>Our football coverage may include:</p>
+                <ul>
+                    <li>Fixtures, match schedules, and score updates.</li>
+                    <li>League tables and standings.</li>
+                    <li>Football news and transfer developments.</li>
+                    <li>Match previews and competition information.</li>
+                    <li>Football-related articles, context, and commentary.</li>
+                </ul>
+                <p>
+                    Availability and update times can vary by competition and by the source of the
+                    underlying information. Match schedules, scores, and standings can also change
+                    after publication.
+                </p>
 
-        <div class="policy-icon">
+                <h2 id="editorial"><i class="fas fa-pen-to-square"></i> Our Editorial Approach</h2>
+                <p>
+                    Match information may be obtained from reputable sports data providers and
+                    publicly available football sources. Where appropriate, editorial articles may
+                    also refer to statements from clubs, competitions, players, or other public sources.
+                </p>
+                <p>
+                    Editorial content should be reviewed before publication for clarity, relevance,
+                    and factual consistency. News reporting and commentary should be distinguishable
+                    where the difference is relevant, and uncertain or developing information should
+                    not be presented as confirmed fact.
+                </p>
+                <div class="policy-highlight">
+                    <p>
+                        <i class="fas fa-circle-info"></i>
+                        Football information can develop quickly. Readers should check relevant clubs,
+                        competitions, or governing bodies when they need official confirmation.
+                    </p>
+                </div>
 
-        <i class="fas fa-futbol"></i>
+                <h2 id="accuracy"><i class="fas fa-check-circle"></i> Accuracy and Corrections</h2>
+                <p>
+                    TV96 Live aims to keep published information accurate and current, but errors,
+                    delays, or incomplete information may occasionally occur. Scores, schedules,
+                    standings, and developing news can be revised as new information becomes available.
+                </p>
+                <p>
+                    Readers can report a possible factual error by emailing
+                    <a href="mailto:support@tv96live.org">support@tv96live.org</a>. Please include the
+                    page address and a clear description of the issue. When a correction can be
+                    verified, the relevant information may be updated.
+                </p>
 
+                <h2 id="values"><i class="fas fa-scale-balanced"></i> Our Values</h2>
+                <ul>
+                    <li><strong>Clarity:</strong> Present football information in an understandable format.</li>
+                    <li><strong>Accuracy:</strong> Check factual information and correct verified errors.</li>
+                    <li><strong>Transparency:</strong> Distinguish confirmed information from commentary or developing reports.</li>
+                    <li><strong>Respect:</strong> Cover clubs, players, competitions, and readers responsibly.</li>
+                    <li><strong>Usefulness:</strong> Focus on information that helps readers follow football.</li>
+                </ul>
+
+                <h2 id="vision"><i class="fas fa-eye"></i> Our Vision</h2>
+                <p>
+                    Our goal is to develop TV96 Live into a useful and easy-to-navigate football
+                    resource. We intend to improve the depth, presentation, and consistency of our
+                    match information and editorial coverage over time.
+                </p>
+
+                <h2 id="contact"><i class="fas fa-envelope"></i> Contact</h2>
+                <p>
+                    For general questions, feedback, or correction requests, contact TV96 Live at
+                    <a href="mailto:support@tv96live.org">support@tv96live.org</a>.
+                </p>
+                <p>
+                    When contacting us about a specific page, please include its URL so the request
+                    can be reviewed more efficiently.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 TV96 Live. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="matches.html">Matches</a>
+                <a href="standings.html">Standings</a>
+                <a href="news.html">News</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Use</a>
+            </div>
         </div>
-
-        <h1>About TV96 Live</h1>
-
-        <p class="last-updated">
-
-        Updated July 2026
-
-        </p>
-
-        </div>
-
-        <div class="policy-content">
-
-        <div class="policy-toc">
-
-        <h3>
-
-        <i class="fas fa-list"></i>
-
-        Contents
-
-        </h3>
-
-        <ul>
-
-        <li><a href="#welcome">Welcome</a></li>
-
-        <li><a href="#who">Who We Are</a></li>
-
-        <li><a href="#mission">Our Mission</a></li>
-
-        <li><a href="#vision">Our Vision</a></li>
-
-        <li><a href="#cover">What We Cover</a></li>
-
-        <li><a href="#choose">Why Choose TV96 Live</a></li>
-
-        <li><a href="#editorial">Editorial Standards</a></li>
-
-        <li><a href="#values">Our Values</a></li>
-
-        <li><a href="#future">Future Goals</a></li>
-
-        <li><a href="#contact">Contact Us</a></li>
-
-        </ul>
-
-        </div>
-
-        <!-- Welcome -->
-
-        <h2 id="welcome">
-
-        <i class="fas fa-heart"></i>
-
-        Welcome to TV96 Live
-
-        </h2>
-
-        <p>
-
-        Welcome to <strong>TV96 Live</strong>, your trusted destination for football news,
-        live match updates, fixtures, league standings and comprehensive sports
-        coverage from around the world.
-
-        </p>
-
-        <p>
-
-        Football is more than just a sport—it is a passion shared by millions of
-        people every day. Our mission is to keep football fans connected through
-        accurate information, useful articles, breaking news, and regular match
-        updates.
-
-        </p>
-
-        <p>
-
-        Whether you follow club football, international tournaments, or your
-        favorite national team, TV96 Live is designed to provide reliable sports
-        content in a clean, fast and easy-to-use platform.
-
-        </p>
-
-        <div class="policy-highlight">
-
-        <p>
-
-        <i class="fas fa-lightbulb"></i>
-
-        Our goal is to become one of the most trusted independent football websites
-        for sports fans around the world.
-
-        </p>
-
-        </div>
-
-        <!-- Who We Are -->
-
-        <h2 id="who">
-
-        <i class="fas fa-users"></i>
-
-        Who We Are
-
-        </h2>
-
-        <p>
-
-        TV96 Live is an independent football website created to deliver high-quality
-        sports information to football supporters everywhere.
-
-        </p>
-
-        <p>
-
-        Our platform combines football news, match previews, league standings,
-        fixtures, transfer stories, player updates, and football analysis into one
-        place.
-
-        </p>
-
-        <p>
-
-        Unlike websites that only display scores, we aim to provide useful football
-        content that helps visitors better understand the game.
-
-        </p>
-
-        <p>
-
-        Every improvement we make focuses on creating a better experience for our
-        readers while continuously expanding our football coverage across different
-        competitions.
-
-        </p>
-
-        <!-- Mission -->
-
-        <h2 id="mission">
-
-        <i class="fas fa-bullseye"></i>
-
-        Our Mission
-
-        </h2>
-
-        <p>
-
-        Our mission is to provide football supporters with reliable, original,
-        accurate and easy-to-understand sports information.
-
-        </p>
-
-        <ul>
-
-        <li>Publish quality football articles.</li>
-
-        <li>Deliver fast football updates.</li>
-
-        <li>Cover major football competitions.</li>
-
-        <li>Create original sports content.</li>
-
-        <li>Provide an enjoyable reading experience.</li>
-
-        <li>Continuously improve our platform.</li>
-
-        </ul>
-
-        <p>
-
-        We believe every football fan deserves access to trustworthy football news
-        without unnecessary complexity.
-
-        </p>
-
-        <!-- Vision -->
-
-        <h2 id="vision">
-
-        <i class="fas fa-eye"></i>
-
-        Our Vision
-
-        </h2>
-
-        <p>
-
-        Our long-term vision is to become a respected global football platform that
-        serves fans from every continent.
-
-        </p>
-
-        <p>
-
-        As football continues to evolve, TV96 Live will continue expanding its
-        coverage, introducing new features, publishing original analysis and
-        providing valuable sports information every day.
-
-        </p>
-
-        <div class="policy-highlight">
-
-        <p>
-
-        <i class="fas fa-star"></i>
-
-        Quality, accuracy and transparency remain at the center of everything we
-        publish.
-
-        </p>
-
-        </div>
-
+    </footer>
+</body>
 </html>

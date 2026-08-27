@@ -14,8 +14,8 @@
   ],
   "rewrites": [
     {
-      "source": "/articles/:id",
-      "destination": "/article-template.html?id=:id"
+      "source": "^/articles/(?<id>[1-7])$",
+      "destination": "/article-template?id=$id"
     }
   ],
   "redirects": [
