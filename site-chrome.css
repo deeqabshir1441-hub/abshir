@@ -18,7 +18,8 @@
     gap: 8px;
 }
 
-.nav-menu a {
+.nav-menu a,
+.nav-menu > span {
     padding: 9px 13px;
     border-radius: 999px;
 }
@@ -28,7 +29,8 @@
 }
 
 .nav-menu a:hover,
-.nav-menu a.active {
+.nav-menu a.active,
+.nav-menu > span.active {
     color: #ecfdf5;
     background: rgba(16, 185, 129, 0.12);
     box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.18);
@@ -68,6 +70,15 @@ body.light-mode .main-header {
 body.light-mode .nav-menu a:hover,
 body.light-mode .nav-menu a.active {
     color: #065f46;
+}
+
+.match-link-wrapper.streaming-disabled {
+    cursor: default;
+}
+
+.match-link-wrapper.streaming-disabled .match-card:hover,
+.match-link-wrapper.streaming-disabled .match-card:active {
+    transform: none;
 }
 
 .main-footer {

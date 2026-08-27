@@ -7,7 +7,7 @@
     <title>TV96 Live - Sports News, Live Scores and Fixtures</title>
     <meta name="google-adsense-account" content="ca-pub-9924964891667864">
     <meta property="og:title" content="TV96 Live - Live HD Sports">
-    <meta property="og:description" content="Watch live football and sports updates.">
+    <meta property="og:description" content="Football fixtures, scores, standings, news, and match information.">
     <meta property="og:image" content="/icon-512.png">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.tv96live.org/">
@@ -38,16 +38,16 @@
     <header class="main-header">
         <div class="navbar-container">
             <div class="logo">
-            <a href="index.html">
+            <a href="/">
                 <img src="logo/Logo.png" alt="TV96 Live Logo">
             </a>
             </div><button class="menu-icon" id="menuToggle" type="button" aria-label="Open navigation menu" aria-controls="navMenu" aria-expanded="false"><i class="fas fa-bars" aria-hidden="true"></i></button>
             <nav class="nav-menu" id="navMenu">
-            <a href="index.html" class="nav-link active">Home</a> 
-            <a href="matches.html" class="nav-link">Matches</a> 
-            <a href="news.html" class="nav-link">Latest News</a> 
-            <a href="about.html" class="nav-link">About Us</a> 
-            <a href="privacy.html" class="nav-link">Privacy</a>
+            <a href="/" class="nav-link active">Home</a>
+            <a href="/matches" class="nav-link">Matches</a>
+            <a href="/news" class="nav-link">Latest News</a>
+            <a href="/about" class="nav-link">About Us</a>
+            <a href="/privacy" class="nav-link">Privacy</a>
             </nav>
             <div class="header-right">
             <button id="installBtn" class="btn-primary header-install-btn" hidden>Install App</button>
@@ -65,13 +65,13 @@
   
   <section class="league-scroller">
    <div class="scroller-wrapper">
-    <a href="standings.html?league=Premier%20League" class="league-chip" title="Premier League"><img src="https://media.api-sports.io/football/leagues/39.png" alt="Premier League"> Premier League</a> 
-    <a href="standings.html?league=La%20Liga" class="league-chip" title="La Liga"><img src="https://media.api-sports.io/football/leagues/140.png" alt="La Liga"> La Liga</a> 
-    <a href="standings.html?league=Serie%20A" class="league-chip" title="Serie A"><img src="https://media.api-sports.io/football/leagues/135.png" alt="Serie A"> Serie A</a> 
-    <a href="standings.html?league=Ligue%201" class="league-chip" title="Ligue 1"><img src="https://media.api-sports.io/football/leagues/61.png" alt="Ligue 1"> Ligue 1</a> 
-    <a href="standings.html?league=Bundesliga" class="league-chip" title="Bundesliga"><img src="https://media.api-sports.io/football/leagues/78.png" alt="Bundesliga"> Bundesliga</a> 
-    <a href="standings.html?league=UEFA%20Champions%20League" class="league-chip" title="UEFA Champions League"><img src="https://media.api-sports.io/football/leagues/2.png" alt="UEFA CL"> UEFA Champions League</a> 
-    <a href="standings.html?league=Europa%20League" class="league-chip" title="Europa League"><img src="https://media.api-sports.io/football/leagues/3.png" alt="Europa League"> Europa League</a>
+    <a href="/standings?league=Premier%20League" class="league-chip" title="Premier League"><img src="https://media.api-sports.io/football/leagues/39.png" alt="Premier League"> Premier League</a>
+    <a href="/standings?league=La%20Liga" class="league-chip" title="La Liga"><img src="https://media.api-sports.io/football/leagues/140.png" alt="La Liga"> La Liga</a>
+    <a href="/standings?league=Serie%20A" class="league-chip" title="Serie A"><img src="https://media.api-sports.io/football/leagues/135.png" alt="Serie A"> Serie A</a>
+    <a href="/standings?league=Ligue%201" class="league-chip" title="Ligue 1"><img src="https://media.api-sports.io/football/leagues/61.png" alt="Ligue 1"> Ligue 1</a>
+    <a href="/standings?league=Bundesliga" class="league-chip" title="Bundesliga"><img src="https://media.api-sports.io/football/leagues/78.png" alt="Bundesliga"> Bundesliga</a>
+    <a href="/standings?league=UEFA%20Champions%20League" class="league-chip" title="UEFA Champions League"><img src="https://media.api-sports.io/football/leagues/2.png" alt="UEFA CL"> UEFA Champions League</a>
+    <a href="/standings?league=Europa%20League" class="league-chip" title="Europa League"><img src="https://media.api-sports.io/football/leagues/3.png" alt="Europa League"> Europa League</a>
    </div>
   </section>
   <main>
@@ -99,7 +99,7 @@
       <div style="padding: 0;">
        <div class="home-news-header">
         <div><h2>Latest Football News</h2><p>Breaking stories, transfers and match updates</p></div>
-        <a href="news.html">View All News <i data-lucide="arrow-right"></i></a>
+        <a href="/news">View All News <i data-lucide="arrow-right"></i></a>
        </div>
        <div class="home-news-layout" id="news-container"></div>
       </div>
@@ -109,12 +109,12 @@
      <div class="sidebar-widget">
       <h3>Popular Leagues</h3>
       <ul class="league-list">
-       <li><a href="standings.html?league=UEFA%20Champions%20League"><img src="https://media.api-sports.io/football/leagues/2.png" alt="Champions League" loading="lazy"><span>Champions League</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
-       <li><a href="standings.html?league=Premier%20League"><img src="https://media.api-sports.io/football/leagues/39.png" alt="Premier League" loading="lazy"><span>Premier League</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
-       <li><a href="standings.html?league=La%20Liga"><img src="https://media.api-sports.io/football/leagues/140.png" alt="La Liga" loading="lazy"><span>La Liga</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
-       <li><a href="standings.html?league=Serie%20A"><img src="https://media.api-sports.io/football/leagues/135.png" alt="Serie A" loading="lazy"><span>Serie A</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
-       <li><a href="standings.html?league=Ligue%201"><img src="https://media.api-sports.io/football/leagues/61.png" alt="Ligue 1" loading="lazy"><span>Ligue 1</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
-       <li><a href="standings.html?league=Bundesliga"><img src="https://media.api-sports.io/football/leagues/78.png" alt="Bundesliga" loading="lazy"><span>Bundesliga</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
+       <li><a href="/standings?league=UEFA%20Champions%20League"><img src="https://media.api-sports.io/football/leagues/2.png" alt="Champions League" loading="lazy"><span>Champions League</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
+       <li><a href="/standings?league=Premier%20League"><img src="https://media.api-sports.io/football/leagues/39.png" alt="Premier League" loading="lazy"><span>Premier League</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
+       <li><a href="/standings?league=La%20Liga"><img src="https://media.api-sports.io/football/leagues/140.png" alt="La Liga" loading="lazy"><span>La Liga</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
+       <li><a href="/standings?league=Serie%20A"><img src="https://media.api-sports.io/football/leagues/135.png" alt="Serie A" loading="lazy"><span>Serie A</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
+       <li><a href="/standings?league=Ligue%201"><img src="https://media.api-sports.io/football/leagues/61.png" alt="Ligue 1" loading="lazy"><span>Ligue 1</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
+       <li><a href="/standings?league=Bundesliga"><img src="https://media.api-sports.io/football/leagues/78.png" alt="Bundesliga" loading="lazy"><span>Bundesliga</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
        <li class="league-coming-soon"><img src="https://media.api-sports.io/football/leagues/12.png" alt="African Cup" loading="lazy"><span>African Cup<small>Coming soon</small></span></li>
        <li class="league-coming-soon"><img src="https://media.api-sports.io/football/leagues/3.png" alt="Europa League" loading="lazy"><span>Europa League<small>Coming soon</small></span></li>
        <li class="league-coming-soon"><img src="https://media.api-sports.io/football/leagues/307.png" alt="Saudi Pro League" loading="lazy"><span>Saudi Pro League<small>Coming soon</small></span></li>
@@ -123,7 +123,7 @@
      </div>
      <div class="sidebar-widget social-promo">
       <h3>Join Us</h3>
-      <p>Join us on TikTok for the latest highlights and videos!</p><a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="btn-social-tiktok"><i class="fa-brands fa-tiktok"></i> Follow Us</a>
+      <p>Join us on TikTok for the latest highlights and videos!</p><a href="https://www.tiktok.com/@user242901873?_r=1&amp;_t=ZS-97lGYrPehTp" target="_blank" rel="noopener noreferrer" class="btn-social-tiktok"><i class="fa-brands fa-tiktok"></i> Follow Us</a>
      </div>
     </aside>
    </div>
@@ -166,12 +166,12 @@
     <div class="footer-col links-col">
      <h4>Quick Links</h4>
      <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="#matches">Matches</a></li>
-      <li><a href="#news">News</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="privacy.html">Privacy Policy</a></li>
-      <li><a href="terms.html">Terms of Use</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/matches">Matches</a></li>
+      <li><a href="/news">News</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/privacy">Privacy Policy</a></li>
+      <li><a href="/terms">Terms of Use</a></li>
      </ul>
     </div>
     <div class="footer-col social-col">
@@ -198,7 +198,12 @@
    </div>
   </footer>
     <script src="news-data.js"></script>
-    <script src="streams.js"></script>
+    <script src="/site-config.js"></script>
+    <script>
+        if (window.TV96_CONFIG.STREAMING_ENABLED) {
+            document.write('<script src="/streams.js"><\/script>');
+        }
+    </script>
     <script src="matches-data.js"></script>
  <script>
     // ============================================================
@@ -590,12 +595,14 @@ if (totalMinutes < 0) {
         });
 
         container.innerHTML = sorted.map(match => {
-            const matchUrl   = match.url || `watch-live.html?id=${encodeURIComponent(match.id)}`;
+            const streamingEnabled = window.TV96_CONFIG.STREAMING_ENABLED;
+            const matchUrl   = match.url
+                ? match.url.replace(/^\/?watch-live\.html(?=\?|$)/, '/watch-live')
+                : `/watch-live?id=${encodeURIComponent(match.id)}`;
             const homeLogo   = match.homeLogo   || teamLogos[match.home]   || 'https://via.placeholder.com/32x32?text=?';
             const awayLogo   = match.awayLogo   || teamLogos[match.away]   || 'https://via.placeholder.com/32x32?text=?';
             const streamConfig = typeof streams !== 'undefined' ? streams[String(match.id)] : null;
-            const hasStream = Boolean(streamConfig?.server1?.trim() || streamConfig?.server2?.trim());
-            const availabilityText = hasStream ? 'Watch Live' : 'Stream pending';
+            const hasStream = streamingEnabled && Boolean(streamConfig?.server1?.trim() || streamConfig?.server2?.trim());
             const leagueLogo = match.leagueLogo || leagueLogos[match.league] || 'https://via.placeholder.com/20x20?text=🏆';
             const kickoff = new Date(`${match.matchDate}T${match.displayTime}:00+03:00`);
             const minutesUntilKickoff = Math.ceil((kickoff.getTime() - now.getTime()) / 60000);
@@ -610,8 +617,10 @@ if (totalMinutes < 0) {
                         : match.matchDate;
             }
 
+            const cardTag = streamingEnabled ? 'a' : 'div';
+            const destination = streamingEnabled ? `href="${matchUrl}"` : '';
             return `
-            <a href="${matchUrl}" class="match-link-wrapper" data-match-id="${match.id}"
+            <${cardTag} ${destination} class="match-link-wrapper ${streamingEnabled ? '' : 'streaming-disabled'}" data-match-id="${match.id}"
                data-is-live="${match.statusClass === 'status-live'}"
                data-has-stream="${hasStream}"
                data-home="${match.home}" data-away="${match.away}"
@@ -642,21 +651,21 @@ if (totalMinutes < 0) {
                             <div class="time">${match.displayTime}</div>
                             <div class="status ${match.statusClass}">${match.status}</div>
                             <div class="match-timing">${timingText}</div>
-                            <div class="stream-badge ${hasStream ? 'is-available' : 'is-pending'}">${hasStream ? 'Stream available' : 'Stream pending'}</div>
+                            ${streamingEnabled ? `<div class="stream-badge ${hasStream ? 'is-available' : 'is-pending'}">${hasStream ? 'Stream available' : 'Stream pending'}</div>` : ''}
                         </div>
-                        <div class="play-overlay">
+                        ${streamingEnabled ? `<div class="play-overlay">
                             <i data-lucide="play-circle"></i>
-                            <div class="watch-text">${availabilityText}</div>
-                        </div>
+                            <div class="watch-text">${hasStream ? 'Watch Live' : 'Stream pending'}</div>
+                        </div>` : ''}
                     </div>
                 </div>
-            </a>`;
+            </${cardTag}>`;
         }).join('');
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         }
 
-        document.querySelectorAll('.match-link-wrapper').forEach(link => {
+        document.querySelectorAll('a.match-link-wrapper').forEach(link => {
             link.addEventListener('click', event => {
                 if (link.dataset.isLive === 'true') return;
                 event.preventDefault();
@@ -783,7 +792,7 @@ if (totalMinutes < 0) {
             status:      isLive ? 'LIVE 🔴' : isFinished ? 'Finished' : 'Upcoming',
             statusClass: isLive ? 'status-live' : isFinished ? 'status-finished' : 'status-upcoming',
             overlayText: 'Watch Live',
-            url:         'watch-live.html',
+            url:         '/watch-live',
             homeLogo:    item.home_flag,
             awayLogo:    item.away_flag,
             leagueLogo:  leagueLogos[item.league] || ''
@@ -801,18 +810,18 @@ if (totalMinutes < 0) {
 
         // ID-ga ugu weyn ayaa latest ah
         // Tusaale: 7, 6, 5, 4
-        const latestArticles = [...articles]
+        const latestArticles = getPublishedArticles()
             .sort((a, b) => b.id - a.id)
             .slice(0, 4);
 
         const articleCard = (article, featured = false) => `
             <article class="news-card ${featured ? 'home-news-featured' : 'home-news-compact'}">
                 <a class="home-news-image-link news-thumb" href="/articles/${article.id}" aria-label="Read ${article.title}">
-                    <img src="${article.image}" alt="${article.title}" loading="${featured ? 'eager' : 'lazy'}" onerror="this.src='https://via.placeholder.com/640x360?text=News'">
+                    ${article.image ? `<img src="${article.image}" alt="${article.title}" loading="${featured ? 'eager' : 'lazy'}">` : ''}
                     <span class="news-tag">${article.category}</span>
                 </a>
                 <div class="news-info">
-                    <div class="news-meta"><span><i data-lucide="clock"></i> Just now</span><span>3 min read</span></div>
+                    <div class="news-meta"><time datetime="${article.publishedAt}"><i data-lucide="calendar"></i> ${formatArticleDate(article.publishedAt)}</time><span>${article.articleType}</span></div>
                     <h3><a href="/articles/${article.id}">${article.title}</a></h3>
                     <p>${article.description || 'Read the full story.'}</p>
                     <a href="/articles/${article.id}" class="btn-read">Read full story <i data-lucide="arrow-right"></i></a>

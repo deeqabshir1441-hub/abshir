@@ -53,7 +53,12 @@
         <div id="match-sections" hidden></div>
     </main>
 
-    <script src="streams.js"></script>
+    <script src="/site-config.js"></script>
+    <script>
+        if (window.TV96_CONFIG.STREAMING_ENABLED) {
+            document.write('<script src="/streams.js"><\/script>');
+        }
+    </script>
     <script>
         const daySections = [
             { key: 'maanta', label: 'TODAY' },
@@ -125,7 +130,10 @@
                 hasStream(match.id) ? '✓ Stream Added' : 'No Stream'
             );
 
-            information.append(teams, details, idLine, streamStatus);
+            information.append(teams, details, idLine);
+            if (window.TV96_CONFIG.STREAMING_ENABLED) {
+                information.append(streamStatus);
+            }
 
             const actions = createElement('div', 'actions');
             const copyIdButton = createElement('button', '', 'Copy ID');
@@ -140,11 +148,14 @@
             });
 
             const watchLink = createElement('a', '', 'Open Watch Page');
-            watchLink.href = `watch-live.html?id=${encodeURIComponent(match.id)}`;
+            watchLink.href = `/watch-live?id=${encodeURIComponent(match.id)}`;
             watchLink.target = '_blank';
             watchLink.rel = 'noopener noreferrer';
 
-            actions.append(copyIdButton, copyTemplateButton, watchLink);
+            actions.append(copyIdButton);
+            if (window.TV96_CONFIG.STREAMING_ENABLED) {
+                actions.append(copyTemplateButton, watchLink);
+            }
             card.append(information, actions);
             return card;
         }

@@ -19,7 +19,7 @@ const featuredMatches = [
             status: 'Upcoming',
             statusClass: 'status-upcoming',
             overlayText: 'Watch Live',
-            url: 'watch-live.html?id=supercup-2026-dortmund-bayern',
+            url: '/watch-live?id=supercup-2026-dortmund-bayern',
             displayTime: '21:30',
             matchDate: '2026-08-22',
             homeLogo: 'https://media.api-sports.io/football/teams/165.png',

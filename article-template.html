@@ -22,18 +22,20 @@
     <meta id="og-url" property="og:url" content="https://www.tv96live.org/article-template">
     <meta property="og:type" content="article">
     <meta id="og-image" property="og:image" content="https://www.tv96live.org/icon-512.png">
+    <meta id="article-published-time" property="article:published_time" content="">
+    <meta id="article-modified-time" property="article:modified_time" content="">
+    <meta id="article-author" property="article:author" content="TV96 Live Editorial Team">
 
+    <script src="/news-data.js"></script>
     <script>
         // Set route-specific metadata early for crawlers and link previews.
         (() => {
             const articleMetadata = {
-                1: ["Atalanta to offer Éderson new five-year deal amid transfer uncertainty", "Atalanta are set to offer Brazilian midfielder Éderson a new five-year contract, with the final decision now up to the player.", "1.jpg"],
-                2: ["Arsenal wait for Trossard decision as they target new winger", "Arsenal are waiting for Leandro Trossard's final green light to join Besiktas before moving for a new winger.", "2.jpeg"],
-                3: ["Lionel Messi makes history with 15 goal contributions in World Cup knockout rounds", "Lionel Messi has reached 15 goal contributions in World Cup knockout matches, the most by any player in the last 60 years.", "3.jpg"],
-                4: ["Aston Villa hijack Newcastle deal for Johan Manzambi", "Aston Villa are in talks with SC Freiburg to hijack Newcastle's €60m deal for Swiss midfielder Johan Manzambi.", "4.jpg"],
-                5: ["Romelu Lukaku reveals why he did not join Real Madrid in 2010", "Romelu Lukaku has revealed that his parents decided against a move to Real Madrid in 2010 because they wanted him to focus on his education.", "5.jpg"],
-                6: ["Alexander Sørloth flooded with over 85,000 comments after costly Haaland decision", "Alexander Sørloth's latest Instagram post has received over 85,000 comments after he failed to pass to Erling Haaland.", "6.webp"],
-                7: ["Kylian Mbappé makes World Cup history with 11 goal contributions", "Kylian Mbappé has recorded 8 goals and 3 assists at the 2026 World Cup, the most goal contributions by any player at a single edition since Gerd Müller in 1970.", "7.webp"]
+                1: ["Atalanta confirm Éderson contract extension through 2031", "Atalanta have confirmed that midfielder Éderson signed a contract extension running through June 2031.", ""],
+                2: ["Trossard leaves Arsenal as club considers left-wing options", "Leandro Trossard joined Beşiktaş while Arsenal considered changes on the left, including reported interest in Christos Tzolis and Morgan Rogers.", ""],
+                3: ["FIFA records Messi with 10 World Cup knockout-stage assists", "FIFA's tournament record summary lists Lionel Messi with 10 assists in World Cup knockout matches, the most on record.", ""],
+                4: ["Johan Manzambi completes move to Aston Villa", "Johan Manzambi completed a move from Freiburg to Aston Villa after Newcastle had also pursued the Switzerland midfielder.", ""],
+                7: ["Mbappé reaches 11 goal contributions at 2026 World Cup", "Kylian Mbappé reached eight goals and three assists by the 2026 World Cup quarter-final stage, according to Le Monde.", ""]
             };
             const pathMatch = window.location.pathname.match(/^\/articles\/(\d+)\/?$/);
             const queryId = new URLSearchParams(window.location.search).get("id");
@@ -49,7 +51,11 @@
             document.getElementById("og-title").content = title;
             document.getElementById("og-description").content = metadata[1];
             document.getElementById("og-url").content = canonicalUrl;
-            document.getElementById("og-image").content = `https://www.tv96live.org/news%20image/${metadata[2]}`;
+            document.getElementById("og-image").content = metadata[2]
+                ? `https://www.tv96live.org/news%20image/${metadata[2]}`
+                : "https://www.tv96live.org/icon-512.png";
+            document.getElementById("article-published-time").content = "2026-07-14T12:02:02+03:00";
+            document.getElementById("article-modified-time").content = "2026-08-28";
         })();
     </script>
 
@@ -202,9 +208,9 @@
 
             <nav class="nav-menu" id="navMenu">
                 <a href="/">Home</a>
-                <a href="/#matches">Matches</a>
+                <a href="/matches">Matches</a>
                 <a href="/news" class="active">Latest News</a>
-                <a href="/#about">About Us</a>
+                <a href="/about">About Us</a>
                 <a href="/privacy">Privacy</a>
             </nav>
 
@@ -258,12 +264,22 @@
 
                 <span>
                     <i class="fa-regular fa-clock"></i>
-                    <span id="articleTime">Loading...</span>
+                    <time id="articlePublished" datetime="">Loading...</time>
                 </span>
 
                 <span>
                     <i class="fa-solid fa-tag"></i>
                     <span id="articleCategory">Football</span>
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-pen-nib"></i>
+                    <span id="articleAuthor">TV96 Live Editorial Team</span>
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-newspaper"></i>
+                    <span id="articleType">News summary</span>
                 </span>
 
             </div>
@@ -289,6 +305,11 @@
         <div id="articleBody">
             <p>Loading article...</p>
         </div>
+
+        <aside class="policy-highlight" id="articleEditorialNote">
+            <p id="articleSourceNote"></p>
+            <p>Found a factual error? Contact the editorial team at <a href="mailto:support@tv96live.org">support@tv96live.org</a>.</p>
+        </aside>
 
     </main>
 
@@ -325,7 +346,7 @@
         ==========================================
         */
 
-        const articles = [
+        const articleBodies = [
 
             // =====================================
             // ARTICLE 1
@@ -339,8 +360,6 @@
                 description: "Atalanta are set to offer Brazilian midfielder Éderson a new five-year contract, with the final decision now up to the player.",
 
                 category: "Serie A",
-
-                time: "Just now",
 
                 image: "news image/1.jpg",
 
@@ -392,8 +411,6 @@
                 description: "Arsenal are waiting for Leandro Trossard's final green light to join Besiktas before moving for a new winger, with Christos Tzolis keen on the move.",
 
                 category: "Premier League",
-
-                time: "Just now",
 
                 image: "news image/2.jpeg",
 
@@ -450,8 +467,6 @@
 
                 category: "FIFA World Cup",
 
-                time: "Just now",
-
                 image: "news image/3.jpg",
 
                 content: `
@@ -501,8 +516,6 @@
                 description: "Aston Villa are in talks with SC Freiburg to hijack Newcastle's €60m deal for Swiss midfielder Johan Manzambi.",
 
                 category: "Premier League",
-
-                time: "Just now",
 
                 image: "news image/4.jpg",
 
@@ -564,8 +577,6 @@
 
                 category: "Football News",
 
-                time: "Just now",
-
                 image: "news image/5.jpg",
 
                 content: `
@@ -584,11 +595,7 @@
                     <h2>Lukaku Reveals Why He Did Not Join Real Madrid</h2>
 
                     <p>
-                        When asked whether he was close to joining Real Madrid in 2010, Lukaku explained that it was his parents' decision not to make the move because he was still in school.
-                    </p>
-
-                    <p>
-                        "It was my parents' decision to not join because I was in school, and since my parents didn't graduate, it was very important to them that I succeed in my studies," Lukaku said.
+                        The account summarised here says Lukaku's parents decided against the move while he was still in school because they wanted him to prioritise his education. The original interview source is not identified in the project and must be added before the wording can be treated as a verified quotation.
                     </p>
 
                     <h2>Real Madrid or Barcelona?</h2>
@@ -598,7 +605,7 @@
                     </p>
 
                     <p>
-                        "That's personal," Lukaku replied, leaving fans to speculate about which of the two Spanish giants he prefers.
+                        Because the original interview is not currently linked, this article does not reproduce the reported exchange as a direct quotation.
                     </p>
 
                     <p>
@@ -616,7 +623,6 @@
                 title: "Alexander Sørloth flooded with over 85,000 comments after costly Haaland decision",
                 description: "Alexander Sørloth's latest Instagram post has received over 85,000 comments after he failed to pass to Erling Haaland.",
                 category: "FIFA World Cup",
-                time: "Just now",
                 image: "news image/6.webp",
                 content: `
                     <p>
@@ -637,8 +643,6 @@
                 description: "Kylian Mbappé has recorded 8 goals and 3 assists at the 2026 World Cup, the most goal contributions by any player at a single edition since Gerd Müller in 1970.",
 
                 category: "FIFA World Cup",
-
-                time: "Just now",
 
                 image: "news image/7.webp",
 
@@ -689,6 +693,55 @@
 
         ];
 
+        const verifiedBodies = {
+            1: `
+                <p><strong>Atalanta have confirmed that midfielder Éderson signed a contract extension through 30 June 2031.</strong></p>
+                <h2>Extension confirmed by the club</h2>
+                <p>The club announcement confirms that the Brazil international extended his agreement after completing his first four years with Atalanta.</p>
+                <p>This article previously described a proposed five-year offer. It has been updated to reflect Atalanta's subsequent confirmation that the extension was completed.</p>
+            `,
+            2: `
+                <p><strong>Leandro Trossard completed a permanent move from Arsenal to Beşiktaş in July 2026.</strong></p>
+                <h2>Arsenal's left-side planning</h2>
+                <p>Sky Sports reported that Arsenal had been considering changes on the left side of their attack, with Christos Tzolis among the players examined for that role.</p>
+                <p>The same report identified Morgan Rogers as a priority target while making clear that Arsenal's wider recruitment plans were still developing at the time of publication.</p>
+            `,
+            3: `
+                <p><strong>FIFA's record summary lists Lionel Messi with 10 assists in World Cup knockout-stage matches.</strong></p>
+                <h2>A tournament assist record</h2>
+                <p>According to FIFA, no other player in its record set has registered more knockout-stage assists. The governing body's summary also credits Messi with providing an assist across six different World Cup tournaments.</p>
+                <p>An earlier version of this article used an unsupported total for combined goals and assists. That claim has been removed and replaced with the statistic FIFA directly reports.</p>
+            `,
+            4: `
+                <p><strong>Johan Manzambi completed a move from Freiburg to Aston Villa in July 2026.</strong></p>
+                <h2>Villa complete the transfer</h2>
+                <p>The Premier League confirmed that the Switzerland midfielder joined Aston Villa for the 2026/27 season.</p>
+                <p>Sky Sports reported that Newcastle had also pursued Manzambi before Villa completed the signing. Earlier speculative wording about an unfinished deal has therefore been replaced with the confirmed outcome.</p>
+            `,
+            7: `
+                <p><strong>Kylian Mbappé had recorded eight goals and three assists by the quarter-final stage of the 2026 World Cup.</strong></p>
+                <h2>Eleven direct goal contributions</h2>
+                <p>Le Monde reported the total after France's quarter-final against Morocco, giving Mbappé 11 direct goal contributions at that point in the tournament.</p>
+                <p>The report noted that he was the first player since Gerd Müller in 1970 to reach 11 goal contributions at a single World Cup. This article describes that dated tournament snapshot rather than a final-tournament total.</p>
+            `
+        };
+
+        articles.forEach(article => {
+            const bodyRecord = articleBodies.find(item => item.id === article.id);
+            article.content = verifiedBodies[article.id] || bodyRecord?.content || "";
+        });
+
+        function formatEditorialDate(value) {
+            if (!value) return "";
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) return "";
+            return new Intl.DateTimeFormat("en-GB", {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }).format(date);
+        }
+
 
 
         /*
@@ -702,7 +755,7 @@
         const params = new URLSearchParams(window.location.search);
         const articleId = Number(pathMatch ? pathMatch[1] : params.get("id"));
 
-        const article = articles.find(item => item.id === articleId);
+        const article = articles.find(item => item.id === articleId && item.isPublished !== false);
 
 
         /*
@@ -732,17 +785,43 @@
             document.getElementById("articleTitle").textContent =
                 article.title;
 
-            // Display time
-            document.getElementById("articleTime").textContent =
-                article.time;
+            const publishedElement = document.getElementById("articlePublished");
+            publishedElement.dateTime = article.publishedAt;
+            publishedElement.textContent = `Published ${formatEditorialDate(article.publishedAt)}`;
+
+            if (article.updatedAt) {
+                const updatedElement = document.createElement("span");
+                updatedElement.innerHTML = `<i class="fa-solid fa-rotate"></i> Updated <time datetime="${article.updatedAt}">${formatEditorialDate(article.updatedAt)}</time>`;
+                document.querySelector(".hero-meta").appendChild(updatedElement);
+            }
 
             // Display category
             document.getElementById("articleCategory").textContent =
                 article.category;
 
+            document.getElementById("articleAuthor").textContent = article.author;
+            document.getElementById("articleType").textContent = article.articleType;
+
             // Display full article content
             document.getElementById("articleBody").innerHTML =
                 article.content;
+
+            if (article.imageReviewRequired) {
+                document.querySelectorAll("#articleBody .article-main-image").forEach(image => image.remove());
+            }
+
+            const sourceNote = document.getElementById("articleSourceNote");
+            const verifiedSources = Array.isArray(article.sources) ? article.sources : [];
+            sourceNote.replaceChildren(document.createTextNode("Sources: "));
+            verifiedSources.forEach((source, index) => {
+                if (index > 0) sourceNote.append(document.createTextNode("; "));
+                const link = document.createElement("a");
+                link.href = source.url;
+                link.textContent = source.name;
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                sourceNote.append(link);
+            });
 
         } else {
 

@@ -32,15 +32,15 @@
     <header class="main-header">
         <div class="navbar-container">
             <div class="logo">
-                <a href="index.html"><img src="logo/Logo.png" alt="TV96 Live Logo"></a>
+                <a href="/"><img src="/logo/Logo.png" alt="TV96 Live Logo"></a>
             </div>
             <button class="menu-icon" id="menuToggle" type="button" aria-label="Open navigation menu" aria-controls="navMenu" aria-expanded="false"><i class="fas fa-bars" aria-hidden="true"></i></button>
             <nav class="nav-menu" id="navMenu">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="index.html#matches" class="nav-link">Matches</a>
-                <a href="news.html" class="nav-link active">Latest News</a>
-                <a href="index.html#about" class="nav-link">About Us</a>
-                <a href="privacy.html" class="nav-link">Privacy</a>
+                <a href="/" class="nav-link">Home</a>
+                <a href="/matches" class="nav-link">Matches</a>
+                <a href="/news" class="nav-link active">Latest News</a>
+                <a href="/about" class="nav-link">About Us</a>
+                <a href="/privacy" class="nav-link">Privacy</a>
             </nav>
             <div class="header-right">
                 <div class="social-icons">
@@ -120,31 +120,19 @@
          <div class="footer-col links-col">
           <h4>Quick Links</h4>
           <ul>
-           <li><a href="index.html">Home</a></li>
-           <li><a href="index.html#matches">Matches</a></li>
-           <li><a href="news.html">News</a></li>
-           <li><a href="contact.html">Contact</a></li>
-           <li><a href="privacy.html">Privacy Policy</a></li>
-           <li><a href="terms.html">Terms of Use</a></li>
+           <li><a href="/">Home</a></li>
+           <li><a href="/matches">Matches</a></li>
+           <li><a href="/news">News</a></li>
+           <li><a href="/contact">Contact</a></li>
+           <li><a href="/privacy">Privacy Policy</a></li>
+           <li><a href="/terms">Terms of Use</a></li>
           </ul>
          </div>
          <div class="footer-col social-col">
-          <h4>Download Our App</h4>
-          <div class="app-buttons">
-           <a href="#" class="app-btn" target="_blank" rel="noopener noreferrer"> <i data-lucide="apple"></i>
-            <div class="app-btn-text">
-             <span>Download on the</span> <strong>App Store</strong>
-            </div></a> <a href="#" class="app-btn" target="_blank" rel="noopener noreferrer"> <i data-lucide="play"></i>
-            <div class="app-btn-text">
-             <span>Get it on</span> <strong>Google Play</strong>
-            </div></a>
-          </div>
-          <h4 style="margin-top: 25px;">Contact Us</h4>
+          <h4>Follow TV96 Live</h4>
           <div class="footer-social-links">
-           <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><i data-lucide="facebook"></i></a> 
-           <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-tiktok"></i></a>
-           <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><i data-lucide="instagram"></i></a> 
-           <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" title="WhatsApp"><i data-lucide="message-circle"></i></a>
+           <a href="https://www.facebook.com/share/1EVaiqB9sZ/" target="_blank" rel="noopener noreferrer" aria-label="TV96 Live on Facebook"><i data-lucide="facebook"></i></a>
+           <a href="https://www.tiktok.com/@user242901873?_r=1&amp;_t=ZS-97lGYrPehTp" target="_blank" rel="noopener noreferrer" aria-label="TV96 Live on TikTok"><i class="fa-brands fa-tiktok"></i></a>
           </div>
          </div>
         </div>
@@ -152,6 +140,7 @@
          <p>© 2026 <a href="https://www.tv96live.org" class="hover:text-emerald-500 transition-colors">www.tv96live.org</a> - All rights reserved.</p>
         </div>
        </footer>
+    <script src="/site-config.js"></script>
     <script src="news-data.js"></script>
     <script src="matches-data.js"></script>
     <script>
@@ -166,7 +155,7 @@
             const trendingList = document.getElementById("trending-list");
             if (!trendingList) return;
 
-            const latestTrendingNews = [...articles]
+            const latestTrendingNews = getPublishedArticles()
                 .sort((a, b) => b.id - a.id)
                 .slice(0, 6);
 
@@ -198,8 +187,8 @@
 
             // Filter articles by selected category
             const filteredArticles = currentCategory === "All"
-                ? [...articles]
-                : articles.filter(article => article.category === currentCategory);
+                ? getPublishedArticles()
+                : getPublishedArticles().filter(article => article.category === currentCategory);
 
             // Latest news first: highest ID first
             const sortedArticles = filteredArticles.sort((a, b) => b.id - a.id);
@@ -214,11 +203,7 @@
 
                     <div class="news-card-image">
 
-                        <img 
-                            src="${a.image}" 
-                            alt="${a.title}"
-                            loading="lazy"
-                        >
+                        ${a.image ? `<img src="${a.image}" alt="${a.title}" loading="lazy">` : ""}
 
                         <span class="news-category-badge">
                             ${a.category}
@@ -238,10 +223,10 @@
 
                         <div class="news-card-footer">
 
-                            <span class="news-time">
+                            <time class="news-time" datetime="${a.publishedAt}">
                                 <i class="fa-regular fa-clock"></i>
-                                5 hours ago
-                            </span>
+                                ${formatArticleDate(a.publishedAt)}
+                            </time>
 
                             <span class="read-more">
                                 Read More
@@ -346,10 +331,20 @@
                 }
 
                 trendingMatchesList.innerHTML = upcomingMatches.map(match => {
-                    const matchUrl = `${match.url}?id=${match.id}&home=${encodeURIComponent(match.home)}&away=${encodeURIComponent(match.away)}&league=${encodeURIComponent(match.league)}`;
+                    const matchPath = match.url
+                        ? match.url.replace(/^\/?watch-live\.html(?=\?|$)/, "/watch-live")
+                        : "/watch-live";
+                    const matchUrlObject = new URL(matchPath, window.location.origin);
+                    matchUrlObject.searchParams.set("id", match.id);
+                    matchUrlObject.searchParams.set("home", match.home);
+                    matchUrlObject.searchParams.set("away", match.away);
+                    matchUrlObject.searchParams.set("league", match.league);
+                    const matchUrl = `${matchUrlObject.pathname}${matchUrlObject.search}`;
+                    const cardTag = window.TV96_CONFIG.STREAMING_ENABLED ? "a" : "div";
+                    const destination = window.TV96_CONFIG.STREAMING_ENABLED ? `href="${matchUrl}"` : "";
                     return `
                         <li>
-                            <a href="${matchUrl}">
+                            <${cardTag} ${destination}>
                                 <div class="trending-match-teams">
                                     <strong>${match.home} vs ${match.away}</strong>
                                 </div>
@@ -357,7 +352,7 @@
                                     <span>${match.league}</span>
                                     <span>${match.displayTime}</span>
                                 </div>
-                            </a>
+                            </${cardTag}>
                         </li>
                     `;
                 }).join("");
