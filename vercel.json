@@ -20,6 +20,16 @@
   ],
   "redirects": [
     {
+      "source": "/streams.js",
+      "destination": "/_streaming-disabled",
+      "permanent": false
+    },
+    {
+      "source": "/match-ids",
+      "destination": "/_streaming-disabled",
+      "permanent": false
+    },
+    {
       "source": "/old-page",
       "destination": "/",
       "permanent": true
