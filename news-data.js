@@ -145,7 +145,7 @@ const articles = [
         author: "TV96 Live Editorial Team",
         publishedAt: "2026-08-28T14:40:00+03:00",
         updatedAt: "2026-08-28",
-        image: "/news image/8.png",
+        image: "news image/8.png",
         imageAlt: "Arsenal transfer latest featuring Julian Alvarez and Gabriel Martinelli",
         imageReviewRequired: false,
         isPublished: true,
