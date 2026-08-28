@@ -83,4 +83,10 @@
   <changefreq>weekly</changefreq>
   <priority>0.7</priority>
   </url>
+  <url>
+  <loc>https://www.tv96live.org/articles/11</loc>
+  <lastmod>2026-08-28</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+  </url>
 </urlset>

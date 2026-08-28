@@ -223,6 +223,38 @@ const articles = [
                 url: "https://www.skysports.com/football/news/11095/13577751/julian-alvarez-transfer-news-atletico-madrid-wont-sell-striker-to-barcelona-with-arsenal-the-only-option"
             }
         ]
+    },
+    {
+        id: 11,
+
+        title: "Xabi Alonso Explains Enzo Fernández Omission as Manchester City Transfer Interest Grows",
+
+        description: "Xabi Alonso has explained why Enzo Fernández was left out of Chelsea's squad against Luton as Manchester City continue to consider a move for the Argentine midfielder.",
+
+        category: "Premier League",
+        articleType: "Transfer News",
+
+        author: "TV96 Live Editorial Team",
+
+        publishedAt: "2026-08-28T16:00:00+03:00",
+        updatedAt: "2026-08-28",
+
+        image: "/news image/11.png",
+        imageAlt: "Enzo Fernandez and Xabi Alonso amid Manchester City transfer speculation",
+
+        imageReviewRequired: false,
+        isPublished: true,
+
+        sources: [
+            {
+                name: "Sky Sports",
+                url: "https://www.skysports.com/football/news/11095/13570597/enzo-fernandez-transfer-news-man-city-considering-bid-for-chelsea-midfielder"
+            },
+            {
+                name: "ESPN",
+                url: "https://www.espn.com/soccer/story/_/id/49746843/xabi-alonso-chelsea-dropping-enzo-fernandez-man-city-links"
+            }
+        ]
     }
 ];
 
