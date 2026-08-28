@@ -159,6 +159,38 @@ const articles = [
                 url: "https://www.skysports.com/"
             }
         ]
+    },
+    {
+        id: 9,
+
+        title: "Europa League Draw 2026/27: Sunderland Face AC Milan as Bournemouth, Celtic and Crystal Palace Learn Opponents",
+
+        description: "Sunderland will travel to San Siro to face AC Milan, while Bournemouth will host the Serie A giants as British clubs discovered their Europa League and Conference League opponents.",
+
+        category: "Europa League",
+        articleType: "Draw News",
+
+        author: "TV96 Live Editorial Team",
+
+        publishedAt: "2026-08-28T15:00:00+03:00",
+        updatedAt: "2026-08-28",
+
+        image: "/news image/9.png",
+        imageAlt: "Europa League 2026/27 draw featuring Sunderland, AC Milan, Bournemouth, Celtic and Crystal Palace",
+
+        imageReviewRequired: false,
+        isPublished: true,
+
+        sources: [
+            {
+                name: "UEFA",
+                url: "https://www.uefa.com/uefaeuropaleague/"
+            },
+            {
+                name: "Sky Sports",
+                url: "https://www.skysports.com/football"
+            }
+        ]
     }
 ];
 
