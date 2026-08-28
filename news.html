@@ -27,6 +27,94 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9924964891667864"
      crossorigin="anonymous"></script>
     <script defer src="/_vercel/insights/script.js"></script>
+    <style>
+        /* Keep the news layout inside narrow mobile viewports. */
+        @media (max-width: 768px) {
+            .news-page {
+                overflow-x: hidden;
+            }
+
+            .news-page main,
+            .news-content-wrapper,
+            .news-grid-section,
+            .news-sidebar,
+            .news-articles-grid,
+            .news-card,
+            .sidebar-widget {
+                min-width: 0;
+                max-width: 100%;
+            }
+
+            .news-content-wrapper {
+                width: 100%;
+                margin: 24px auto 36px;
+                padding: 0 12px;
+                gap: 22px;
+            }
+
+            .news-sidebar {
+                width: 100%;
+            }
+
+            .news-articles-grid {
+                width: 100%;
+                grid-template-columns: minmax(0, 1fr);
+                gap: 18px;
+            }
+
+            .category-filter {
+                width: 100%;
+                max-width: 100%;
+                overflow-x: auto;
+                overflow-y: hidden;
+                overscroll-behavior-inline: contain;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .news-card-title,
+            .news-card-excerpt,
+            .trending-list a,
+            .trending-match-teams,
+            .trending-match-info {
+                overflow-wrap: anywhere;
+            }
+
+            .news-card-footer,
+            .trending-match-info {
+                flex-wrap: wrap;
+                gap: 8px 12px;
+            }
+
+            .news-card-image,
+            .news-card-image img {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .news-content-wrapper {
+                padding: 0 8px;
+                margin-top: 18px;
+            }
+
+            .news-grid-section > .section-title {
+                font-size: 1.6rem !important;
+                line-height: 1.25;
+                margin-bottom: 20px !important;
+                overflow-wrap: anywhere;
+            }
+
+            .news-card-content,
+            .sidebar-widget {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .news-card-image {
+                height: 190px;
+            }
+        }
+    </style>
 </head>
 <body class="news-page">
     <header class="main-header">
