@@ -191,6 +191,38 @@ const articles = [
                 url: "https://www.skysports.com/football"
             }
         ]
+    },
+    {
+        id: 10,
+
+        title: "Julián Álvarez Holds Five-Hour Transfer Meeting as Arsenal Option Gains Momentum",
+
+        description: "Julián Álvarez and his representatives reportedly held a late-night meeting lasting more than five hours as the Atlético Madrid striker weighs up whether to stay in Spain or consider a move to Arsenal.",
+
+        category: "Premier League",
+        articleType: "Transfer News",
+
+        author: "TV96 Live Editorial Team",
+
+        publishedAt: "2026-08-28T15:30:00+03:00",
+        updatedAt: "2026-08-28",
+
+        image: "/news image/10.png",
+        imageAlt: "Julian Alvarez transfer latest amid Arsenal and Atletico Madrid speculation",
+
+        imageReviewRequired: false,
+        isPublished: true,
+
+        sources: [
+            {
+                name: "Cadena SER",
+                url: "https://cadenaser.com/nacional/2026/08/27/julian-alvarez-con-su-futuro-en-el-aire-ha-tenido-una-reunion-de-mas-de-cinco-horas-para-decidir-que-hacer-cadena-ser/"
+            },
+            {
+                name: "Sky Sports",
+                url: "https://www.skysports.com/football/news/11095/13577751/julian-alvarez-transfer-news-atletico-madrid-wont-sell-striker-to-barcelona-with-arsenal-the-only-option"
+            }
+        ]
     }
 ];
 
