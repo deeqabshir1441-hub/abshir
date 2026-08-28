@@ -135,6 +135,30 @@ const articles = [
         sourceReviewRequired: false,
         imageReviewRequired: true,
         isPublished: true
+    },
+    {
+        id: 8,
+        title: "Arsenal Transfer Latest: Julián Álvarez Door Opens as Gabriel Martinelli Exit Talks Progress",
+        description: "Arsenal remain interested in Julián Álvarez as Atlético Madrid shut the door on Barcelona talks, while Gabriel Martinelli's future is also under discussion.",
+        category: "Premier League",
+        articleType: "Transfer News",
+        author: "TV96 Live Editorial Team",
+        publishedAt: "2026-08-28T14:40:00+03:00",
+        updatedAt: "2026-08-28",
+        image: "/news image/8.png",
+        imageAlt: "Arsenal transfer latest featuring Julian Alvarez and Gabriel Martinelli",
+        imageReviewRequired: false,
+        isPublished: true,
+        sources: [
+            {
+                name: "Atlético de Madrid",
+                url: "https://en.atleticodemadrid.com/noticias/unanimous-support-from-the-board-of-directors-for-the-club-s-strategy"
+            },
+            {
+                name: "Sky Sports",
+                url: "https://www.skysports.com/"
+            }
+        ]
     }
 ];
 
