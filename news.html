@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Latest News | TV96 Live</title>
+    <title>Football News &amp; Guides | TV96 Live</title>
     <meta name="google-adsense-account" content="ca-pub-9924964891667864">
-    <meta name="description" content="Stay updated with the latest football news, transfer rumors, and match analysis from TV96 Live.">
-    <meta property="og:title" content="Latest News | TV96 Live">
-    <meta property="og:description" content="The latest football news, transfer rumors, and match analysis.">
+    <meta name="description" content="Explore original football explainers, league guides and news analysis, with practical examples, source links and related reading on TV96 Live.">
+    <meta property="og:title" content="Football News &amp; Guides | TV96 Live">
+    <meta property="og:description" content="Football rules explained, competition guides and the latest news analysis from TV96 Live.">
     <meta property="og:image" content="/icon-512.png">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.tv96live.org/news">
@@ -171,21 +171,17 @@
         <!-- News Content Wrapper -->
         <div class="news-content-wrapper">
             <section class="news-grid-section">
-                <h1 class="section-title" style="font-size: 2rem; margin-bottom: 30px;">Latest Football News</h1>
+                <h1 class="section-title" style="font-size: 2rem; margin-bottom: 30px;">Football News &amp; Guides</h1>
 
+                <p class="editorial-intro">Understand the game as well as follow the results. Explore practical football explainers, competition guides and our latest reporting.</p>
+                <section aria-labelledby="featuredGuidesHeading" class="editorial-featured">
+                    <h2 id="featuredGuidesHeading">Featured football guides</h2>
+                    <div class="editorial-grid" id="featuredGuides"></div>
+                </section>
+                <h2 id="libraryHeading">Explore the editorial library</h2>
                 <!-- Category Filter -->
-                <div class="category-filter">
-                    <button class="filter-btn active">All</button>
-                    <button class="filter-btn">Transfers</button>
-                    <button class="filter-btn">Champions League</button>
-                    <button class="filter-btn">Highlights</button>
-                    <button class="filter-btn">Premier League</button>
-                    <button class="filter-btn">Serie A</button>
-                    <button class="filter-btn">La Liga</button>
-                    <button class="filter-btn">Bundesliga</button>
-                    <button class="filter-btn">Ligue 1</button>
-                    <button class="filter-btn">FIFA World Cup</button>
-                </div>
+                <div class="category-filter" role="group" aria-label="Filter articles"></div>
+                <p id="articleCount" class="editorial-meta" aria-live="polite"></p>
 
                 <!-- News Articles Grid -->
                 <div class="news-articles-grid" id="news-container">
@@ -285,10 +281,15 @@
         // ===============================
 
         const loadMoreBtn = document.querySelector(".btn-load-more");
+        const categories = ["All", "Latest News", "Football Guides", "League & Competition Guides",
+            ...new Set(getPublishedArticles().map(article => article.category))].filter((category, index, all) => all.indexOf(category) === index);
+        const selectedCategory = new URLSearchParams(window.location.search).get("category");
+        document.querySelector(".category-filter").innerHTML = categories.map(category => `<button class="filter-btn" type="button" aria-pressed="false">${escapeArticleText(category)}</button>`).join("");
         const filterButtons = document.querySelectorAll(".filter-btn");
+        document.getElementById("featuredGuides").innerHTML = getFeaturedArticles(3).map(renderArticleSummary).join("");
 
         let visibleItems = 6;
-        let currentCategory = "All";
+        let currentCategory = categories.includes(selectedCategory) ? selectedCategory : "All";
 
 
         // ===============================
@@ -300,22 +301,30 @@
             // Filter articles by selected category
             const filteredArticles = currentCategory === "All"
                 ? getPublishedArticles()
-                : getPublishedArticles().filter(article => article.category === currentCategory);
+                : getPublishedArticles().filter(article => currentCategory === "Latest News"
+                    ? !article.section
+                    : article.category === currentCategory || article.section === currentCategory);
 
-            // Latest news first: highest ID first
-            const sortedArticles = filteredArticles.sort((a, b) => b.id - a.id);
+            // Newest publication first, with a stable ID order for equal dates.
+            const sortedArticles = filteredArticles.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt) || b.id - a.id);
 
             // Show only currently visible articles
             const visibleArticles = sortedArticles.slice(0, visibleItems);
 
+            document.getElementById("articleCount").textContent = `${filteredArticles.length} articles · ${currentCategory}`;
+            filterButtons.forEach(button => {
+                const selected = button.textContent.trim() === currentCategory;
+                button.classList.toggle("active", selected);
+                button.setAttribute("aria-pressed", String(selected));
+            });
             newsContainer.innerHTML = visibleArticles.map(a => `
                 <a href="/articles/${a.id}"
-                class="news-card" 
+                class="news-card ${a.image ? '' : 'news-card-text'}"
                 style="text-decoration: none;">
 
                     <div class="news-card-image">
 
-                        ${a.image ? `<img src="${a.image}" alt="${a.title}" loading="lazy">` : ""}
+                        ${a.image ? `<img src="${a.image}" alt="${escapeArticleText(a.imageAlt || a.title)}" loading="lazy">` : ""}
 
                         <span class="news-category-badge">
                             ${a.category}
@@ -326,18 +335,18 @@
                     <div class="news-card-content">
 
                         <h3 class="news-card-title">
-                            ${a.title}
+                            ${escapeArticleText(a.title)}
                         </h3>
 
                         <p class="news-card-excerpt">
-                            ${a.description}
+                            ${escapeArticleText(a.description)}
                         </p>
 
                         <div class="news-card-footer">
 
                             <time class="news-time" datetime="${a.publishedAt}">
                                 <i class="fa-regular fa-clock"></i>
-                                ${formatArticleDate(a.publishedAt)}
+                                ${formatArticleDate(a.publishedAt)} · ${getArticleReadingTime(a)}
                             </time>
 
                             <span class="read-more">
@@ -363,7 +372,7 @@
                 loadMoreBtn.style.display = "inline-flex";
             }
 
-            lucide.createIcons();
+            if (typeof lucide !== "undefined") lucide.createIcons();
         }
 
 
@@ -398,6 +407,10 @@
 
                 // Get selected category
                 currentCategory = this.textContent.trim();
+                const categoryUrl = new URL(window.location.href);
+                if (currentCategory === "All") categoryUrl.searchParams.delete("category");
+                else categoryUrl.searchParams.set("category", currentCategory);
+                window.history.replaceState(null, "", categoryUrl);
 
                 // Reset visible items to first 6
                 visibleItems = 6;

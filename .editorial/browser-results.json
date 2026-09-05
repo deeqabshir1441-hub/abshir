@@ -1,0 +1,167 @@
+{
+  "checkedAt": "2026-09-05T18:18:32.705Z",
+  "mode": "Local Chromium; mocked football responses and external scripts; no production requests",
+  "articles": [
+    {
+      "id": 1,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 2,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 3,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 4,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 7,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 8,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 9,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 10,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 11,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 12,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 13,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 14,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 15,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 16,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 17,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 18,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 19,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 20,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 21,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 22,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 23,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 24,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "id": 25,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
+    }
+  ],
+  "draftsExcluded": 8,
+  "newsFilters": [
+    "All",
+    "Latest News",
+    "Football Guides",
+    "League & Competition Guides",
+    "Serie A",
+    "Premier League",
+    "FIFA World Cup",
+    "Transfers",
+    "Europa League",
+    "Champions League",
+    "La Liga",
+    "Bundesliga",
+    "Ligue 1"
+  ],
+  "viewportWidths": [
+    320,
+    360,
+    768,
+    1440
+  ],
+  "screenshots": "C:\\Users\\user\\AppData\\Local\\Temp\\tv96-editorial-89hpGE"
+}

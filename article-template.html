@@ -26,36 +26,55 @@
     <meta id="article-modified-time" property="article:modified_time" content="">
     <meta id="article-author" property="article:author" content="TV96 Live Editorial Team">
 
+    <meta id="article-robots" name="robots" content="index, follow">
     <script src="/news-data.js"></script>
     <script>
-        // Set route-specific metadata early for crawlers and link previews.
+        // Use the same publication record for every numeric or legacy article route.
         (() => {
-            const articleMetadata = {
-                1: ["Atalanta confirm Éderson contract extension through 2031", "Atalanta have confirmed that midfielder Éderson signed a contract extension running through June 2031.", ""],
-                2: ["Trossard leaves Arsenal as club considers left-wing options", "Leandro Trossard joined Beşiktaş while Arsenal considered changes on the left, including reported interest in Christos Tzolis and Morgan Rogers.", ""],
-                3: ["FIFA records Messi with 10 World Cup knockout-stage assists", "FIFA's tournament record summary lists Lionel Messi with 10 assists in World Cup knockout matches, the most on record.", ""],
-                4: ["Johan Manzambi completes move to Aston Villa", "Johan Manzambi completed a move from Freiburg to Aston Villa after Newcastle had also pursued the Switzerland midfielder.", ""],
-                7: ["Mbappé reaches 11 goal contributions at 2026 World Cup", "Kylian Mbappé reached eight goals and three assists by the 2026 World Cup quarter-final stage, according to Le Monde.", ""]
-            };
             const pathMatch = window.location.pathname.match(/^\/articles\/(\d+)\/?$/);
             const queryId = new URLSearchParams(window.location.search).get("id");
             const articleId = Number(pathMatch ? pathMatch[1] : queryId);
-            const metadata = articleMetadata[articleId];
-            if (!metadata) return;
-
-            const canonicalUrl = `https://www.tv96live.org/articles/${articleId}`;
-            const title = `${metadata[0]} | TV96 Live`;
+            const article = getPublishedArticles().find(item => item.id === articleId);
+            const robots = document.getElementById("article-robots");
+            if (!article) {
+                robots.content = "noindex, follow";
+                return;
+            }
+            robots.content = "index, follow";
+            const canonicalUrl = `https://www.tv96live.org/articles/${article.id}`;
+            const title = `${article.title} | TV96 Live`;
             document.title = title;
-            document.getElementById("meta-description").content = metadata[1];
+            document.getElementById("meta-description").content = article.description;
             document.getElementById("canonical-url").href = canonicalUrl;
             document.getElementById("og-title").content = title;
-            document.getElementById("og-description").content = metadata[1];
+            document.getElementById("og-description").content = article.description;
             document.getElementById("og-url").content = canonicalUrl;
-            document.getElementById("og-image").content = metadata[2]
-                ? `https://www.tv96live.org/news%20image/${metadata[2]}`
+            document.getElementById("og-image").content = article.image
+                ? new URL(article.image, "https://www.tv96live.org/").href
                 : "https://www.tv96live.org/icon-512.png";
-            document.getElementById("article-published-time").content = "2026-07-14T12:02:02+03:00";
-            document.getElementById("article-modified-time").content = "2026-08-28";
+            document.getElementById("article-published-time").content = article.publishedAt;
+            document.getElementById("article-modified-time").content = article.updatedAt || article.publishedAt;
+            document.getElementById("article-author").content = article.author;
+            const structuredData = {
+                "@context": "https://schema.org",
+                "@type": "Article",
+                headline: article.title,
+                description: article.description,
+                mainEntityOfPage: canonicalUrl,
+                url: canonicalUrl,
+                datePublished: article.publishedAt,
+                articleSection: article.category,
+                author: { "@type": "Organization", name: article.author },
+                publisher: { "@type": "Organization", name: "TV96 Live" },
+                wordCount: article.wordCount,
+                inLanguage: "en"
+            };
+            if (article.updatedAt) structuredData.dateModified = article.updatedAt;
+            if (article.image) structuredData.image = new URL(article.image, "https://www.tv96live.org/").href;
+            const schema = document.createElement("script");
+            schema.type = "application/ld+json";
+            schema.textContent = JSON.stringify(structuredData);
+            document.head.appendChild(schema);
         })();
     </script>
 
@@ -387,7 +406,7 @@
 
         <a href="/news" class="back-to-news">
             <i class="fa-solid fa-arrow-left"></i>
-            Back to All News
+            Back to News &amp; Guides
         </a>
 
         <!-- Article will automatically appear here -->
@@ -397,9 +416,15 @@
         </div>
 
         <aside class="policy-highlight" id="articleEditorialNote">
+            <h2>Sources / Further Reading</h2>
             <p id="articleSourceNote"></p>
             <p>Found a factual error? Contact the editorial team at <a href="mailto:support@tv96live.org">support@tv96live.org</a>.</p>
         </aside>
+
+        <section id="relatedArticles" aria-labelledby="relatedHeading">
+            <h2 id="relatedHeading">Related reading</h2>
+            <div class="editorial-grid" id="relatedArticleCards"></div>
+        </section>
 
     </main>
 
@@ -428,1064 +453,16 @@
          ARTICLE DATA AND JAVASCRIPT
     ======================================== -->
 
+    <script src="/article-content.js"></script>
     <script>
 
         /*
         ==========================================
-        ADD ALL YOUR NEWS ARTICLES HERE
+        ARTICLE BODIES ARE MAINTAINED IN article-content.js
         ==========================================
         */
 
-        const articleBodies = [
-
-            // =====================================
-            // ARTICLE 1
-            // =====================================
-
-            {
-                id: 1,
-
-                title: "Atalanta to offer Éderson new five-year deal amid transfer uncertainty",
-
-                description: "Atalanta are set to offer Brazilian midfielder Éderson a new five-year contract, with the final decision now up to the player.",
-
-                category: "Serie A",
-
-                image: "news image/1.jpg",
-
-                content: `
-                    <p>
-                        <strong>
-                            Atalanta are set to offer Brazilian midfielder Éderson a new five-year contract from next week, as the Italian club insist that the player is 100% fit.
-                        </strong>
-                    </p>
-
-                    <img 
-                        src="/news image/1.jpg"
-                        alt="Éderson Atalanta midfielder"
-                        class="article-main-image"
-                    >
-
-                    <h2>Atalanta Prepare New Five-Year Contract</h2>
-
-                    <p>
-                        Atalanta are expected to present Éderson with a new five-year deal as they look to secure the long-term future of the Brazilian midfielder.
-                    </p>
-
-                    <p>
-                        The club have also made it clear that Éderson is fully fit, despite any uncertainty surrounding his physical condition.
-                    </p>
-
-                    <h2>Final Decision Up to Éderson</h2>
-
-                    <p>
-                        The final decision will be up to the player. Éderson can either accept the new long-term contract or remain available on the transfer market.
-                    </p>
-
-                    <p>
-                        The Brazilian currently has just 10 months remaining on his existing contract, making his future an important issue for Atalanta.
-                    </p>
-                `
-            },
-
-
-            // =====================================
-            // ARTICLE 2
-            // =====================================
-
-            {
-                id: 2,
-
-                title: "Arsenal wait for Trossard decision as they target new winger",
-
-                description: "Arsenal are waiting for Leandro Trossard's final green light to join Besiktas before moving for a new winger, with Christos Tzolis keen on the move.",
-
-                category: "Premier League",
-
-                image: "news image/2.jpeg",
-
-                content: `
-                    <p>
-                        <strong>
-                            Arsenal are waiting for Leandro Trossard's final green light to join Besiktas before moving forward with plans to bring in a new winger.
-                        </strong>
-                    </p>
-
-                    <img 
-                        src="/news image/2.jpeg"
-                        alt="Arsenal transfer news involving Leandro Trossard and Christos Tzolis"
-                        class="article-main-image"
-                    >
-
-                    <h2>Arsenal Wait for Trossard Decision</h2>
-
-                    <p>
-                        Arsenal are waiting for Leandro Trossard to make a final decision on a potential move to Besiktas. His departure could allow the Gunners to proceed with plans to sign a new winger.
-                    </p>
-
-                    <h2>Christos Tzolis Wants Arsenal Move</h2>
-
-                    <p>
-                        Christos Tzolis is keen on joining Arsenal and has reportedly put another proposal on hold as he waits for the Premier League club.
-                    </p>
-
-                    <p>
-                        The winger's desire to make the move could play an important role as Arsenal consider their options in the transfer market.
-                    </p>
-
-                    <h2>Morgan Rogers Remains a Top Target</h2>
-
-                    <p>
-                        Morgan Rogers remains a top target for Arsenal in a separate potential transfer. The move is considered independent of the club's pursuit of a new winger.
-                    </p>
-
-                    <p>
-                        Further developments are expected as Arsenal wait for Trossard's final decision and continue working on their transfer plans.
-                    </p>
-                `
-            },
-
-            // =====================================
-            // ARTICLE 3
-            // =====================================
-            {
-                id: 3,
-
-                title: "Lionel Messi makes history with 15 goal contributions in World Cup knockout rounds",
-
-                description: "Lionel Messi has reached 15 goal contributions in World Cup knockout matches, the most by any player in the last 60 years.",
-
-                category: "FIFA World Cup",
-
-                image: "news image/3.jpg",
-
-                content: `
-                    <p>
-                        <strong>
-                            Lionel Messi has made more history on the biggest stage, reaching 15 goal contributions in FIFA World Cup knockout rounds.
-                        </strong>
-                    </p>
-
-                    <img 
-                        src="/news image/3.jpg"
-                        alt="Lionel Messi Argentina FIFA World Cup"
-                        class="article-main-image"
-                    >
-
-                    <h2>Messi Reaches 15 Goal Contributions</h2>
-
-                    <p>
-                        The Argentina captain has now registered an incredible 15 combined goals and assists in World Cup knockout matches throughout his career.
-                    </p>
-
-                    <p>
-                        This remarkable achievement makes Messi the player with the most goal contributions in World Cup knockout rounds over the last 60 years.
-                    </p>
-
-                    <h2>Another Historic World Cup Record</h2>
-
-                    <p>
-                        Messi continues to add to his extraordinary World Cup legacy, having delivered decisive performances for Argentina on football's biggest stage.
-                    </p>
-
-                    <p>
-                        His latest milestone further strengthens his place among the greatest players in World Cup history.
-                    </p>
-                `
-            },
-
-            // =====================================
-            // ARTICLE 4
-            // =====================================
-
-            {
-                id: 4,
-
-                title: "Aston Villa hijack Newcastle deal for Johan Manzambi",
-
-                description: "Aston Villa are in talks with SC Freiburg to hijack Newcastle's €60m deal for Swiss midfielder Johan Manzambi.",
-
-                category: "Premier League",
-
-                image: "news image/4.jpg",
-
-                content: `
-                    <p>
-                        <strong>
-                            Aston Villa are attempting to hijack Newcastle United's deal for Johan Manzambi, with negotiations now underway for the highly-rated Swiss midfielder.
-                        </strong>
-                    </p>
-
-                    <img 
-                        src="/news image/4.jpg"
-                        alt="Johan Manzambi Aston Villa Newcastle transfer news"
-                        class="article-main-image"
-                    >
-
-                    <h2>Aston Villa Enter Race for Manzambi</h2>
-
-                    <p>
-                        Aston Villa are in negotiations with SC Freiburg as they look to match Newcastle United's €60 million offer for Johan Manzambi.
-                    </p>
-
-                    <p>
-                        Villa have accelerated their pursuit of the 20-year-old Switzerland international as they search for a replacement for the injured Amadou Onana.
-                    </p>
-
-                    <h2>Newcastle Still Waiting for Player's Decision</h2>
-
-                    <p>
-                        Newcastle had already reached a €60 million agreement with Freiburg but have been waiting for Manzambi's final decision since Tuesday.
-                    </p>
-
-                    <p>
-                        The player has yet to give Newcastle the green light, opening the door for Aston Villa to make their move and attempt to hijack the transfer.
-                    </p>
-
-                    <h2>Villa Push to Complete the Deal</h2>
-
-                    <p>
-                        Aston Villa are now actively working on the transfer and remain in discussions with Freiburg as they seek to secure Manzambi's signature.
-                    </p>
-
-                    <p>
-                        The final decision will ultimately depend on the player as both Premier League clubs compete for the talented Swiss midfielder.
-                    </p>
-                `
-            },
-
-            // =====================================
-            // ARTICLE 5
-            // =====================================
-
-            {
-                id: 5,
-
-                title: "Romelu Lukaku reveals why he did not join Real Madrid in 2010",
-
-                description: "Romelu Lukaku has revealed that his parents decided against a move to Real Madrid in 2010 because they wanted him to focus on his education.",
-
-                category: "Football News",
-
-                image: "news image/5.jpg",
-
-                content: `
-                    <p>
-                        <strong>
-                            Romelu Lukaku has revealed that he was close to joining Real Madrid in 2010, but his parents decided against the move because they wanted him to complete his education.
-                        </strong>
-                    </p>
-
-                    <img 
-                        src="/news image/5.jpg"
-                        alt="Romelu Lukaku speaks about Real Madrid and Barcelona"
-                        class="article-main-image"
-                    >
-
-                    <h2>Lukaku Reveals Why He Did Not Join Real Madrid</h2>
-
-                    <p>
-                        The account summarised here says Lukaku's parents decided against the move while he was still in school because they wanted him to prioritise his education. The original interview source is not identified in the project and must be added before the wording can be treated as a verified quotation.
-                    </p>
-
-                    <h2>Real Madrid or Barcelona?</h2>
-
-                    <p>
-                        Lukaku was also asked whether he prefers Real Madrid or Barcelona, but the striker chose not to reveal his preference.
-                    </p>
-
-                    <p>
-                        Because the original interview is not currently linked, this article does not reproduce the reported exchange as a direct quotation.
-                    </p>
-
-                    <p>
-                        The Belgian striker's comments offer an interesting insight into an important decision early in his career and the role his family played in prioritising his education.
-                    </p>
-                `
-            },
-
-            // =====================================
-            // ARTICLE 6
-            // =====================================
-
-            {
-                id: 6,
-                title: "Alexander Sørloth flooded with over 85,000 comments after costly Haaland decision",
-                description: "Alexander Sørloth's latest Instagram post has received over 85,000 comments after he failed to pass to Erling Haaland.",
-                category: "FIFA World Cup",
-                image: "news image/6.webp",
-                content: `
-                    <p>
-                        Alexander Sørloth's latest Instagram post has received over 85,000 comments after he failed to pass to Erling Haaland.
-                    </p>
-                `
-            },
-
-            // =====================================
-            // ARTICLE 7
-            // =====================================
-
-            {
-                id: 7,
-
-                title: "Kylian Mbappé makes World Cup history with 11 goal contributions",
-
-                description: "Kylian Mbappé has recorded 8 goals and 3 assists at the 2026 World Cup, the most goal contributions by any player at a single edition since Gerd Müller in 1970.",
-
-                category: "FIFA World Cup",
-
-                image: "news image/7.webp",
-
-                content: `
-                    <p>
-                        <strong>
-                            Kylian Mbappé has continued his extraordinary 2026 FIFA World Cup campaign, reaching 11 goal contributions with eight goals and three assists for France.
-                        </strong>
-                    </p>
-
-                    <img 
-                        src="/news image/7.webp"
-                        alt="Kylian Mbappé celebrates for France at the 2026 FIFA World Cup"
-                        class="article-main-image"
-                    >
-
-                    <h2>Mbappé Reaches 11 Goal Contributions</h2>
-
-                    <p>
-                        The France captain has been one of the standout performers at the 2026 World Cup, registering eight goals and three assists to reach a remarkable total of 11 direct goal contributions.
-                    </p>
-
-                    <p>
-                        His performances have played a major role in France's impressive tournament run and have placed him among the leading stars of the competition.
-                    </p>
-
-                    <h2>Most Since Gerd Müller in 1970</h2>
-
-                    <p>
-                        Mbappé's 11 goal contributions are the most by any player at a single FIFA World Cup since German legend Gerd Müller achieved the feat at the 1970 tournament.
-                    </p>
-
-                    <p>
-                        The achievement highlights Mbappé's extraordinary impact as both a goalscorer and creator on football's biggest stage.
-                    </p>
-
-                    <h2>Mbappé Continues to Rewrite World Cup History</h2>
-
-                    <p>
-                        With eight goals and three assists already to his name, Mbappé continues to strengthen his remarkable World Cup legacy.
-                    </p>
-
-                    <p>
-                        The French superstar remains a crucial figure for his country as France continues its pursuit of World Cup glory.
-                    </p>
-                `
-            },
-            
-
-        ];
-
-        const verifiedBodies = {
-            1: `
-                <p><strong>Atalanta have confirmed that midfielder Éderson has signed a contract extension running through 30 June 2031, securing the long-term future of one of the club's established first-team players.</strong></p>
-                <p>The agreement gives both the player and the club clarity after four seasons together. Atalanta's announcement describes Éderson as a technical leader and a popular figure with supporters, while the length of the deal indicates that he remains central to the club's plans.</p>
-                <h2>A significant Atalanta record</h2>
-                <p>Éderson joined Atalanta for the 2022/23 season and has since made 180 appearances in all competitions, according to the club. Across those matches, he has recorded 16 goals and six assists. Those figures provide useful context: his value has been built over a large body of games rather than a brief run of form.</p>
-                <p>His time in Bergamo also includes Atalanta's 2024 UEFA Europa League triumph. Being part of that successful side links the midfielder to one of the defining achievements in the club's recent history. Atalanta also highlighted the quality and determination he has shown during his first four years, qualities the club evidently wants to retain as it plans for the seasons ahead.</p>
-                <p>At international level, Éderson has progressed into the Brazil set-up and was part of the country's 2026 World Cup squad. That recognition adds another dimension to his standing, although his new contract is primarily a statement about the continuity he has created at club level.</p>
-                <h2>Why continuity matters</h2>
-                <p>A deal through 2031 reduces immediate uncertainty around an experienced member of the squad. For Atalanta, it means future recruitment decisions can be made with a clearer view of which senior players are already committed. For Éderson, it provides a stable platform at a club where he has accumulated regular appearances and major European experience.</p>
-                <p>The extension should not be read as a guarantee about every future transfer window. Long contracts can protect a club's planning position, but circumstances can still change. What is confirmed now is that Atalanta and Éderson have chosen to continue their relationship rather than leave his status unresolved.</p>
-                <p>There is also value in retaining knowledge already built inside the team. Four seasons of shared work give a player familiarity with the club's standards, teammates and competitive demands. That experience can support continuity while other parts of the squad change, even though leadership and selection must still be earned through daily work and match performance.</p>
-                <h2>What comes next</h2>
-                <p>The practical focus will now return to performances. His appearance total shows that he has already carried a substantial workload, and the next phase will be judged by how consistently he contributes as Atalanta's squad evolves. Supporters can also watch whether his growing international experience influences his role at club level.</p>
-                <p>For the moment, the central fact is straightforward: a player who has become closely associated with Atalanta's recent progress is under contract for the long term. The renewal preserves continuity without requiring claims about future results, and it gives the club a firm foundation for its midfield planning.</p>
-            `,
-            2: `
-                <p><strong>Leandro Trossard has completed a permanent move from Arsenal to Beşiktaş, ending a productive spell in north London and opening a new stage of his career in Türkiye.</strong></p>
-                <p>Sky Sports reported the transfer at £17 million, comprising an initial £15.3 million with a further £1.7 million in potential add-ons. The move gives Beşiktaş an experienced attacking player while allowing Arsenal to reshape an area of their squad ahead of the new season.</p>
-                <h2>What Trossard leaves behind</h2>
-                <p>Trossard departs with 174 Arsenal appearances, 36 goals and 34 assists, figures attributed to the club's record of his time there. The balance between goals and assists shows that his contribution was not limited to one type of attacking action. He could finish moves himself and help create opportunities for teammates.</p>
-                <p>During Arsenal's most recent title-winning campaign, he registered eight goals and 11 assists in 50 appearances as the team also reached the Champions League final. That season offered a clear example of his usefulness across a demanding schedule: he supplied output while Arsenal competed deep into major competitions.</p>
-                <p>At 31, Trossard moves with extensive Premier League and European experience. Beşiktaş are therefore acquiring a player accustomed to high-level expectations rather than a prospect who still needs to establish a senior record. The important question is how quickly that experience translates into his new environment.</p>
-                <h2>Why the transfer suits Beşiktaş</h2>
-                <p>The appeal for Beşiktaş is straightforward. Trossard arrives with recent production and experience of matches carrying significant pressure. His recorded totals suggest he can contribute in more than one way, giving his new club options when constructing its attack.</p>
-                <p>Those numbers do not guarantee an identical return in a different league. Changes of team, tactical demands and adaptation can all affect output. A fair assessment will depend on his role, minutes and connection with new teammates rather than simply transferring his Arsenal averages to Beşiktaş.</p>
-                <h2>Arsenal's next decision</h2>
-                <p>For Arsenal, the departure creates room but also removes a proven source of goals and assists. Sky Sports reported that Morgan Rogers was a priority target and that Bradley Barcola and Christos Tzolis were among other players considered as the club examined left-sided attacking options. Interest in possible replacements should still be distinguished from a completed signing.</p>
-                <p>That distinction matters because squad planning can change during a transfer window. Arsenal may replace Trossard directly, distribute his minutes among existing players or adjust the profile they seek. Whatever route they choose, his 70 combined goals and assists for the club set a measurable level of production to address.</p>
-                <p>Beşiktaş, meanwhile, can judge the deal on more than headline numbers. How Trossard links with the team's other attackers, handles the rhythm of a new competition and contributes over a full campaign will determine whether the transfer delivers its intended sporting value.</p>
-                <p>The completed transfer closes one question and creates two new ones: how Beşiktaş will use an experienced attacker, and how Arsenal will respond to his departure. Those outcomes will become clearer only after the new season begins.</p>
-            `,
-            3: `
-                <p><strong>FIFA's record summary lists Lionel Messi with 10 assists in World Cup knockout-stage matches, the highest total in the governing body's record set.</strong></p>
-                <p>The statistic highlights a part of Messi's tournament influence that can receive less attention than his goals. Knockout matches carry an immediate consequence, and creating a scoring opportunity at that stage can alter an entire campaign.</p>
-                <h2>What the record measures</h2>
-                <p>This is a specific record, not a total for every World Cup appearance. It counts assists recorded in knockout-stage fixtures, separating them from contributions made during the group stage. FIFA's summary also credits Messi with registering an assist across six different World Cup tournaments, showing that his creative output extended across an unusually long international career.</p>
-                <p>That distinction is important when comparing statistics. A player's overall tournament assists and knockout assists answer different questions. The first reflects production across all stages; the second concentrates on matches after the group phase, when elimination is possible and the pool of teams becomes smaller.</p>
-                <h2>Creation under tournament pressure</h2>
-                <p>An assist is the final recorded action before a goal, but it can take several forms. It may follow a pass through a defensive line, a delivery from a wide position, a set piece or a short combination that creates space. The common element is decision-making that directly helps a teammate score.</p>
-                <p>Messi's total therefore adds statistical evidence to his role as a creator as well as a scorer. It does not mean every performance can be reduced to one number. Movement before the final pass, attention drawn from defenders and earlier actions in a possession can matter without appearing in an assist column. Equally, an assist depends on a teammate completing the chance.</p>
-                <h2>How to interpret historical comparisons</h2>
-                <p>Cross-era records require care. Tournament formats, the number of matches available and the way assists are documented have changed over time. FIFA's record is valuable because it provides a defined reference point, but it should not be used to claim that one statistic settles every comparison between players from different generations.</p>
-                <p>The longevity behind the figure is nevertheless notable. Producing knockout-stage assists across repeated tournaments requires qualification, progression beyond the group phase and continued selection over many years. The record combines creative quality with sustained access to football's most closely watched international matches.</p>
-                <p>It also rewards repeat influence rather than a single exceptional match. Each recorded assist belongs to its own game situation, yet together they show a pattern of helping create goals when the margin for error was narrow.</p>
-                <h2>A clearer view of Messi's impact</h2>
-                <p>Goals often dominate summaries of attacking performance, yet football's decisive moments also depend on the player who creates the chance. FIFA's total offers a focused way to understand that side of Messi's World Cup career.</p>
-                <p>The responsible conclusion is narrow but meaningful: within FIFA's recorded World Cup knockout data, Messi leads with 10 assists. It is a measure of direct chance creation in elimination matches, not a substitute for watching the wider performance and not a combined goals-and-assists claim. Keeping that scope clear makes the achievement easier to understand and compare.</p>
-            `,
-            4: `
-                <p><strong>Aston Villa have completed the signing of Switzerland midfielder Johan Manzambi from Freiburg, adding one of the 2026 World Cup's emerging players to their squad for the 2026/27 season.</strong></p>
-                <p>The Premier League confirmed the completed move after the 20-year-old visited Villa's Bodymoor Heath training base and completed his medical. The announcement turns what had been an active transfer pursuit into a confirmed addition for Villa.</p>
-                <h2>From Freiburg to Villa</h2>
-                <p>Manzambi arrives from Freiburg with senior club experience in Germany and a growing international profile. His World Cup performances for Switzerland increased the attention around him: Sky Sports reported that he scored three goals as his country progressed to the quarter-finals.</p>
-                <p>That tournament provided a high-profile demonstration of his ability to influence matches, but Villa will be evaluating a broader body of work than a few international fixtures. Recruitment decisions of this size are normally about the player's existing level, development potential and fit over several seasons.</p>
-                <p>Sky Sports reported a fee of £59.5 million, making the deal a club record for Aston Villa. The size of that investment will naturally raise expectations, although the midfielder's age is also relevant. He is joining as a player expected to contribute now while still having room to develop.</p>
-                <h2>Why Villa won the race</h2>
-                <p>Newcastle had also pursued Manzambi and agreed a £49 million deal with Freiburg, according to Sky Sports. The player instead chose Villa, with the opportunity to play Champions League football forming part of the context reported around his decision.</p>
-                <p>Competition between clubs can make a transfer look like a simple contest, but the more important issue is what happens after the signing. Villa must now integrate him into their midfield, manage the expectations attached to a record fee and help him adjust from German club football to the Premier League.</p>
-                <h2>What he can add</h2>
-                <p>His three World Cup goals show an ability to make a direct attacking contribution from midfield. It would be premature, however, to assume that a short tournament scoring rate will continue unchanged across a full domestic season. His role, starting opportunities and the balance of Villa's midfield will all shape his output.</p>
-                <p>The signing gives Villa another young international option at a time when the club is preparing to compete on multiple fronts. Depth can become particularly important when league and European fixtures overlap, and Manzambi's arrival gives the coaching staff another way to allocate midfield minutes.</p>
-                <h2>What to watch next</h2>
-                <p>Early judgments should focus on how he is used rather than only on goals. His position in Villa's structure, his adaptation to the speed of the league and his combination with established teammates will offer better evidence of progress.</p>
-                <p>Patience and accountability can coexist. A record signing will be expected to help the team, but development is rarely linear for a 20-year-old entering a new league.</p>
-                <p>The transfer is significant because it combines a confirmed record investment with a player whose reputation rose sharply on the international stage. Villa have secured their target; the next task is turning that potential and tournament momentum into consistent club-level performances.</p>
-            `,
-            7: `
-                <p><strong>Kylian Mbappé had recorded eight goals and three assists by the quarter-final stage of the 2026 World Cup, giving him 11 direct goal contributions at that point in the tournament.</strong></p>
-                <p>Le Monde reported the total following France's quarter-final against Morocco. The timing matters: this is a snapshot from a tournament still in progress at the moment measured, not a claim about Mbappé's final World Cup total.</p>
-                <h2>Breaking down the numbers</h2>
-                <p>Eight goals place the clearest part of Mbappé's impact on finishing. Three assists add evidence that he was also creating goals for teammates. Combining the two produces a useful summary of direct attacking output, provided the components remain visible rather than being treated as a complete description of every performance.</p>
-                <p>Goals and assists measure decisive actions, but they do not capture everything an attacker does. Runs can move defenders, pressing can force hurried possession and involvement earlier in an attack may help create the opening without earning a statistical credit. Conversely, contribution totals do not by themselves explain the quality of opposition or the wider pattern of a match.</p>
-                <h2>A rare single-tournament return</h2>
-                <p>Le Monde noted that Mbappé was the first player since Gerd Müller in 1970 to reach 11 goal contributions at a single World Cup. That historical comparison illustrates the unusual scale of his production without requiring a broader claim that players from different eras faced identical conditions.</p>
-                <p>World Cup comparisons should always retain context. Tournament formats and tactical trends change, and a contribution depends partly on how far a team progresses. France's run gave Mbappé opportunities in high-stakes matches, but converting those opportunities into eight goals and three assists remained an individual achievement within the team's performance.</p>
-                <h2>What the total meant for France</h2>
-                <p>For France, the figures showed that their leading attacker was influencing the scoreboard in two ways. A player producing both goals and assists can make an attack less predictable: defenders must account for the possibility of a shot while also protecting passing routes to teammates.</p>
-                <p>The total can also create dependence and expectation. When one player is involved in a large share of decisive moments, opponents have a clear defensive priority and every quieter spell attracts attention. France's task was therefore not only to put Mbappé in threatening situations, but also to maintain alternative routes to goal.</p>
-                <h2>Why the snapshot needs a date</h2>
-                <p>Tournament statistics can change from one match to the next. Stating the quarter-final cut-off prevents a live figure from being mistaken for a completed record. It also makes later comparisons possible: readers can distinguish what Mbappé had achieved by that stage from anything added afterward.</p>
-                <p>That precision is especially important for a live sporting story, where a correct number can quickly become outdated without becoming historically wrong.</p>
-                <p>At the reported point, the conclusion was already substantial. Eleven direct contributions combined elite scoring output with meaningful creative production, placing Mbappé at the centre of France's campaign. The final assessment of the tournament would depend on what followed, but the quarter-final snapshot stands as a clearly defined measure of his impact up to that moment.</p>
-            `,
-            8: `
-            <p><strong>
-                Arsenal could be heading into a decisive final few days of the summer transfer window, with Atlético Madrid forward Julián Álvarez still at the centre of their search for another major attacking addition and Gabriel Martinelli's future increasingly uncertain.
-            </strong></p>
-
-            <h2>Atlético Close the Door on Barcelona</h2>
-
-            <p>
-                Arsenal's hopes of signing Julián Álvarez have received an intriguing boost after Atlético Madrid publicly ruled out negotiations with Barcelona.
-            </p>
-
-            <p>
-                Atlético's board announced its unanimous support for the club's decision not to negotiate the Argentine forward's transfer to their La Liga rivals.
-            </p>
-
-            <p>
-                The Spanish club made clear that its position specifically concerns Barcelona, while acknowledging that Atlético can participate in normal transfer-market negotiations when they are conducted professionally and respectfully.
-            </p>
-
-            <p>
-                That distinction matters for Arsenal. It does not mean Atlético are actively trying to sell Álvarez, nor does it guarantee that Arsenal will complete a deal. However, Barcelona had been one of the most closely linked destinations, and Atlético's refusal to negotiate changes the picture surrounding his future.
-            </p>
-
-            <h2>Why Álvarez Would Be a Major Addition</h2>
-
-            <p>
-                Álvarez would give Mikel Arteta considerable flexibility across Arsenal's attack. The Argentina international can operate through the middle while also contributing in deeper attacking areas.
-            </p>
-
-            <p>
-                From a tactical perspective, that versatility could allow Arsenal to change their attacking structure without making major changes elsewhere in the team.
-            </p>
-
-            <p>
-                His movement, link-up play and goalscoring ability would also give Arsenal another option against opponents who defend deep, while his experience at the highest level could be valuable during a long domestic and European campaign.
-            </p>
-
-            <p>
-                Arsenal's interest should still be treated cautiously. Atlético's position on Barcelona creates an opportunity, but it does not amount to confirmation that a transfer to north London is close.
-            </p>
-
-            <h2>Martinelli's Future Adds Another Dimension</h2>
-
-            <p>
-                Gabriel Martinelli's future has also become an important part of Arsenal's final transfer-window decisions.
-            </p>
-
-            <p>
-                Reports have indicated that discussions involving the Brazilian winger are progressing, creating uncertainty about whether he will remain part of Arteta's squad for the rest of the season.
-            </p>
-
-            <p>
-                Martinelli has been part of Arsenal's first-team project for several years, so any departure would represent a significant change to the club's attacking options.
-            </p>
-
-            <h2>What a Martinelli Departure Could Mean</h2>
-
-            <p>
-                If Martinelli leaves, Arsenal would lose an established wide forward and would need to consider how best to replace his pace, direct running and ability to attack space from the left.
-            </p>
-
-            <p>
-                Julián Álvarez should not simply be described as a direct Martinelli replacement because the two players offer different qualities and can occupy different roles.
-            </p>
-
-            <p>
-                Nevertheless, another high-level attacking signing would give Arteta additional flexibility and help maintain depth across several competitions.
-            </p>
-
-            <h2>A Crucial End to Arsenal's Transfer Window</h2>
-
-            <p>
-                The final days of the transfer window could therefore have a major effect on Arsenal's attacking structure.
-            </p>
-
-            <p>
-                Atlético Madrid's refusal to negotiate with Barcelona has altered the situation around Álvarez, while Martinelli's future remains another issue to monitor.
-            </p>
-
-            <p>
-                Arsenal still have important decisions to make, and supporters will be watching closely to see whether the club can complete another major attacking move before the deadline.
-            </p>
-        `,
-        9: `
-            <p><strong>
-                Sunderland will face a huge trip to San Siro to take on AC Milan in the 2026/27 UEFA Europa League, while Bournemouth will welcome the Italian giants to England as British clubs discovered their opponents for the new league phase.
-            </strong></p>
-
-            <p>
-                Celtic and Crystal Palace have also learned their eight Europa League opponents, while Brighton and Hearts discovered the six teams they will face in the UEFA Conference League.
-            </p>
-
-            <p>
-                The draws have produced several high-profile European fixtures, with Sunderland's visit to Milan and Bournemouth's home clash against AC Milan among the standout games.
-            </p>
-
-            <h2>Sunderland Handed Huge AC Milan Trip</h2>
-
-            <p>
-                Sunderland's return to European competition has delivered one of the biggest fixtures supporters could have hoped for.
-            </p>
-
-            <p>
-                The Black Cats will travel to the iconic San Siro to face AC Milan as part of their eight-match Europa League league phase.
-            </p>
-
-            <p>
-                Sunderland will play four matches at home and four away.
-            </p>
-
-            <p>
-                At home, they will face AZ Alkmaar, GNK Dinamo, Jagiellonia and Levski Sofia.
-            </p>
-
-            <p>
-                Their away schedule includes AC Milan, Anderlecht, Lech Poznań and Torreense.
-            </p>
-
-            <p>
-                The meeting with Milan will inevitably attract the most attention, but the league-phase format means every result could be important as Sunderland attempt to progress further into the competition.
-            </p>
-
-            <p>
-                Rather than playing three opponents twice as under the old group-stage system, Europa League clubs now face eight different teams in one overall league phase.
-            </p>
-
-            <h2>Bournemouth Welcome AC Milan</h2>
-
-            <p>
-                Bournemouth are preparing for their first European campaign, and they have been given an immediate headline fixture.
-            </p>
-
-            <p>
-                The Cherries will host AC Milan in England, giving their supporters the opportunity to watch one of European football's most famous clubs on home soil.
-            </p>
-
-            <p>
-                Bournemouth's other home opponents are Viktoria Plzeň, Sturm Graz and Hapoel Be'er Sheva.
-            </p>
-
-            <p>
-                Away from home, Bournemouth will face Real Sociedad, Sparta Prague, Celta Vigo and Lillestrøm.
-            </p>
-
-            <p>
-                Trips to Spain to face Real Sociedad and Celta should provide particularly interesting challenges, but the visit of Milan is likely to be the most anticipated fixture of Bournemouth's league phase.
-            </p>
-
-            <p>
-                Their first European campaign will also test the squad's ability to balance domestic football with regular travel across the continent.
-            </p>
-
-            <h2>Celtic Draw Marseille and Benfica</h2>
-
-            <p>
-                Celtic have also been handed several attractive fixtures.
-            </p>
-
-            <p>
-                The Scottish side will welcome Marseille, Ferencváros, Celta Vigo and Beşiktaş to Celtic Park.
-            </p>
-
-            <p>
-                Their four away games will be against Benfica, Union Saint-Gilloise, Omonia and Torreense.
-            </p>
-
-            <p>
-                The home meeting with Marseille and the trip to Benfica stand out as two of Celtic's biggest tests.
-            </p>
-
-            <p>
-                With eight different opponents and only one match against each team, collecting points consistently will be vital to Celtic's hopes of reaching the knockout phase.
-            </p>
-
-            <h2>Crystal Palace Face Real Sociedad and Lyon</h2>
-
-            <p>
-                Crystal Palace will continue their European journey with another varied schedule.
-            </p>
-
-            <p>
-                Palace will host Real Sociedad, Sparta Prague, Lech Poznań and Hoffenheim.
-            </p>
-
-            <p>
-                Their away fixtures will take them to Lyon, Salzburg, Jagiellonia and Beşiktaş.
-            </p>
-
-            <p>
-                The home clash with Real Sociedad and the trip to Lyon should be among the most eagerly anticipated fixtures for Palace supporters.
-            </p>
-
-            <p>
-                Their European experience from last season could prove valuable as they adapt to the demands of the Europa League.
-            </p>
-
-            <h2>Brighton Get Monaco in Conference League</h2>
-
-            <p>
-                Brighton will compete in the UEFA Conference League, where teams play six matches rather than eight.
-            </p>
-
-            <p>
-                One of Brighton's biggest fixtures will come at home against French side Monaco.
-            </p>
-
-            <p>
-                They will also host Universitatea Craiova and Kauno Žalgiris.
-            </p>
-
-            <p>
-                Their three away matches will be against Panathinaikos, Getafe and Jablonec.
-            </p>
-
-            <p>
-                The trip to Greece to face Panathinaikos could provide a difficult atmosphere, while Getafe will offer Brighton a challenging test in Spain.
-            </p>
-
-            <p>
-                Monaco, however, are likely to be the headline visitors during Brighton's league-phase campaign.
-            </p>
-
-            <h2>Hearts Also Set for Monaco Test</h2>
-
-            <p>
-                Hearts have also drawn Monaco at home in the Conference League.
-            </p>
-
-            <p>
-                The Scottish side will welcome Monaco, Borac and Nordsjælland.
-            </p>
-
-            <p>
-                Their away schedule consists of Pafos, Trabzonspor and Thun.
-            </p>
-
-            <p>
-                The visit to Trabzonspor could be one of their toughest assignments, while hosting Monaco gives Hearts supporters a major European night at home.
-            </p>
-
-            <p>
-                With only six league-phase fixtures, there is less room for dropped points in the Conference League than in the eight-game Europa League schedule.
-            </p>
-
-            <h2>When Does the Europa League Start?</h2>
-
-            <p>
-                The Europa League league phase begins on September 16 and 17, 2026.
-            </p>
-
-            <p>
-                The remaining league-phase matchdays are scheduled for October 15, October 22, November 5, November 26, December 10, January 21 and January 28.
-            </p>
-
-            <p>
-                The knockout phase play-offs will then be played in February before the round of 16 begins in March.
-            </p>
-
-            <p>
-                The 2026/27 Europa League final is scheduled for May 26, 2027 at Stadion Frankfurt in Germany.
-            </p>
-
-            <h2>Conference League Dates</h2>
-
-            <p>
-                The Conference League league phase begins on October 15, 2026.
-            </p>
-
-            <p>
-                Its six matchdays run through October, November and December, with the final league-phase round scheduled for December 17.
-            </p>
-
-            <p>
-                The knockout phase begins in February 2027 before progressing through the round of 16, quarter-finals and semi-finals.
-            </p>
-
-            <p>
-                The Conference League final is scheduled for June 2, 2027 at Beşiktaş Park in Istanbul.
-            </p>
-
-            <h2>Big European Nights Ahead</h2>
-
-            <p>
-                The draws have created several fascinating fixtures for the British clubs involved.
-            </p>
-
-            <p>
-                Sunderland travelling to San Siro to face AC Milan is undoubtedly one of the standout games, particularly as the club prepares for another major chapter in its European history.
-            </p>
-
-            <p>
-                Bournemouth hosting Milan will also be a landmark occasion during their first European campaign.
-            </p>
-
-            <p>
-                Celtic face major tests against Marseille and Benfica, while Crystal Palace will meet the likes of Real Sociedad and Lyon.
-            </p>
-
-            <p>
-                In the Conference League, Brighton and Hearts will both have the opportunity to test themselves against Monaco.
-            </p>
-
-            <p>
-                The draw has now given supporters a clear picture of the European challenges ahead for all six British clubs.
-            </p>
-        `,
-        10: `
-            <p><strong>
-                Julián Álvarez's future at Atlético Madrid has entered a decisive stage after the Argentine forward and his representatives reportedly held a late-night meeting lasting more than five hours to discuss his next move.
-            </strong></p>
-
-            <p>
-                Arsenal remain one of the main clubs linked with the 26-year-old, while Atlético Madrid continue to insist that they will not negotiate a transfer with Barcelona.
-            </p>
-
-            <p>
-                The situation has left Álvarez facing two realistic possibilities as the summer transfer window approaches its conclusion: remain at Atlético Madrid and rebuild his relationship with the club, or seriously consider a return to the Premier League with Arsenal.
-            </p>
-
-            <h2>Five-Hour Meeting Over Álvarez's Future</h2>
-
-            <p>
-                According to Cadena SER, Álvarez held a meeting with members of his family, his representative and legal advisers that continued into the early hours of the morning.
-            </p>
-
-            <p>
-                The discussions are reported to have lasted for more than five hours as those close to the Argentina international considered the options available before the transfer deadline.
-            </p>
-
-            <p>
-                The meeting underlines how complicated the situation has become, particularly after Atlético Madrid made their position regarding Barcelona increasingly clear.
-            </p>
-
-            <p>
-                Álvarez has previously been strongly linked with the Catalan club, but Atlético have publicly stated that they will not enter into negotiations with their La Liga rivals.
-            </p>
-
-            <h2>Arsenal Emerging as the Main Alternative</h2>
-
-            <p>
-                With Barcelona effectively removed from the picture, Arsenal have become the most prominent alternative destination for Álvarez should he decide to leave Madrid.
-            </p>
-
-            <p>
-                Sky Sports has reported that the forward is now considering a possible move to Arsenal, although the Premier League side are believed to view completing the transfer as extremely difficult.
-            </p>
-
-            <p>
-                Arsenal have maintained an interest in Álvarez for some time and discussions between the clubs have previously taken place at ownership level.
-            </p>
-
-            <p>
-                The Gunners' interest reflects their desire to strengthen their attacking options with a player capable of operating both as a central striker and in deeper attacking positions.
-            </p>
-
-            <p>
-                However, interest alone does not mean a deal is close. Atlético's valuation, Álvarez's personal preference and the limited time remaining in the transfer window all represent major obstacles.
-            </p>
-
-            <h2>Atlético Refuse to Negotiate with Barcelona</h2>
-
-            <p>
-                Atlético Madrid's board has publicly backed the club's decision not to negotiate the sale of Álvarez to Barcelona.
-            </p>
-
-            <p>
-                The Spanish club has made a distinction between normal transfer-market negotiations and its specific position regarding Barcelona.
-            </p>
-
-            <p>
-                Atlético have stressed that they remain willing to conduct professional transfer discussions in general, but insist that there will be no negotiations with Barcelona over Álvarez.
-            </p>
-
-            <p>
-                That position has significantly changed the landscape surrounding the striker's future and is one of the reasons Arsenal's name has returned to the centre of the discussion.
-            </p>
-
-            <h2>Why Arsenal Still Face a Difficult Deal</h2>
-
-            <p>
-                Even with Barcelona ruled out as an immediate option, an Arsenal move remains far from straightforward.
-            </p>
-
-            <p>
-                Atlético have previously placed a very high value on Álvarez and the player remains under contract with the Spanish club.
-            </p>
-
-            <p>
-                Cadena SER has reported that Atlético had previously informed the player's camp that a €150 million offer would be required if he wanted to leave during the summer window.
-            </p>
-
-            <p>
-                Such a figure would make the operation one of the biggest transfers in Premier League history and would require Arsenal to make a significant financial commitment.
-            </p>
-
-            <p>
-                Arsenal therefore have to decide whether the sporting value of the player justifies pursuing an extremely expensive deal so late in the window.
-            </p>
-
-            <h2>Training Absence Explained</h2>
-
-            <p>
-                Álvarez has also missed Atlético training sessions during a period of intense speculation around his future.
-            </p>
-
-            <p>
-                However, reports from Sky Sports have stressed that his absence on Wednesday and Thursday was due to illness and a poor night's sleep rather than a transfer-related protest.
-            </p>
-
-            <p>
-                Cadena SER later reported that he missed a third consecutive session and was expected to be unavailable for Atlético's upcoming match.
-            </p>
-
-            <p>
-                The distinction is important because the transfer speculation has naturally led to questions about whether his training absence was linked directly to negotiations.
-            </p>
-
-            <p>
-                Current reporting does not support that conclusion.
-            </p>
-
-            <h2>Simeone Still Wants Álvarez</h2>
-
-            <p>
-                Diego Simeone has continued to publicly support the forward despite the uncertainty surrounding his future.
-            </p>
-
-            <p>
-                Atlético's manager has made clear that Álvarez remains part of his plans while he is at the club and has called for supporters and the team to remain united during a difficult period.
-            </p>
-
-            <p>
-                From Atlético's perspective, keeping one of their most important attacking players would still be a positive outcome if the transfer situation cannot be resolved.
-            </p>
-
-            <h2>Decision Time for Álvarez</h2>
-
-            <p>
-                The next few days could therefore determine whether Álvarez remains in Madrid or makes a dramatic return to English football.
-            </p>
-
-            <p>
-                Arsenal are interested, Atlético will not negotiate with Barcelona, and the player and his representatives have now spent hours discussing the available options.
-            </p>
-
-            <p>
-                Remaining at Atlético would require Álvarez to move beyond a turbulent summer and focus again on Diego Simeone's team.
-            </p>
-
-            <p>
-                Choosing Arsenal would mean returning to the Premier League and joining a club competing at the top end of English and European football.
-            </p>
-
-            <p>
-                For now, no transfer has been completed and no agreement between Arsenal and Atlético Madrid has been confirmed.
-            </p>
-
-            <p>
-                But with the transfer deadline approaching, Álvarez's future has become one of the major stories to watch during the final days of the window.
-            </p>
-        `,
-        11: `
-            <p><strong>
-                Enzo Fernández's future at Chelsea has come under renewed scrutiny after the midfielder was left out of Xabi Alonso's squad for the Carabao Cup victory over Luton Town, with Manchester City continuing to show interest in the Argentina international.
-            </strong></p>
-
-            <p>
-                Chelsea progressed with a 2-0 victory at Stamford Bridge, but Fernández's absence became one of the biggest talking points surrounding the game.
-            </p>
-
-            <p>
-                Alonso has now provided further context behind his decision, stressing the importance of selecting players who are physically and mentally ready to contribute.
-            </p>
-
-            <h2>Why Enzo Fernández Was Left Out</h2>
-
-            <p>
-                Alonso had previously indicated that Fernández could be involved against Luton, but the midfielder was ultimately omitted from the matchday squad.
-            </p>
-
-            <p>
-                When discussing the decision, the Chelsea manager explained that he needed players who were in the best possible situation to play and who showed the necessary energy and preparation.
-            </p>
-
-            <p>
-                Alonso also stressed the importance of his players having the desire to compete when selected.
-            </p>
-
-            <p>
-                He confirmed that he had spoken with Fernández before the match and that it was decided the midfielder would not be part of the squad.
-            </p>
-
-            <p>
-                However, Alonso continued to describe Fernández as a top player.
-            </p>
-
-            <h2>Alonso Stops Short of Saying Enzo Wants Out</h2>
-
-            <p>
-                Alonso's comments have inevitably increased speculation surrounding Fernández, but they need to be interpreted carefully.
-            </p>
-
-            <p>
-                The Chelsea manager did not directly confirm that Fernández has refused to play for the club or that his omission was caused by an imminent transfer.
-            </p>
-
-            <p>
-                ESPN reported that Alonso insisted the selection decision was his and was not simply the result of Manchester City's interest in the player.
-            </p>
-
-            <p>
-                That distinction is important as speculation intensifies during the final days of the summer transfer window.
-            </p>
-
-            <h2>Manchester City Interest Continues</h2>
-
-            <p>
-                Manchester City are considering a move for Fernández as they assess their midfield options before the transfer deadline.
-            </p>
-
-            <p>
-                Sky Sports has reported City's interest in the Argentine, who has been at Chelsea since completing his move from Benfica in 2023.
-            </p>
-
-            <p>
-                Despite reports suggesting that a deal could be moving closer, Chelsea sources have indicated that there has not yet been direct club-to-club contact over a transfer.
-            </p>
-
-            <p>
-                That means there is an important difference between Manchester City showing serious interest and the two clubs having an agreement in place.
-            </p>
-
-            <p>
-                No completed transfer has been announced and Fernández remains a Chelsea player.
-            </p>
-
-            <h2>Chelsea Would Need to Consider a Replacement</h2>
-
-            <p>
-                Losing Fernández at this stage of the transfer window would create another major decision for Chelsea.
-            </p>
-
-            <p>
-                The midfielder has been an important part of the club's squad, and any departure would leave Alonso needing to assess whether his current midfield options are sufficient for the season ahead.
-            </p>
-
-            <p>
-                Several midfielders have already been linked with Chelsea as potential options should Fernández depart, although transfer interest does not guarantee that any of those players will arrive at Stamford Bridge.
-            </p>
-
-            <p>
-                The club would also need to consider the financial terms of any proposal before sanctioning the departure of one of its highest-profile midfielders.
-            </p>
-
-            <h2>Chelsea Continue to Reshape Alonso's Squad</h2>
-
-            <p>
-                Fernández's situation comes during a busy period of squad restructuring at Stamford Bridge.
-            </p>
-
-            <p>
-                Liam Delap has completed a permanent move to Nottingham Forest, with Chelsea confirming his departure this week.
-            </p>
-
-            <p>
-                Delap's exit is another example of Chelsea reducing and reshaping the first-team group available to Alonso.
-            </p>
-
-            <p>
-                The Chelsea manager has indicated that the club is now getting closer to the squad structure it planned for the new season, although further business remains possible before the window closes.
-            </p>
-
-            <h2>Welbeck Makes an Immediate Impact</h2>
-
-            <p>
-                While Fernández's absence dominated much of the discussion away from the pitch, Danny Welbeck provided Chelsea with a positive story during the 2-0 victory over Luton.
-            </p>
-
-            <p>
-                The experienced striker scored his first Chelsea goal, heading home after Malo Gusto delivered from the right early in the second half.
-            </p>
-
-            <p>
-                Chelsea later doubled their advantage and comfortably secured their place in the next round of the Carabao Cup.
-            </p>
-
-            <p>
-                Alonso has praised the experience and intelligence Welbeck brings to his squad, qualities that could prove useful as Chelsea compete across several competitions.
-            </p>
-
-            <h2>Important Days Ahead for Enzo</h2>
-
-            <p>
-                Fernández's situation is now likely to remain one of Chelsea's biggest stories until the transfer window closes.
-            </p>
-
-            <p>
-                Manchester City's interest provides a possible route away from Stamford Bridge, but there is still a significant distance between interest and a completed transfer.
-            </p>
-
-            <p>
-                Chelsea would have to receive an acceptable proposal, decide whether selling the midfielder benefits Alonso's squad and potentially secure a replacement.
-            </p>
-
-            <p>
-                Alonso's decision to leave Fernández out against Luton has added another layer of uncertainty, but it should not on its own be treated as confirmation that a transfer is complete or inevitable.
-            </p>
-
-            <p>
-                For now, Fernández remains a Chelsea player, with the final days of the summer window set to determine whether that changes.
-            </p>
-        `,
-        };
-
-        articles.forEach(article => {
-            const bodyRecord = articleBodies.find(item => item.id === article.id);
-            article.content = verifiedBodies[article.id] || bodyRecord?.content || "";
-        });
+        articles.forEach(article => { article.content = articleContent[article.id] || ""; });
 
         function formatEditorialDate(value) {
             if (!value) return "";
@@ -1511,7 +488,7 @@
         const params = new URLSearchParams(window.location.search);
         const articleId = Number(pathMatch ? pathMatch[1] : params.get("id"));
 
-        const article = articles.find(item => item.id === articleId && item.isPublished !== false);
+        const article = articles.find(item => item.id === articleId && item.isPublished === true && item.content);
 
 
         /*
@@ -1556,7 +533,8 @@
                 article.category;
 
             document.getElementById("articleAuthor").textContent = article.author;
-            document.getElementById("articleType").textContent = article.articleType;
+            document.getElementById("articleType").textContent = `${article.articleType} · ${getArticleReadingTime(article)}`;
+            document.getElementById("relatedArticleCards").innerHTML = getRelatedArticles(article).map(renderArticleSummary).join("");
 
             // Display full article content
             document.getElementById("articleBody").innerHTML =
@@ -1568,7 +546,7 @@
 
             const sourceNote = document.getElementById("articleSourceNote");
             const verifiedSources = Array.isArray(article.sources) ? article.sources : [];
-            sourceNote.replaceChildren(document.createTextNode("Sources: "));
+            sourceNote.replaceChildren();
             verifiedSources.forEach((source, index) => {
                 if (index > 0) sourceNote.append(document.createTextNode("; "));
                 const link = document.createElement("a");
@@ -1587,12 +565,14 @@
             ======================================
             */
 
+            document.title = "Article unavailable | TV96 Live";
+            document.getElementById("article-robots").content = "noindex, follow";
             document.getElementById("articleHero").style.display = "none";
 
             document.getElementById("articleContent").innerHTML = `
                 <div class="article-error">
 
-                    <h2>Article Not Found</h2>
+                    <h1>Article Not Found</h1>
 
                     <p>
                         Sorry, the article you are looking for could not be found.
@@ -1600,7 +580,7 @@
 
                     <a href="/news" class="back-to-news">
                         <i class="fa-solid fa-arrow-left"></i>
-                        Back to All News
+                        Back to News &amp; Guides
                     </a>
 
                 </div>
