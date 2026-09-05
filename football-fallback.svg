@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Football">
+  <circle cx="16" cy="16" r="14" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/>
+  <path d="m16 8 7 5-3 8h-8l-3-8z" fill="#64748b"/>
+  <path d="m16 2v6M3 12l6 1m3 8-5 6m13-6 5 6m-2-14 6-1" stroke="#64748b" stroke-width="2"/>
+</svg>

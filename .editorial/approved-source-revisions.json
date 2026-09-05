@@ -1,0 +1,47 @@
+{
+  "1": {
+    "reason": "Separate club extension confirmation from Sky reported contract end date; archive/analysis label",
+    "before": "2dd7890547fef4eaf7f482eae7ca8066bb69ba1c247aefe77f14421d9ad94a20",
+    "after": "d62da1bf33ea900f5f83f90eb6eeb57f6f34a4245d7803a162b78450258b5147"
+  },
+  "2": {
+    "reason": "Archive/analysis label",
+    "before": "844dc267e56aeb35d038513c76d16a3251f250be74c9469932de97bcebabd5cd",
+    "after": "d87a6db2bc8ccae9e4cebd6a2c92e4dcc1401e21ffc594629df4c086fd45f874"
+  },
+  "3": {
+    "reason": "Remove unverified Messi records; retain original statistical interpretation as analysis",
+    "before": "f522f83f63ed455719d10287684884d64c7f10def5ac38ae4dd78553515a64fc",
+    "after": "96424c15767ac8a9c932a9095ef0d1197c046192d6ae227da29723d21317d15e"
+  },
+  "4": {
+    "reason": "Remove unverified medical/training-ground details; cite accessible direct Sky report",
+    "before": "a27a581144e17e0ba41ae55fd74681f0c8afbae81c0f5a45d5e815916eb14d29",
+    "after": "816b6ec6ec53b61686d7bf5866ab11a0ae9159d22aa196a3533ccf632a2523e8"
+  },
+  "7": {
+    "reason": "Archive/analysis label; dated figures supported by recorded Le Monde report",
+    "before": "2083edcba3aea851477986e8e1735ec59fdbdbb2dac120982d9a1eeb5291d2a9",
+    "after": "c70d085806c06fba5c2fc436de546d3937b7deb3f6753df98c77d45271f366a4"
+  },
+  "8": {
+    "reason": "Remove unsupported Martinelli claims; direct club statement and existing Sky report",
+    "before": "d7f936e883eb5ebd12a92b084ca4e6816b6787bd1770dcefd8b814cfbb27c6a5",
+    "after": "ea72e0f0dc7154a8816982d89abba4846aaf5ef450afc673f353e624aadc2dcd"
+  },
+  "9": {
+    "reason": "Remove unsupported opponents, dates and venues; clearly labelled draw analysis",
+    "before": "226466efe66e92782d2bd83523ed425e0d2c3edb7271452097a415ff1d2e448c",
+    "after": "153303e0e6b145de8cf67dc9aa09e25f9a19b8ef02417c04351bfe0e409e0698"
+  },
+  "10": {
+    "reason": "Remove unsupported asking price, third training absence and Simeone claims; clarify source attribution",
+    "before": "27d0d3f8a11ffcdb8298dfb1448dae078b704695879d3955a10204d52af1b8ee",
+    "after": "656d6c81fc83df54f76cbf6ae4a43f98e8dc10b409bd4add180129e18f886404"
+  },
+  "11": {
+    "reason": "Correct selection rationale to ESPN account; remove unsupported contact, Delap and Welbeck detail",
+    "before": "c8d22f4f734df9207068970553285e21b583ed4a59286fb749870cfcb7e33d4e",
+    "after": "1f287d06e85355d2c702fac22b79d5a85bba82f9d008c9591f53f63e313c5892"
+  }
+}

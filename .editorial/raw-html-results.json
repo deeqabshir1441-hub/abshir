@@ -1,0 +1,294 @@
+{
+  "mode": "Local HTTP; Vercel clean URLs and deployment exclusions modeled; no JavaScript execution",
+  "articles": [
+    {
+      "route": "/articles/1",
+      "status": 200,
+      "words": 524,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/2",
+      "status": 200,
+      "words": 524,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/3",
+      "status": 200,
+      "words": 481,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/4",
+      "status": 200,
+      "words": 528,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/7",
+      "status": 200,
+      "words": 536,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/8",
+      "status": 200,
+      "words": 455,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/9",
+      "status": 200,
+      "words": 477,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/10",
+      "status": 200,
+      "words": 718,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/11",
+      "status": 200,
+      "words": 540,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/12",
+      "status": 200,
+      "words": 792,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/13",
+      "status": 200,
+      "words": 804,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/14",
+      "status": 200,
+      "words": 810,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/15",
+      "status": 200,
+      "words": 782,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/16",
+      "status": 200,
+      "words": 823,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/17",
+      "status": 200,
+      "words": 839,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/18",
+      "status": 200,
+      "words": 854,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/19",
+      "status": 200,
+      "words": 885,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/20",
+      "status": 200,
+      "words": 802,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/21",
+      "status": 200,
+      "words": 834,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/22",
+      "status": 200,
+      "words": 839,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/23",
+      "status": 200,
+      "words": 814,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/24",
+      "status": 200,
+      "words": 843,
+      "h1": 1,
+      "related": 3
+    },
+    {
+      "route": "/articles/25",
+      "status": 200,
+      "words": 840,
+      "h1": 1,
+      "related": 3
+    }
+  ],
+  "newsIds": [
+    1,
+    2,
+    3,
+    4,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25
+  ],
+  "excluded": [
+    {
+      "route": "/articles/5",
+      "status": 404
+    },
+    {
+      "route": "/articles/6",
+      "status": 404
+    },
+    {
+      "route": "/articles/26",
+      "status": 404
+    },
+    {
+      "route": "/articles/27",
+      "status": 404
+    },
+    {
+      "route": "/articles/28",
+      "status": 404
+    },
+    {
+      "route": "/articles/29",
+      "status": 404
+    },
+    {
+      "route": "/articles/30",
+      "status": 404
+    },
+    {
+      "route": "/articles/31",
+      "status": 404
+    },
+    {
+      "route": "/articles/99999",
+      "status": 404
+    },
+    {
+      "route": "/article-template?id=5",
+      "status": 404
+    },
+    {
+      "route": "/article-template?id=99999",
+      "status": 404
+    },
+    {
+      "route": "/article-content.js",
+      "status": 404
+    },
+    {
+      "route": "/.editorial/REPORT.md",
+      "status": 404
+    },
+    {
+      "route": "/.editorial/season-drafts.md",
+      "status": 404
+    },
+    {
+      "route": "/.editorial/article-content.js",
+      "status": 404
+    },
+    {
+      "route": "/.editorial/news-data.js",
+      "status": 404
+    },
+    {
+      "route": "/.editorial/browser-results.json",
+      "status": 404
+    }
+  ],
+  "sitemap": [
+    "/",
+    "/matches",
+    "/standings",
+    "/news",
+    "/about",
+    "/contact",
+    "/privacy",
+    "/terms",
+    "/articles/1",
+    "/articles/2",
+    "/articles/3",
+    "/articles/4",
+    "/articles/7",
+    "/articles/8",
+    "/articles/9",
+    "/articles/10",
+    "/articles/11",
+    "/articles/12",
+    "/articles/13",
+    "/articles/14",
+    "/articles/15",
+    "/articles/16",
+    "/articles/17",
+    "/articles/18",
+    "/articles/19",
+    "/articles/20",
+    "/articles/21",
+    "/articles/22",
+    "/articles/23",
+    "/articles/24",
+    "/articles/25"
+  ]
+}

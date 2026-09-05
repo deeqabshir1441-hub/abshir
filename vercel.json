@@ -12,12 +12,6 @@
       ]
     }
   ],
-  "rewrites": [
-    {
-      "source": "/articles/:id",
-      "destination": "/article-template?id=:id"
-    }
-  ],
   "redirects": [
     {
       "source": "/streams.js",
@@ -32,6 +26,282 @@
     {
       "source": "/old-page",
       "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "1"
+        }
+      ],
+      "destination": "/articles/1",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "2"
+        }
+      ],
+      "destination": "/articles/2",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "3"
+        }
+      ],
+      "destination": "/articles/3",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "4"
+        }
+      ],
+      "destination": "/articles/4",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "7"
+        }
+      ],
+      "destination": "/articles/7",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "8"
+        }
+      ],
+      "destination": "/articles/8",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "9"
+        }
+      ],
+      "destination": "/articles/9",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "10"
+        }
+      ],
+      "destination": "/articles/10",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "11"
+        }
+      ],
+      "destination": "/articles/11",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "12"
+        }
+      ],
+      "destination": "/articles/12",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "13"
+        }
+      ],
+      "destination": "/articles/13",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "14"
+        }
+      ],
+      "destination": "/articles/14",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "15"
+        }
+      ],
+      "destination": "/articles/15",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "16"
+        }
+      ],
+      "destination": "/articles/16",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "17"
+        }
+      ],
+      "destination": "/articles/17",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "18"
+        }
+      ],
+      "destination": "/articles/18",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "19"
+        }
+      ],
+      "destination": "/articles/19",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "20"
+        }
+      ],
+      "destination": "/articles/20",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "21"
+        }
+      ],
+      "destination": "/articles/21",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "22"
+        }
+      ],
+      "destination": "/articles/22",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "23"
+        }
+      ],
+      "destination": "/articles/23",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "24"
+        }
+      ],
+      "destination": "/articles/24",
+      "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "25"
+        }
+      ],
+      "destination": "/articles/25",
       "permanent": true
     }
   ]

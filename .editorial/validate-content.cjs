@@ -5,9 +5,7 @@ const assert = require('node:assert/strict');
 const { execFileSync } = require('node:child_process');
 const root = path.resolve(__dirname, '..');
 const read = file => fs.readFileSync(path.join(root, file), 'utf8');
-const context = vm.createContext({});
-vm.runInContext(read('news-data.js') + '\n' + read('article-content.js') + '\nglobalThis.data = { articles, articleContent, getPublishedArticles, getRelatedArticles, getFeaturedArticles };', context);
-const { articles, articleContent, getPublishedArticles, getRelatedArticles, getFeaturedArticles } = context.data;
+const { articles, articleContent, getPublishedArticles, getRelatedArticles, getFeaturedArticles } = require('./content-model.cjs');
 const published = getPublishedArticles();
 const ids = new Set(articles.map(article => article.id));
 assert.equal(ids.size, articles.length, 'Duplicate article IDs');
@@ -50,7 +48,7 @@ for (const article of articles.filter(article => article.isPublished !== true)) 
     assert(!sitemapIds.includes(article.id));
     assert(!getFeaturedArticles().some(item => item.id === article.id));
 }
-const htmlFiles = fs.readdirSync(root).filter(file => file.endsWith('.html'));
+const htmlFiles = [...fs.readdirSync(root).filter(file => file.endsWith('.html')), ...published.map(a => `articles/${a.id}.html`)];
 for (const file of htmlFiles) {
     const html = read(file);
     for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
@@ -63,17 +61,52 @@ for (const file of htmlFiles) {
         for (const match of html.matchAll(/href="([^"$]+)"/g)) checkLocalLink(match[1], file);
     }
 }
-const baseline = name => execFileSync('git', ['show', 'HEAD:' + name], { cwd: root, encoding: 'utf8', maxBuffer: 2 ** 22 });
-const oldHtml = baseline('article-template.html');
+const baseline = name => execFileSync('git', ['show', '16e286e:' + name], { cwd: root, encoding: 'utf8', maxBuffer: 2 ** 22 });
+const original = name => execFileSync('git', ['show', '9ee47c6:' + name], { cwd: root, encoding: 'utf8', maxBuffer: 2 ** 22 });
+const oldHtml = original('article-template.html');
 const oldContext = vm.createContext({});
-vm.runInContext(baseline('news-data.js') + '\n' + oldHtml.slice(oldHtml.indexOf('const articleBodies ='), oldHtml.indexOf('function formatEditorialDate')) + '\nglobalThis.oldArticles = articles;', oldContext);
-for (const article of oldContext.oldArticles) assert.equal(articleContent[article.id], article.content, `Existing body changed: ${article.id}`);
-const protectedFiles = ['api/matches.js', 'api/standings.js', 'matches-data.js', 'matches.html', 'standings.html', 'streams.js', 'watch-live.html', 'match-ids.html', 'history-data.js', 'site-config.js', 'site-header.js', 'vercel.json', 'robots.txt', 'ads.txt', 'privacy.html', 'terms.html', 'contact.html', 'sw.js'];
-for (const file of protectedFiles) assert.equal(read(file).replace(/\r\n/g, '\n'), baseline(file).replace(/\r\n/g, '\n'), `Protected file changed: ${file}`);
-for (const file of ['index.html', 'news.html', 'article-template.html', 'about.html']) {
+vm.runInContext(original('news-data.js') + '\n' + oldHtml.slice(oldHtml.indexOf('const articleBodies ='), oldHtml.indexOf('function formatEditorialDate')) + '\nglobalThis.oldArticles = articles;', oldContext);
+const revisions = JSON.parse(read('.editorial/approved-source-revisions.json'));
+const hash = text => require('node:crypto').createHash('sha256').update(text).digest('hex');
+function preservedBody(id, body) {
+    if (revisions[id]) {
+        assert.equal(hash(body), revisions[id].before, `Revision baseline changed: ${id}`);
+        assert.equal(hash(articleContent[id]), revisions[id].after, `Unreviewed editorial revision: ${id}`);
+        assert(revisions[id].reason);
+    } else assert.equal(articleContent[id], body, `Existing body changed: ${id}`);
+}
+for (const article of oldContext.oldArticles) preservedBody(article.id, article.content);
+const protectedFiles = ['api/matches.js', 'api/standings.js', 'matches-data.js', 'matches.html', 'standings.html', 'streams.js', 'watch-live.html', 'match-ids.html', 'history-data.js', 'site-config.js', 'site-header.js', 'robots.txt', 'ads.txt', 'privacy.html', 'terms.html', 'contact.html', 'sw.js'];
+const removeAds = html => html.replace(/    <script\b[^>]*src="https:\/\/pagead2\.googlesyndication\.com[^>]*>[\s\S]*?<\/script>\r?\n/g, '');
+for (const file of protectedFiles) assert.equal(read(file).replace(/\r\n/g, '\n'), (file === 'watch-live.html' ? removeAds(baseline(file)) : baseline(file)).replace(/\r\n/g, '\n'), `Protected file changed: ${file}`);
+// The homepage's only authorized JavaScript edit is the fallback image URL.
+const inlineScripts = html => Array.from(html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)).filter(m => !/src=/.test(m[1])).map(m => m[2].replace(/\r\n/g, '\n'));
+assert.deepEqual(inlineScripts(read('index.html')), inlineScripts(baseline('index.html').replace(/https:\/\/via\.placeholder\.com\/[^']+/g, '/football-fallback.svg')), 'Unrelated homepage logic changed');
+for (const file of ['index.html', 'news.html', 'article-template.html', 'about.html', ...published.map(a => `articles/${a.id}.html`)]) {
     const loaders = html => Array.from(html.matchAll(/<script\b[^>]*src="(?:https:\/\/(?:pagead2\.googlesyndication\.com|cloud\.umami\.is)[^"]*|\/_vercel\/insights\/script\.js)"[^>]*>[\s\S]*?<\/script>/g), match => match[0].replace(/\r\n/g, '\n'));
-    assert.deepEqual(loaders(read(file)), loaders(baseline(file)), `Advertising/analytics changed: ${file}`);
+    assert.deepEqual(loaders(read(file === 'article-template.html' ? '.editorial/article-template.html' : file)), loaders(baseline(file.startsWith('articles/') ? 'article-template.html' : file)), `Advertising/analytics changed: ${file}`);
 }
 assert(read('match-ids.html').includes('noindex'));
 assert(read('offline.html').includes('noindex'));
 console.log(`PASS: ${published.length} published bodies, ${articles.length - published.length} excluded drafts, unique metadata, contextual/related links, sitemap parity, inline JavaScript syntax, preserved existing bodies, ${protectedFiles.length} protected files, advertising and analytics loaders.`);
+
+// Preserve every pre-fix body independently, including unpublished IDs 5 and 6.
+const prior = vm.createContext({});
+vm.runInContext(baseline('article-content.js') + '\nglobalThis.bodies = articleContent;', prior);
+for (const [id, body] of Object.entries(prior.bodies)) preservedBody(id, body);
+const config = JSON.parse(read('vercel.json'));
+const oldConfig = JSON.parse(baseline('vercel.json'));
+assert.equal(config.cleanUrls, oldConfig.cleanUrls);
+assert.equal(config.trailingSlash, oldConfig.trailingSlash);
+assert.deepEqual(config.headers, oldConfig.headers);
+assert.deepEqual(config.redirects.filter(r => r.source !== '/article-template'), oldConfig.redirects);
+assert(!config.rewrites?.some(r => r.source.startsWith('/articles/')));
+assert(read('.vercelignore').split(/\r?\n/).includes('.editorial/'));
+execFileSync(process.execPath, [path.join(__dirname, 'generate-static.cjs'), '--check'], { cwd: root, stdio: 'inherit' });
+
+const cleanupBaseline = JSON.parse(read('.editorial/image-cleanup-baseline.json'));
+for (const file of ['vercel.json', '.vercelignore']) assert.equal(hash(read(file)), hash(cleanupBaseline[file].text), `Cleanup changed deployment configuration: ${file}`);
+for (const file of ['watch-live.html', 'offline.html']) {
+    assert.equal(read(file).replace(/\r\n/g, '\n'), removeAds(cleanupBaseline[file].text).replace(/\r\n/g, '\n'));
+    assert(!/pagead2\.googlesyndication|adsbygoogle/.test(read(file)));
+}

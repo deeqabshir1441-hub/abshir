@@ -1,0 +1,149 @@
+[
+  {
+    "path": "news image/1.jpg",
+    "bytes": 20221,
+    "dimensions": "596 x 335",
+    "classification": "C - uncertain; no permission evidence",
+    "usage": "Article 1: already suppressed candidate; remains suppressed"
+  },
+  {
+    "path": "news image/10.png",
+    "bytes": 2483603,
+    "dimensions": "1536 x 1024",
+    "classification": "C - uncertain; no permission evidence",
+    "usage": "Article 10: News cards, OG and Article JSON-LD; replaced everywhere"
+  },
+  {
+    "path": "news image/11.png",
+    "bytes": 2169404,
+    "dimensions": "1536 x 1024",
+    "classification": "C - uncertain; no permission evidence",
+    "usage": "Article 11: News cards, OG and Article JSON-LD; replaced everywhere"
+  },
+  {
+    "path": "news image/2.jpeg",
+    "bytes": 31081,
+    "dimensions": "900 x 600",
+    "classification": "C - uncertain; no permission evidence",
+    "usage": "Article 2: already suppressed candidate; remains suppressed"
+  },
+  {
+    "path": "news image/3.jpg",
+    "bytes": 281136,
+    "dimensions": "2048 x 1365",
+    "classification": "C - uncertain; no permission evidence",
+    "usage": "Article 3: already suppressed candidate; remains suppressed"
+  },
+  {
+    "path": "news image/4.jpg",
+    "bytes": 59648,
+    "dimensions": "1024 x 576",
+    "classification": "C - uncertain; no permission evidence",
+    "usage": "Article 4: already suppressed candidate; remains suppressed"
+  },
+  {
+    "path": "news image/5.jpg",
+    "bytes": 34940,
+    "dimensions": "547 x 365",
+    "classification": "C - uncertain; no permission evidence",
+    "usage": "Not referenced by any of the 23 published editorial records; retained unused"
+  },
+  {
+    "path": "news image/6.webp",
+    "bytes": 57516,
+    "dimensions": "1380 x 690",
+    "classification": "C - uncertain; no permission evidence",
+    "usage": "Not referenced by any of the 23 published editorial records; retained unused"
+  },
+  {
+    "path": "news image/7.webp",
+    "bytes": 12100,
+    "dimensions": "416 x 416",
+    "classification": "C - uncertain; no permission evidence",
+    "usage": "Article 7: already suppressed candidate; remains suppressed"
+  },
+  {
+    "path": "news image/8.png",
+    "bytes": 2703983,
+    "dimensions": "1536 x 1024",
+    "classification": "C - uncertain; no permission evidence",
+    "usage": "Article 8: News cards, OG and Article JSON-LD; replaced everywhere"
+  },
+  {
+    "path": "news image/9.png",
+    "bytes": 2212701,
+    "dimensions": "1536 x 1024",
+    "classification": "C - uncertain; no permission evidence",
+    "usage": "Article 9: News cards, OG and Article JSON-LD; replaced everywhere"
+  },
+  {
+    "path": "news image/fergusan.jpg",
+    "bytes": 432777,
+    "dimensions": "1974 x 1316",
+    "classification": "C - uncertain; no permission evidence",
+    "usage": "Not referenced by any of the 23 published editorial records; retained unused"
+  },
+  {
+    "path": "news image/GettyImages-2166876546-2-scaled.jpg",
+    "bytes": 212787,
+    "dimensions": "1200 x 800",
+    "classification": "D - agency-marked, no licence evidence; unsafe to publish",
+    "usage": "Not referenced by any of the 23 published editorial records; retained unused"
+  },
+  {
+    "path": "news image/GettyImages-2262861156.jpg.webp",
+    "bytes": 115096,
+    "dimensions": "2419 x 1361",
+    "classification": "D - agency-marked, no licence evidence; unsafe to publish",
+    "usage": "Not referenced by any of the 23 published editorial records; retained unused"
+  },
+  {
+    "path": "news image/images.jpg",
+    "bytes": 7892,
+    "dimensions": "300 x 168",
+    "classification": "C - uncertain; no permission evidence",
+    "usage": "Not referenced by any of the 23 published editorial records; retained unused"
+  },
+  {
+    "path": "logo/Logo.png",
+    "bytes": 746006,
+    "dimensions": "940 x 705",
+    "classification": "C - site branding, but creation/licence evidence absent",
+    "usage": "Removed direct usage from audited article/home/News headers, icons and OG; files and unrelated application/other-page usage unchanged"
+  },
+  {
+    "path": "icon-512.png",
+    "bytes": 1541724,
+    "dimensions": "1024 x 1024",
+    "classification": "C - site branding, but creation/licence evidence absent",
+    "usage": "Removed direct usage from audited article/home/News headers, icons and OG; files and unrelated application/other-page usage unchanged"
+  },
+  {
+    "path": "icon-192.png",
+    "bytes": 1540419,
+    "dimensions": "1024 x 1024",
+    "classification": "C - site branding, but creation/licence evidence absent",
+    "usage": "Removed direct usage from audited article/home/News headers, icons and OG; files and unrelated application/other-page usage unchanged"
+  },
+  {
+    "path": "favicon.png",
+    "bytes": 704956,
+    "dimensions": "653 x 649",
+    "classification": "C - site branding, but creation/licence evidence absent",
+    "usage": "Removed direct usage from audited article/home/News headers, icons and OG; files and unrelated application/other-page usage unchanged"
+  },
+  {
+    "path": "editorial-fallback.png",
+    "bytes": 22391,
+    "dimensions": "1200 x 630",
+    "classification": "A - original code-created text/geometry",
+    "usage": "Retained: editorial cards 8-11 and all article/home/News OG"
+  },
+  {
+    "path": "football-fallback.svg",
+    "bytes": 329,
+    "dimensions": "vector",
+    "classification": "A - original code-created text/geometry",
+    "usage": "Retained: original SVG favicon on audited pages; existing match fallback"
+  }
+]

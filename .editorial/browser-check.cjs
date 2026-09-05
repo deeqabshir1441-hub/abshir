@@ -11,6 +11,7 @@ const root = path.resolve(__dirname, '..');
 const context = vm.createContext({});
 vm.runInContext(fs.readFileSync(path.join(root, 'news-data.js'), 'utf8') + '\nglobalThis.records = articles;', context);
 const published = context.records.filter(article => article.isPublished === true);
+const draftRecords = require('./content-model.cjs').articles.filter(article => !article.isPublished);
 const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'tv96-editorial-'));
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
 const requests = [];
@@ -31,14 +32,7 @@ const server = http.createServer((req, res) => {
         ] }));
     }
     if (url.pathname.startsWith('/_')) { res.setHeader('Content-Type', 'text/javascript'); return res.end(''); }
-    let file = decodeURIComponent(url.pathname).slice(1) || 'index.html';
-    if (/^articles\/\d+$/.test(file)) file = 'article-template.html';
-    else if (!path.extname(file)) file += '.html';
-    const resolved = path.resolve(root, file);
-    if (!resolved.startsWith(root + path.sep) || file.startsWith('.') || !fs.existsSync(resolved)) { res.statusCode = 404; return res.end('Not found'); }
-    const mime = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.xml': 'application/xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml', '.webp': 'image/webp' };
-    res.setHeader('Content-Type', (mime[path.extname(file)] || 'text/plain') + (['.html', '.js', '.css'].includes(path.extname(file)) ? '; charset=utf-8' : ''));
-    res.end(fs.readFileSync(resolved));
+    return require('./static-server.cjs')(req, res);
 });
 let chrome, socket;
 (async () => {
@@ -89,14 +83,14 @@ let chrome, socket;
         if (result.exceptionDetails) throw new Error(result.exceptionDetails.text);
         return result.result.value;
     };
-    const navigate = async route => {
+    const navigate = async (route, destination = route) => {
         exceptions = [];
         await send('Page.navigate', { url: origin + route });
         for (let i = 0; i < 100; i++) {
-            if (await evaluate(`location.href === ${JSON.stringify(origin + route)} && document.readyState === 'complete'`)) break;
+            if (await evaluate(`location.href === ${JSON.stringify(origin + destination)} && document.readyState === 'complete'`)) break;
             await pause(50);
         }
-        assert(await evaluate(`location.href === ${JSON.stringify(origin + route)} && document.readyState === 'complete'`), `Navigation did not complete: ${route}`);
+        assert(await evaluate(`location.href === ${JSON.stringify(origin + destination)} && document.readyState === 'complete'`), `Navigation did not complete: ${route}`);
         assert.deepEqual(exceptions, [], `Browser exception on ${route}`);
     };
     const viewport = width => send('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: false });
@@ -117,13 +111,27 @@ let chrome, socket;
         results.push({ id: article.id, status: 'pass', h1: 1, related: 3 });
     }
     console.log('PASS: all 23 article routes, metadata, JSON-LD, related cards and 360px/1440px layouts.');
-    for (const article of context.records.filter(article => article.isPublished !== true)) {
+    await send('Emulation.setScriptExecutionDisabled', { value: true });
+    await viewport(360);
+    await navigate('/articles/12');
+    assert.equal(await evaluate(`document.querySelectorAll('h1').length`), 1);
+    assert(await evaluate(`document.getElementById('articleBody').innerText.length > 3000`));
+    assert(!await overflow(), 'No-JavaScript article overflow');
+    await screenshot('article-no-js-mobile');
+    await navigate('/news');
+    assert.equal(await evaluate(`document.querySelectorAll('#news-container > a').length`), 23);
+    assert(!await overflow(), 'No-JavaScript News overflow');
+    await screenshot('news-no-js-mobile');
+    await send('Emulation.setScriptExecutionDisabled', { value: false });
+    console.log('PASS: article body and all 23 News cards visible with JavaScript disabled at 360px.');
+
+    for (const article of draftRecords) {
         await navigate('/articles/' + article.id);
         assert.equal(await evaluate(`document.getElementById('article-robots').content`), 'noindex, follow');
-        assert(await evaluate(`document.getElementById('articleContent').innerText.includes('Article Not Found')`));
+        assert(await evaluate(`document.getElementById('articleContent').innerText.includes('Page not found')`));
     }
     await navigate('/articles/99999'); assert.equal(await evaluate(`document.getElementById('article-robots').content`), 'noindex, follow');
-    await navigate('/article-template.html?id=12'); assert.equal(await evaluate('document.title'), published.find(article => article.id === 12).title + ' | TV96 Live');
+    await navigate('/article-template.html?id=12', '/articles/12'); assert.equal(await evaluate('document.title'), published.find(article => article.id === 12).title + ' | TV96 Live');
     await navigate('/news');
     await evaluate(`while (document.querySelector('.btn-load-more').style.display !== 'none') document.querySelector('.btn-load-more').click()`);
     assert.equal(await evaluate(`document.querySelectorAll('#news-container > a').length`), published.length);
@@ -149,7 +157,9 @@ let chrome, socket;
     await screenshot('home-mobile');
     assert(homeWidth <= 361, 'Homepage overflow after entrance animations');
     await navigate('/matches'); assert(await evaluate(`document.querySelectorAll('.match-card').length > 0`));
-    await navigate('/standings'); assert.equal(await evaluate(`document.querySelectorAll('#standingsBody tr').length`), 2);
+    await navigate('/standings');
+    for (let i = 0; i < 100 && !await evaluate(`document.getElementById('standingsBody').innerText.includes('Arsenal')`); i++) await pause(50);
+    assert.equal(await evaluate(`document.querySelectorAll('#standingsBody tr').length`), 2);
     assert(await evaluate(`document.getElementById('standingsBody').innerText.includes('Arsenal')`));
     await navigate('/watch-live'); assert(await evaluate(`document.body.innerText.includes('Live viewing is currently unavailable')`));
     await navigate('/news');

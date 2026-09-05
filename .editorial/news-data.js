@@ -1,10 +1,11 @@
-// Generated published-only metadata. Edit .editorial/news-data.js and regenerate.
+// Central editorial metadata; draft and candidate records stay internal.
 const articles = [
     {
         "id": 1,
         "title": "Atalanta confirm Éderson contract extension through 2031",
         "description": "Atalanta have confirmed that midfielder Éderson signed a contract extension running through June 2031.",
         "image": "",
+        "imageCandidate": "news image/1.jpg",
         "category": "Serie A",
         "articleType": "Sourced news summary and analysis",
         "author": "TV96 Live Editorial Team",
@@ -23,6 +24,8 @@ const articles = [
             }
         ],
         "imageCredit": "Original TV96 Live text and geometric artwork",
+        "sourceReviewRequired": false,
+        "imageReviewRequired": true,
         "isPublished": true,
         "wordCount": 524,
         "imageAlt": "TV96 Live - Football News & Guides"
@@ -32,6 +35,7 @@ const articles = [
         "title": "Trossard leaves Arsenal as club considers left-wing options",
         "description": "Leandro Trossard joined Beşiktaş while Arsenal considered changes on the left, including reported interest in Christos Tzolis and Morgan Rogers.",
         "image": "",
+        "imageCandidate": "news image/2.jpeg",
         "category": "Premier League",
         "articleType": "Sourced news summary and analysis",
         "author": "TV96 Live Editorial Team",
@@ -46,6 +50,8 @@ const articles = [
             }
         ],
         "imageCredit": "Original TV96 Live text and geometric artwork",
+        "sourceReviewRequired": false,
+        "imageReviewRequired": true,
         "isPublished": true,
         "wordCount": 524,
         "imageAlt": "TV96 Live - Football News & Guides"
@@ -55,6 +61,7 @@ const articles = [
         "title": "How to Read World Cup Knockout Assist Statistics",
         "description": "A careful way to compare knockout assists: define the competition stage, check the counting method and look beyond the final pass.",
         "image": "",
+        "imageCandidate": "news image/3.jpg",
         "category": "FIFA World Cup",
         "articleType": "Editorial analysis",
         "author": "TV96 Live Editorial Team",
@@ -67,6 +74,8 @@ const articles = [
             }
         ],
         "imageCredit": "Original TV96 Live text and geometric artwork",
+        "sourceReviewRequired": false,
+        "imageReviewRequired": true,
         "isPublished": true,
         "wordCount": 481,
         "imageAlt": "TV96 Live - Football News & Guides"
@@ -76,6 +85,7 @@ const articles = [
         "title": "Johan Manzambi completes move to Aston Villa",
         "description": "Johan Manzambi completed a move from Freiburg to Aston Villa after Newcastle had also pursued the Switzerland midfielder.",
         "image": "",
+        "imageCandidate": "news image/4.jpg",
         "category": "Transfers",
         "articleType": "Sourced news summary and analysis",
         "author": "TV96 Live Editorial Team",
@@ -90,15 +100,54 @@ const articles = [
             }
         ],
         "imageCredit": "Original TV96 Live text and geometric artwork",
+        "sourceReviewRequired": false,
+        "imageReviewRequired": true,
         "isPublished": true,
         "wordCount": 528,
         "imageAlt": "TV96 Live - Football News & Guides"
+    },
+    {
+        "id": 5,
+        "title": "Romelu Lukaku explains reported 2010 Real Madrid decision",
+        "description": "Romelu Lukaku reportedly said his family prioritised his education when the possibility of joining Real Madrid arose in 2010.",
+        "image": "",
+        "imageCandidate": "news image/5.jpg",
+        "category": "Football News",
+        "articleType": "News summary",
+        "author": "TV96 Live Editorial Team",
+        "publishedAt": "2026-07-14T12:02:02+03:00",
+        "updatedAt": "2026-08-28",
+        "sourceName": "",
+        "sourceUrl": "",
+        "imageCredit": "",
+        "sourceReviewRequired": true,
+        "imageReviewRequired": true,
+        "isPublished": false
+    },
+    {
+        "id": 6,
+        "title": "Alexander Sørloth social-media reaction report",
+        "description": "This item requires a fuller verified source and additional reporting before publication.",
+        "image": "",
+        "imageCandidate": "news image/6.webp",
+        "category": "FIFA World Cup",
+        "articleType": "Unpublished draft",
+        "author": "TV96 Live Editorial Team",
+        "publishedAt": "2026-07-14T12:02:02+03:00",
+        "updatedAt": "2026-08-28",
+        "sourceName": "",
+        "sourceUrl": "",
+        "imageCredit": "",
+        "sourceReviewRequired": true,
+        "imageReviewRequired": true,
+        "isPublished": false
     },
     {
         "id": 7,
         "title": "Mbappé reaches 11 goal contributions at 2026 World Cup",
         "description": "Kylian Mbappé reached eight goals and three assists by the 2026 World Cup quarter-final stage, according to Le Monde.",
         "image": "",
+        "imageCandidate": "news image/7.webp",
         "category": "FIFA World Cup",
         "articleType": "Sourced news summary and analysis",
         "author": "TV96 Live Editorial Team",
@@ -113,6 +162,8 @@ const articles = [
             }
         ],
         "imageCredit": "Original TV96 Live text and geometric artwork",
+        "sourceReviewRequired": false,
+        "imageReviewRequired": true,
         "isPublished": true,
         "wordCount": 536,
         "imageAlt": "TV96 Live - Football News & Guides"
@@ -128,6 +179,7 @@ const articles = [
         "updatedAt": "2026-09-06",
         "image": "/editorial-fallback.png",
         "imageAlt": "TV96 Live - Football News & Guides",
+        "imageReviewRequired": true,
         "isPublished": true,
         "sources": [
             {
@@ -140,6 +192,7 @@ const articles = [
             }
         ],
         "wordCount": 455,
+        "imageCandidate": "news image/8.png",
         "imageCredit": "Original TV96 Live text and geometric artwork"
     },
     {
@@ -153,6 +206,7 @@ const articles = [
         "updatedAt": "2026-09-06",
         "image": "/editorial-fallback.png",
         "imageAlt": "TV96 Live - Football News & Guides",
+        "imageReviewRequired": true,
         "isPublished": true,
         "sources": [
             {
@@ -161,6 +215,7 @@ const articles = [
             }
         ],
         "wordCount": 477,
+        "imageCandidate": "/news image/9.png",
         "imageCredit": "Original TV96 Live text and geometric artwork"
     },
     {
@@ -174,6 +229,7 @@ const articles = [
         "updatedAt": "2026-09-06",
         "image": "/editorial-fallback.png",
         "imageAlt": "TV96 Live - Football News & Guides",
+        "imageReviewRequired": true,
         "isPublished": true,
         "sources": [
             {
@@ -185,7 +241,8 @@ const articles = [
                 "url": "https://www.skysports.com/football/news/11095/13577751/julian-alvarez-transfer-news-atletico-madrid-wont-sell-striker-to-barcelona-with-arsenal-the-only-option"
             }
         ],
-        "wordCount": 718,
+        "wordCount": 739,
+        "imageCandidate": "/news image/10.png",
         "imageCredit": "Original TV96 Live text and geometric artwork"
     },
     {
@@ -199,6 +256,7 @@ const articles = [
         "updatedAt": "2026-09-06",
         "image": "/editorial-fallback.png",
         "imageAlt": "TV96 Live - Football News & Guides",
+        "imageReviewRequired": true,
         "isPublished": true,
         "sources": [
             {
@@ -210,7 +268,8 @@ const articles = [
                 "url": "https://www.espn.com/soccer/story/_/id/49746843/xabi-alonso-chelsea-dropping-enzo-fernandez-man-city-links"
             }
         ],
-        "wordCount": 540,
+        "wordCount": 580,
+        "imageCandidate": "/news image/11.png",
         "imageCredit": "Original TV96 Live text and geometric artwork"
     },
     {
@@ -648,6 +707,60 @@ const articles = [
         "wordCount": 840,
         "imageAlt": "TV96 Live - Football News & Guides",
         "imageCredit": "Original TV96 Live text and geometric artwork"
+    },
+    {
+        "id": 26,
+        "title": "Manchester United 2026/27 Season Guide",
+        "category": "Team Guides",
+        "section": "Team Guides / Analysis",
+        "articleType": "Unpublished draft",
+        "isPublished": false,
+        "sourceReviewRequired": true
+    },
+    {
+        "id": 27,
+        "title": "Arsenal 2026/27 Season Guide",
+        "category": "Team Guides",
+        "section": "Team Guides / Analysis",
+        "articleType": "Unpublished draft",
+        "isPublished": false,
+        "sourceReviewRequired": true
+    },
+    {
+        "id": 28,
+        "title": "Liverpool 2026/27 Season Guide",
+        "category": "Team Guides",
+        "section": "Team Guides / Analysis",
+        "articleType": "Unpublished draft",
+        "isPublished": false,
+        "sourceReviewRequired": true
+    },
+    {
+        "id": 29,
+        "title": "Manchester City 2026/27 Season Guide",
+        "category": "Team Guides",
+        "section": "Team Guides / Analysis",
+        "articleType": "Unpublished draft",
+        "isPublished": false,
+        "sourceReviewRequired": true
+    },
+    {
+        "id": 30,
+        "title": "Real Madrid 2026/27 Season Guide",
+        "category": "Team Guides",
+        "section": "Team Guides / Analysis",
+        "articleType": "Unpublished draft",
+        "isPublished": false,
+        "sourceReviewRequired": true
+    },
+    {
+        "id": 31,
+        "title": "Barcelona 2026/27 Season Guide",
+        "category": "Team Guides",
+        "section": "Team Guides / Analysis",
+        "articleType": "Unpublished draft",
+        "isPublished": false,
+        "sourceReviewRequired": true
     }
 ];
 

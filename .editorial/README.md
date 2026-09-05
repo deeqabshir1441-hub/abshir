@@ -1,20 +1,26 @@
 # Maintaining the TV96 Live editorial library
 
-The website remains plain HTML, CSS and JavaScript. /articles/:id uses the existing Vercel rewrite and article-template.html. No deployment setting or API route was changed.
+The site remains plain HTML/CSS/JavaScript. Published `/articles/{id}` URLs resolve to generated `articles/{id}.html` through Vercel clean URLs. There is no article catch-all rewrite or client-side body renderer.
 
-1. Add or update the metadata record in news-data.js. Evergreen entries use guideDefinitions; the original news records remain in articles. Every publishable record needs a unique numeric ID, title, description, category, author, publication date and sources. Set isPublished explicitly; only true is public. Use updatedAt only for an actual editorial revision.
-2. Add the trusted HTML body under the same ID in article-content.js. Use paragraphs and H2/H3 headings, never another H1. The template supplies the sole page H1, metadata, sources, correction contact and related cards. Write original prose and make illustrative numbers explicitly hypothetical.
-3. Assign three relevant published relatedIds. The renderer filters unpublished and missing IDs and fills gaps with contextual published reading.
-4. Run `node .editorial/sync-content.cjs` to refresh word counts, reading times and published-only sitemap entries. This is a local maintenance command, not a new production build requirement.
-5. Run `node .editorial/validate-content.cjs`. It checks the content graph, sitemap, metadata and preservation against the original HEAD. After this task is committed, the baseline-preservation portion must be updated or removed for future intentional edits; the ordinary content checks remain reusable.
-6. Run `node .editorial/browser-check.cjs` for Chromium rendering and interaction checks, or `node .editorial/api-smoke.cjs` for deterministic API smoke tests. The browser checker uses an isolated temporary profile and mocked external scripts/football data; it does not exercise real advertising, analytics, upstream availability or broadcasts. Screenshots are written to the printed temporary directory. Neither command requires production credentials.
+1. Edit `.editorial/news-data.js` for metadata, publication status, sources and related IDs. It is the central record, including unpublished IDs. Use real publication/revision dates.
+2. Edit `.editorial/article-content.js` for trusted HTML bodies. Use paragraphs and H2/H3 headings; the template supplies the sole H1. Draft bodies 5 and 6 and season briefs 26-31 remain local.
+3. Edit `.editorial/article-template.html` for shared article presentation. `{{FIELD}}` slots are replaced by the generator; body HTML is trusted, metadata is escaped, JSON-LD is serialized safely.
+4. Run `node .editorial/sync-content.cjs` (or `node .editorial/generate-static.cjs`). This generates all published pages, published-only `news-data.js`, raw News cards, derived word counts/reading times, sitemap and allowlisted legacy redirects. Unpublishing removes stale generator-owned pages and links. Do not hand-edit generated bodies or static News blocks.
+5. Run `node .editorial/validate-content.cjs`, `node .editorial/raw-html-check.cjs`, `node .editorial/browser-check.cjs`, and `node .editorial/api-smoke.cjs`. `node .editorial/generate-static.cjs --check` detects stale outputs without writing. Validation pins the pre-expansion commit `9ee47c6` and pre-fix commit `16e286e`; it preserves all original bodies and protected football files. Intentional future editorial body revisions need a deliberate baseline update.
+6. Review the generated outputs before the normal release process. Generation runs locally before deployment: deploy the generated pages and public metadata, not an attempt to run the excluded generator on Vercel. No new package, framework, build override or API runtime has been added.
 
-News builds its visible category buttons from published metadata and has separate Latest News, Football Guides and League & Competition Guides filters. `getFeaturedArticles` selects four curated published IDs for homepage discovery and three for News. Change that list deliberately when featuring new work. Full bodies load only on article pages; homepage/News need only the small metadata file.
+`.vercelignore` excludes the entire `.editorial/` directory, including sources, drafts, tests and reports. The public root no longer contains `article-content.js` or `article-template.html`. Published legacy query URLs redirect to clean article URLs; absent/unpublished IDs have no file and receive HTTP 404. Do not restore the old catch-all rewrite.
 
-The six 2026/27 briefs are in season-drafts.md. Their reserved IDs 26–31 remain explicitly unpublished. Do not import that brief into public HTML or link to it from the site. Draft IDs 5–6 from the original project also remain excluded. These local dot-directory documents are maintenance material, not editorial website pages.
+News initially contains all 23 published cards and three featured links. JavaScript adds category filtering and pagination; the shared card renderer avoids divergent card markup. Article content and metadata do not require JavaScript.
 
-## Known architecture limits
+The raw HTTP test server models this project's clean URLs, redirects and deployment exclusions. It is not Vercel itself. Browser tests use isolated Chromium, mocked external services and football data, and include JavaScript-disabled article/News checks. API tests use deterministic mocks without production credentials. These checks do not verify deployed routing, real advertising/analytics delivery or live upstream availability. Recheck HTTP responses on an authorized preview before a production release.
 
-The existing template renders article bodies and route-specific metadata with JavaScript. Non-JavaScript preview crawlers still see generic initial HTML. Missing/draft routes display a noindex error in the browser, but the static rewrite does not return a real HTTP 404. Solving those server-response limitations would require a separate routing/prerendering change and was deliberately not folded into this content task.
+## Deferred editorial review
 
-Official standings rules can differ from the existing API's calculated fallback order. Guides explain that official competition decisions settle exceptional ties; the API is unchanged. Match feeds may also contain only selected clubs for some leagues, so the guides describe available fixtures rather than promising complete coverage.
+Existing local photographs for IDs 8-11 have uncertain rights; local storage does not prove ownership. Older removed image candidates for IDs 1-4 and 7 remain internal and are not reintroduced. No third-party image was downloaded or copied. Source precision for IDs 8-9 and older reporting accuracy need editorial review. Existing ads on the noindex offline utility page remain outside this change. Streaming stays disabled.
+
+See `PRODUCTION-FIXES-REPORT.md` for evidence and remaining review risks. Earlier AUDIT/REPORT files describe historical states and are retained as local records.
+
+## Image and source cleanup
+
+See IMAGE-SOURCE-CLEANUP-REPORT.md for the current state; earlier reports are historical. Run `node .editorial/image-rights-check.cjs` with the other checks. Original fallback artwork is reproducible with `python .editorial/create-editorial-fallback.py`. Retired candidate paths stay internal. The approved-source-revisions.json manifest records the deliberate news corrections while preserving exact checks for every untouched body.
