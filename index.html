@@ -799,7 +799,7 @@ if (totalMinutes < 0) {
         const articleCard = (article, featured = false) => `
             <article class="news-card ${featured ? 'home-news-featured' : 'home-news-compact'}">
                 <a class="home-news-image-link news-thumb" href="/articles/${article.id}" aria-label="Read ${escapeArticleText(article.title)}">
-                    ${article.image ? `<img src="${article.image}" alt="${escapeArticleText(article.title)}" loading="${featured ? 'eager' : 'lazy'}">` : ''}
+                    ${article.image ? `<img src="${article.image}" alt="${escapeArticleText(article.imageAlt || article.title)}" loading="${featured ? 'eager' : 'lazy'}">` : ''}
                     <span class="news-tag">${article.category}</span>
                 </a>
                 <div class="news-info">

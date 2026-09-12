@@ -49,6 +49,7 @@ for (const article of published) {
         HEAD: head, TITLE: escape(article.title), PUBLISHED: escape(article.publishedAt), DATE: date(article.publishedAt),
         UPDATED: article.updatedAt ? ` · Updated <time datetime="${escape(article.updatedAt)}">${date(article.updatedAt)}</time>` : '',
         CATEGORY: escape(article.category), AUTHOR: escape(article.author), TYPE: escape(`${article.articleType} · ${model.getArticleReadingTime(article)}`),
+        IMAGE: article.image ? `<img class="article-main-image" src="${escape(article.image)}" alt="${escape(article.imageAlt || article.title)}" decoding="async">\n        ` : '',
         BODY: model.articleContent[article.id],
         SOURCES: (article.sources || []).map(source => `<a href="${escape(source.url)}" target="_blank" rel="noopener noreferrer">${escape(source.name)}</a>`).join('; '),
         RELATED: model.getRelatedArticles(article).map(model.renderArticleSummary).join('\n')

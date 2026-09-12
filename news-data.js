@@ -295,7 +295,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "",
+        "image": "/images/articles/champions-league-format.png",
         "sources": [
             {
                 "name": "UEFA: Champions League format and access",
@@ -308,7 +308,7 @@ const articles = [
         ],
         "isPublished": true,
         "wordCount": 810,
-        "imageAlt": "TV96 Live - Football News & Guides",
+        "imageAlt": "Champions League format explained - TV96 Live",
         "imageCredit": "Original TV96 Live text and geometric artwork"
     },
     {

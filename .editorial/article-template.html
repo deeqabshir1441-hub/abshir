@@ -76,8 +76,8 @@
         .article-main-image {
             width: 100%;
             height: auto;
-            max-height: 500px;
-            object-fit: cover;
+            max-width: 850px;
+            display: block;
             border-radius: 15px;
             margin: 25px 0;
         }
@@ -340,7 +340,7 @@
 
         <!-- Trusted editorial body, rendered before JavaScript -->
 
-        <div id="articleBody">{{BODY}}</div>
+        {{IMAGE}}<div id="articleBody">{{BODY}}</div>
 
         <aside class="policy-highlight" id="articleEditorialNote">
             <h2>Sources / Further Reading</h2>
