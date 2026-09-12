@@ -84,7 +84,7 @@ const articles = [
         "id": 4,
         "title": "Johan Manzambi completes move to Aston Villa",
         "description": "Johan Manzambi completed a move from Freiburg to Aston Villa after Newcastle had also pursued the Switzerland midfielder.",
-        "image": "",
+        "image": "/images/articles/johan-manzambi-aston-villa.png",
         "imageCandidate": "news image/4.jpg",
         "category": "Transfers",
         "articleType": "Sourced news summary and analysis",
@@ -99,12 +99,12 @@ const articles = [
                 "url": "https://www.skysports.com/football/news/11677/13564492/johan-manzambi-aston-villa-sign-newcastle-target-from-freiburg-in-club-record-lb59-5m-deal"
             }
         ],
-        "imageCredit": "Original TV96 Live text and geometric artwork",
+        "imageCredit": "AI-generated editorial illustration for TV96 Live",
         "sourceReviewRequired": false,
         "imageReviewRequired": true,
         "isPublished": true,
         "wordCount": 528,
-        "imageAlt": "TV96 Live - Football News & Guides"
+        "imageAlt": "Editorial illustration of a claret and sky-blue shirt for the Johan Manzambi Aston Villa article - TV96 Live"
     },
     {
         "id": 5,
@@ -146,7 +146,7 @@ const articles = [
         "id": 7,
         "title": "Mbappé reaches 11 goal contributions at 2026 World Cup",
         "description": "Kylian Mbappé reached eight goals and three assists by the 2026 World Cup quarter-final stage, according to Le Monde.",
-        "image": "",
+        "image": "/images/articles/mbappe-world-cup-contributions.png",
         "imageCandidate": "news image/7.webp",
         "category": "FIFA World Cup",
         "articleType": "Sourced news summary and analysis",
@@ -161,12 +161,12 @@ const articles = [
                 "url": "https://www.lemonde.fr/en/sports/article/2026/07/10/mbappe-8-messi-8-france-and-argentina-stars-top-scorers-chart-at-world-cup_6755334_9.html"
             }
         ],
-        "imageCredit": "Original TV96 Live text and geometric artwork",
+        "imageCredit": "AI-generated editorial illustration for TV96 Live",
         "sourceReviewRequired": false,
         "imageReviewRequired": true,
         "isPublished": true,
         "wordCount": 536,
-        "imageAlt": "TV96 Live - Football News & Guides"
+        "imageAlt": "Editorial illustration for the Mbappe 11 goal contributions article - TV96 Live"
     },
     {
         "id": 8,
@@ -177,8 +177,8 @@ const articles = [
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-08-28T14:40:00+03:00",
         "updatedAt": "2026-09-06",
-        "image": "/editorial-fallback.png",
-        "imageAlt": "TV96 Live - Football News & Guides",
+        "image": "/images/articles/arsenal-alvarez-statement.png",
+        "imageAlt": "Illustration of an empty press lectern for the Arsenal and Alvarez statement analysis - TV96 Live",
         "imageReviewRequired": true,
         "isPublished": true,
         "sources": [
@@ -193,7 +193,7 @@ const articles = [
         ],
         "wordCount": 455,
         "imageCandidate": "news image/8.png",
-        "imageCredit": "Original TV96 Live text and geometric artwork"
+        "imageCredit": "AI-generated editorial illustration for TV96 Live"
     },
     {
         "id": 9,
@@ -204,8 +204,8 @@ const articles = [
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-08-28T15:00:00+03:00",
         "updatedAt": "2026-09-06",
-        "image": "/editorial-fallback.png",
-        "imageAlt": "TV96 Live - Football News & Guides",
+        "image": "/images/articles/reading-european-draw.png",
+        "imageAlt": "Reading a European draw: opponents, travel and fixture context - TV96 Live",
         "imageReviewRequired": true,
         "isPublished": true,
         "sources": [
@@ -216,7 +216,7 @@ const articles = [
         ],
         "wordCount": 477,
         "imageCandidate": "/news image/9.png",
-        "imageCredit": "Original TV96 Live text and geometric artwork"
+        "imageCredit": "AI-generated editorial illustration for TV96 Live"
     },
     {
         "id": 10,
@@ -227,8 +227,8 @@ const articles = [
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-08-28T15:30:00+03:00",
         "updatedAt": "2026-09-06",
-        "image": "/editorial-fallback.png",
-        "imageAlt": "TV96 Live - Football News & Guides",
+        "image": "/images/articles/alvarez-meeting-report.png",
+        "imageAlt": "Illustration of an empty meeting room for the Alvarez meeting report - TV96 Live",
         "imageReviewRequired": true,
         "isPublished": true,
         "sources": [
@@ -243,7 +243,7 @@ const articles = [
         ],
         "wordCount": 739,
         "imageCandidate": "/news image/10.png",
-        "imageCredit": "Original TV96 Live text and geometric artwork"
+        "imageCredit": "AI-generated editorial illustration for TV96 Live"
     },
     {
         "id": 11,
@@ -254,8 +254,8 @@ const articles = [
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-08-28T16:00:00+03:00",
         "updatedAt": "2026-09-06",
-        "image": "/editorial-fallback.png",
-        "imageAlt": "TV96 Live - Football News & Guides",
+        "image": "/images/articles/fernandez-omission.png",
+        "imageAlt": "Illustration of an empty substitutes bench and blue shirt for the Fernandez omission report - TV96 Live",
         "imageReviewRequired": true,
         "isPublished": true,
         "sources": [
@@ -270,7 +270,7 @@ const articles = [
         ],
         "wordCount": 580,
         "imageCandidate": "/news image/11.png",
-        "imageCredit": "Original TV96 Live text and geometric artwork"
+        "imageCredit": "AI-generated editorial illustration for TV96 Live"
     },
     {
         "id": 12,
@@ -286,7 +286,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "",
+        "image": "/images/articles/premier-league-guide.png",
         "sources": [
             {
                 "name": "Premier League: competition explained",
@@ -303,8 +303,8 @@ const articles = [
         ],
         "isPublished": true,
         "wordCount": 792,
-        "imageAlt": "TV96 Live - Football News & Guides",
-        "imageCredit": "Original TV96 Live text and geometric artwork"
+        "imageAlt": "How the Premier League works: complete guide - TV96 Live",
+        "imageCredit": "AI-generated editorial artwork for TV96 Live"
     },
     {
         "id": 13,
@@ -320,7 +320,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "",
+        "image": "/images/articles/champions-league-qualification.png",
         "sources": [
             {
                 "name": "UEFA: Champions League format and access",
@@ -337,8 +337,8 @@ const articles = [
         ],
         "isPublished": true,
         "wordCount": 804,
-        "imageAlt": "TV96 Live - Football News & Guides",
-        "imageCredit": "Original TV96 Live text and geometric artwork"
+        "imageAlt": "How Champions League qualification works - TV96 Live",
+        "imageCredit": "AI-generated editorial artwork for TV96 Live"
     },
     {
         "id": 14,
@@ -384,7 +384,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "",
+        "image": "/images/articles/goal-difference-football.png",
         "sources": [
             {
                 "name": "Premier League: competition explained",
@@ -401,8 +401,8 @@ const articles = [
         ],
         "isPublished": true,
         "wordCount": 782,
-        "imageAlt": "TV96 Live - Football News & Guides",
-        "imageCredit": "Original TV96 Live text and geometric artwork"
+        "imageAlt": "What is goal difference in football? - TV96 Live",
+        "imageCredit": "AI-generated editorial artwork for TV96 Live"
     },
     {
         "id": 16,
@@ -418,7 +418,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "",
+        "image": "/images/articles/expected-goals-xg.png",
         "sources": [
             {
                 "name": "Hudl Statsbomb: expected goals methodology",
@@ -427,8 +427,8 @@ const articles = [
         ],
         "isPublished": true,
         "wordCount": 823,
-        "imageAlt": "TV96 Live - Football News & Guides",
-        "imageCredit": "Original TV96 Live text and geometric artwork"
+        "imageAlt": "What is expected goals (xG)? - TV96 Live",
+        "imageCredit": "AI-generated editorial artwork for TV96 Live"
     },
     {
         "id": 17,
@@ -444,7 +444,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "",
+        "image": "/images/articles/how-var-works.png",
         "sources": [
             {
                 "name": "IFAB: VAR protocol (2026/27)",
@@ -457,8 +457,8 @@ const articles = [
         ],
         "isPublished": true,
         "wordCount": 839,
-        "imageAlt": "TV96 Live - Football News & Guides",
-        "imageCredit": "Original TV96 Live text and geometric artwork"
+        "imageAlt": "How VAR works in football - TV96 Live",
+        "imageCredit": "AI-generated editorial artwork for TV96 Live"
     },
     {
         "id": 18,
@@ -474,7 +474,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "",
+        "image": "/images/articles/premier-league-relegation.png",
         "sources": [
             {
                 "name": "Premier League: relegation and tiebreakers",
@@ -491,8 +491,8 @@ const articles = [
         ],
         "isPublished": true,
         "wordCount": 854,
-        "imageAlt": "TV96 Live - Football News & Guides",
-        "imageCredit": "Original TV96 Live text and geometric artwork"
+        "imageAlt": "Premier League relegation explained - TV96 Live",
+        "imageCredit": "AI-generated editorial artwork for TV96 Live"
     },
     {
         "id": 19,
@@ -508,7 +508,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "",
+        "image": "/images/articles/premier-league-european-qualification.png",
         "sources": [
             {
                 "name": "Premier League: European qualification routes",
@@ -525,8 +525,8 @@ const articles = [
         ],
         "isPublished": true,
         "wordCount": 885,
-        "imageAlt": "TV96 Live - Football News & Guides",
-        "imageCredit": "Original TV96 Live text and geometric artwork"
+        "imageAlt": "How European qualification works in the Premier League - TV96 Live",
+        "imageCredit": "AI-generated editorial artwork for TV96 Live"
     },
     {
         "id": 20,
@@ -572,7 +572,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "",
+        "image": "/images/articles/la-liga-guide.png",
         "sources": [
             {
                 "name": "LALIGA: official standings and competition information",
@@ -585,8 +585,8 @@ const articles = [
         ],
         "isPublished": true,
         "wordCount": 834,
-        "imageAlt": "TV96 Live - Football News & Guides",
-        "imageCredit": "Original TV96 Live text and geometric artwork"
+        "imageAlt": "La Liga guide - TV96 Live",
+        "imageCredit": "AI-generated editorial artwork for TV96 Live"
     },
     {
         "id": 22,
@@ -602,7 +602,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "",
+        "image": "/images/articles/serie-a-guide.png",
         "sources": [
             {
                 "name": "Lega Serie A: relegation play-off context",
@@ -615,8 +615,8 @@ const articles = [
         ],
         "isPublished": true,
         "wordCount": 839,
-        "imageAlt": "TV96 Live - Football News & Guides",
-        "imageCredit": "Original TV96 Live text and geometric artwork"
+        "imageAlt": "Serie A guide - TV96 Live",
+        "imageCredit": "AI-generated editorial artwork for TV96 Live"
     },
     {
         "id": 23,
@@ -632,7 +632,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "",
+        "image": "/images/articles/bundesliga-guide.png",
         "sources": [
             {
                 "name": "Bundesliga: promotion and relegation",
@@ -645,8 +645,8 @@ const articles = [
         ],
         "isPublished": true,
         "wordCount": 814,
-        "imageAlt": "TV96 Live - Football News & Guides",
-        "imageCredit": "Original TV96 Live text and geometric artwork"
+        "imageAlt": "Bundesliga guide - TV96 Live",
+        "imageCredit": "AI-generated editorial artwork for TV96 Live"
     },
     {
         "id": 24,
@@ -662,7 +662,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "",
+        "image": "/images/articles/ligue-1-guide.png",
         "sources": [
             {
                 "name": "Ligue 1: survival and relegation positions",
@@ -675,8 +675,8 @@ const articles = [
         ],
         "isPublished": true,
         "wordCount": 843,
-        "imageAlt": "TV96 Live - Football News & Guides",
-        "imageCredit": "Original TV96 Live text and geometric artwork"
+        "imageAlt": "Ligue 1 guide - TV96 Live",
+        "imageCredit": "AI-generated editorial artwork for TV96 Live"
     },
     {
         "id": 25,
@@ -692,7 +692,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "",
+        "image": "/images/articles/uefa-champions-league-guide.png",
         "sources": [
             {
                 "name": "UEFA: Champions League format and access",
@@ -705,8 +705,8 @@ const articles = [
         ],
         "isPublished": true,
         "wordCount": 840,
-        "imageAlt": "TV96 Live - Football News & Guides",
-        "imageCredit": "Original TV96 Live text and geometric artwork"
+        "imageAlt": "UEFA Champions League guide - TV96 Live",
+        "imageCredit": "AI-generated editorial artwork for TV96 Live"
     },
     {
         "id": 26,
