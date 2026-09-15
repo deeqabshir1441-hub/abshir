@@ -78,12 +78,12 @@ function preservedBody(id, body) {
 for (const article of oldContext.oldArticles) preservedBody(article.id, article.content);
 const protectedFiles = ['api/matches.js', 'api/standings.js', 'matches-data.js', 'matches.html', 'standings.html', 'streams.js', 'watch-live.html', 'match-ids.html', 'history-data.js', 'site-config.js', 'site-header.js', 'robots.txt', 'ads.txt', 'privacy.html', 'terms.html', 'contact.html', 'sw.js'];
 const removeAds = html => html.replace(/    <script\b[^>]*src="https:\/\/pagead2\.googlesyndication\.com[^>]*>[\s\S]*?<\/script>\r?\n/g, '');
-const footerBrand = '        <div class="footer-brand"><a href="/" aria-label="TV96 Live home"><img src="/logo/logo.png" alt="TV96 Live Logo" class="footer-logo"></a></div>\n';
+const footerBrand = '        <div class="footer-brand"><a href="/" aria-label="TV96 Live home"><img src="/logo/Logo.png" alt="TV96 Live Logo" class="footer-logo"></a></div>\n';
 const normalizeFooterLogo = (file, html) => {
     const normalized = html.replace(/\r\n/g, '\n');
     if (file === 'matches.html') {
-        assert(normalized.includes('<img src="/logo/logo.png" alt="TV96 Live Logo" class="footer-logo">'), 'Matches footer logo missing');
-        return normalized.replace('<img src="/logo/logo.png" alt="TV96 Live Logo" class="footer-logo">', '<img src="logo/Logo.png" alt="TV96 Live Logo" class="footer-logo">');
+        assert(normalized.includes('<img src="/logo/Logo.png" alt="TV96 Live Logo" class="footer-logo">'), 'Matches footer logo missing');
+        return normalized.replace('<img src="/logo/Logo.png" alt="TV96 Live Logo" class="footer-logo">', '<img src="logo/Logo.png" alt="TV96 Live Logo" class="footer-logo">');
     }
     if (['standings.html', 'watch-live.html', 'privacy.html', 'terms.html', 'contact.html'].includes(file)) {
         assert(normalized.includes(footerBrand), `Footer logo missing: ${file}`);

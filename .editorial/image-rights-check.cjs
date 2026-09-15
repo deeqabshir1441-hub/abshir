@@ -57,8 +57,8 @@ for (const file of ['index.html', 'news.html', 'news-data.js', ...published.map(
     }
     for (const match of html.matchAll(/<img\b[^>]*src="([^"]+)"[^>]*>/g)) {
         const src = match[1];
-        if (src === '/logo/logo.png' && match[0].includes('class="footer-logo"')) {
-            assert(fs.existsSync(path.join(root, 'logo/logo.png')), `Missing site logo: ${file}`);
+        if (src === '/logo/Logo.png' && match[0].includes('class="footer-logo"')) {
+            assert(fs.existsSync(path.join(root, 'logo/Logo.png')), `Missing site logo: ${file}`);
             assert(match[0].includes('alt="TV96 Live Logo"'), `Missing logo alt: ${file}`);
             continue;
         }
