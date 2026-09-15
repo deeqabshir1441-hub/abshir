@@ -78,7 +78,20 @@ function preservedBody(id, body) {
 for (const article of oldContext.oldArticles) preservedBody(article.id, article.content);
 const protectedFiles = ['api/matches.js', 'api/standings.js', 'matches-data.js', 'matches.html', 'standings.html', 'streams.js', 'watch-live.html', 'match-ids.html', 'history-data.js', 'site-config.js', 'site-header.js', 'robots.txt', 'ads.txt', 'privacy.html', 'terms.html', 'contact.html', 'sw.js'];
 const removeAds = html => html.replace(/    <script\b[^>]*src="https:\/\/pagead2\.googlesyndication\.com[^>]*>[\s\S]*?<\/script>\r?\n/g, '');
-for (const file of protectedFiles) assert.equal(read(file).replace(/\r\n/g, '\n'), (file === 'watch-live.html' ? removeAds(baseline(file)) : baseline(file)).replace(/\r\n/g, '\n'), `Protected file changed: ${file}`);
+const footerBrand = '        <div class="footer-brand"><a href="/" aria-label="TV96 Live home"><img src="/logo/logo.png" alt="TV96 Live Logo" class="footer-logo"></a></div>\n';
+const normalizeFooterLogo = (file, html) => {
+    const normalized = html.replace(/\r\n/g, '\n');
+    if (file === 'matches.html') {
+        assert(normalized.includes('<img src="/logo/logo.png" alt="TV96 Live Logo" class="footer-logo">'), 'Matches footer logo missing');
+        return normalized.replace('<img src="/logo/logo.png" alt="TV96 Live Logo" class="footer-logo">', '<img src="logo/Logo.png" alt="TV96 Live Logo" class="footer-logo">');
+    }
+    if (['standings.html', 'watch-live.html', 'privacy.html', 'terms.html', 'contact.html'].includes(file)) {
+        assert(normalized.includes(footerBrand), `Footer logo missing: ${file}`);
+        return normalized.replace(footerBrand, '');
+    }
+    return normalized;
+};
+for (const file of protectedFiles) assert.equal(normalizeFooterLogo(file, read(file)), (file === 'watch-live.html' ? removeAds(baseline(file)) : baseline(file)).replace(/\r\n/g, '\n'), `Protected file changed: ${file}`);
 // The homepage's only authorized JavaScript edit is the fallback image URL.
 const inlineScripts = html => Array.from(html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)).filter(m => !/src=/.test(m[1])).map(m => m[2].replace(/\r\n/g, '\n'));
 const approvedHomepage = baseline('index.html')
@@ -116,6 +129,6 @@ const stripGeneratedRedirects = text => {
 };
 assert.deepEqual(stripGeneratedRedirects(read('vercel.json')), stripGeneratedRedirects(cleanupBaseline['vercel.json'].text), 'Cleanup changed protected deployment configuration');
 for (const file of ['watch-live.html', 'offline.html']) {
-    assert.equal(read(file).replace(/\r\n/g, '\n'), removeAds(cleanupBaseline[file].text).replace(/\r\n/g, '\n'));
+    assert.equal(normalizeFooterLogo(file, read(file)), removeAds(cleanupBaseline[file].text).replace(/\r\n/g, '\n'));
     assert(!/pagead2\.googlesyndication|adsbygoogle/.test(read(file)));
 }

@@ -3243,6 +3243,17 @@ body:not(.home-page) .footer-logo {
     margin-bottom: 16px;
 }
 
+.footer-brand {
+    text-align: center;
+}
+
+.footer-brand .footer-logo {
+    display: inline-block;
+    max-width: 200px;
+    width: auto;
+    height: auto;
+}
+
 body:not(.home-page) .about-col p {
     max-width: 390px;
     line-height: 1.75;
