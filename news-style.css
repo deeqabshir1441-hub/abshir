@@ -16,6 +16,9 @@
 .news-grid-section { min-width: 0; }
 .news-card-footer { flex-wrap: wrap; gap: 12px; }
 .news-page .news-card-text .news-card-image { height: auto; min-height: 64px; aspect-ratio: auto; background: linear-gradient(135deg, var(--surface-dark), rgba(16, 185, 129, .14)); }
+.news-page .news-card-image { background: #050b16; }
+.news-page .news-card-image img { object-fit: contain; }
+.news-page .news-card:hover .news-card-image img { transform: none; }
 .article-page .article-content { max-width: 820px; line-height: 1.85; overflow-wrap: anywhere; }
 .article-page #articleBody p { margin-bottom: 1.25em; }
 .article-page #articleBody h2 { margin-top: 1.8em; line-height: 1.35; }

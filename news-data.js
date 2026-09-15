@@ -75,7 +75,7 @@ const articles = [
         "id": 4,
         "title": "Johan Manzambi completes move to Aston Villa",
         "description": "Johan Manzambi completed a move from Freiburg to Aston Villa after Newcastle had also pursued the Switzerland midfielder.",
-        "image": "/images/articles/johan-manzambi-aston-villa.png",
+        "image": "/images/articles/johan-manzambi-aston-villa.webp",
         "category": "Transfers",
         "articleType": "Sourced news summary and analysis",
         "author": "TV96 Live Editorial Team",
@@ -98,7 +98,7 @@ const articles = [
         "id": 7,
         "title": "Mbappé reaches 11 goal contributions at 2026 World Cup",
         "description": "Kylian Mbappé reached eight goals and three assists by the 2026 World Cup quarter-final stage, according to Le Monde.",
-        "image": "/images/articles/mbappe-world-cup-contributions.png",
+        "image": "/images/articles/mbappe-world-cup-contributions.webp",
         "category": "FIFA World Cup",
         "articleType": "Sourced news summary and analysis",
         "author": "TV96 Live Editorial Team",
@@ -126,7 +126,7 @@ const articles = [
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-08-28T14:40:00+03:00",
         "updatedAt": "2026-09-06",
-        "image": "/images/articles/arsenal-alvarez-statement.png",
+        "image": "/images/articles/arsenal-alvarez-statement.webp",
         "imageAlt": "Illustration of an empty press lectern for the Arsenal and Alvarez statement analysis - TV96 Live",
         "isPublished": true,
         "sources": [
@@ -151,7 +151,7 @@ const articles = [
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-08-28T15:00:00+03:00",
         "updatedAt": "2026-09-06",
-        "image": "/images/articles/reading-european-draw.png",
+        "image": "/images/articles/reading-european-draw.webp",
         "imageAlt": "Reading a European draw: opponents, travel and fixture context - TV96 Live",
         "isPublished": true,
         "sources": [
@@ -172,7 +172,7 @@ const articles = [
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-08-28T15:30:00+03:00",
         "updatedAt": "2026-09-06",
-        "image": "/images/articles/alvarez-meeting-report.png",
+        "image": "/images/articles/alvarez-meeting-report.webp",
         "imageAlt": "Illustration of an empty meeting room for the Alvarez meeting report - TV96 Live",
         "isPublished": true,
         "sources": [
@@ -197,7 +197,7 @@ const articles = [
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-08-28T16:00:00+03:00",
         "updatedAt": "2026-09-06",
-        "image": "/images/articles/fernandez-omission.png",
+        "image": "/images/articles/fernandez-omission.webp",
         "imageAlt": "Illustration of an empty substitutes bench and blue shirt for the Fernandez omission report - TV96 Live",
         "isPublished": true,
         "sources": [
@@ -227,7 +227,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "/images/articles/premier-league-guide.png",
+        "image": "/images/articles/premier-league-guide.webp",
         "sources": [
             {
                 "name": "Premier League: competition explained",
@@ -261,7 +261,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "/images/articles/champions-league-qualification.png",
+        "image": "/images/articles/champions-league-qualification.webp",
         "sources": [
             {
                 "name": "UEFA: Champions League format and access",
@@ -295,7 +295,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "/images/articles/champions-league-format.png",
+        "image": "/images/articles/champions-league-format.webp",
         "sources": [
             {
                 "name": "UEFA: Champions League format and access",
@@ -325,7 +325,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "/images/articles/goal-difference-football.png",
+        "image": "/images/articles/goal-difference-football.webp",
         "sources": [
             {
                 "name": "Premier League: competition explained",
@@ -359,7 +359,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "/images/articles/expected-goals-xg.png",
+        "image": "/images/articles/expected-goals-xg.webp",
         "sources": [
             {
                 "name": "Hudl Statsbomb: expected goals methodology",
@@ -385,7 +385,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "/images/articles/how-var-works.png",
+        "image": "/images/articles/how-var-works.webp",
         "sources": [
             {
                 "name": "IFAB: VAR protocol (2026/27)",
@@ -415,7 +415,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "/images/articles/premier-league-relegation.png",
+        "image": "/images/articles/premier-league-relegation.webp",
         "sources": [
             {
                 "name": "Premier League: relegation and tiebreakers",
@@ -449,7 +449,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "/images/articles/premier-league-european-qualification.png",
+        "image": "/images/articles/premier-league-european-qualification.webp",
         "sources": [
             {
                 "name": "Premier League: European qualification routes",
@@ -513,7 +513,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "/images/articles/la-liga-guide.png",
+        "image": "/images/articles/la-liga-guide.webp",
         "sources": [
             {
                 "name": "LALIGA: official standings and competition information",
@@ -543,7 +543,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "/images/articles/serie-a-guide.png",
+        "image": "/images/articles/serie-a-guide.webp",
         "sources": [
             {
                 "name": "Lega Serie A: relegation play-off context",
@@ -573,7 +573,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "/images/articles/bundesliga-guide.png",
+        "image": "/images/articles/bundesliga-guide.webp",
         "sources": [
             {
                 "name": "Bundesliga: promotion and relegation",
@@ -603,7 +603,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "/images/articles/ligue-1-guide.png",
+        "image": "/images/articles/ligue-1-guide.webp",
         "sources": [
             {
                 "name": "Ligue 1: survival and relegation positions",
@@ -633,7 +633,7 @@ const articles = [
         "articleType": "Evergreen guide",
         "author": "TV96 Live Editorial Team",
         "publishedAt": "2026-09-05T12:00:00+03:00",
-        "image": "/images/articles/uefa-champions-league-guide.png",
+        "image": "/images/articles/uefa-champions-league-guide.webp",
         "sources": [
             {
                 "name": "UEFA: Champions League format and access",

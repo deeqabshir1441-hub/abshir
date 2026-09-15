@@ -1,0 +1,154 @@
+{
+  "/images/articles/johan-manzambi-aston-villa.png": {
+    "sourceSha256": "5042dbf82b3e94e20a9d477f7288e6674316b864e117dcd05934933142dfd9cf",
+    "deliverySha256": "777481674336e129516cfdc2ed44cddfdfb983cacd2687b3c48f0d5793bb0c14",
+    "width": 1200,
+    "height": 800,
+    "sourceBytes": 2036536,
+    "deliveryBytes": 133718
+  },
+  "/images/articles/mbappe-world-cup-contributions.png": {
+    "sourceSha256": "9781d8c8da474bfc058ee7ef969a9edb95647f061121f3aeb5d94e840d21d2ca",
+    "deliverySha256": "c5456f907bc059d3cf84237e162037a6b6540fb36b9024838b9934a6253e7fb8",
+    "width": 1200,
+    "height": 800,
+    "sourceBytes": 2395515,
+    "deliveryBytes": 197626
+  },
+  "/images/articles/arsenal-alvarez-statement.png": {
+    "sourceSha256": "9bbbd9ac8c625ba6ed587309cd3615e1bc90a49a795f5792b7395f52d2bd46fa",
+    "deliverySha256": "3b0da999dd601cbb4a74d0747e7914d9efdf7097f3cb510558168f8d9530a6d4",
+    "width": 1200,
+    "height": 800,
+    "sourceBytes": 1975267,
+    "deliveryBytes": 120524
+  },
+  "/images/articles/reading-european-draw.png": {
+    "sourceSha256": "641b22d2f162c1a99535d968ea554b4a5e254059aeeb5f4a918c4db4007ae4c6",
+    "deliverySha256": "dbd1ac6d0a0402064f9da5744dfe1c299faf47b201e348245c67fa78b61bf3e7",
+    "width": 1200,
+    "height": 800,
+    "sourceBytes": 2150134,
+    "deliveryBytes": 183898
+  },
+  "/images/articles/alvarez-meeting-report.png": {
+    "sourceSha256": "6b18ff76cf9210bdf2c3398d4a863cdf42b5836b0626c0d456f1f47106333239",
+    "deliverySha256": "e6e86202c7f3efa9a7ed2b1855b2e9040d67f38725274053a5d331f096c28dae",
+    "width": 1200,
+    "height": 800,
+    "sourceBytes": 1875623,
+    "deliveryBytes": 122206
+  },
+  "/images/articles/fernandez-omission.png": {
+    "sourceSha256": "082e9d1d18699211381040e8e13a2af24d14233c8c89ca9cfb9ed566d7d51313",
+    "deliverySha256": "10ebcaea49e6b8c5e14487012b561c91a029244c9e0c02c711c382a3f4c31210",
+    "width": 1200,
+    "height": 800,
+    "sourceBytes": 2350092,
+    "deliveryBytes": 195384
+  },
+  "/images/articles/premier-league-guide.png": {
+    "sourceSha256": "abb5ff8f87fd977cac98306e239d28cd05c889ca90631a7b41270e5b9262acaf",
+    "deliverySha256": "0075366bca94c810ac1c92b7316f09be9296ffd3bfeb1039dd6a9e5174b569ce",
+    "width": 1200,
+    "height": 800,
+    "sourceBytes": 2498703,
+    "deliveryBytes": 243376
+  },
+  "/images/articles/champions-league-qualification.png": {
+    "sourceSha256": "eb79b105dadc6d03188250cb901539740138e93c23e221eaf17d4afeec38c536",
+    "deliverySha256": "999f600e0d8944354b1fbef2ef0e97c70fa0421102a8daab25b654789ab8036c",
+    "width": 1200,
+    "height": 800,
+    "sourceBytes": 2604647,
+    "deliveryBytes": 271000
+  },
+  "/images/articles/champions-league-format.png": {
+    "sourceSha256": "ce913735c22b1bda59a288c955176febd21e89bd65c3df76e63fa7d30a022282",
+    "deliverySha256": "8d6fa23f9adf5dbc694e2c9dc30fa904c1c5c5118d3741ced526c697ba84151a",
+    "width": 1200,
+    "height": 800,
+    "sourceBytes": 2125176,
+    "deliveryBytes": 166542
+  },
+  "/images/articles/goal-difference-football.png": {
+    "sourceSha256": "0451fe974a0ec7fcbf5237295c2b3ecf6a1cdbb73ac8d84c0b05d73874656e38",
+    "deliverySha256": "f97370e782bd0ed045ce629c2cece05fa5b29d81e86167bcef61cb3feb86a6ce",
+    "width": 1200,
+    "height": 800,
+    "sourceBytes": 2206193,
+    "deliveryBytes": 191232
+  },
+  "/images/articles/expected-goals-xg.png": {
+    "sourceSha256": "52c12823fb2c5e4e4d4619c4aae1783a68a851a53462a4855064dd375fa31216",
+    "deliverySha256": "8a23065c225860059bd21fc6711fcb39d8814a35b2b1b5bcfd4577462e2f436f",
+    "width": 1200,
+    "height": 800,
+    "sourceBytes": 2203305,
+    "deliveryBytes": 182018
+  },
+  "/images/articles/how-var-works.png": {
+    "sourceSha256": "1864bc65ec1f8783efa7f921b598960f966eb7f083e780c6ebe0ad8460180ce5",
+    "deliverySha256": "b97013553d95e4639e9b8d16863ebbcb05f9d952d19348860a87344b4589f657",
+    "width": 1200,
+    "height": 800,
+    "sourceBytes": 2258782,
+    "deliveryBytes": 154918
+  },
+  "/images/articles/premier-league-relegation.png": {
+    "sourceSha256": "fde4b3abb25f64c67ded7fb61d8abb621941a317b5aff9d5c023701e89950763",
+    "deliverySha256": "36744bba5f0c1504ff97ee157ade6e56d0bb640daadd0061924e6fc0d310a195",
+    "width": 1200,
+    "height": 800,
+    "sourceBytes": 2504743,
+    "deliveryBytes": 229164
+  },
+  "/images/articles/premier-league-european-qualification.png": {
+    "sourceSha256": "2edbbc2d8e605811849491b2adf03a83fe99226d55dff249ac64af117d80bc4d",
+    "deliverySha256": "0c6cdafc508e77b376358016253955f5923741c33fff8a4e2b03f7e4411417c4",
+    "width": 1200,
+    "height": 800,
+    "sourceBytes": 2536013,
+    "deliveryBytes": 222938
+  },
+  "/images/articles/la-liga-guide.png": {
+    "sourceSha256": "1966e97148fe217fbb320358a9a757894fbc94b12b0dfe7623676342d51e8c50",
+    "deliverySha256": "39919398499a6f48f7a04466a068c2f128dde2637ba77882d500c03afcd9fa57",
+    "width": 1200,
+    "height": 800,
+    "sourceBytes": 2323274,
+    "deliveryBytes": 200656
+  },
+  "/images/articles/serie-a-guide.png": {
+    "sourceSha256": "1f90586ca8cc417582d4bee9c39c1f8f043bd304066c73061cf457a0b4e002fe",
+    "deliverySha256": "db0b93bae8f1fab5a3a02939f6c66e78f30ab4fa38eaafa497a39e96039b2310",
+    "width": 1200,
+    "height": 800,
+    "sourceBytes": 2491943,
+    "deliveryBytes": 241282
+  },
+  "/images/articles/bundesliga-guide.png": {
+    "sourceSha256": "224fb3b2e40d2088f06c0b36e725716d46b1823d8a522815ba72b42484257276",
+    "deliverySha256": "bcc17dfdd09ce171c6271d49787035d54e40743a03ea072bdfdfb468c1ecfd6d",
+    "width": 1200,
+    "height": 800,
+    "sourceBytes": 2466434,
+    "deliveryBytes": 220900
+  },
+  "/images/articles/ligue-1-guide.png": {
+    "sourceSha256": "1c8f7f23ceb8f965433baf5c522fcbed2d22682531b41261ad00443d96bc1cdb",
+    "deliverySha256": "b60807465395291c26aea9c52f6fb760b760c34eb661b09f1e968358341ca15c",
+    "width": 1200,
+    "height": 800,
+    "sourceBytes": 2363681,
+    "deliveryBytes": 188076
+  },
+  "/images/articles/uefa-champions-league-guide.png": {
+    "sourceSha256": "b6ff9654379cf5cff5a4d59e3b432ada609d715b2e16e052712060184bb8a086",
+    "deliverySha256": "f3a3e7af7fc05bae8d95e76633588cc0d2f6e6d05265c6d675a91180b5f75fcf",
+    "width": 1200,
+    "height": 800,
+    "sourceBytes": 2464945,
+    "deliveryBytes": 235104
+  }
+}

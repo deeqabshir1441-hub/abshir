@@ -764,6 +764,38 @@ const articles = [
     }
 ];
 
+// Explicit internal registry. Adding a file or article image path alone does
+// not approve it. Future marks-free graphics may use brandingReview: 'clear'.
+// Rights review is an editorial record, not permission to use competition marks.
+const editorialImageRegistry = {
+    4: '/images/articles/johan-manzambi-aston-villa.png',
+    7: '/images/articles/mbappe-world-cup-contributions.png',
+    8: '/images/articles/arsenal-alvarez-statement.png',
+    9: '/images/articles/reading-european-draw.png',
+    10: '/images/articles/alvarez-meeting-report.png',
+    11: '/images/articles/fernandez-omission.png',
+    12: '/images/articles/premier-league-guide.png',
+    13: '/images/articles/champions-league-qualification.png',
+    14: '/images/articles/champions-league-format.png',
+    15: '/images/articles/goal-difference-football.png',
+    16: '/images/articles/expected-goals-xg.png',
+    17: '/images/articles/how-var-works.png',
+    18: '/images/articles/premier-league-relegation.png',
+    19: '/images/articles/premier-league-european-qualification.png',
+    21: '/images/articles/la-liga-guide.png',
+    22: '/images/articles/serie-a-guide.png',
+    23: '/images/articles/bundesliga-guide.png',
+    24: '/images/articles/ligue-1-guide.png',
+    25: '/images/articles/uefa-champions-league-guide.png'
+};
+for (const article of articles) {
+    if (article.image !== editorialImageRegistry[article.id]) continue;
+    article.imageType = 'original-editorial';
+    article.rightsStatus = 'reviewed';
+    article.brandingReview = article.brandingReview || 'required';
+}
+for (const id of [12, 14]) articles.find(article => article.id === id).brandingReview = 'required';
+
 function getPublishedArticles() {
     return articles.filter(article => article.isPublished === true);
 }

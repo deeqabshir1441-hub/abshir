@@ -4074,6 +4074,9 @@ body.light-mode.article-page .article-content {
     aspect-ratio: 16 / 9;
     height: auto;
 }
+.home-page .home-news-image-link { background: #050b16; }
+.home-page .home-news-image-link img { object-fit: contain; }
+.home-page .news-card:hover .home-news-image-link img { transform: none; }
 
 .home-page .home-news-featured .news-info h3 {
     font-size: 22px;

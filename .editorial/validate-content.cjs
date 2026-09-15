@@ -81,7 +81,10 @@ const removeAds = html => html.replace(/    <script\b[^>]*src="https:\/\/pagead2
 for (const file of protectedFiles) assert.equal(read(file).replace(/\r\n/g, '\n'), (file === 'watch-live.html' ? removeAds(baseline(file)) : baseline(file)).replace(/\r\n/g, '\n'), `Protected file changed: ${file}`);
 // The homepage's only authorized JavaScript edit is the fallback image URL.
 const inlineScripts = html => Array.from(html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)).filter(m => !/src=/.test(m[1])).map(m => m[2].replace(/\r\n/g, '\n'));
-assert.deepEqual(inlineScripts(read('index.html')), inlineScripts(baseline('index.html').replace(/https:\/\/via\.placeholder\.com\/[^']+/g, '/football-fallback.svg')), 'Unrelated homepage logic changed');
+const approvedHomepage = baseline('index.html')
+    .replace(/https:\/\/via\.placeholder\.com\/[^']+/g, '/football-fallback.svg')
+    .replace('alt="${escapeArticleText(article.title)}"', 'alt="${escapeArticleText(article.imageAlt || article.title)}"');
+assert.deepEqual(inlineScripts(read('index.html')), inlineScripts(approvedHomepage), 'Unrelated homepage logic changed');
 for (const file of ['index.html', 'news.html', 'article-template.html', 'about.html', ...published.map(a => `articles/${a.id}.html`)]) {
     const loaders = html => Array.from(html.matchAll(/<script\b[^>]*src="(?:https:\/\/(?:pagead2\.googlesyndication\.com|cloud\.umami\.is)[^"]*|\/_vercel\/insights\/script\.js)"[^>]*>[\s\S]*?<\/script>/g), match => match[0].replace(/\r\n/g, '\n'));
     assert.deepEqual(loaders(read(file === 'article-template.html' ? '.editorial/article-template.html' : file)), loaders(baseline(file.startsWith('articles/') ? 'article-template.html' : file)), `Advertising/analytics changed: ${file}`);
