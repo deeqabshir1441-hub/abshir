@@ -171,6 +171,80 @@ let chrome, socket;
     assert(await evaluate(`document.body.classList.contains('light-mode')`));
     assert(requests.some(url => url === '/api/matches')); assert(requests.some(url => url.startsWith('/api/standings')));
     console.log('PASS: eight draft exclusions, unknown/legacy routes, all News cards/filters, homepage cards, mobile navigation, theme toggle, mocked match/standings rendering and existing disabled Watch Live state.');
+    await evaluate(`localStorage.setItem('theme', 'dark')`);
+    const chromeRoutes = ['/', '/news', '/matches', '/standings', '/privacy', '/terms', '/contact', '/articles/12', '/articles/14', '/articles/32', '/about', '/watch-live'];
+    const chromeMetrics = {};
+    for (const width of [1440, 390, 360, 320]) {
+        await viewport(width);
+        for (const route of chromeRoutes) {
+            await navigate(route);
+            if (route === '/' || route === '/standings') await pause(1400);
+            await evaluate(`document.getElementById('installBtn').style.setProperty('display', 'none', 'important')`);
+            if (await overflow()) {
+                const offenders = await evaluate(`[...document.querySelectorAll('body *')].filter(e => e.getBoundingClientRect().right > innerWidth + 1 && getComputedStyle(e).position !== 'fixed').slice(0, 12).map(e => ({tag:e.tagName, className:e.className?.baseVal || e.className, right:Math.round(e.getBoundingClientRect().right)}))`);
+                throw new Error(`Horizontal overflow: ${route} at ${width}px ${JSON.stringify(offenders)}`);
+            }
+            const state = await evaluate(`(() => {
+                const h = document.querySelector('.main-header'), f = document.querySelector('.main-footer');
+                const logo = h?.querySelector('.logo img'), footerLogo = f?.querySelector('.footer-logo');
+                const cols = f?.querySelectorAll('.footer-container > .footer-col');
+                const box = element => element?.getBoundingClientRect();
+                const style = element => element && getComputedStyle(element);
+                return {
+                    headerWidth: Math.round(box(h)?.width || 0), headerHeight: Math.round(box(h)?.height || 0),
+                    headerBackground: style(h)?.backgroundColor, logoHeight: Math.round(box(logo)?.height || 0),
+                    navLeft: Math.round(box(h.querySelector('.nav-menu'))?.left || 0),
+                    controlsLeft: Math.round(box(h.querySelector('.header-right'))?.left || 0),
+                    controlsWidth: Math.round(box(h.querySelector('.header-right'))?.width || 0),
+                    installDisplay: style(h.querySelector('.header-install-btn'))?.display,
+                    socialWidth: Math.round(box(h.querySelector('.social-icons'))?.width || 0),
+                    socialGap: style(h.querySelector('.social-icons'))?.gap,
+                    footerWidth: Math.round(box(f)?.width || 0), footerLogoHeight: Math.round(box(footerLogo)?.height || 0),
+                    footerColumns: cols?.length || 0, footerGrid: style(f.querySelector('.footer-container'))?.gridTemplateColumns,
+                    footerPadding: style(f)?.paddingTop, footerBackground: style(f)?.backgroundImage,
+                    footerLinkMarker: getComputedStyle(f.querySelector('.links-col a'), '::before').content,
+                    logoLoaded: !!logo?.naturalWidth && !!footerLogo?.naturalWidth,
+                    logoPath: logo?.getAttribute('src'), footerLogoPath: footerLogo?.getAttribute('src'),
+                    headerLinks: [...h.querySelectorAll('.nav-menu a')].map(a => a.pathname),
+                    footerLinks: [...f.querySelectorAll('.links-col a')].map(a => a.pathname),
+                    menuExists: !!document.getElementById('menuToggle'), themeExists: !!document.getElementById('themeToggle')
+                };
+            })()`);
+            assert.equal(state.logoPath, '/logo/Logo.png', `Wrong header logo: ${route}`);
+            assert.equal(state.footerLogoPath, '/logo/Logo.png', `Wrong footer logo: ${route}`);
+            assert(state.logoLoaded, `Broken logo: ${route}`);
+            assert.equal(state.footerColumns, 3, `Wrong footer columns: ${route}`);
+            assert(state.menuExists && state.themeExists, `Missing header controls: ${route}`);
+            if (route === '/') chromeMetrics[width] = state;
+            else for (const key of ['headerWidth', 'headerHeight', 'headerBackground', 'logoHeight', 'navLeft', 'controlsLeft', 'footerWidth', 'footerLogoHeight', 'footerColumns', 'footerGrid', 'footerPadding', 'footerBackground', 'footerLinkMarker', 'headerLinks', 'footerLinks'])
+                assert.deepEqual(state[key], chromeMetrics[width][key], `Site chrome differs from Home: ${route} ${width}px ${key}`);
+            if (width <= 390) {
+                await evaluate(`document.getElementById('menuToggle').click()`);
+                assert.equal(await evaluate(`document.getElementById('menuToggle').getAttribute('aria-expanded')`), 'true', `Mobile menu failed: ${route}`);
+                await evaluate(`document.dispatchEvent(new KeyboardEvent('keydown', {key:'Escape'}))`);
+                assert.equal(await evaluate(`document.getElementById('menuToggle').getAttribute('aria-expanded')`), 'false', `Mobile menu close failed: ${route}`);
+            }
+            if ([1440, 360].includes(width) && ['/', '/privacy', '/news', '/articles/32'].includes(route)) {
+                const name = route === '/' ? 'home' : route.replace(/\W+/g, '-').replace(/^-|-$/g, '');
+                await screenshot(`chrome-${name}-${width}-header`);
+                await evaluate(`document.querySelector('.main-footer').scrollIntoView({block:'end', behavior:'instant'})`);
+                await pause(250);
+                await screenshot(`chrome-${name}-${width}-footer`);
+            }
+        }
+    }
+    await viewport(360);
+    let lightChrome;
+    for (const route of ['/', '/privacy', '/news', '/articles/32']) {
+        await navigate(route);
+        await evaluate(`document.getElementById('themeToggle').click()`);
+        assert(await evaluate(`document.body.classList.contains('light-mode')`), `Theme toggle failed: ${route}`);
+        const state = await evaluate(`({ header: getComputedStyle(document.querySelector('.main-header')).backgroundColor, footer: getComputedStyle(document.querySelector('.main-footer')).backgroundImage })`);
+        if (route === '/') lightChrome = state;
+        else assert.deepEqual(state, lightChrome, `Light-mode site chrome differs: ${route}`);
+        await evaluate(`document.getElementById('themeToggle').click()`);
+    }
+    console.log('PASS: homepage-equivalent header/footer on 12 routes at 1440px, 390px, 360px and 320px; logos, menu, links and overflow checked.');
     console.log('Screenshots: ' + temp);
     fs.writeFileSync(path.join(root, '.editorial', 'browser-results.json'), JSON.stringify({ checkedAt: new Date().toISOString(), mode: 'Local Chromium; mocked football responses and external scripts; no production requests', articles: results, draftsExcluded: 8, newsFilters: filters, viewportWidths: [320,360,768,1440], screenshots: temp }, null, 2) + '\n');
 })().catch(error => { console.error(error); process.exitCode = 1; }).finally(async () => {

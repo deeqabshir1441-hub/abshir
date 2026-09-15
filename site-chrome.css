@@ -41,6 +41,17 @@
     gap: 8px;
 }
 
+.header-install-btn {
+    height: 34px;
+    margin-right: 10px;
+    padding: 6px 14px;
+    font-size: 12px;
+}
+
+.header-install-btn[hidden] {
+    display: none;
+}
+
 .social-icons a,
 .theme-toggle {
     width: 36px;
@@ -126,6 +137,23 @@ body.light-mode .nav-menu a.active {
     height: 2px;
     border-radius: 999px;
     background: var(--primary-green);
+}
+
+.main-footer .links-col li {
+    margin-bottom: 7px;
+}
+
+.main-footer .links-col a {
+    width: fit-content;
+    padding: 5px 0;
+}
+
+.main-footer .links-col a::before {
+    content: "\203A";
+    margin-right: 8px;
+    color: var(--primary-green);
+    font-size: 17px;
+    line-height: 1;
 }
 
 .footer-social-links a {

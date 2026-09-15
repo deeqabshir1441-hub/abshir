@@ -1,3 +1,24 @@
+let tv96InstallPrompt;
+window.addEventListener('beforeinstallprompt', event => {
+    event.preventDefault();
+    tv96InstallPrompt = event;
+    const installButton = document.getElementById('installBtn');
+    if (installButton) installButton.hidden = false;
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const installButton = document.getElementById('installBtn');
+    if (!installButton) return;
+    if (tv96InstallPrompt) installButton.hidden = false;
+    installButton.addEventListener('click', async () => {
+        if (!tv96InstallPrompt) return;
+        tv96InstallPrompt.prompt();
+        const choice = await tv96InstallPrompt.userChoice;
+        if (choice?.outcome === 'accepted') installButton.hidden = true;
+        tv96InstallPrompt = undefined;
+    });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     const menuToggle = document.getElementById('menuToggle');
     const navMenu = document.getElementById('navMenu');
@@ -15,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     menuToggle.addEventListener('click', event => {
         event.stopPropagation();
-        setMenuState(!navMenu.classList.contains('active'));
+        setMenuState(menuToggle.getAttribute('aria-expanded') !== 'true');
     });
     navMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenuState(false)));
     document.addEventListener('click', event => {
