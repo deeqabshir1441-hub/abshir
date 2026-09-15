@@ -55,7 +55,7 @@ const strip = text => text.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '').re
             console.log('RAW /articles/12: HTTP 200\n' + html.match(/<title[^>]*>.*?<\/title>/s)[0] + '\n' + html.match(/<meta[^>]*name="description"[^>]*>/)[0] + '\n' + html.match(/<link[^>]*rel="canonical"[^>]*>/)[0] + '\n' + html.match(/<h1\b[^>]*>.*?<\/h1>/s)[0] + '\n' + paragraphs.join('\n\n') + '\nArticle JSON-LD: ' + JSON.stringify(schema));
         }
     }
-    assert.equal(titles.size, 23); assert.equal(descriptions.size, 23);
+    assert.equal(titles.size, published.length); assert.equal(descriptions.size, published.length);
     const rawNews = (await get('/news')).replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
     const newsIds = [...new Set([...rawNews.matchAll(/href="\/articles\/(\d+)"/g)].map(m => Number(m[1])))].sort((a,b) => a-b);
     assert.deepEqual(newsIds, Array.from(published, a => a.id).sort((a,b) => a-b));
@@ -68,13 +68,13 @@ const strip = text => text.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '').re
     }
     const publicContext = vm.createContext({});
     vm.runInContext(await get('/news-data.js') + '\nglobalThis.records = articles;', publicContext);
-    assert.equal(publicContext.records.length, 23); assert(publicContext.records.every(a => a.isPublished));
+    assert.equal(publicContext.records.length, published.length); assert(publicContext.records.every(a => a.isPublished));
     const urls = [...(await get('/sitemap.xml')).matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => new URL(m[1]).pathname);
-    assert.equal(urls.length, 31); assert.equal(new Set(urls).size, 31);
+    assert.equal(urls.length, 8 + published.length); assert.equal(new Set(urls).size, 8 + published.length);
     assert.deepEqual(urls.filter(u => u.startsWith('/articles/')).sort(), results.map(r => r.route).sort());
     assert.deepEqual(urls.filter(u => !u.startsWith('/articles/')).sort(), ['/', '/matches', '/standings', '/news', '/about', '/contact', '/privacy', '/terms'].sort());
     for (const route of urls) await get(route);
     for (const route of ['/', '/about', '/contact', '/privacy', '/terms']) await links((await get(route)).replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ''), route);
     fs.writeFileSync(require('node:path').join(__dirname, 'raw-html-results.json'), JSON.stringify({ mode: 'Local HTTP; Vercel clean URLs and deployment exclusions modeled; no JavaScript execution', articles: results, newsIds, excluded: excluded.map(route => ({ route, status: 404 })), sitemap: urls }, null, 2) + '\n');
-    console.log('PASS: 23 raw article responses, News links, unique metadata, schema, preserved bodies, related/internal links, local assets, 31 sitemap URLs, draft/unknown/internal HTTP 404 and legacy redirects.');
+    console.log(`PASS: ${published.length} raw article responses, News links, unique metadata, schema, preserved bodies, related/internal links, local assets, ${urls.length} sitemap URLs, draft/unknown/internal HTTP 404 and legacy redirects.`);
 })().catch(error => { console.error(error); process.exitCode = 1; }).finally(() => { server.closeAllConnections(); server.close(); });

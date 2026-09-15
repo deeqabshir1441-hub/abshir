@@ -12,6 +12,13 @@ const registered = new Map();
 const manifest = JSON.parse(read('.editorial/optimized-images.json'));
 for (const a of published) {
     if (!a.image) continue;
+    if (a.image === fallback) {
+        assert.equal(a.imageType, 'site-fallback', `Invalid fallback type: ${a.id}`);
+        assert.equal(a.rightsStatus, 'reviewed', `Unreviewed fallback: ${a.id}`);
+        assert.equal(a.brandingReview, 'clear', `Fallback branding must be clear: ${a.id}`);
+        assert(a.imageAlt?.trim(), `Missing fallback alt: ${a.id}`);
+        continue;
+    }
     assert(/^\/images\/articles\/[a-z0-9-]+\.png$/.test(a.image), `Invalid source: ${a.id}`);
     assert.equal(a.imageType, 'original-editorial', `Unregistered type: ${a.id}`);
     assert.equal(a.rightsStatus, 'reviewed', `Unreviewed rights: ${a.id}`);
@@ -25,7 +32,7 @@ for (const a of published) {
     assert(!registered.has(delivered), `Duplicate path: ${delivered}`);
     registered.set(delivered, a);
 }
-assert.deepEqual(Object.keys(manifest).sort(), Array.from(published.filter(a => a.image), a => a.image).sort(), 'Orphan or unregistered manifest entry');
+assert.deepEqual(Object.keys(manifest).sort(), Array.from(published.filter(a => a.image && a.image !== fallback), a => a.image).sort(), 'Orphan or unregistered manifest entry');
 assert.deepEqual(fs.readdirSync(path.join(root, 'images/articles')).filter(name => name.endsWith('.webp')).sort(), [...registered.keys()].map(name => path.basename(name)).sort(), 'Orphan or unregistered WebP file');
 const allowed = new Set([fallback, '/football-fallback.svg', ...registered.keys()]);
 for (const file of ['index.html', 'news.html', 'news-data.js', ...published.map(a => `articles/${a.id}.html`)]) {
@@ -35,7 +42,7 @@ for (const file of ['index.html', 'news.html', 'news-data.js', ...published.map(
     if (file === 'news-data.js') {
         const context = vm.createContext({});
         vm.runInContext(html + '\nglobalThis.records=articles;', context);
-        for (const a of context.records) assert(!a.image || registered.has(a.image), `Unregistered public image: ${a.id}`);
+        for (const a of context.records) assert(!a.image || a.image === fallback || registered.has(a.image), `Unregistered public image: ${a.id}`);
         continue;
     }
     if (file === 'index.html') {
@@ -44,7 +51,7 @@ for (const file of ['index.html', 'news.html', 'news-data.js', ...published.map(
     }
     if (file === 'news.html') {
         for (const card of html.matchAll(/<div class="news-card-image"><img\b[^>]*src="([^"]+)"[^>]*>/g)) {
-            assert(registered.has(card[1]), `External or unregistered News card image: ${card[1]}`);
+            assert(card[1] === fallback || registered.has(card[1]), `External or unregistered News card image: ${card[1]}`);
             assert(card[0].includes('alt="'), `Missing News alt: ${card[1]}`);
         }
     }
@@ -56,7 +63,7 @@ for (const file of ['index.html', 'news.html', 'news-data.js', ...published.map(
     }
     if (file.startsWith('articles/')) {
         const a = published.find(x => x.id === Number(path.basename(file, '.html')));
-        const expected = a.image?.replace(/\.png$/, '.webp') || fallback;
+        const expected = a.image === fallback ? fallback : a.image?.replace(/\.png$/, '.webp') || fallback;
         const schema = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
         assert(html.includes(`property="og:image" content="${origin}${expected}"`), `Wrong OG image: ${file}`);
         assert.equal(schema.image, a.image ? origin + expected : undefined, `Wrong Article image: ${file}`);
@@ -68,6 +75,10 @@ for (const file of ['index.html', 'news.html', 'news-data.js', ...published.map(
 for (const [asset, a] of registered) {
     assert(read('news.html').includes(`src="${asset}"`), `News card missing: ${a.id}`);
     assert(read('news-data.js').includes(`"image": "${asset}"`), `Home metadata missing: ${a.id}`);
+}
+for (const a of published.filter(item => item.image === fallback)) {
+    assert(read('news.html').includes(`<a href="/articles/${a.id}" class="news-card`) && read('news.html').includes(`src="${fallback}"`), `Fallback News card missing: ${a.id}`);
+    assert(read('news-data.js').includes(`"image": "${fallback}"`), `Fallback Home metadata missing: ${a.id}`);
 }
 for (const id of [1, 2, 3]) assert.equal(model.articles.find(a => a.id === id).image, '');
 for (const file of ['offline.html', 'watch-live.html']) assert(!/pagead2\.googlesyndication|adsbygoogle/.test(read(file)));

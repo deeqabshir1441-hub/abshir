@@ -10,7 +10,7 @@ const crypto = require('node:crypto');
 const { spawn } = require('node:child_process');
 const model = require('./content-model.cjs');
 const root = path.resolve(__dirname, '..');
-const inputs = model.getPublishedArticles().filter(a => a.image).map(a => a.image);
+const inputs = model.getPublishedArticles().filter(a => a.image?.startsWith('/images/articles/')).map(a => a.image);
 const chromePath = ['C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'].find(fs.existsSync);
 assert(chromePath, 'Chrome or Edge is required for local WebP optimization');
 const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'tv96-optimize-'));

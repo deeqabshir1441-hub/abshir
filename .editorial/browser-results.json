@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-05T23:26:07.646Z",
+  "checkedAt": "2026-09-15T17:41:03.167Z",
   "mode": "Local Chromium; mocked football responses and external scripts; no production requests",
   "articles": [
     {
@@ -139,6 +139,12 @@
       "status": "pass",
       "h1": 1,
       "related": 3
+    },
+    {
+      "id": 32,
+      "status": "pass",
+      "h1": 1,
+      "related": 3
     }
   ],
   "draftsExcluded": 8,
@@ -155,7 +161,8 @@
     "Champions League",
     "La Liga",
     "Bundesliga",
-    "Ligue 1"
+    "Ligue 1",
+    "Manchester United / Latest News"
   ],
   "viewportWidths": [
     320,
@@ -163,5 +170,5 @@
     768,
     1440
   ],
-  "screenshots": "C:\\Users\\user\\AppData\\Local\\Temp\\tv96-editorial-CwJKK5"
+  "screenshots": "C:\\Users\\user\\AppData\\Local\\Temp\\tv96-editorial-jEptxx"
 }

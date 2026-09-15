@@ -110,20 +110,20 @@ let chrome, socket;
         await viewport(360); assert(!await overflow(), `Mobile overflow ${article.id}`); await viewport(1440);
         results.push({ id: article.id, status: 'pass', h1: 1, related: 3 });
     }
-    console.log('PASS: all 23 article routes, metadata, JSON-LD, related cards and 360px/1440px layouts.');
+    console.log(`PASS: all ${published.length} article routes, metadata, JSON-LD, related cards and 360px/1440px layouts.`);
     await send('Emulation.setScriptExecutionDisabled', { value: true });
     await viewport(360);
-    await navigate('/articles/12');
+    await navigate('/articles/32');
     assert.equal(await evaluate(`document.querySelectorAll('h1').length`), 1);
     assert(await evaluate(`document.getElementById('articleBody').innerText.length > 3000`));
     assert(!await overflow(), 'No-JavaScript article overflow');
     await screenshot('article-no-js-mobile');
     await navigate('/news');
-    assert.equal(await evaluate(`document.querySelectorAll('#news-container > a').length`), 23);
+    assert.equal(await evaluate(`document.querySelectorAll('#news-container > a').length`), published.length);
     assert(!await overflow(), 'No-JavaScript News overflow');
     await screenshot('news-no-js-mobile');
     await send('Emulation.setScriptExecutionDisabled', { value: false });
-    console.log('PASS: article body and all 23 News cards visible with JavaScript disabled at 360px.');
+    console.log(`PASS: article body and all ${published.length} News cards visible with JavaScript disabled at 360px.`);
 
     for (const article of draftRecords) {
         await navigate('/articles/' + article.id);

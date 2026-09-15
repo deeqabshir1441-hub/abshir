@@ -303,6 +303,18 @@
       ],
       "destination": "/articles/25",
       "permanent": true
+    },
+    {
+      "source": "/article-template",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "32"
+        }
+      ],
+      "destination": "/articles/32",
+      "permanent": true
     }
   ]
 }

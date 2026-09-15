@@ -176,8 +176,14 @@
 
                 <p class="editorial-intro">Understand the game as well as follow the results. Explore practical football explainers, competition guides and our latest reporting.</p>
                 <section aria-labelledby="featuredGuidesHeading" class="editorial-featured">
-                    <h2 id="featuredGuidesHeading">Featured football guides</h2>
+                    <h2 id="featuredGuidesHeading">Featured football stories</h2>
                     <div class="editorial-grid" id="featuredGuides"><!-- BEGIN STATIC FEATURED --><article class="editorial-summary">
+        <span class="editorial-category">Manchester United / Latest News</span>
+        <h3><a href="/articles/32">JJ Gabriel, 15, Asks to Leave Manchester United as Club Fight to Keep Highly Rated Prospect</a></h3>
+        <p>BBC Sport reports JJ Gabriel has asked for his Manchester United registration to be cancelled. United are seeking a resolution as the 15-year-old forward&#39;s future remains unsettled.</p>
+        <p class="editorial-meta"><time datetime="2026-09-15T20:00:00+03:00">15 Sept 2026</time> · 5 min read</p>
+    </article>
+<article class="editorial-summary">
         <span class="editorial-category">Premier League</span>
         <h3><a href="/articles/12">How the Premier League Works: Complete Guide</a></h3>
         <p>Understand the Premier League&#39;s 20-team season, points, table, tiebreakers, title, relegation and European routes with worked examples.</p>
@@ -188,22 +194,24 @@
         <h3><a href="/articles/14">Champions League Format Explained</a></h3>
         <p>A practical guide to the 36-team league phase, eight fixtures, top-eight race, knockout play-offs, aggregate scores and final.</p>
         <p class="editorial-meta"><time datetime="2026-09-05T12:00:00+03:00">5 Sept 2026</time> · 4 min read</p>
-    </article>
-<article class="editorial-summary">
-        <span class="editorial-category">Football Guides</span>
-        <h3><a href="/articles/16">What Is Expected Goals (xG)?</a></h3>
-        <p>Understand shot quality, match xG totals, differences between providers and the limits of using expected goals to assess a performance.</p>
-        <p class="editorial-meta"><time datetime="2026-09-05T12:00:00+03:00">5 Sept 2026</time> · 4 min read</p>
     </article><!-- END STATIC FEATURED --></div>
                 </section>
                 <h2 id="libraryHeading">Explore the editorial library</h2>
                 <!-- Category Filter -->
                 <div class="category-filter" role="group" aria-label="Filter articles"></div>
-                <p id="articleCount" class="editorial-meta" aria-live="polite"><!-- BEGIN STATIC COUNT -->23 articles · All<!-- END STATIC COUNT --></p>
+                <p id="articleCount" class="editorial-meta" aria-live="polite"><!-- BEGIN STATIC COUNT -->24 articles · All<!-- END STATIC COUNT --></p>
 
                 <!-- News Articles Grid -->
                 <div class="news-articles-grid" id="news-container">
-                    <!-- BEGIN STATIC NEWS --><a href="/articles/25" class="news-card " style="text-decoration: none;">
+                    <!-- BEGIN STATIC NEWS --><a href="/articles/32" class="news-card " style="text-decoration: none;">
+        <div class="news-card-image"><img src="/editorial-fallback.png" alt="Original TV96 Live football news and guides fallback artwork" loading="lazy"><span class="news-category-badge">Manchester United / Latest News</span></div>
+        <div class="news-card-content">
+            <h3 class="news-card-title">JJ Gabriel, 15, Asks to Leave Manchester United as Club Fight to Keep Highly Rated Prospect</h3>
+            <p class="news-card-excerpt">BBC Sport reports JJ Gabriel has asked for his Manchester United registration to be cancelled. United are seeking a resolution as the 15-year-old forward&#39;s future remains unsettled.</p>
+            <div class="news-card-footer"><time class="news-time" datetime="2026-09-15T20:00:00+03:00"><i class="fa-regular fa-clock"></i> 15 Sept 2026 &middot; 5 min read</time><span class="read-more">Read More <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+    </a>
+<a href="/articles/25" class="news-card " style="text-decoration: none;">
         <div class="news-card-image"><img src="/images/articles/uefa-champions-league-guide.webp" alt="UEFA Champions League guide - TV96 Live" loading="lazy"><span class="news-category-badge">Champions League</span></div>
         <div class="news-card-content">
             <h3 class="news-card-title">UEFA Champions League Guide</h3>
@@ -503,7 +511,7 @@
             const filteredArticles = currentCategory === "All"
                 ? getPublishedArticles()
                 : getPublishedArticles().filter(article => currentCategory === "Latest News"
-                    ? !article.section
+                    ? !article.section || article.section === "Latest News"
                     : article.category === currentCategory || article.section === currentCategory);
 
             // Newest publication first, with a stable ID order for equal dates.

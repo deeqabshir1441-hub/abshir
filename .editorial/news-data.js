@@ -761,6 +761,28 @@ const articles = [
         "articleType": "Unpublished draft",
         "isPublished": false,
         "sourceReviewRequired": true
+    },
+    {
+        "id": 32,
+        "title": "JJ Gabriel, 15, Asks to Leave Manchester United as Club Fight to Keep Highly Rated Prospect",
+        "description": "BBC Sport reports JJ Gabriel has asked for his Manchester United registration to be cancelled. United are seeking a resolution as the 15-year-old forward's future remains unsettled.",
+        "category": "Manchester United / Latest News",
+        "section": "Latest News",
+        "relatedIds": [20, 12, 18],
+        "articleType": "Breaking news",
+        "author": "TV96 Live Editorial Team",
+        "publishedAt": "2026-09-15T20:00:00+03:00",
+        "image": "/editorial-fallback.png",
+        "imageAlt": "Original TV96 Live football news and guides fallback artwork",
+        "imageType": "site-fallback",
+        "rightsStatus": "reviewed",
+        "brandingReview": "clear",
+        "imageCredit": "Original TV96 Live text and geometric artwork",
+        "sources": [
+            { "name": "BBC Sport: JJ Gabriel asks to leave Manchester United", "url": "https://www.bbc.co.uk/sport/football/articles/c95y4dxr0v6do" },
+            { "name": "Manchester Evening News: JJ Gabriel and Ryan Giggs context", "url": "https://www.manchestereveningnews.co.uk/sport/football/football-news/man-utd-jj-gabriel-carrick-34607865" }
+        ],
+        "isPublished": true
     }
 ];
 
@@ -810,7 +832,7 @@ function getRelatedArticles(article, limit = 3) {
 
 function getFeaturedArticles(limit = 4) {
     const published = getPublishedArticles();
-    return [12, 14, 16, 20].map(id => published.find(article => article.id === id)).filter(Boolean).slice(0, limit);
+    return [32, 12, 14, 16, 20].map(id => published.find(article => article.id === id)).filter(Boolean).slice(0, limit);
 }
 
 function escapeArticleText(value) {

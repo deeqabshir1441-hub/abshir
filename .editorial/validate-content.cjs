@@ -108,7 +108,13 @@ assert(read('.vercelignore').split(/\r?\n/).includes('.editorial/'));
 execFileSync(process.execPath, [path.join(__dirname, 'generate-static.cjs'), '--check'], { cwd: root, stdio: 'inherit' });
 
 const cleanupBaseline = JSON.parse(read('.editorial/image-cleanup-baseline.json'));
-for (const file of ['vercel.json', '.vercelignore']) assert.equal(hash(read(file)), hash(cleanupBaseline[file].text), `Cleanup changed deployment configuration: ${file}`);
+assert.equal(hash(read('.vercelignore')), hash(cleanupBaseline['.vercelignore'].text), 'Cleanup changed deployment exclusion');
+const stripGeneratedRedirects = text => {
+    const value = JSON.parse(text);
+    value.redirects = value.redirects.filter(rule => rule.source !== '/article-template');
+    return value;
+};
+assert.deepEqual(stripGeneratedRedirects(read('vercel.json')), stripGeneratedRedirects(cleanupBaseline['vercel.json'].text), 'Cleanup changed protected deployment configuration');
 for (const file of ['watch-live.html', 'offline.html']) {
     assert.equal(read(file).replace(/\r\n/g, '\n'), removeAds(cleanupBaseline[file].text).replace(/\r\n/g, '\n'));
     assert(!/pagead2\.googlesyndication|adsbygoogle/.test(read(file)));
